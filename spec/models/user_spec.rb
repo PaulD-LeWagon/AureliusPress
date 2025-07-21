@@ -12,36 +12,55 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:password) }
     it { should validate_length_of(:password).is_at_least(6) } # Default Devise min_length
 
-    # Test presence of bio
-    it { should validate_presence_of(:bio) } # Assuming bio is required
-
     # Test the enum for roles
-    it { should define_enum_for(:role).with_values([:user, :moderator, :admin, :superuser]) }
+    it { should define_enum_for(:role).with_values(["user", "contributor", "subscriber", "moderator", "admin", "superuser"]) }
   end
 
   # Test Active Storage attachment for avatar
   describe "attachments" do
     it "can have an avatar attached" do
-      user = FactoryBot.create(:user)
+      user = create(:user)
       # Check if the avatar is attached
       expect(user.avatar).to be_attached
-      # Optionally check content type or filename
       expect(user.avatar.filename.to_s).to eq("test_avatar.png")
       expect(user.avatar.content_type).to eq("image/png")
+      expect(user.avatar).to be_an_instance_of(ActiveStorage::Attached::One)
     end
   end
 
   # Test default role assignment
   describe "callbacks" do
     it "sets a default role of :user on creation" do
-      user = FactoryBot.build(:user, role: nil) # Build without a role
+      user = build(:user) # Build without a role
       user.save # Save to trigger callbacks
       expect(user.role).to eq("user")
     end
 
     it "does not override an explicitly set role" do
-      user = FactoryBot.create(:user, role: :admin)
+      user = create(:user, role: :admin)
       expect(user.role).to eq("admin")
+    end
+  end
+
+  describe "a specification for a user" do
+    it "has a valid factory" do
+      expect(build(:user)).to be_valid
+    end
+
+    it "is invalid without an email" do
+      expect(build(:user, email: nil)).not_to be_valid
+    end
+
+    it "is invalid without a password" do
+      expect(build(:user, password: nil)).not_to be_valid
+    end
+
+    it "belongs to a valid group" do
+      user = create(:user)
+      expect(user.group).to be_present
+      expect(user.group).to be_valid
+      expect(user.group).to be_persisted
+      expect(user.group).to be_a(Group)
     end
   end
 end

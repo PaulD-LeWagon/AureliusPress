@@ -1,5 +1,18 @@
 class GalleryBlock < ApplicationRecord
-  belongs_to :content_block
+  has_one :content_block, as: :contentable, touch: true, dependent: :destroy
   has_many_attached :images
-  enum :layout_type, [:grid, :carousel, :masonry], default: :carousel
+  enum :layout_type, [
+    :grid,
+    :carousel,
+    :masonry,
+  ], default: :carousel
+
+  # Additional validations can be added here
+  validate :validate_images_presence
+
+  private
+
+  def validate_images_presence
+    errors.add(:images, "must have at least one image") if images.empty?
+  end
 end

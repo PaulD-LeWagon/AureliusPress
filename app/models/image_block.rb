@@ -1,5 +1,5 @@
 class ImageBlock < ApplicationRecord
-  belongs_to :content_block
+  has_one :content_block, as: :contentable, touch: true, dependent: :destroy
   has_one_attached :image
   enum :alignment, [
     :left,

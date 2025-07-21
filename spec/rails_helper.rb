@@ -2,6 +2,13 @@
 require "spec_helper"
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
+
+# puts "\n--- Active Storage Diagnostic ---"
+# puts "Is ActiveStorage defined? #{defined?(ActiveStorage)}"
+# puts "Is ActiveStorage::Attached defined? #{defined?(ActiveStorage::Attached)}"
+# puts "Is ActiveStorage::Attached::Validatable defined? #{defined?(ActiveStorage::Attached::Validatable)}"
+# puts "--- End Diagnostic ---\n"
+
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
@@ -9,6 +16,8 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # return unless Rails.env.test?
 require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
+
+require "action_text/system_test_helper"
 
 # For Active Storage fixture file uploads
 require "action_dispatch/testing/test_process"
@@ -38,7 +47,40 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 
+module FactoryBot
+  module Syntax
+    module Methods
+      alias_method :original_create_list, :create_list
+
+      def create_list(name, amount, *traits_and_overrides, &block)
+        if amount > 3
+          raise ArgumentError, "You asked to create #{amount} records. Too many - Don't do that!"
+        end
+
+        original_create_list(name, amount, *traits_and_overrides, &block)
+      end
+    end
+  end
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    # Choose a testing framework:
+    with.test_framework :rspec
+    ## Choose one or more libraries:
+    # with.library :active_record
+    # with.library :active_model
+    # with.library :action_controller # Only if you're testing controllers
+    # Or, to just integrate everything:
+    with.library :rails
+  end
+end
+
 RSpec.configure do |config|
+  # To run specific tests, you can use the `:focus` metadata tag.
+  # This will run only the tests that have this tag.
+  # For example, you can run `rspec --tag focus` to run only focused tests.
+  config.filter_run_when_matching :focus
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join("spec/fixtures"),
@@ -76,6 +118,9 @@ RSpec.configure do |config|
 
   # Include for fixture_file_upload helper
   config.include ActionDispatch::TestProcess::FixtureFile
+
+  # Include FactoryBot methods
+  config.include FactoryBot::Syntax::Methods
 
   # Ensure Active Storage attachments are cleaned up after each test
   config.after do

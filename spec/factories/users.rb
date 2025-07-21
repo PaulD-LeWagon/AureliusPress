@@ -7,8 +7,13 @@ FactoryBot.define do
     password { "password123" }
     # Confirms the password, required by Devise's :validatable module
     password_confirmation { "password123" }
-    # Sets a random role from the defined enum in the User model
-    role { User.roles.keys.sample } # e.g., :user, :moderator, :admin, :superuser
+
+    first_name { Faker::Name.first_name } # Generates a realistic first name
+    last_name { Faker::Name.last_name } # Generates a realistic last name
+    username { Faker::Internet.unique.username(specifier: "#{first_name} #{last_name}") }
+
+    # Sets the default role for the user
+    # role { :user } # e.g., :user, :moderator, :admin, :superuser
     # Provides a short biography for the user
     bio { Faker::Lorem.paragraph(sentence_count: 2) }
 
@@ -20,17 +25,25 @@ FactoryBot.define do
         # Use a fixture file for attaching. Ensure you have one at the specified path.
         # This requires `include ActionDispatch::TestProcess::FixtureFile` in your spec_helper or rails_helper
         # or just use Rack::Test::UploadedFile.new directly.
-        user.avatar.attach(io: File.open(Rails.root.join("spec", "fixtures", "files", "test_image.png")), filename: "test_avatar.png", content_type: "image/png")
+        user.avatar.attach(io: File.open(Rails.root.join("spec", "fixtures", "files", "test_avatar.png")), filename: "test_avatar.png", content_type: "image/png")
       end
     end
-
-    # Example of a specific role trait
-    trait :admin do
-      role { :admin }
+    # Traits for different user roles
+    # user contributor moderator admin superuser
+    trait :contributor do
+      role { :contributor }
     end
 
     trait :moderator do
       role { :moderator }
+    end
+
+    trait :admin do
+      role { :admin }
+    end
+
+    trait :superuser do
+      role { :superuser }
     end
   end
 end

@@ -1,0 +1,26 @@
+Hello Gem!
+
+Okay, so, finally got all the tests to PASS, except the Likes model which we,
+obviously, haven't yet designed let alone implemented! Okay, so, we need to make
+a note to review the test sweet as I don't believe the tests are consistent
+across all related models. IDK, maybe it's not an issue as I am new to using TDD.
+
+Right, here's the new requirements:
+
+Next steps:
+
+1. We start every phase/section etc. by creating the TDD Tests.
+
+2. Add a Likes model (pollymorphic assoc)
+
+3. Nested Categories - for breadcrumb navigation and urls (e.g. vehicle/car/slug)?
+
+4. I want users to be able to create their own groups/cricles of friends (a Groups model?)
+
+4. The Stoic Quote data model (API). @see: github for Stoic quote projects we
+   can emulate or at the very least acquire the quotes! I want to incorporate
+   affiliate links to the books they come from on Amazon. (I want this to be an API)
+
+5. Create the Tests for the App's Routes that we can deduce so far.
+
+6. Incorporate from the start or develop along side an API for the eventual React front end.

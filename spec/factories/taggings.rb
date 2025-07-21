@@ -1,4 +1,3 @@
-# spec/factories/taggings.rb
 FactoryBot.define do
   factory :tagging do
     # Associates with an existing document and tag

@@ -1,6 +1,10 @@
 class Category < ApplicationRecord
-  # Attributes
-  attr_accessor :name, :slug
+  # This model represents a category for blog posts or documents.
+  # It includes a name and a slug for URL-friendly identification.
+
+  # Attributes:
+  # - name: string, the name of the category
+  # - slug: string, a URL-friendly version of the name
 
   # Callbacks
   before_validation :generate_slug, on: :create

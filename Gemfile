@@ -65,11 +65,11 @@ group :development do
   gem "web-console"
 end
 
-group :test do
+# group :test do
   ## Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   # gem "capybara"
   # gem "selenium-webdriver"
-end
+# end
 
 # Custom addition
 gem "dotenv-rails"
@@ -81,3 +81,5 @@ gem "font-awesome-sass"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "view_component"
 gem "vanilla_nested", github: "arielj/vanilla-nested", branch: :main
+
+gem "image_processing", "~> 1.14"

@@ -1,25 +1,43 @@
-# spec/factories/comments.rb
 FactoryBot.define do
-  factory :comment do
-    # Association to User who made the comment
-    association :user
+  factory :comment, parent: :fragment, class: Comment do
+    :on_blog_post # Default association for commentable, can be overridden by traits
+    # Attributes: @see-above for Fragment attributes
+    # [Required] - content: text, rich text content for fragments that support it
 
-    # Polymorphic association for commentable
-    # You can specify the commentable type, e.g., 'document' or 'blog_post' or another 'comment'
-    # Example: association :commentable, factory: :blog_post
-    # For a generic commentable that's a Document, you could do:
-    association :commentable, factory: :document # Assuming comments can be on any Document
+    type { "Comment" }
+    # content { Faker::Lorem.paragraphs(number: 3).join("\n\n") } # Generates realistic content for the comment
+    status { :draft } # Default status for comments
+    visibility { :private_to_owner } # Default visibility for comments
 
-    # Enums
-    visibility { Comment.visibilities.keys.sample }
+    # Default to blog_post, can be overridden by traits, below..
+    association :commentable, factory: :blog_post
 
-    # For polymorphic associations, make sure commentable is valid
+    # Traits for different commentable types
     trait :on_blog_post do
       association :commentable, factory: :blog_post
     end
 
-    trait :on_another_comment do
-      association :commentable, factory: :comment # Nested comment
+    # This will currently fail as the Document model forbids it!
+    trait :on_page do
+      association :commentable, factory: :page
     end
+
+    trait :on_atomic_blog_post do
+      association :commentable, factory: :atomic_blog_post
+    end
+
+    trait :on_journal_entry do
+      association :commentable, factory: :journal_entry
+    end
+
+    trait :on_another_comment do
+      association :commentable, factory: :comment # For nested comments/replies
+    end
+
+    # after(:build) do |comment|
+    #   # Action Text: Assign a string directly to the content attribute
+    #   comment.content = Faker::Lorem.paragraphs(number: 3).join("\n\n")
+    #   # binding.pry
+    # end
   end
 end

@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  # Set a default role for new users
+  after_initialize :set_default_role, if: :new_record?
+  # Callback to set username if it's not present
+  before_validation :set_username_from_email, on: :create # Only run on initial creation
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -9,31 +13,42 @@ class User < ApplicationRecord
   # Include any additional modules you need
   # e.g., :omniauthable, :confirmable, etc.
 
-  # Associations
-  has_many :posts, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  USER_ROLES = %i[user contributor subscriber moderator admin superuser].freeze
 
-  # Validations
-  validates :username, presence: true, uniqueness: true
-  validates :email, presence: true, uniqueness: true
+  DEFAULT_ROLE = USER_ROLES.first
+
+  # Associations
+  # Define separately if needed but Documents may suffice for now
+  # has_many :groups, class_name: "Group", foreign_key: "user_id"
+  # has_many :pages, class_name: "Page", foreign_key: "user_id", dependent: :destroy
+  # has_many :atomic_blog_posts, class_name: "AtomicBlogPost", foreign_key: "user_id", dependent: :destroy
+  # has_many :blog_posts, class_name: "BlogPost", foreign_key: "user_id", dependent: :destroy
+  # has_many :comments, class_name: "Comment", foreign_key: "user_id", dependent: :destroy
+  has_many :documents, dependent: :destroy
+
+  # Active Storage for avatar/profile picture
+  has_one_attached :avatar
 
   # Enum for user roles
   # Define user roles with a default value
   # You can customize the roles as per your application's requirements
   # Example roles: viewer, user, contributor, subscriber, editor, moderator, admin, superuser
-  USER_ROLES = %i[viewer user contributor editor moderator admin superuser].freeze
-  validates :role, presence: true, inclusion: { in: USER_ROLES }
-  enum :role, USER_ROLES, default: USER_ROLES.first
+  enum :role, USER_ROLES, default: DEFAULT_ROLE
 
-  # Add this line for Active Storage avatar/profile picture
-  has_one_attached :avatar
-
-  # Set a default role for new users
-  after_initialize :set_default_role, if: :new_record?
+  # Validations
+  validates :username, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
+  validates :role, presence: true, inclusion: { in: User.roles.keys }
 
   private
 
+  def set_username_from_email
+    if username.blank? && email.present?
+      self.username = email.split("@").first # Takes the part before '@'
+    end
+  end
+
   def set_default_role
-    self.role ||= :user
+    self.role ||= DEFAULT_ROLE
   end
 end
