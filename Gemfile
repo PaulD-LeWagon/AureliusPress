@@ -45,6 +45,9 @@ group :development, :test do
   # Custom Additions
   gem "faker", :git => "https://github.com/faker-ruby/faker.git", :branch => "main"
   # Testing gems for TDD with RSpec
+  gem "pry-rails" # For debugging in the Rails console
+  gem "pry-byebug" # For debugging with Byebug in Pry
+  gem "rails-controller-testing" # For testing Rails controllers
   gem "rspec-rails"
   gem "factory_bot_rails" # For test data generation
   gem "shoulda-matchers" # For common Rails model tests
@@ -56,8 +59,6 @@ group :development, :test do
   gem "rubocop", require: false # For code style checking
   gem "rubocop-rspec", require: false # RSpec specific RuboCop rules
   # gem "rspec_junit_formatter" # For generating JUnit XML reports from RSpec tests
-  gem "pry-rails" # For debugging in the Rails console
-  gem "pry-byebug" # For debugging with Byebug in Pry
 end
 
 group :development do

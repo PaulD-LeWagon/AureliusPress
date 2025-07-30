@@ -3,12 +3,6 @@ require "spec_helper"
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 
-# puts "\n--- Active Storage Diagnostic ---"
-# puts "Is ActiveStorage defined? #{defined?(ActiveStorage)}"
-# puts "Is ActiveStorage::Attached defined? #{defined?(ActiveStorage::Attached)}"
-# puts "Is ActiveStorage::Attached::Validatable defined? #{defined?(ActiveStorage::Attached::Validatable)}"
-# puts "--- End Diagnostic ---\n"
-
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
@@ -21,6 +15,8 @@ require "action_text/system_test_helper"
 
 # For Active Storage fixture file uploads
 require "action_dispatch/testing/test_process"
+
+require "database_cleaner/active_record"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -90,6 +86,19 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation) # Cleans entire DB before the suite runs
+  end
+
+  config.around(:each) do |example|
+    # If the example has :truncation or :js metadata, use truncation strategy.
+    # Otherwise, use transaction strategy (default for most tests).
+    DatabaseCleaner.strategy = example.metadata[:truncation] || example.metadata[:js] ? :truncation : :transaction
+    DatabaseCleaner.cleaning do
+      example.run # Runs the test example within DatabaseCleaner's context
+    end
+  end
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

@@ -4,12 +4,12 @@ FactoryBot.define do
   # Document > ContentBlock > (RichTextContentBlock, VideoEmbedBlock, etc.)
   trait :attached_to_a do
     transient do
-      document_type { :blog_post }
+      document_type { :aurelius_press_document_blog_post }
       document_obj { nil }
     end
     after(:build) do |block, evaluator|
       block.content_block = build(
-        :content_block,
+        :aurelius_press_content_block_content_block,
         contentable: block,
         document: evaluator.document_obj || create(evaluator.document_type),
       )
