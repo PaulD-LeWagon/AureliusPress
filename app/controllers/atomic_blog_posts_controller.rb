@@ -1,0 +1,2 @@
+class AtomicBlogPostsController < ApplicationController
+end

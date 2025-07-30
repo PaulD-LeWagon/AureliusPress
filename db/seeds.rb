@@ -3,79 +3,42 @@
 require "factory_bot_rails"
 # FactoryBot.find_definitions
 
+# Clear any existing validators and callbacks that might be causing issues
+# Book.clear_validators!
+# Book.reset_callbacks(:validation)
+
+docs = %i[aurelius_press_document_blog_post aurelius_press_document_page]
+
 puts "Seeding development database..."
 
 # Clear existing data to ensure a fresh start each time you run seeds
-User.destroy_all
+AureliusPress::User.destroy_all
 
-Document::TYPES.each do |type|
+[
+  AureliusPress::Document::Document.namespaced_types,
+  AureliusPress::Fragment::Fragment.namespaced_types,
+].flatten.each do |type|
+  puts "Clearing #{type} records..."
   Object.const_get(type).destroy_all
 end
 
-# BlogPost.destroy_aContentBlock::TYPES.sample.underscore.to_symll
-# Page.destroy_all
-# JournalEntry.destroy_all
-# AtomicBlogPost.destroy_all
-# Comment.replies.destroy_all # Clear nested comments first
+AureliusPress::ContentBlock::ContentBlock.destroy_all
+AureliusPress::Taxonomy::Category.destroy_all
+AureliusPress::Taxonomy::Tag.destroy_all
+AureliusPress::Community::Like.destroy_all
 
-Comment.destroy_all
-Note.destroy_all
-
-Category.destroy_all
-Tag.destroy_all
 puts "  Cleared existing data."
-
-# p ContentBlock::TYPES.sample.underscore.to_sym
-# p ContentBlock::TYPES
-# p ContentBlock::TYPES.each { |type| p type.underscore.to_sym }
-# p FactoryBot.create(:rich_text_block)
-# p FactoryBot.create(:image_block)
-# p FactoryBot.create(:gallery_block)
-# p FactoryBot.create(:video_embed_block)
-
-# rt = FactoryBot.build(:rich_text_block, :attached_to_a, document_obj: FactoryBot.create(:blog_post))
-# p rt.content_block.document.class.name
-# p rt.content_block.class.name
-# p rt.class.name
-# p rt.body.to_plain_text
-# p rt.body
-# exit
-
-# bp = FactoryBot.create(:blog_post, :with_one_of_each_content_block, :public_to_www)
-# bp.content_blocks.image_blocks.each do |b|
-#   cb = b.contentable
-#   p "#{cb.class.name} - #{cb.body}"
-# end
-# exit
 
 puts "Creating users..."
 
 admin_user = FactoryBot.create(
-  :user,
+  :aurelius_press_user,
   email: "admin@istrator.com",
   password: "password",
   password_confirmation: "password",
 )
 
 puts "  Created Admin User: #{admin_user.email}"
-
-editor_user = FactoryBot.create(
-  :user,
-  email: "editor@ials.com",
-  password: "password",
-  password_confirmation: "password",
-)
-
-puts "  Created Editor User: #{editor_user.email}"
-
-moderator_user = FactoryBot.create(
-  :user,
-  email: "mod@erator.com",
-  password: "password",
-  password_confirmation: "password",
-)
-
-puts "  Created Moderator User: #{moderator_user.email}"
 
 status_trait = [:draft, :published, :archived]
 
@@ -91,44 +54,66 @@ categories = [
   "Stoic Resources",
   "Stoic Events",
 ].map do |name|
-  FactoryBot.create(:category, name: name)
+  FactoryBot.create(:aurelius_press_taxonomy_category, name: name)
 end
 
 puts "  Created Categories: #{categories.map(&:name).join(", ")}"
 
 # Create documents using your factories
-puts "Creating documents..."
+puts "Creating blog posts with #{admin_user.email}..."
 
 3.times do
   FactoryBot.create(
-    :blog_post,
+    docs.sample,
     :with_belt_and_braces,
     status_trait.sample,
     user: admin_user,
     category: categories.sample,
-    comments_enabled: true,
   )
 end
+
+puts "  Created Blog Posts with #{admin_user.email}"
+
+editor_user = FactoryBot.create(
+  :aurelius_press_user,
+  email: "editor@ials.com",
+  password: "password",
+  password_confirmation: "password",
+)
+
+puts "  Created Editor User: #{editor_user.email}"
+
+puts "Creating pages with #{editor_user.email}..."
 
 3.times do
   # Using the :draft trait to create draft documents
   FactoryBot.create(
-    :page,
+    docs.sample,
     status_trait.sample,
     user: editor_user,
     category: categories.sample,
   )
 end
 
+moderator_user = FactoryBot.create(
+  :aurelius_press_user,
+  email: "mod@erator.com",
+  password: "password",
+  password_confirmation: "password",
+)
+
+puts "  Created Moderator User: #{moderator_user.email}"
+
+puts "Creating journal entries with #{moderator_user.email}..."
+
 3.times do
   # Using the :draft trait to create draft documents
   FactoryBot.create(
-    :journal_entry,
+    docs.sample,
     :with_one_of_each_content_block,
     status_trait.sample,
     user: editor_user,
     category: categories.sample,
-    comments_enabled: true,
   )
 end
 
