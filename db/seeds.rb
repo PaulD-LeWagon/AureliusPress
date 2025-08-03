@@ -31,14 +31,40 @@ puts "  Cleared existing data."
 
 puts "Creating users..."
 
+superuser = FactoryBot.create(
+  :aurelius_press_superuser_user,
+  email: "super@user.com",
+  password: "password",
+  password_confirmation: "password",
+)
+
+puts "  Created Superuser: #{superuser.email}"
+
 admin_user = FactoryBot.create(
-  :aurelius_press_user,
-  email: "admin@istrator.com",
+  :aurelius_press_admin_user,
+  email: "ad@min.com",
   password: "password",
   password_confirmation: "password",
 )
 
 puts "  Created Admin User: #{admin_user.email}"
+editor_user = FactoryBot.create(
+  :aurelius_press_editor_user,
+  email: "edit@or.com",
+  password: "password",
+  password_confirmation: "password",
+)
+
+puts "  Created Editor User: #{editor_user.email}"
+
+moderator_user = FactoryBot.create(
+  :aurelius_press_moderator_user,
+  email: "mod@erator.com",
+  password: "password",
+  password_confirmation: "password",
+)
+
+puts "  Created Moderator User: #{moderator_user.email}"
 
 status_trait = [:draft, :published, :archived]
 
@@ -74,15 +100,6 @@ end
 
 puts "  Created Blog Posts with #{admin_user.email}"
 
-editor_user = FactoryBot.create(
-  :aurelius_press_user,
-  email: "editor@ials.com",
-  password: "password",
-  password_confirmation: "password",
-)
-
-puts "  Created Editor User: #{editor_user.email}"
-
 puts "Creating pages with #{editor_user.email}..."
 
 3.times do
@@ -94,15 +111,6 @@ puts "Creating pages with #{editor_user.email}..."
     category: categories.sample,
   )
 end
-
-moderator_user = FactoryBot.create(
-  :aurelius_press_user,
-  email: "mod@erator.com",
-  password: "password",
-  password_confirmation: "password",
-)
-
-puts "  Created Moderator User: #{moderator_user.email}"
 
 puts "Creating journal entries with #{moderator_user.email}..."
 

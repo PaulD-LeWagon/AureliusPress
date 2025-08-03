@@ -59,6 +59,7 @@ group :development, :test do
   gem "rubocop", require: false # For code style checking
   gem "rubocop-rspec", require: false # RSpec specific RuboCop rules
   # gem "rspec_junit_formatter" # For generating JUnit XML reports from RSpec tests
+  gem "annotate"
 end
 
 group :development do
@@ -67,9 +68,9 @@ group :development do
 end
 
 # group :test do
-  ## Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  # gem "capybara"
-  # gem "selenium-webdriver"
+## Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+# gem "capybara"
+# gem "selenium-webdriver"
 # end
 
 # Custom addition
@@ -77,10 +78,10 @@ gem "dotenv-rails"
 gem "devise"
 gem "pundit"
 gem "autoprefixer-rails"
-gem "sassc-rails", "~> 2.1.2"
 gem "font-awesome-sass"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "view_component"
 gem "vanilla_nested", github: "arielj/vanilla-nested", branch: :main
-
 gem "image_processing", "~> 1.14"
+gem "cssbundling-rails"
+gem "pico-rails" # Pico CSS for styling

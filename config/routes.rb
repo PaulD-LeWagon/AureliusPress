@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  # devise_for :users, class_name: "AureliusPress::User"
+  # =====================================================================
+  # Devise routes for user authentication
+  # This sets up the routes for user sessions, registrations, passwords, etc.
+  # The class_name option specifies that the User model is in the AureliusPress namespace.
+  # The path option customizes the URL prefix for these routes.
+  # =====================================================================
+  devise_for :users, class_name: "AureliusPress::User", path: "aurelius-press/users"
+  # =====================================================================
   # # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -47,20 +54,6 @@ Rails.application.routes.draw do
   # The `path: 'aurelius-press'` ensures URLs are clean (e.g., /aurelius-press/...)
   # =====================================================================
   namespace :aurelius_press, path: "aurelius-press" do
-    # --- Public-facing Catalogue Routes ---
-    # These routes are for general browsing of the catalogue content.
-    # They map to controllers like AureliusPress::Catalogue::AuthorsController
-    namespace :catalogue do
-      resources :authors, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
-        resources :comments # Comments on Authors (catalogue/authors/:author_id/comments)
-      end
-      resources :sources, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
-        resources :comments # Comments on Sources (catalogue/sources/:source_id/comments)
-      end
-      resources :quotes, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
-        resources :comments # Comments on Quotes (catalogue/quotes/:quote_id/comments)
-      end
-    end
     # --- Admin/CMS Routes ---
     # These routes are for managing the catalogue content by administrators.
     # They map to controllers like AureliusPress::Admin::Catalogue::AuthorsController
@@ -111,25 +104,19 @@ Rails.application.routes.draw do
       # end
       resources :users
     end
-
-    # --- Other AureliusPress Application Sections (Non-Admin) ---
+    # --- Public-facing (Non-Admin) Routes ---
     # resources :categories, only: [:create, :update], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
     # resources :tags, only: [:create, :update], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
     # # Flattened Likes for ALL likeable objects
     # resources :likes, only: [:create, :destroy, :update]
     # Define routes for users
-    resources :users, only: [:show, :edit, :update]
-    # Front Door
-    get "home" => "home#index", as: :home
-    root "home#index"
+    # resources :users, only: [:show, :edit, :update]
   end
-
   # =====================================================================
   # Top-level application routes (outside of AureliusPress namespace)
   # These are for general application pages like homepage, auth, etc.
   # =====================================================================
-  # root "static_pages#home" # Main application homepage
-  # get "about", to: "static_pages#about"
-  # Authentication routes (e.g., Devise, Clearance, etc.):
-  devise_for :users, class_name: "AureliusPress::User"
+  # Front Door
+  get "home" => "home#index", as: :home
+  root "home#index"
 end

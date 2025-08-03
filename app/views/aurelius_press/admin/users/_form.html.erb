@@ -1,0 +1,11 @@
+<%= simple_form_for [:aurelius_press, :admin, @user] do |f| %>
+  <%= f.input :name %>
+  <%= f.input :email %>
+  <%= f.input :password %>
+  <%= f.input :password_confirmation %>
+  <%= f.input :role, collection: AureliusPress::User.roles.keys %>
+  <%= f.input :status, collection: AureliusPress::User.statuses.keys %>
+  <%= f.input :bio, as: :text %>
+
+  <%= f.button :submit, class: "btn btn-primary" %>
+<% end %>

@@ -14,7 +14,7 @@ class AureliusPress::User < ApplicationRecord
   # Include any additional modules you need
   # e.g., :omniauthable, :confirmable, etc.
 
-  USER_ROLES = %i[user reader subscriber contributor moderator admin superuser].freeze
+  USER_ROLES = %i[ reader contributor editor moderator admin superuser ].freeze
 
   DEFAULT_ROLE = USER_ROLES.first
 
