@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: aurelius_press_group_memberships
+#
+#  id            :bigint           not null, primary key
+#  group_id      :bigint           not null
+#  user_id       :bigint           not null
+#  role          :integer          default("member"), not null
+#  status        :integer          default("active"), not null
+#  invited_by_id :bigint
+#  message       :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 require "rails_helper"
 
 RSpec.describe AureliusPress::Community::GroupMembership, type: :model do

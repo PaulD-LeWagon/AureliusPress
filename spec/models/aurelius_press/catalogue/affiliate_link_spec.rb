@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: aurelius_press_affiliate_links
+#
+#  id            :bigint           not null, primary key
+#  url           :string
+#  text          :string
+#  description   :text
+#  linkable_type :string           not null
+#  linkable_id   :bigint           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 require "rails_helper"
 
 RSpec.describe AureliusPress::Catalogue::AffiliateLink, type: :model do

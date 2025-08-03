@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: aurelius_press_documents
+#
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
+#  category_id      :bigint
+#  type             :string           not null
+#  slug             :string           not null
+#  title            :string           not null
+#  subtitle         :string
+#  description      :text
+#  status           :integer          default("draft"), not null
+#  visibility       :integer          default("private_to_owner"), not null
+#  published_at     :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  comments_enabled :boolean          default(FALSE), not null
+#
 class AureliusPress::Document::Document < ApplicationRecord
   self.table_name = "aurelius_press_documents"
   # This class uses Single Table Inheritance (STI) to allow different types of
@@ -130,24 +149,4 @@ class AureliusPress::Document::Document < ApplicationRecord
     self.visibility ||= :private_to_owner
     self.status ||= :draft
   end
-
-  # def generate_slug
-  #   # Clean/parameterize the slug if it's already present (e.g., user input).
-  #   # This ensures even manually provided slugs are normalised.
-  #   self.slug = self.slug.parameterize if self.slug.present?
-  #   # Slug is blank? (meaning it wasn't provided or became blank after cleaning),
-  #   # then generate a new one based on title or a unique fallback.
-  #   if self.slug.blank?
-  #     if title.present?
-  #       self.slug = title.parameterize
-  #     else
-  #       # Fallback for new records without a title
-  #       # Ensure 'polymorphic_name' is defined on your model (e.g., 'blog_post')
-  #       new_name = "#{self.polymorphic_name} #{SecureRandom.urlsafe_base64(8)}"
-  #       # Generate a slug from the new name
-  #       # This ensures the slug is unique and URL-safe
-  #       self.slug = new_name.parameterize
-  #     end
-  #   end
-  # end
 end

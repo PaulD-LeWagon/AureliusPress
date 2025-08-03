@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: aurelius_press_affiliate_links
+#
+#  id            :bigint           not null, primary key
+#  url           :string
+#  text          :string
+#  description   :text
+#  linkable_type :string           not null
+#  linkable_id   :bigint           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 FactoryBot.define do
   factory :aurelius_press_catalogue_affiliate_link, class: "AureliusPress::Catalogue::AffiliateLink" do
     url { "https://#{Faker::Internet.domain_name}/#{Faker::Internet.slug}" } # Use Faker for realistic URLs

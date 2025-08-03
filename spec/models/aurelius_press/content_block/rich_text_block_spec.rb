@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: aurelius_press_rich_text_blocks
+#
+#  id         :bigint           not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 # spec/models/rich_text_block_spec.rb
 require "rails_helper"
 

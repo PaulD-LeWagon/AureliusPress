@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: books
+#
+#  id              :bigint           not null, primary key
+#  name            :string
+#  slug            :string
+#  creator_id      :integer
+#  status          :string
+#  privacy_setting :string
+#  alt_title       :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 class Book < ApplicationRecord # Ensure it inherits from ApplicationRecord
   include Sluggable
   # slugged_by :name

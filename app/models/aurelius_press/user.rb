@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: aurelius_press_users
+#
+#  id                     :bigint           not null, primary key
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  first_name             :string
+#  last_name              :string
+#  age                    :integer
+#  role                   :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  username               :string
+#  status                 :integer          default("active"), not null
+#
 class AureliusPress::User < ApplicationRecord
   self.table_name = "aurelius_press_users"
   # Set a default role for new users

@@ -18,6 +18,8 @@ require "action_dispatch/testing/test_process"
 
 require "database_cleaner/active_record"
 
+require "support/action_text_helper"
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -73,6 +75,17 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
+  config.include ActionTextHelper
+  config.before(:suite) do
+    # Run the asset build commands before the test suite starts
+    system("yarn build:css")
+    system("yarn build")
+  end
+  config.after(:suite) do
+    # Remove the compiled assets after the test suite finishes
+    system("rails assets:clobber")
+    system("rm -rf public/assets app/assets/builds")
+  end
   # To run specific tests, you can use the `:focus` metadata tag.
   # This will run only the tests that have this tag.
   # For example, you can run `rspec --tag focus` to run only focused tests.

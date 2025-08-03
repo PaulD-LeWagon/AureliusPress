@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: aurelius_press_rich_text_blocks
+#
+#  id         :bigint           not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 FactoryBot.define do
   factory :aurelius_press_content_block_rich_text_block, class: "AureliusPress::ContentBlock::RichTextBlock" do
     # Has one content block associated with this rich text block

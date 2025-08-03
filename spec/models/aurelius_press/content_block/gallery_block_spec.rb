@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: aurelius_press_gallery_blocks
+#
+#  id          :bigint           not null, primary key
+#  layout_type :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 require "rails_helper"
 
 RSpec.describe AureliusPress::ContentBlock::GalleryBlock, type: :model do

@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: aurelius_press_quotes
+#
+#  id                :bigint           not null, primary key
+#  text              :text
+#  context           :string
+#  source_id         :bigint           not null
+#  original_quote_id :bigint
+#  slug              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  comments_enabled  :boolean          default(FALSE), not null
+#
 require "rails_helper"
 
 RSpec.describe AureliusPress::Catalogue::Quote, type: :model do

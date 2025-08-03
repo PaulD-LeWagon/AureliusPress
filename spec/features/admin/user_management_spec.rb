@@ -24,7 +24,7 @@ RSpec.feature "Admin can manage users" do
     expect(page).to have_link "New User", href: new_aurelius_press_admin_user_path
   end
 
-  scenario "Admin can create a new user" do
+  fscenario "Admin can create a new user" do
     # 1. Log in as an admin user
     visit new_user_session_path
     fill_in "Email", with: admin_user.email
@@ -39,14 +39,20 @@ RSpec.feature "Admin can manage users" do
     expect(page).to have_content "New User"
 
     expect {
-      fill_in "First Name", with: "Yvonne"
-      fill_in "Last Name", with: "Amores-Cabrera"
+      save_and_open_page
+
+      fill_in "First name", with: "Yvonne"
+      fill_in "Last name", with: "Amores-Cabrera"
+      fill_in "Username", with: "inday-ibon-cabrera"
       fill_in "Email", with: "yvonne.amores-cabrera@the-aurelius-press.com"
       fill_in "Password", with: "devanney"
       fill_in "Password confirmation", with: "devanney"
       select "editor", from: "Role"
       select "active", from: "Status"
       fill_in_rich_text_area "Bio", with: "This is Yvonne's bio."
+      attach_file "Avatar", Rails.root.join("spec/fixtures/files/avatar.png")
+
+      # 4. Submit the form
       click_button "Create User"
     }.to change(AureliusPress::User, :count).by(1)
 

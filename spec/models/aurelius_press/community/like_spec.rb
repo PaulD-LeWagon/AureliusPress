@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: aurelius_press_likes
+#
+#  id            :bigint           not null, primary key
+#  user_id       :bigint           not null
+#  likeable_type :string           not null
+#  likeable_id   :bigint           not null
+#  emoji         :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 # spec/models/like_spec.rb
 require "rails_helper"
 

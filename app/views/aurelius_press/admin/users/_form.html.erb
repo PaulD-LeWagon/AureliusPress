@@ -1,11 +1,28 @@
-<%= simple_form_for [:aurelius_press, :admin, @user] do |f| %>
-  <%= f.input :name %>
+<%= simple_form_for @user, url: aurelius_press_admin_users_path do |f| %>
+  <h1><%= @user.new_record? ? "Create New User" : "Edit User" %></h1>
+  <p>Find me in app/views/aurelius_press/admin/users/_form.html.erb</p>
+
+  <div class="form-errors">
+    <%= f.error_notification message: "Please fix the errors below." %>
+  </div>
+
+  <div class="form-inputs">
+  <%= f.input :id, as: :hidden, input_html: { value: @user.id } if @user.persisted? %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+  <%= f.input :username %>
   <%= f.input :email %>
   <%= f.input :password %>
   <%= f.input :password_confirmation %>
   <%= f.input :role, collection: AureliusPress::User.roles.keys %>
   <%= f.input :status, collection: AureliusPress::User.statuses.keys %>
-  <%= f.input :bio, as: :text %>
+  <!-- Using rich text area for bio -->
+  <%= f.rich_text_area :bio %>
+  <!-- End of rich text area for bio -->
+  <%= f.input :avatar, as: :file %>
+  </div>
 
-  <%= f.button :submit, class: "btn btn-primary" %>
+  <div class="form-controls">
+    <%= f.button :submit, class: "button", role: "button" %>
+  </div>
 <% end %>

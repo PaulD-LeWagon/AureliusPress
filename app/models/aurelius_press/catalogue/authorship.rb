@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: aurelius_press_authorships
+#
+#  id         :bigint           not null, primary key
+#  author_id  :bigint           not null
+#  source_id  :bigint           not null
+#  role       :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class AureliusPress::Catalogue::Authorship < ApplicationRecord
   self.table_name = "aurelius_press_authorships"
 

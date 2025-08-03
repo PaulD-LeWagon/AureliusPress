@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: aurelius_press_gallery_blocks
+#
+#  id          :bigint           not null, primary key
+#  layout_type :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 class AureliusPress::ContentBlock::GalleryBlock < ApplicationRecord
   self.table_name = "aurelius_press_gallery_blocks"
   has_one :content_block, as: :contentable, touch: true, dependent: :destroy
