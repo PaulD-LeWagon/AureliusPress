@@ -1,1 +1,108 @@
-// Entry point for your Sass build
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+@use "actiontext.css" as *;
+@use "pico/pico.colors.min.css" as *;
+@use "pico/pico.min.css" as *;
+
+@use "partials/variables" as *;
+
+// @use "partials/mixins";
+// @use "partials/pico-page-form";
+// @use "view_components/card";
+
+:root {
+  --primary-color: #021ffa;
+  --secondary-color: #f0f0f0;
+  --text-color: #333;
+  --link-color: #1a73e8;
+  --link-hover-color: #0b5ed7;
+  --border-color: #000;
+  --border-radius: 0.25rem;
+  --background-color: #fff;
+  --font-family: "Helvetica Neue", Arial, sans-serif;
+  --font-size: 16px;
+  --line-height: 1.1;
+
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+    &:hover {
+      color: var(--link-hover-color);
+      text-decoration: underline;
+    }
+  }
+}
+
+body,
+.content {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 10%;
+  padding: 0 15px;
+}
+
+div.hero-banner {
+  position: relative;
+  overflow: hidden;
+  height: 400px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    z-index: -1;
+  }
+  hgroup {
+    h1 {
+      color: white;
+      font-size: 2rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    p {
+      font-family: cursive, sans-serif;
+      color: white;
+      font-size: 1.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+}

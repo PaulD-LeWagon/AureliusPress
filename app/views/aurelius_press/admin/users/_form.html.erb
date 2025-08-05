@@ -1,25 +1,34 @@
-<%= simple_form_for @user, url: aurelius_press_admin_users_path do |f| %>
+<% form_url = (@user.new_record? ? aurelius_press_admin_users_path : aurelius_press_admin_user_path(@user)) %>
+<%= simple_form_for @user, url: form_url do |f| %>
   <h1><%= @user.new_record? ? "Create New User" : "Edit User" %></h1>
-  <p>Find me in app/views/aurelius_press/admin/users/_form.html.erb</p>
 
   <div class="form-errors">
     <%= f.error_notification message: "Please fix the errors below." %>
   </div>
 
   <div class="form-inputs">
-  <%= f.input :id, as: :hidden, input_html: { value: @user.id } if @user.persisted? %>
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
-  <%= f.input :username %>
-  <%= f.input :email %>
-  <%= f.input :password %>
-  <%= f.input :password_confirmation %>
-  <%= f.input :role, collection: AureliusPress::User.roles.keys %>
-  <%= f.input :status, collection: AureliusPress::User.statuses.keys %>
-  <!-- Using rich text area for bio -->
-  <%= f.rich_text_area :bio %>
-  <!-- End of rich text area for bio -->
-  <%= f.input :avatar, as: :file %>
+    <%= f.input :id, as: :hidden, input_html: { value: @user.id } if @user.persisted? %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :username %>
+    <%= f.input :email %>
+    <% if f.object.new_record? %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+    <% else %>
+      <p>Leave password fields blank to keep current password.</p>
+      <%= f.input :password, required: false %>
+      <%= f.input :password_confirmation, required: false %>
+    <% end %>
+    <%= f.input :role, collection: AureliusPress::User.roles.keys %>
+    <%= f.input :status, collection: AureliusPress::User.statuses.keys %>
+    <!-- Using rich text area for bio -->
+    <div class="form-field-group">
+      <%= f.label :bio, "Bio" %>
+      <%= f.rich_text_area :bio, id: "trix_bio_id" %>
+    </div>
+    <!-- End of rich text area for bio -->
+    <%= f.input :avatar, as: :file %>
   </div>
 
   <div class="form-controls">

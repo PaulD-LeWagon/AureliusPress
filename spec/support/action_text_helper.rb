@@ -1,21 +1,11 @@
 module ActionTextHelper
-  # def fill_in_rich_text_area(locator, with:)
-  #   find("trix-editor[input='aurelius_press_user_bio_trix_input_aurelius_press_user']", visible: true).click.set(with)
-  # end
-
   def fill_in_rich_text_area(locator, with:)
-    find("trix-editor", visible: true).click.set(with)
-  end
-
-  Capybara.add_selector(:rich_text_area) do
-    label "rich text area"
-    visible :all
-    xpath do |locator|
-      if locator.nil?
-        XPath.css("trix-editor")
-      else
-        XPath.css("label[for='#{locator}'] + trix-editor").attr(:id)
-      end
+    input_id = ""
+    find("trix-editor[id='#{locator}']").tap do |editor|
+      editor.click
+      editor.set(with)
+      input_id = editor[:input]
     end
+    execute_script("document.getElementById(arguments[0]).value = arguments[1]", input_id, with)
   end
 end

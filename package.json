@@ -2,11 +2,15 @@
   "name": "app",
   "private": "true",
   "dependencies": {
-    "sass": "^1.89.2"
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.16",
+    "@rails/actiontext": "^8.0.200",
+    "sass": "^1.89.2",
+    "trix": "^2.1.15"
   },
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --external:trix --external:@rails/actiontext --external:@hotwired/turbo-rails --external:@hotwired/stimulus-loading --external:controllers/*"
+    "build": "esbuild app/javascript/application.js --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --loader:.js=jsx --jsx-factory=h --define:__DEV__=true"
   },
   "devDependencies": {
     "esbuild": "^0.25.8"

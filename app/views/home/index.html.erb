@@ -7,7 +7,13 @@
     </hgroup>
   </div>
 
+  <div data-controller="hello" class="container">
+    Placeholder for Stimulus controller content.
+  </div>
+
   <div class="container">
+
+    <%= link_to "User Management", aurelius_press_admin_users_path %>
 
     <% @description.each do |paragraph| %>
       <p><%= paragraph %></p>

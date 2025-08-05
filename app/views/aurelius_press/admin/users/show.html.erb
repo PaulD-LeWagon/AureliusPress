@@ -1,2 +1,25 @@
 <h1>AureliusPress::Admin::Users#show</h1>
-<p>Find me in app/views/aurelius_press/admin/users/show.html.erb</p>
+
+<% if @user.avatar.attached? %>
+  <h3>Avatar:</h3>
+  <%= image_tag @user.avatar %>
+<% else %>
+  <p>No avatar uploaded.</p>
+<% end %>
+
+<h2>User: <%= @user.full_name %></h2>
+<p>Username: <%= @user.username %></p>
+<p>Email: <%= @user.email %></p>
+<p>Role: <%= @user.role %></p>
+<p>Status: <%= @user.status %></p>
+
+<% if @user.bio.present? %>
+  <h3>Bio:</h3>
+  <div class="rich-text">
+    <%= @user.bio.body.to_s.html_safe %>
+  </div>
+<% else %>
+  <p>No bio available.</p>
+<% end %>
+
+<%= link_to "Edit", edit_aurelius_press_admin_user_path(@user) %> | <%= link_to "Back to Users", aurelius_press_admin_users_path %>

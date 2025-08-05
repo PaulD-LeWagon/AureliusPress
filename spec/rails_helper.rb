@@ -74,17 +74,22 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Capybara.register_driver :selenium_headless do |app|
+  options = Selenium::WebDriver::Firefox::Options.new
+  options.add_argument("-headless")
+  options.add_argument("-screenshot")
+  Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+end
+
 RSpec.configure do |config|
+  config.before(:each, type: :feature) do
+    Capybara.default_driver = :selenium_headless
+  end
   config.include ActionTextHelper
   config.before(:suite) do
     # Run the asset build commands before the test suite starts
     system("yarn build:css")
     system("yarn build")
-  end
-  config.after(:suite) do
-    # Remove the compiled assets after the test suite finishes
-    system("rails assets:clobber")
-    system("rm -rf public/assets app/assets/builds")
   end
   # To run specific tests, you can use the `:focus` metadata tag.
   # This will run only the tests that have this tag.

@@ -52,8 +52,10 @@ group :development, :test do
   gem "factory_bot_rails" # For test data generation
   gem "shoulda-matchers" # For common Rails model tests
   gem "capybara" # For integration/feature tests
+  gem "capybara-webkit" # For JavaScript support in Capybara tests
+  gem "webrick" # For running a web server in tests (needed for Rails 7+)
+  gem "capybara-screenshot" # For taking screenshots on test failures
   gem "selenium-webdriver" # Required by Capybara for browser testing
-  gem "webdrivers" # Automatically downloads browser drivers for Capybara
   gem "database_cleaner-active_record" # For cleaning the database between tests
   gem "simplecov", require: false # For test coverage reports
   gem "rubocop", require: false # For code style checking
