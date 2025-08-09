@@ -3,9 +3,19 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :controller do
   render_views
 
+  let!(:user) { create(:aurelius_press_user) }
+
+  before do
+    sign_in user
+  end
+
+  after do
+    sign_out user
+  end
+
   let!(:blog_post) do
     create(:aurelius_press_document_blog_post,
-           user: create(:aurelius_press_user),
+           user: user,
            category: create(:aurelius_press_taxonomy_category),
            type: "AureliusPress::Document::BlogPost",
            title: "#1. My Exceptional Blog Post Title",

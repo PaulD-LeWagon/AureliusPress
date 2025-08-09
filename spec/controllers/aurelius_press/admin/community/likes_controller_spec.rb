@@ -3,9 +3,17 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Community::LikesController, type: :controller do
   render_views # Ensure views are rendered for template checks
 
-  let!(:user) { create(:aurelius_press_user) } # Assuming you have a user factory
-  let!(:source) { create(:aurelius_press_catalogue_source) } # Using an existing Source model from your Catalogue
-  let!(:quote) { create(:aurelius_press_catalogue_quote, source: source) } # Using an existing Quote model from your Catalogue
+  let!(:user) { create(:aurelius_press_user) }
+  let!(:source) { create(:aurelius_press_catalogue_source) }
+  let!(:quote) { create(:aurelius_press_catalogue_quote, source: source) }
+
+  before do
+    sign_in user
+  end
+
+  after do
+    sign_out user
+  end
 
   let(:record_attributes) {
     {

@@ -81,6 +81,7 @@ Capybara.register_driver :selenium_headless do |app|
 end
 
 RSpec.configure do |config|
+  config.include Devise::Test::ControllerHelpers
   config.before(:each, type: :feature) do
     Capybara.default_driver = :selenium_headless
   end

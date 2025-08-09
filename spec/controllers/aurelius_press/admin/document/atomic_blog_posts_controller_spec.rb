@@ -4,9 +4,19 @@ require "action_dispatch/testing/test_process"
 RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: :controller do
   render_views
 
+  let!(:user) { create(:aurelius_press_user) }
+
+  before do
+    sign_in user
+  end
+
+  after do
+    sign_out user
+  end
+
   let!(:atomic_blog_post_record) do
     create(:aurelius_press_document_atomic_blog_post,
-           user: create(:aurelius_press_user),
+           user: user,
            category: create(:aurelius_press_taxonomy_category),
            title: "My Atomic Blog Post",
            slug: "my-atomic-blog-post",

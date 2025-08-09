@@ -5,8 +5,17 @@ RSpec.describe AureliusPress::Admin::Catalogue::AuthorsController, type: :contro
   # for create/update tests later, but for now, we'll focus on basics.
   let(:valid_attributes) { attributes_for(:aurelius_press_catalogue_author) }
   let(:invalid_attributes) { attributes_for(:aurelius_press_catalogue_author, name: nil) }
+  let!(:admin) { create(:aurelius_press_admin_user) }
 
   subject { create(:aurelius_press_catalogue_author, name: "Epictetus") }
+
+  before do
+    sign_in admin
+  end
+
+  after do
+    sign_out admin
+  end
 
   # Ensure the controller uses the correct module (Rails default for namespaced controllers)
   render_views
