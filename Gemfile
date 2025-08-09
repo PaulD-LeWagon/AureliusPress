@@ -85,6 +85,4 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "view_component"
 gem "vanilla_nested", github: "arielj/vanilla-nested", branch: :main
 gem "image_processing", "~> 1.14"
-gem "jsbundling-rails"
 gem "cssbundling-rails"
-gem "pico-rails" # Pico CSS for styling

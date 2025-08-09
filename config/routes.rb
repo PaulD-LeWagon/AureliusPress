@@ -26,27 +26,6 @@ Rails.application.routes.draw do
   # resources :likes, only: [:create, :destroy, :update]
   # # Define routes for users
   # resources :users
-  # # Concrete Document subclasses
-  # # Define routes for Pages
-  # resources :pages do
-  #   resources :notes do # Notes on Pages (pages/:page_id/notes)
-  #     resources :comments # Comments on Notes (pages/:page_id/notes/:note_id/comments)
-  #   end
-  # end
-  # # Define routes for Atomic Blog Posts
-  # resources :atomic_blog_posts, path: "atomic-blog-posts" do
-  #   resources :comments # Comments on Atomic Blog Posts (atomic_blog_posts/:atomic_blog_post_id/comments)
-  #   resources :notes do # Notes on Atomic Blog Posts (atomic_blog_posts/:atomic_blog_post_id/notes)
-  #     resources :comments # Comments on Notes (atomic_blog_posts/:atomic_blog_post_id/notes/:note_id/comments)
-  #   end
-  # end
-  # # Define routes for Blog Posts
-  # resources :blog_posts, path: "blog-posts" do
-  #   resources :comments # Comments on Blog Posts (blog_posts/:blog_post_id/comments)
-  #   resources :notes do # Notes on Blog Posts (blog_posts/:blog_post_id/notes)
-  #     resources :comments # Comments on Notes (blog_posts/:blog_post_id/notes/:note_id/comments)
-  #   end
-  # end
 
   # =====================================================================
   # Top-level AureliusPress namespace
@@ -111,6 +90,27 @@ Rails.application.routes.draw do
     # resources :likes, only: [:create, :destroy, :update]
     # Define routes for users
     # resources :users, only: [:show, :edit, :update]
+    # Concrete Document Routes
+    # Define routes for Pages
+    resources :pages do
+      resources :notes do # Notes on Pages (pages/:page_id/notes)
+        resources :comments # Comments on Notes (pages/:page_id/notes/:note_id/comments)
+      end
+    end
+    # Define routes for Atomic Blog Posts
+    resources :atomic_blog_posts, path: "atomic-blog-posts" do
+      resources :comments # Comments on Atomic Blog Posts (atomic_blog_posts/:atomic_blog_post_id/comments)
+      resources :notes do # Notes on Atomic Blog Posts (atomic_blog_posts/:atomic_blog_post_id/notes)
+        resources :comments # Comments on Notes (atomic_blog_posts/:atomic_blog_post_id/notes/:note_id/comments)
+      end
+    end
+    # Define routes for Blog Posts
+    resources :blog_posts, path: "blog-posts" do
+      resources :comments # Comments on Blog Posts (blog_posts/:blog_post_id/comments)
+      resources :notes do # Notes on Blog Posts (blog_posts/:blog_post_id/notes)
+        resources :comments # Comments on Notes (blog_posts/:blog_post_id/notes/:note_id/comments)
+      end
+    end
   end
   # =====================================================================
   # Top-level application routes (outside of AureliusPress namespace)

@@ -1,18 +1,16 @@
 {
-  "name": "app",
+  "name": "aurelius-press",
   "private": "true",
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.16",
     "@rails/actiontext": "^8.0.200",
     "sass": "^1.89.2",
-    "trix": "^2.1.15"
+    "trix": "^2.1.15",
+    "autoprefixer": "^10.4.14"
   },
   "scripts": {
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
-    "build": "esbuild app/javascript/application.js --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --loader:.js=jsx --jsx-factory=h --define:__DEV__=true"
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   },
-  "devDependencies": {
-    "esbuild": "^0.25.8"
-  }
+  "devDependencies": {}
 }
