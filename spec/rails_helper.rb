@@ -81,11 +81,12 @@ Capybara.register_driver :selenium_headless do |app|
 end
 
 RSpec.configure do |config|
-  config.include Devise::Test::ControllerHelpers
+  config.include ActionTextHelper
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :feature
   config.before(:each, type: :feature) do
     Capybara.default_driver = :selenium_headless
   end
-  config.include ActionTextHelper
   config.before(:suite) do
     # Run the asset build commands before the test suite starts
     system("yarn build:css")

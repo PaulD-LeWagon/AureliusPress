@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "Login Test" do
-  let!(:user) { create(:aurelius_press_user, email: "test@example.com", password: "password", password_confirmation: "password") }
+  let!(:user) { create(:aurelius_press_user) }
 
   scenario "user can log in successfully" do
     visit new_user_session_path
@@ -10,5 +10,6 @@ RSpec.feature "Login Test" do
     click_button "Log in"
     expect(page).to have_current_path(root_path)
     expect(page).to have_content("Signed in successfully.")
+    click_link "Logout"
   end
 end

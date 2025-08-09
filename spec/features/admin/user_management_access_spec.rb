@@ -2,23 +2,23 @@ require "rails_helper"
 
 def login_as(user)
   visit new_user_session_path
-  
   fill_in "Email", with: user.email
   fill_in "Password", with: user.password
   click_button "Log in"
 end
 
 RSpec.feature "Admin User Management Access" do
+  let!(:existing_user) { create(:aurelius_press_user) }
   let!(:user) { create(:aurelius_press_user) }
   let!(:admin) { create(:aurelius_press_admin_user) }
   let!(:superuser) { create(:aurelius_press_superuser_user) }
   let!(:moderator) { create(:aurelius_press_moderator_user) }
   let!(:reader) { create(:aurelius_press_reader_user) }
 
-  context "as a user with insufficient permissions" do
+  context "as a reader, user or moderator with insufficient permissions" do
     scenario "cannot view the user management dashboard" do
-      [reader, user, moderator].each do |user|
-        login_as(user)
+      [reader, user, moderator].each do |the_actor|
+        login_as(the_actor)
         visit aurelius_press_admin_users_path
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
@@ -29,8 +29,8 @@ RSpec.feature "Admin User Management Access" do
     end
 
     scenario "cannot create a new user" do
-      [reader, user, moderator].each do |user|
-        login_as(user)
+      [reader, user, moderator].each do |the_actor|
+        login_as(the_actor)
         visit new_aurelius_press_admin_user_path
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
@@ -41,9 +41,9 @@ RSpec.feature "Admin User Management Access" do
     end
 
     scenario "cannot edit an existing user" do
-      [reader, user, moderator].each do |user|
-        login_as(user)
-        visit edit_aurelius_press_admin_user_path(user)
+      [reader, user, moderator].each do |the_actor|
+        login_as(the_actor)
+        visit edit_aurelius_press_admin_user_path(existing_user)
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
         accept_confirm do
@@ -53,9 +53,9 @@ RSpec.feature "Admin User Management Access" do
     end
 
     scenario "cannot destroy an existing user" do
-      [reader, user, moderator].each do |user|
-        login_as(user)
-        visit aurelius_press_admin_user_path(create(:aurelius_press_user))
+      [reader, user, moderator].each do |the_actor|
+        login_as(the_actor)
+        visit aurelius_press_admin_user_path(existing_user)
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
         accept_confirm do
