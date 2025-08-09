@@ -92,7 +92,7 @@ RSpec.configure do |config|
     system("yarn build:css")
   end
   config.after(:suite) do
-    system("rm -rf tmp/cache app/assets/builds/*")
+    # system("rm -rf tmp/cache app/assets/builds/*")
   end
   # To run specific tests, you can use the `:focus` metadata tag.
   # This will run only the tests that have this tag.

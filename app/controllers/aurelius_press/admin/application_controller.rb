@@ -1,10 +1,5 @@
 class AureliusPress::Admin::ApplicationController < AureliusPress::ApplicationController
-  # Ensure Pundit is included in the correct controller.
-  include Pundit::Authorization
-  # Rescue from Pundit errors and handle them.
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
-  before_action :authorize_admin_access
+  # before_action :authorize_admin_access
 
   def authorize(record, query = nil, policy_class: nil)
     @_pundit_policy_authorized = true
@@ -22,23 +17,18 @@ class AureliusPress::Admin::ApplicationController < AureliusPress::ApplicationCo
 
   protected
 
-  # pundit_user is what Pundit uses to get the user.
-  # By default, this is an alias for current_user.
-
   def pundit_policy_class(record)
     "AureliusPress::Admin::#{record.class.name.demodulize}Policy".constantize
   end
 
   private
 
+  # Either use the `AureliusPress::Admin::UserPolicy` or override
+  # ApplicationPolicy's constructor to  accept the params hash if you want to
+  # use this to ensure only admins or above can access the admin namespace.
   def authorize_admin_access
     # Pass the class as the record for a controller-level check.
     # Pundit will use the current_user to perform the authorization.
     authorize AureliusPress::User, :admin_access?, policy_class: AureliusPress::Admin::ApplicationPolicy
-  end
-
-  def user_not_authorized
-    flash[:alert] = "You are not authorized to perform this action."
-    redirect_to root_path
   end
 end

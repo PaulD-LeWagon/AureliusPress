@@ -11,7 +11,8 @@
     <%= f.input :first_name %>
     <%= f.input :last_name %>
     <%= f.input :username %>
-    <%= f.input :email %>
+    <%= f.input :age %>
+    <%= f.input :email, input_html: { autocomplete: "email" } %>
     <% if f.object.new_record? %>
       <%= f.input :password %>
       <%= f.input :password_confirmation %>

@@ -1,2 +1,6 @@
-<h1>AureliusPress::Admin::Users#edit</h1>
+<h1>AureliusPress::Admin::Users<b><i>#edit</i></b></h1>
+
+<%= link_to "Delete", aurelius_press_admin_user_path(@user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+<%= link_to "Back to Users", aurelius_press_admin_users_path %>
+
 <%= render "form", user: @user %>

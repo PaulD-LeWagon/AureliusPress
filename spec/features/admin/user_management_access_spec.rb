@@ -8,14 +8,15 @@ def login_as(user)
 end
 
 RSpec.feature "Admin User Management Access" do
-  let!(:existing_user) { create(:aurelius_press_user) }
+  let!(:reader) { create(:aurelius_press_reader_user) }
   let!(:user) { create(:aurelius_press_user) }
+  let!(:moderator) { create(:aurelius_press_moderator_user) }
   let!(:admin) { create(:aurelius_press_admin_user) }
   let!(:superuser) { create(:aurelius_press_superuser_user) }
-  let!(:moderator) { create(:aurelius_press_moderator_user) }
-  let!(:reader) { create(:aurelius_press_reader_user) }
 
   context "as a reader, user or moderator with insufficient permissions" do
+    let!(:existing_user) { create(:aurelius_press_user) }
+
     scenario "cannot view the user management dashboard" do
       [reader, user, moderator].each do |the_actor|
         login_as(the_actor)
@@ -66,6 +67,8 @@ RSpec.feature "Admin User Management Access" do
   end
 
   context "as an admin user" do
+    let!(:another_admin) { create(:aurelius_press_admin_user) }
+
     before { login_as(admin) }
     after { accept_confirm { click_link "Logout" } }
 
@@ -76,13 +79,12 @@ RSpec.feature "Admin User Management Access" do
 
     scenario "can only see non-admin users on the dashboard" do
       visit aurelius_press_admin_users_path
-      # The admin user should see the regular user and moderator
+      # The admin user should see readers, users and moderators only
       expect(page).to have_content(reader.email)
       expect(page).to have_content(user.email)
       expect(page).to have_content(moderator.email)
-
       # The admin user should NOT see another admin or a superuser
-      expect(page).not_to have_content(admin.email)
+      expect(page).not_to have_content(another_admin.email)
       expect(page).not_to have_content(superuser.email)
     end
 
@@ -108,14 +110,12 @@ RSpec.feature "Admin User Management Access" do
     end
 
     scenario "cannot view the edit page of another admin user" do
-      another_admin = create(:aurelius_press_admin_user)
       visit edit_aurelius_press_admin_user_path(another_admin)
       expect(page).to have_content("You are not authorized to perform this action.")
       expect(current_path).to eq(root_path)
     end
 
     scenario "cannot view the show page of another admin user" do
-      another_admin = create(:aurelius_press_admin_user)
       visit aurelius_press_admin_user_path(another_admin)
       expect(page).to have_content("You are not authorized to perform this action.")
       expect(current_path).to eq(root_path)
@@ -140,6 +140,8 @@ RSpec.feature "Admin User Management Access" do
   end
 
   context "as a superuser" do
+    let!(:another_superuser) { create(:aurelius_press_superuser_user) }
+
     before { login_as(superuser) }
     after { accept_confirm { click_link "Logout" } }
 
@@ -164,7 +166,7 @@ RSpec.feature "Admin User Management Access" do
       expect(page).to have_content("User was successfully destroyed.")
     end
 
-    scenario "can edit another admin user" do
+    scenario "can also edit an admin user" do
       visit edit_aurelius_press_admin_user_path(admin)
       fill_in "First name", with: "SuperUpdatedAdmin"
       click_button "Update User"
@@ -186,6 +188,17 @@ RSpec.feature "Admin User Management Access" do
       click_button "Update User"
       expect(page).to have_content("User was successfully updated.")
       expect(user.reload.role).to eq("admin")
+    end
+
+    scenario "can not see other superusers on the dashboard" do
+      visit aurelius_press_admin_users_path
+      # The admin user should see readers, users and moderators only
+      expect(page).to have_content(reader.email)
+      expect(page).to have_content(user.email)
+      expect(page).to have_content(moderator.email)
+      expect(page).to have_content(admin.email)
+      # A superuser should NOT see another superuser
+      expect(page).not_to have_content(another_superuser.email)
     end
   end
 end

@@ -1,4 +1,8 @@
-<h1>AureliusPress::Admin::Users#show</h1>
+<h1>AureliusPress::Admin::Users<b><i>#show</i></b></h1>
+
+<%= link_to "Edit", edit_aurelius_press_admin_user_path(@user) %> |
+<%= link_to "Delete", aurelius_press_admin_user_path(@user), data: {  turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+<%= link_to "Back to Users", aurelius_press_admin_users_path %>
 
 <% if @user.avatar.attached? %>
   <h3>Avatar:</h3>
@@ -9,6 +13,7 @@
 
 <h2>User: <%= @user.full_name %></h2>
 <p>Username: <%= @user.username %></p>
+<p>Age: <%= @user.age %></p>
 <p>Email: <%= @user.email %></p>
 <p>Role: <%= @user.role %></p>
 <p>Status: <%= @user.status %></p>
@@ -21,5 +26,3 @@
 <% else %>
   <p>No bio available.</p>
 <% end %>
-
-<%= link_to "Edit", edit_aurelius_press_admin_user_path(@user) %> | <%= link_to "Back to Users", aurelius_press_admin_users_path %>

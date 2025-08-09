@@ -1,4 +1,4 @@
-class AureliusPress::Admin::UserPolicy < ::ApplicationPolicy
+class AureliusPress::Admin::UserPolicy < AureliusPress::Admin::ApplicationPolicy
   attr_reader :params
 
   def initialize(user, record, params)
@@ -43,12 +43,16 @@ class AureliusPress::Admin::UserPolicy < ::ApplicationPolicy
   # This scope class handles the collection of records.
   class Scope < Scope
     def resolve
-      # If the user is an admin or superuser, we filter the list of users.
-      if AureliusPress::User.roles[user.role] >= AureliusPress::User.roles[:admin]
-        # Exclude other admins and superusers
+      # Handle superusers first, as they should see all users.
+      # User scope.all to view all users including all superusers
+      if user.superuser?
+        # To exclude superusers from the list i.e.: superusers are ignorant of each other!
+        scope.where.not(role: [:superuser])
+        # Then handle admins, who should see everyone except other admins and superusers.
+      elsif user.admin?
         scope.where.not(role: [:admin, :superuser])
       else
-        # For moderators and below, they see no users at all.
+        # All other roles see no users.
         scope.none
       end
     end
@@ -68,11 +72,9 @@ class AureliusPress::Admin::UserPolicy < ::ApplicationPolicy
 
   def can_change_role?
     user_params = params.fetch(:aurelius_press_user, {})
-    new_role = user_params.key?(:role) ? user_params[:role] : ''
-
+    new_role = user_params.key?(:role) ? user_params[:role] : ""
     # If no role is being changed, it's allowed.
     return true if new_role.blank? || new_role == record.role.to_s
-
     can_manage_role?(new_role)
   end
 

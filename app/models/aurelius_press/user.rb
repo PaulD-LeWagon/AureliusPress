@@ -39,12 +39,14 @@ class AureliusPress::User < ApplicationRecord
 
   # Associations
   # Define separately if needed but Documents may suffice for now
-  # has_many :groups, class_name: "Group", foreign_key: "user_id"
   # has_many :pages, class_name: "Page", foreign_key: "user_id", dependent: :destroy
   # has_many :atomic_blog_posts, class_name: "AtomicBlogPost", foreign_key: "user_id", dependent: :destroy
   # has_many :blog_posts, class_name: "BlogPost", foreign_key: "user_id", dependent: :destroy
-  # has_many :comments, class_name: "Comment", foreign_key: "user_id", dependent: :destroy
   has_many :documents, dependent: :destroy, class_name: "AureliusPress::Document::Document", inverse_of: :user
+  # Has many Comments
+  has_many :comments, dependent: :destroy, class_name: "AureliusPress::Fragment::Comment", inverse_of: :user
+  # Has many Notes
+  has_many :notes, dependent: :destroy, class_name: "AureliusPress::Fragment::Note", inverse_of: :user
   # Has many Likes
   has_many :likes, dependent: :destroy, class_name: "AureliusPress::Community::Like", inverse_of: :user
   # Active Storage for avatar/profile picture

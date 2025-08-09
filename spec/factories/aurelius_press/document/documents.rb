@@ -39,11 +39,11 @@ FactoryBot.define do
     # - [Optional] comments_enabled: boolean, whether comments are allowed on the document
 
     # Association: Ensures a user is created and associated with the document
-    association :user, factory: :aurelius_press_user, strategy: :build
+    association :user, factory: :aurelius_press_user
     # Association: Optionally associates a category. If `nil` or not provided,
-    # it will create a categor                                              y. Set `category { nil }` to explicitly not assign one.
-    # association :category, f                      actory: :category # Creates a category for the document
-    # STI type for the documen                                              t is Hardcoded in sub-classes
+    # it will create a category. Set `category { nil }` to explicitly not assign one.
+    # association :category, factory: :category # Creates a category for the document
+    # STI type for the document is Hardcoded in sub-classes
     type { nil } # Default type for the document is nil, which will be set in subclasses
     # Basic attributes for the Document model
     sequence(:title) { |n| "Doc No. #{n} #{Faker::Book.title}" } # Generates a realistic book title
