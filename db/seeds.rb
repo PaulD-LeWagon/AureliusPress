@@ -3,12 +3,6 @@
 require "factory_bot_rails"
 # FactoryBot.find_definitions
 
-# Clear any existing validators and callbacks that might be causing issues
-# Book.clear_validators!
-# Book.reset_callbacks(:validation)
-
-docs = %i[aurelius_press_document_blog_post aurelius_press_document_page]
-
 puts "Seeding development database..."
 
 # Clear existing data to ensure a fresh start each time you run seeds
@@ -29,48 +23,81 @@ AureliusPress::Community::Like.destroy_all
 
 puts "  Cleared existing data."
 
-puts "Creating users..."
+docs = %i[
+  aurelius_press_document_atomic_blog_post
+  aurelius_press_document_blog_post
+  aurelius_press_document_page
+]
 
-superuser = FactoryBot.create(
-  :aurelius_press_superuser_user,
-  email: "super@user.com",
-  password: "password",
-  password_confirmation: "password",
-)
+users_array = []
 
-puts "  Created Superuser: #{superuser.email}"
+users_data = [
+  {
+    first_name: "Paul",
+    last_name: "Devanney",
+    email: "pauldevanney92@gmail.com",
+    role: :superuser,
+  },
+  {
+    first_name: "Yvonne",
+    last_name: "Amores-Cabrera",
+    email: "yvonne.amores-cabrera@gmail.com",
+    role: :admin,
+  },
+  {
+    first_name: "Bebe",
+    last_name: "Rexha",
+    email: "bebe.rexha@gmail.com",
+    role: :moderator,
+  },
+  {
+    first_name: "Becky",
+    last_name: "Hill",
+    email: "becky.hill@gmail.com",
+    role: :moderator,
+  },
+  {
+    first_name: "Dua",
+    last_name: "Lipa",
+    email: "dua.lipa@gmail.com",
+    role: :reader,
+  },
+  {
+    first_name: "Anna",
+    last_name: "Montana",
+    email: "anna.montana@gmail.com",
+    role: :reader,
+  },
+]
 
-admin_user = FactoryBot.create(
-  :aurelius_press_admin_user,
-  email: "ad@min.com",
-  password: "password",
-  password_confirmation: "password",
-)
+15.times do
+  users_data << {
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    role: [:reader, :user, :moderator, :admin, :superuser].sample,
+  }
+end
 
-puts "  Created Admin User: #{admin_user.email}"
-editor_user = FactoryBot.create(
-  :aurelius_press_editor_user,
-  email: "edit@or.com",
-  password: "password",
-  password_confirmation: "password",
-)
+users_data.each do |user_data|
+  users_array << FactoryBot.create(
+    :aurelius_press_user,
+    first_name: user_data[:first_name],
+    last_name: user_data[:last_name],
+    email: user_data[:email],
+    role: user_data[:role],
+    password: "password",
+    password_confirmation: "password",
+  )
+end
 
-puts "  Created Editor User: #{editor_user.email}"
-
-moderator_user = FactoryBot.create(
-  :aurelius_press_moderator_user,
-  email: "mod@erator.com",
-  password: "password",
-  password_confirmation: "password",
-)
-
-puts "  Created Moderator User: #{moderator_user.email}"
+users_array.each do |user|
+  puts "Created user: #{user.full_name} with role: #{user.role}"
+end
 
 status_trait = [:draft, :published, :archived]
 
-# Create some categories
 puts "Creating categories..."
-
 categories = [
   "Stoic Philosophy",
   "Stoic Practices",
@@ -82,45 +109,30 @@ categories = [
 ].map do |name|
   FactoryBot.create(:aurelius_press_taxonomy_category, name: name)
 end
+puts "  Generated: #{categories.map(&:name).join(", \n")}"
 
-puts "  Created Categories: #{categories.map(&:name).join(", ")}"
-
-# Create documents using your factories
-puts "Creating blog posts with #{admin_user.email}..."
-
-3.times do
+10.times do
+  user = users_array.sample
+  puts "Creating documents by #{user.full_name}..."
   FactoryBot.create(
     docs.sample,
     :with_belt_and_braces,
-    status_trait.sample,
-    user: admin_user,
+    user: user,
     category: categories.sample,
   )
 end
 
-puts "  Created Blog Posts with #{admin_user.email}"
-
-puts "Creating pages with #{editor_user.email}..."
-
-3.times do
-  # Using the :draft trait to create draft documents
+5.times do
+  user = users_array.sample
+  puts "Creating a document with content blocks by #{user.full_name}..."
   FactoryBot.create(
-    docs.sample,
-    status_trait.sample,
-    user: editor_user,
-    category: categories.sample,
-  )
-end
-
-puts "Creating journal entries with #{moderator_user.email}..."
-
-3.times do
-  # Using the :draft trait to create draft documents
-  FactoryBot.create(
-    docs.sample,
+    %i[
+      aurelius_press_document_blog_post
+      aurelius_press_document_page
+    ].sample,
     :with_one_of_each_content_block,
     status_trait.sample,
-    user: editor_user,
+    user: user,
     category: categories.sample,
   )
 end

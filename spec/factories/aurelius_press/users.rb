@@ -20,10 +20,8 @@
 # spec/factories/users.rb
 FactoryBot.define do
   factory :aurelius_press_user, class: "AureliusPress::User" do
-    # Generates a unique email address for each user factory
-    sequence(:email) { |n| "user#{n}@example.com" }
     # Sets a default password for the user
-    password { "password123" }
+    password { "password" }
     # Confirms the password, required by Devise's :validatable module
     password_confirmation { password }
     # Generates a realistic first name
@@ -31,9 +29,11 @@ FactoryBot.define do
     # Generates a realistic last name
     last_name { Faker::Name.last_name }
     # Combines first and last name to create a username
-    username { Faker::Internet.unique.username(specifier: "#{first_name} #{last_name}") }
+    sequence(:username) { |n| "#{Faker::Internet.username(specifier: "#{first_name} #{last_name} #{n}")}" }
+    # Generates a unique email address for each user factory
+    email { "#{username.parameterize}@example.gmail.com" }
     # Sets the default role for the user
-    role { :reader } # e.g., :reader, :contributor, :editor, :moderator, :admin, :superuser
+    role { :user } # e.g., :reader, :user, :moderator, :admin, :superuser
     # Attaches an avatar image using Active Storage.
     # This assumes you have a 'test_image.png' file in your spec/fixtures/files directory.
     # Make sure to create this directory and place a dummy image file there.
@@ -61,12 +61,8 @@ FactoryBot.define do
       association :group, factory: :aurelius_press_group
     end
 
-    factory :aurelius_press_contributor_user, parent: :aurelius_press_user do
-      role { :contributor }
-    end
-
-    factory :aurelius_press_editor_user, parent: :aurelius_press_user do
-      role { :editor }
+    factory :aurelius_press_reader_user, parent: :aurelius_press_user do
+      role { :reader }
     end
 
     factory :aurelius_press_moderator_user, parent: :aurelius_press_user do

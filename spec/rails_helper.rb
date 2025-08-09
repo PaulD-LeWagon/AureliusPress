@@ -77,7 +77,6 @@ end
 Capybara.register_driver :selenium_headless do |app|
   options = Selenium::WebDriver::Firefox::Options.new
   options.add_argument("-headless")
-  options.add_argument("-screenshot")
   Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
 end
 
@@ -89,7 +88,9 @@ RSpec.configure do |config|
   config.before(:suite) do
     # Run the asset build commands before the test suite starts
     system("yarn build:css")
-    system("yarn build")
+  end
+  config.after(:suite) do
+    system("rm -rf tmp/cache app/assets/builds/*")
   end
   # To run specific tests, you can use the `:focus` metadata tag.
   # This will run only the tests that have this tag.

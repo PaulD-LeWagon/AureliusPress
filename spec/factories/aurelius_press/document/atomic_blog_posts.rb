@@ -37,5 +37,18 @@ FactoryBot.define do
         content_type: "image/png",
       )
     end
+
+    trait :with_belt_and_braces do
+      # Ensures all attributes are set for a complete Page.
+      description { Faker::Lorem.paragraph(sentence_count: 3) }
+      comments_enabled { true }
+      visible_to_www
+      published_1_month_ago
+      with_3_comments
+      with_category
+      with_tags
+      with_notes
+      with_likes
+    end
   end
 end

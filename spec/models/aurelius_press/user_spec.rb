@@ -32,7 +32,7 @@ RSpec.describe AureliusPress::User, type: :model do
     it { should validate_length_of(:password).is_at_least(6) } # Default Devise min_length
 
     # Test the enum for roles
-    it { should define_enum_for(:role).with_values(["user", "contributor", "subscriber", "moderator", "admin", "superuser"]) }
+    it { should define_enum_for(:role).with_values(["reader", "user", "moderator", "admin", "superuser"]) }
   end
 
   # Test Active Storage attachment for avatar
@@ -50,13 +50,13 @@ RSpec.describe AureliusPress::User, type: :model do
   # Test default role assignment
   describe "callbacks" do
     it "sets a default role of :user on creation" do
-      user = build(:aurelius_press_user) # Build without a role
-      user.save # Save to trigger callbacks
+      user = build(:aurelius_press_user)
+      user.save
       expect(user.role).to eq("user")
     end
 
     it "does not override an explicitly set role" do
-      user = create(:aurelius_press_user, role: :admin)
+      user = create(:aurelius_press_admin_user)
       expect(user.role).to eq("admin")
     end
   end
