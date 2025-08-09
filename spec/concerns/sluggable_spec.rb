@@ -47,7 +47,14 @@ RSpec.describe Sluggable, type: :concern do
     dummy_model.delete_all
   end
 
-  let(:dummy_creator) { AureliusPress::User.create!(email: "test_user_#{SecureRandom.hex(6)}@example.com", password: "password123") }
+  let(:dummy_creator) {
+    AureliusPress::User.create!(
+      email: "test_user_#{SecureRandom.hex(6)}@example.com",
+      password: "password123",
+      first_name: "Test",
+      last_name: "User",
+    )
+  }
 
   # --- Sluggable Concern Core Behaviour Tests ---
 

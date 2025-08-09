@@ -1,25 +1,33 @@
-<h1>AureliusPress::Admin::Users#index</h1>
+<h1>AureliusPress::Admin::Users<b><i>#index</i></b></h1>
 <div>
   <h2>Users</h2>
   <table>
     <thead>
       <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Username</th>
         <th>Email</th>
+        <th>Role</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% @users.each do |user| %>
         <tr>
+          <td><%= user.id %></td>
+          <td><%= user.full_name %></td>
+          <td><%= user.username %></td>
           <td><%= user.email %></td>
+          <td><%= user.role %></td>
           <td>
             <%= link_to 'Edit', edit_aurelius_press_admin_user_path(user) %> |
-            <%= button_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+            <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-
+  <br>
   <%= link_to 'New User', new_aurelius_press_admin_user_path %>
 </div>

@@ -80,8 +80,11 @@ class AureliusPress::User < ApplicationRecord
   validates :last_name, presence: true
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :age, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :role, presence: true
   validates :status, presence: true
+  # validates :password, length: { minimum: 6 }, allow_blank: true
+  # validates :password_confirmation, length: { minimum: 6 }, allow_blank: true
 
   def full_name
     "#{first_name} #{last_name}".strip

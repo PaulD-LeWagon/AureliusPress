@@ -2,7 +2,7 @@ class AureliusPress::Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = AureliusPress::User.all
+    @users = AureliusPress::User.all.order(role: :desc, last_name: :asc)
   end
 
   def show
