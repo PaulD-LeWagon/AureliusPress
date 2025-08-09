@@ -72,6 +72,11 @@ Rails.application.routes.draw do
       resources :users
     end
     # --- Public-facing (Non-Admin) Routes ---
+    namespace :catalogue do
+      resources :authors, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
+      resources :sources, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
+      resources :quotes, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
+    end
     # resources :categories, only: [:create, :update], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
     # resources :tags, only: [:create, :update], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
     # # Flattened Likes for ALL likeable objects
