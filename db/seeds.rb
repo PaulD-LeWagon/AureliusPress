@@ -3,6 +3,9 @@
 require "factory_bot_rails"
 # FactoryBot.find_definitions
 
+# Populates the dev database with initial data
+# @todo: Add the catalogue models
+
 puts "Seeding development database..."
 
 # Clear existing data to ensure a fresh start each time you run seeds
