@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Fragment::CommentsController < ApplicationController
+class AureliusPress::Admin::Fragment::CommentsController < AureliusPress::Admin::ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
 
   # GET /aurelius_press/admin/fragment/comments

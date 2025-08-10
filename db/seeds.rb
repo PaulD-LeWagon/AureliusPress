@@ -44,6 +44,12 @@ users_data = [
     role: :admin,
   },
   {
+    first_name: "Test",
+    last_name: "User",
+    email: "test.user@example.com",
+    role: :moderator,
+  },
+  {
     first_name: "Bebe",
     last_name: "Rexha",
     email: "bebe.rexha@gmail.com",

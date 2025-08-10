@@ -6,10 +6,10 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Full Name</th>
-        <th>Username</th>
-        <th>Email</th>
+        <th>Status</th>
         <th>Role</th>
+        <th>Full Name</th>
+        <th>Email</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -17,12 +17,13 @@
       <% @users.each do |user| %>
         <tr>
           <td><%= user.id %></td>
-          <td><%= user.full_name %></td>
-          <td><%= user.username %></td>
-          <td><%= user.email %></td>
+          <td><%= user.status %></td>
           <td><%= user.role %></td>
+          <td><%= user.full_name %></td>
+          <td><%= user.email %></td>
           <td>
-            <%= link_to 'Edit', edit_aurelius_press_admin_user_path(user) %> |
+            <%= link_to 'Edit', edit_aurelius_press_admin_user_path(user) %>
+            &nbsp;|&nbsp;
             <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
           </td>
         </tr>

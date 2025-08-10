@@ -7,12 +7,18 @@
   </div>
 
   <div class="form-inputs">
+
     <%= f.input :id, as: :hidden, input_html: { value: @user.id } if @user.persisted? %>
-    <%= f.input :first_name %>
-    <%= f.input :last_name %>
-    <%= f.input :username %>
-    <%= f.input :age %>
-    <%= f.input :email, input_html: { autocomplete: "email" } %>
+
+    <div class="form-field-group personal-details">
+      <%= f.input :first_name %>
+      <%= f.input :last_name %>
+      <%= f.input :username %>
+      <%= f.input :age, as: :integer, input_html: { min: 0, max: 120 } %>
+      <%= f.input :email, input_html: { autocomplete: "email" } %>
+      <%# <%= f.input :phonenumber, input_html: { autocomplete: "tel" } %>
+    </div>
+
     <% if f.object.new_record? %>
       <%= f.input :password %>
       <%= f.input :password_confirmation %>
@@ -21,14 +27,20 @@
       <%= f.input :password, required: false %>
       <%= f.input :password_confirmation, required: false %>
     <% end %>
-    <%= f.input :role, collection: AureliusPress::User.roles.keys %>
+
     <%= f.input :status, collection: AureliusPress::User.statuses.keys %>
-    <!-- Using rich text area for bio -->
+
+    <div class="form-field-group">
+      <%= f.label :role %>
+      <% allowed_roles = AureliusPress::User.roles.map { |name, value| [name.capitalize, name] if value < AureliusPress::User.roles[current_user.role] }.compact %>
+      <%= f.select :role, options_for_select(allowed_roles, selected: f.object.role), {}, { class: "form-control", readonly: AureliusPress::User.roles[current_user.role] < AureliusPress::User.roles[:admin] } %>
+    </div>
+
     <div class="form-field-group">
       <%= f.label :bio, "Bio" %>
       <%= f.rich_text_area :bio, id: "trix_bio_id" %>
     </div>
-    <!-- End of rich text area for bio -->
+
     <%= f.input :avatar, as: :file %>
   </div>
 

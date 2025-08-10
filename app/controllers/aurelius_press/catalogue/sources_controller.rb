@@ -1,7 +1,9 @@
-class AureliusPress::Catalogue::SourcesController < ApplicationController
+class AureliusPress::Catalogue::SourcesController < AureliusPress::ApplicationController
   def index
+    @sources = Source.all
   end
 
   def show
+    @source = Source.find(params[:id])
   end
 end
