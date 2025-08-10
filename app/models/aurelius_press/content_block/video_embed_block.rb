@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: aurelius_press_video_embed_blocks
+#
+#  id          :bigint           not null, primary key
+#  embed_code  :text
+#  description :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  video_url   :string
+#
 class AureliusPress::ContentBlock::VideoEmbedBlock < ApplicationRecord
   self.table_name = "aurelius_press_video_embed_blocks"
   has_one :content_block, as: :contentable, touch: true, dependent: :destroy

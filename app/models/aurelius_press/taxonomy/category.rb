@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: aurelius_press_categories
+#
+#  id         :bigint           not null, primary key
+#  name       :string
+#  slug       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class AureliusPress::Taxonomy::Category < ApplicationRecord
   self.table_name = "aurelius_press_categories"
   # This model represents a category for blog posts or documents.

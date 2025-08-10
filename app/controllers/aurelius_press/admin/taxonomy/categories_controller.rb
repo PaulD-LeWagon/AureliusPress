@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Taxonomy::CategoriesController < ApplicationController
+class AureliusPress::Admin::Taxonomy::CategoriesController < AureliusPress::Admin::ApplicationController
   before_action :set_category, only: %i[ show edit update destroy ]
 
   # GET /aurelius_press/admin/taxonomy/categories

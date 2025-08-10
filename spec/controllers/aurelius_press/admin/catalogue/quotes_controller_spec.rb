@@ -6,6 +6,15 @@ RSpec.describe AureliusPress::Admin::Catalogue::QuotesController, type: :control
 
   let!(:author) { create(:aurelius_press_catalogue_author) }
   let!(:source) { create(:aurelius_press_catalogue_source, authors: [author]) }
+  let!(:admin) { create(:aurelius_press_admin_user) }
+
+  before do
+    sign_in admin
+  end
+
+  after do
+    sign_out admin
+  end
 
   # Define valid and invalid attributes for testing create/update actions
   let(:valid_attributes) do

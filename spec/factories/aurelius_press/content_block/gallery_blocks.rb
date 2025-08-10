@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: aurelius_press_gallery_blocks
+#
+#  id          :bigint           not null, primary key
+#  layout_type :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 # spec/factories/gallery_blocks.rb
 FactoryBot.define do
   factory :aurelius_press_content_block_gallery_block, class: "AureliusPress::ContentBlock::GalleryBlock" do

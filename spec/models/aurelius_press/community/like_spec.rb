@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: aurelius_press_likes
+#
+#  id            :bigint           not null, primary key
+#  user_id       :bigint           not null
+#  likeable_type :string           not null
+#  likeable_id   :bigint           not null
+#  emoji         :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 # spec/models/like_spec.rb
 require "rails_helper"
 
@@ -25,11 +37,19 @@ RSpec.describe AureliusPress::Community::Like, type: :model do
     it {
       should define_enum_for(:emoji)
                .with_values([
-                 :thumbs_up,
+                 :thumbs_up, # Default if none specified
                  :heart,
+                 :rolling_on_the_floor_laughing,
+                 :clapping_hands,
+                 :thinking_face,
                  :shocked_face,
                  :sad_face,
                  :angry_face,
+                 :fire,
+                 :eyes,
+                 :party_popper,
+                 :raised_hands,
+                 :star_struck,
                ])
                .with_default(:thumbs_up)
                .backed_by_column_of_type(:integer)

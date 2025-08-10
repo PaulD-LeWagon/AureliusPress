@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Taxonomy::TagsController < ApplicationController
+class AureliusPress::Admin::Taxonomy::TagsController < AureliusPress::Admin::ApplicationController
   before_action :set_tag, only: %i[ show edit update destroy ]
 
   # GET /aurelius_press/admin/taxonomy/tags

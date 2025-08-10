@@ -5,6 +5,14 @@ RSpec.describe AureliusPress::Admin::Fragment::NotesController, type: :controlle
 
   let!(:user) { create(:aurelius_press_user) }
 
+  before do
+    sign_in user
+  end
+
+  after do
+    sign_out user
+  end
+
   # Attributes for direct record creation
   let(:record_attributes) {
     {

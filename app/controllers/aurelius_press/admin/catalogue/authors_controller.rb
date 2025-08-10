@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Catalogue::AuthorsController < ApplicationController
+class AureliusPress::Admin::Catalogue::AuthorsController < AureliusPress::Admin::ApplicationController
   # before_action :authenticate_user! # Ensure user is authenticated
   # before_action :authorize_admin! # Ensure user is authorized
   before_action :set_author, only: %i[ show edit update destroy ]

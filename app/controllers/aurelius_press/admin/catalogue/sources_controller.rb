@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Catalogue::SourcesController < ApplicationController
+class AureliusPress::Admin::Catalogue::SourcesController < AureliusPress::Admin::ApplicationController
   before_action :set_source, only: %i[ show edit update destroy ]
 
   # GET /aurelius-press/admin/catalogue/sources

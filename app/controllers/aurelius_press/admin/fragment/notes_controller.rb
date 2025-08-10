@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Fragment::NotesController < ApplicationController
+class AureliusPress::Admin::Fragment::NotesController < AureliusPress::Admin::ApplicationController
   # before_action :authenticate_user!
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 

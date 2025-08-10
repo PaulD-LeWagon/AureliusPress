@@ -4,9 +4,19 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Document::PagesController, type: :controller do
   render_views
 
+  let!(:user) { create(:aurelius_press_user) }
+
+  before do
+    sign_in user
+  end
+
+  after do
+    sign_out user
+  end
+
   let!(:page_record) do
     create(:aurelius_press_document_page,
-           user: create(:aurelius_press_user),
+           user: user,
            category: create(:aurelius_press_taxonomy_category),
            type: "AureliusPress::Document::Page",
            title: "My Sample Page Title",

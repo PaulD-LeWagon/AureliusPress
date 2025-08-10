@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Document::BlogPostsController < ApplicationController
+class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin::ApplicationController
   before_action :set_blog_post, only: [:show, :edit, :update, :destroy]
 
   def index

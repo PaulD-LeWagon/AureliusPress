@@ -1,0 +1,68 @@
+.pico-page-form {
+  trix-toolbar {
+    .trix-button {
+      background-color: $primary-color !important;
+      transition: $transition-base;
+      &.trix-active {
+        background-color: darken($primary-color, 10%) !important;
+      }
+    }
+  }
+  trix-editor {
+    color: $light-color;
+    line-height: $line-height-base * 1.25;
+    background-color: darken($dark-color, 7%);
+    border-radius: $border-radius-base * 1/3;
+    box-shadow: $box-shadow-base;
+    padding: 1rem;
+    margin-bottom: $spacing-base;
+  }
+  .pico-form-field {
+    margin-bottom: 1rem;
+    &.with-inline-label > label {
+      display: inline-block !important;
+      margin-right: 0;
+    }
+    &.with-inline-label > small {
+      display: block !important;
+    }
+    .pico-hint-label {
+      display: block;
+      font-size: 0.875em;
+      font-weight: 900;
+      line-height: 1.25;
+      font-style: italic;
+      color: $secondary-color;
+      margin-top: $spacing-base * -0.75;
+      margin-bottom: $spacing-base * 1.75;
+    }
+    .pico-form-input {
+      border: $border-width-base $border-style-base $border-color-base;
+      transition: background-color border-color, $transition-base;
+      &:focus {
+        border-color: darken($primary-color, 10%);
+        box-shadow: inset $box-shadow-inset-base, $box-shadow-hover-base;
+      }
+    }
+    small {
+      font-size: 0.875rem;
+      font-style: italic;
+      margin-top: calc($spacing-base * -($spacing-three-quarters));
+      margin-bottom: calc($spacing-base * $spacing-one-and-three-quarters);
+      &.hint {
+        color: $secondary-color;
+      }
+      &.error {
+        color: $danger-color;
+      }
+    }
+  }
+  .nested-fields {
+    margin: $spacing-double 0;
+  }
+  .form-actions {
+    > * {
+      margin: 0;
+    }
+  }
+}

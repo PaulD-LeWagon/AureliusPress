@@ -1,0 +1,50 @@
+<% form_url = (@user.new_record? ? aurelius_press_admin_users_path : aurelius_press_admin_user_path(@user)) %>
+<%= simple_form_for @user, url: form_url do |f| %>
+  <h1><%= @user.new_record? ? "Create New User" : "Edit User" %></h1>
+
+  <div class="form-errors">
+    <%= f.error_notification message: "Please fix the errors below." %>
+  </div>
+
+  <div class="form-inputs">
+
+    <%= f.input :id, as: :hidden, input_html: { value: @user.id } if @user.persisted? %>
+
+    <div class="form-field-group personal-details">
+      <%= f.input :first_name %>
+      <%= f.input :last_name %>
+      <%= f.input :username %>
+      <%= f.input :age, as: :integer, input_html: { min: 0, max: 120 } %>
+      <%= f.input :email, input_html: { autocomplete: "email" } %>
+      <%# <%= f.input :phonenumber, input_html: { autocomplete: "tel" } %>
+    </div>
+
+    <% if f.object.new_record? %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+    <% else %>
+      <p>Leave password fields blank to keep current password.</p>
+      <%= f.input :password, required: false %>
+      <%= f.input :password_confirmation, required: false %>
+    <% end %>
+
+    <%= f.input :status, collection: AureliusPress::User.statuses.keys %>
+
+    <div class="form-field-group">
+      <%= f.label :role %>
+      <% allowed_roles = AureliusPress::User.roles.map { |name, value| [name.capitalize, name] if value < AureliusPress::User.roles[current_user.role] }.compact %>
+      <%= f.select :role, options_for_select(allowed_roles, selected: f.object.role), {}, { class: "form-control", readonly: AureliusPress::User.roles[current_user.role] < AureliusPress::User.roles[:admin] } %>
+    </div>
+
+    <div class="form-field-group">
+      <%= f.label :bio, "Bio" %>
+      <%= f.rich_text_area :bio, id: "trix_bio_id" %>
+    </div>
+
+    <%= f.input :avatar, as: :file %>
+  </div>
+
+  <div class="form-controls">
+    <%= f.button :submit, class: "button", role: "button" %>
+  </div>
+<% end %>

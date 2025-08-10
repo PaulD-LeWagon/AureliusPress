@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Community::LikesController < ApplicationController
+class AureliusPress::Admin::Community::LikesController < AureliusPress::Admin::ApplicationController
   before_action :set_like, only: %i[ show edit update destroy ]
 
   # GET /aurelius_press/admin/community/likes

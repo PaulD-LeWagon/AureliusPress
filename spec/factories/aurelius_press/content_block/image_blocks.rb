@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: aurelius_press_image_blocks
+#
+#  id          :bigint           not null, primary key
+#  caption     :string
+#  alignment   :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  link_text   :string
+#  link_title  :string
+#  link_class  :string
+#  link_target :string
+#  link_url    :string
+#
 # spec/factories/image_blocks.rb
 FactoryBot.define do
   factory :aurelius_press_content_block_image_block, class: "AureliusPress::ContentBlock::ImageBlock" do

@@ -1,2 +1,0 @@
-class AtomicBlogPostsController < ApplicationController
-end

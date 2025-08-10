@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: aurelius_press_video_embed_blocks
+#
+#  id          :bigint           not null, primary key
+#  embed_code  :text
+#  description :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  video_url   :string
+#
 FactoryBot.define do
   factory :aurelius_press_content_block_video_embed_block, class: "AureliusPress::ContentBlock::VideoEmbedBlock" do
 

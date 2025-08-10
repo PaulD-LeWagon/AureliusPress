@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: aurelius_press_fragments
+#
+#  id               :bigint           not null, primary key
+#  type             :string           not null
+#  user_id          :bigint           not null
+#  commentable_type :string
+#  commentable_id   :bigint
+#  title            :string
+#  position         :integer          default(0), not null
+#  status           :integer          default("draft"), not null
+#  visibility       :integer          default("private_to_owner"), not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  notable_type     :string
+#  notable_id       :bigint
+#
 FactoryBot.define do
   factory :aurelius_press_fragment_comment, parent: :aurelius_press_fragment_fragment, class: "AureliusPress::Fragment::Comment" do
     :aurelius_press_on_blog_post # Default association for commentable, can be overridden by traits

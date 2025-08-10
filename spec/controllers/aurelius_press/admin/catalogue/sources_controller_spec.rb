@@ -6,6 +6,15 @@ RSpec.describe AureliusPress::Admin::Catalogue::SourcesController, type: :contro
   # Define valid and invalid attributes for testing create/update actions
   let(:valid_attributes) { attributes_for(:aurelius_press_catalogue_source) }
   let(:invalid_attributes) { attributes_for(:aurelius_press_catalogue_source, title: nil) }
+  let!(:admin) { create(:aurelius_press_admin_user) }
+
+  before do
+    sign_in admin
+  end
+
+  after do
+    sign_out admin
+  end
 
   describe "GET #index" do
     it "returns a successful response and assigns @sources" do

@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: aurelius_press_documents
+#
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
+#  category_id      :bigint
+#  type             :string           not null
+#  slug             :string           not null
+#  title            :string           not null
+#  subtitle         :string
+#  description      :text
+#  status           :integer          default("draft"), not null
+#  visibility       :integer          default("private_to_owner"), not null
+#  published_at     :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  comments_enabled :boolean          default(FALSE), not null
+#
 FactoryBot.define do
   factory :aurelius_press_document_document, class: "AureliusPress::Document::Document" do
     # STI (Single Table Inheritance)
@@ -20,11 +39,11 @@ FactoryBot.define do
     # - [Optional] comments_enabled: boolean, whether comments are allowed on the document
 
     # Association: Ensures a user is created and associated with the document
-    association :user, factory: :aurelius_press_user, strategy: :build
+    association :user, factory: :aurelius_press_user
     # Association: Optionally associates a category. If `nil` or not provided,
-    # it will create a categor                                              y. Set `category { nil }` to explicitly not assign one.
-    # association :category, f                      actory: :category # Creates a category for the document
-    # STI type for the documen                                              t is Hardcoded in sub-classes
+    # it will create a category. Set `category { nil }` to explicitly not assign one.
+    # association :category, factory: :category # Creates a category for the document
+    # STI type for the document is Hardcoded in sub-classes
     type { nil } # Default type for the document is nil, which will be set in subclasses
     # Basic attributes for the Document model
     sequence(:title) { |n| "Doc No. #{n} #{Faker::Book.title}" } # Generates a realistic book title
