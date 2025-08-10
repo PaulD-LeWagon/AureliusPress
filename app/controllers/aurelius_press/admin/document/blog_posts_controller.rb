@@ -1,5 +1,6 @@
 class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin::ApplicationController
   before_action :set_blog_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_tags_and_categories, only: [:new, :edit]
 
   def index
     @blog_posts = AureliusPress::Document::BlogPost.all
@@ -17,6 +18,7 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
     if @blog_post.save
       redirect_to aurelius_press_admin_document_blog_post_path(@blog_post), notice: "Blog post created successfully."
     else
+      set_tags_and_categories
       render :new, status: :unprocessable_entity
     end
   end
@@ -55,9 +57,14 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
     )
   end
 
+  private
+
   def set_blog_post
     @blog_post = AureliusPress::Document::BlogPost.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to aurelius_press_admin_document_blog_posts_path, alert: "Blog post not found."
+  end
+
+  def set_tags_and_categories
+    @tags = AureliusPress::Taxonomy::Tag.all
+    @categories = AureliusPress::Taxonomy::Category.all
   end
 end

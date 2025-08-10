@@ -1,5 +1,6 @@
 class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress::Admin::ApplicationController
   before_action :set_atomic_blog_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_tags_and_categories, only: [:new, :edit]
 
   def index
     @atomic_blog_posts = AureliusPress::Document::AtomicBlogPost.all
@@ -17,6 +18,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
     if @atomic_blog_post.save
       redirect_to aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), notice: 'Atomic blog post was successfully created.'
     else
+      set_tags_and_categories
       render :new, status: :unprocessable_entity
     end
   end
@@ -40,9 +42,12 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
   private
 
   def set_atomic_blog_post
-    @atomic_blog_post = AureliusPress::Document::AtomicBlogPost.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to aurelius_press_admin_document_atomic_blog_posts_path, alert: 'Atomic blog post not found.'
+    @atomic_blog_post = AureliusPress::Document::AtomicBlogPost.find_by!(slug: params[:id])
+  end
+
+  def set_tags_and_categories
+    @tags = AureliusPress::Taxonomy::Tag.all
+    @categories = AureliusPress::Taxonomy::Category.all
   end
 
   def atomic_blog_post_params
@@ -54,6 +59,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
       :title, # string, the title of the document
       :slug, # string, a URL-friendly version of the title (auto-generated)
       :subtitle, # string, a short descriptive subtitle
+      :description, # text, a longer description of the document
       :status, # enum, representing the document's status (default: draft)
       :visibility, # enum, representing who can see the document (default: private_to_owner)
       :published_at, # datetime, the date when the document was published (optional)
