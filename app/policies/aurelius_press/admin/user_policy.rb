@@ -79,6 +79,7 @@ class AureliusPress::Admin::UserPolicy < AureliusPress::Admin::ApplicationPolicy
   end
 
   def can_manage_role?(target_role)
-    AureliusPress::User.roles[user.role] > AureliusPress::User.roles[target_role]
+    target_role_sym = target_role.to_s.downcase.to_sym
+    AureliusPress::User.roles[user.role] > AureliusPress::User.roles[target_role_sym]
   end
 end

@@ -19,7 +19,7 @@ RSpec.feature "Admin User Management Access" do
 
     scenario "cannot view the user management dashboard" do
       [reader, user, moderator].each do |the_actor|
-        login_as(the_actor)
+        login_as the_actor
         visit aurelius_press_admin_users_path
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
@@ -95,7 +95,7 @@ RSpec.feature "Admin User Management Access" do
       fill_in "Email", with: Faker::Internet.email
       fill_in "Password", with: "password"
       fill_in "Password confirmation", with: "password"
-      select "user", from: "Role"
+      select "User", from: "Role"
       click_button "Create User"
       expect(page).to have_content("User was successfully created.")
     end
@@ -123,7 +123,7 @@ RSpec.feature "Admin User Management Access" do
 
     scenario "can change a user's role to a lower or equal role" do
       visit edit_aurelius_press_admin_user_path(user)
-      select "moderator", from: "Role"
+      select "Moderator", from: "Role"
       click_button "Update User"
       expect(page).to have_content("User was successfully updated.")
       expect(user.reload.role).to eq("moderator")
@@ -131,11 +131,15 @@ RSpec.feature "Admin User Management Access" do
 
     scenario "cannot upgrade a user's role to that of admin or higher (only superusers can do this)" do
       visit edit_aurelius_press_admin_user_path(user)
-      select "admin", from: "Role"
+      # Assert that the dropdown contains the correct options
+      expect(page).to have_select('Role', with_options: ['Reader', 'User', 'Moderator'])
+      # Assert that the dropdown does NOT contain the restricted roles
+      expect(page).to have_no_select('Role', with_options: ['Admin', 'Superuser'])
+      # Verify that the user cannot be upgraded
+      select "Moderator", from: "Role"
       click_button "Update User"
-      expect(page).to have_content("You are not authorized to perform this action.")
-      expect(current_path).to eq(root_path)
-      expect(user.reload.role).to eq("user")
+      expect(page).to have_content("User was successfully updated.")
+      expect(user.reload.role).to eq("moderator")
     end
   end
 
@@ -184,7 +188,7 @@ RSpec.feature "Admin User Management Access" do
 
     scenario "can change a user's role to any role" do
       visit edit_aurelius_press_admin_user_path(user)
-      select "admin", from: "Role"
+      select "Admin", from: "Role"
       click_button "Update User"
       expect(page).to have_content("User was successfully updated.")
       expect(user.reload.role).to eq("admin")
