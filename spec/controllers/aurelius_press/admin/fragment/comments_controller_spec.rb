@@ -6,6 +6,14 @@ RSpec.describe AureliusPress::Admin::Fragment::CommentsController, type: :contro
   let!(:user) { create(:aurelius_press_user) }
   let!(:quote) { create(:aurelius_press_catalogue_quote) }
 
+  before do
+    sign_in user
+  end
+
+  after do
+    sign_out user
+  end
+
   let(:record_attributes) {
     { user: user, commentable: quote, content: "A fascinating insight!" }
   }

@@ -1,2 +1,35 @@
-<h1>AureliusPress::Admin::Users#index</h1>
-<p>Find me in app/views/aurelius_press/admin/users/index.html.erb</p>
+<h1>AureliusPress::Admin::Users<b><i>#index</i></b></h1>
+<p>Manage users of the AureliusPress application.</p>
+<div>
+  <h2>Users</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Role</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.status %></td>
+          <td><%= user.role %></td>
+          <td><%= user.full_name %></td>
+          <td><%= user.email %></td>
+          <td>
+            <%= link_to 'Edit', edit_aurelius_press_admin_user_path(user) %>
+            &nbsp;|&nbsp;
+            <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  <%= link_to 'New User', new_aurelius_press_admin_user_path %>
+</div>

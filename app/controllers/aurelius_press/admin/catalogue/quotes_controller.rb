@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Catalogue::QuotesController < ApplicationController
+class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::ApplicationController
   before_action :set_quote, only: %i[ show edit update destroy ]
 
   # GET /aurelius-press/admin/catalogue/quotes

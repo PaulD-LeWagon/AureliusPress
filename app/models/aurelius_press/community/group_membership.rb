@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: aurelius_press_group_memberships
+#
+#  id            :bigint           not null, primary key
+#  group_id      :bigint           not null
+#  user_id       :bigint           not null
+#  role          :integer          default("member"), not null
+#  status        :integer          default("active"), not null
+#  invited_by_id :bigint
+#  message       :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 class AureliusPress::Community::GroupMembership < ApplicationRecord
   self.table_name = "aurelius_press_group_memberships"
 

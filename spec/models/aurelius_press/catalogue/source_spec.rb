@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: aurelius_press_sources
+#
+#  id               :bigint           not null, primary key
+#  title            :string
+#  description      :text
+#  source_type      :integer
+#  date             :date
+#  isbn             :string
+#  slug             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  comments_enabled :boolean          default(FALSE), not null
+#
 require "rails_helper"
 
 RSpec.describe AureliusPress::Catalogue::Source, type: :model do

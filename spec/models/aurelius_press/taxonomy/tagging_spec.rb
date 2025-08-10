@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: aurelius_press_taggings
+#
+#  id          :bigint           not null, primary key
+#  document_id :bigint           not null
+#  tag_id      :bigint           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 require "rails_helper"
 
 RSpec.describe AureliusPress::Taxonomy::Tagging, type: :model do

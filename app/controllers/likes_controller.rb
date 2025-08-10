@@ -1,5 +1,5 @@
 class LikesController < ApplicationController
-  # Once that's in place, your application logic in controllers/views will be:
+  # Application logic in controllers/views:
   # First reaction: Create a new AureliusPress::Community::Like record with the chosen emoji.
   # Change reaction: Find the existing AureliusPress::Community::Like record and update its emoji attribute.
   # Remove reaction: Find the existing AureliusPress::Community::Like record and destroy it.

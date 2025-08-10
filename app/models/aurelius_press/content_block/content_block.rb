@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: aurelius_press_content_blocks
+#
+#  id               :bigint           not null, primary key
+#  document_id      :bigint           not null
+#  contentable_type :string           not null
+#  contentable_id   :bigint           not null
+#  position         :integer          default(0), not null
+#  html_id          :string
+#  html_class       :string
+#  data_attributes  :jsonb
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
 class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   self.table_name = "aurelius_press_content_blocks"
   # ContentBlock model represents a block of content within a Document

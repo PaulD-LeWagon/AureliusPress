@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: aurelius_press_tags
+#
+#  id         :bigint           not null, primary key
+#  name       :string
+#  slug       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 # spec/factories/tags.rb
 FactoryBot.define do
   factory :aurelius_press_taxonomy_tag, class: "AureliusPress::Taxonomy::Tag" do

@@ -41,6 +41,14 @@ RSpec.describe AureliusPress::Admin::UsersController, type: :controller do
     }
   end
 
+  before do
+    sign_in user_record # Sign in the existing user to access admin area
+  end
+
+  after do
+    sign_out user_record # Sign out the user after each test
+  end
+
   describe "GET #index" do
     it "returns a successful response and assigns @users" do
       create(:aurelius_press_user) # Create another user to ensure collection

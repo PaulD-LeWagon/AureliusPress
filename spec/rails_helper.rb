@@ -1,8 +1,8 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
+require "launchy"
 require "spec_helper"
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
-
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
@@ -17,6 +17,8 @@ require "action_text/system_test_helper"
 require "action_dispatch/testing/test_process"
 
 require "database_cleaner/active_record"
+
+require "support/action_text_helper"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -72,7 +74,26 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Capybara.register_driver :selenium_headless do |app|
+  options = Selenium::WebDriver::Firefox::Options.new
+  options.add_argument("-headless")
+  Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+end
+
 RSpec.configure do |config|
+  config.include ActionTextHelper
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.before(:each, type: :feature) do
+    Capybara.default_driver = :selenium_headless
+  end
+  config.before(:suite) do
+    # Run the asset build commands before the test suite starts
+    system("yarn build:css")
+  end
+  config.after(:suite) do
+    # system("rm -rf tmp/cache app/assets/builds/*")
+  end
   # To run specific tests, you can use the `:focus` metadata tag.
   # This will run only the tests that have this tag.
   # For example, you can run `rspec --tag focus` to run only focused tests.

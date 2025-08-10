@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: aurelius_press_likes
+#
+#  id            :bigint           not null, primary key
+#  user_id       :bigint           not null
+#  likeable_type :string           not null
+#  likeable_id   :bigint           not null
+#  emoji         :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 # spec/factories/likes.rb
 FactoryBot.define do
   factory :aurelius_press_community_like, class: "AureliusPress::Community::Like" do

@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Document::PagesController < ApplicationController
+class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::ApplicationController
   before_action :set_page, only: [:show, :edit, :update, :destroy]
 
   def index

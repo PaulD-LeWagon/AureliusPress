@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: aurelius_press_content_blocks
+#
+#  id               :bigint           not null, primary key
+#  document_id      :bigint           not null
+#  contentable_type :string           not null
+#  contentable_id   :bigint           not null
+#  position         :integer          default(0), not null
+#  html_id          :string
+#  html_class       :string
+#  data_attributes  :jsonb
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
 # spec/factories/content_blocks.rb
 FactoryBot.define do
   factory :aurelius_press_content_block_content_block, class: "AureliusPress::ContentBlock::ContentBlock" do

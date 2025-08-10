@@ -52,13 +52,16 @@ group :development, :test do
   gem "factory_bot_rails" # For test data generation
   gem "shoulda-matchers" # For common Rails model tests
   gem "capybara" # For integration/feature tests
+  gem "capybara-webkit" # For JavaScript support in Capybara tests
+  gem "webrick" # For running a web server in tests (needed for Rails 7+)
+  gem "capybara-screenshot" # For taking screenshots on test failures
   gem "selenium-webdriver" # Required by Capybara for browser testing
-  gem "webdrivers" # Automatically downloads browser drivers for Capybara
   gem "database_cleaner-active_record" # For cleaning the database between tests
   gem "simplecov", require: false # For test coverage reports
   gem "rubocop", require: false # For code style checking
   gem "rubocop-rspec", require: false # RSpec specific RuboCop rules
   # gem "rspec_junit_formatter" # For generating JUnit XML reports from RSpec tests
+  gem "annotate", git: "https://github.com/ctran/annotate_models.git"
 end
 
 group :development do
@@ -67,9 +70,9 @@ group :development do
 end
 
 # group :test do
-  ## Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  # gem "capybara"
-  # gem "selenium-webdriver"
+## Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+# gem "capybara"
+# gem "selenium-webdriver"
 # end
 
 # Custom addition
@@ -77,10 +80,9 @@ gem "dotenv-rails"
 gem "devise"
 gem "pundit"
 gem "autoprefixer-rails"
-gem "sassc-rails", "~> 2.1.2"
 gem "font-awesome-sass"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "view_component"
 gem "vanilla_nested", github: "arielj/vanilla-nested", branch: :main
-
 gem "image_processing", "~> 1.14"
+gem "cssbundling-rails"

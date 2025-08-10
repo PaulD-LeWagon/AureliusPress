@@ -1,2 +1,6 @@
-<h1>AureliusPress::Admin::Users#edit</h1>
-<p>Find me in app/views/aurelius_press/admin/users/edit.html.erb</p>
+<h1>AureliusPress::Admin::Users<b><i>#edit</i></b></h1>
+
+<%= link_to "Delete", aurelius_press_admin_user_path(@user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+<%= link_to "Back to Users", aurelius_press_admin_users_path %>
+
+<%= render "form", user: @user %>

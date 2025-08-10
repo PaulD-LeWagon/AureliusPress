@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: aurelius_press_documents
+#
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
+#  category_id      :bigint
+#  type             :string           not null
+#  slug             :string           not null
+#  title            :string           not null
+#  subtitle         :string
+#  description      :text
+#  status           :integer          default("draft"), not null
+#  visibility       :integer          default("private_to_owner"), not null
+#  published_at     :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  comments_enabled :boolean          default(FALSE), not null
+#
 # spec/models/blog_post_spec.rb
 require "rails_helper"
 
@@ -29,7 +48,7 @@ RSpec.describe AureliusPress::Document::AtomicBlogPost, type: :model do
   describe "when document_file is attached" do
     it "is valid with a PNG image" do
       atomic_blog_post = build(:aurelius_press_document_atomic_blog_post)
-      atomic_blog_post.document_file.attach(
+      atomic_blog_post.image_file.attach(
         io: File.open(Rails.root.join("spec", "fixtures", "files", "test_image.png")),
         filename: "test_image.png",
         content_type: "image/png",
@@ -109,7 +128,7 @@ RSpec.describe AureliusPress::Document::AtomicBlogPost, type: :model do
 
   describe "associations" do
     it { should have_rich_text(:content) }
-    it { should have_one_attached(:document_file) }
+    it { should have_one_attached(:image_file) }
   end
 
   describe "after_initialize callbacks" do
@@ -163,9 +182,9 @@ RSpec.describe AureliusPress::Document::AtomicBlogPost, type: :model do
       expect(test_atomic_blog_post.content).to be_present
     end
 
-    it "has a valid document_file" do
-      expect(test_atomic_blog_post.document_file).to be_attached
-      expect(test_atomic_blog_post.document_file.content_type).to match(%r{image/(png|jpg|jpeg|gif|webp|svg\+xml)})
+    it "has a valid image_file" do
+      expect(test_atomic_blog_post.image_file).to be_attached
+      expect(test_atomic_blog_post.image_file.content_type).to match(%r{image/(png|jpg|jpeg|gif|webp|svg\+xml)})
     end
   end
 end

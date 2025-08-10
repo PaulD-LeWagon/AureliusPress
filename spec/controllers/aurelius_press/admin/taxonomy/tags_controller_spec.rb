@@ -5,6 +5,15 @@ RSpec.describe AureliusPress::Admin::Taxonomy::TagsController, type: :controller
 
   let(:valid_attributes) { attributes_for(:aurelius_press_taxonomy_tag) }
   let(:invalid_attributes) { attributes_for(:aurelius_press_taxonomy_tag, name: nil) } # name is required
+  let(:user) { create(:aurelius_press_user) }
+
+  before do
+    sign_in user
+  end
+
+  after do
+    sign_out user
+  end
 
   describe "GET #index" do
     it "returns a successful response and assigns @tags" do

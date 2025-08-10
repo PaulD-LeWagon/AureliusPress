@@ -1,4 +1,4 @@
-class AureliusPress::Admin::Community::GroupsController < ApplicationController
+class AureliusPress::Admin::Community::GroupsController < AureliusPress::Admin::ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   def index

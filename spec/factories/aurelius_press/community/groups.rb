@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: aurelius_press_groups
+#
+#  id              :bigint           not null, primary key
+#  slug            :string           not null
+#  name            :string           not null
+#  description     :text
+#  creator_id      :bigint           not null
+#  status          :integer          default("active"), not null
+#  privacy_setting :integer          default("private_group"), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 FactoryBot.define do
   factory :aurelius_press_community_group, class: "AureliusPress::Community::Group" do
     # Ensure a unique name for each group created
