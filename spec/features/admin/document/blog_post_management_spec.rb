@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
+  let!(:categories) { create_list(:aurelius_press_taxonomy_category, 3) }
   let!(:admin) { create(:aurelius_press_admin_user) }
   let!(:blog_post_one) { create(:aurelius_press_document_blog_post, title: "First Blog Post", description: "Content of the first blog post.") }
   let!(:blog_post_two) { create(:aurelius_press_document_blog_post, title: "Second Blog Post", description: "Content of the second blog post.") }
@@ -12,18 +13,25 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
     visit new_aurelius_press_admin_document_blog_post_path
     # 3. Fill out the form with valid data
     title = "A New Blog Post Title"
+    subtitle = "A brief subtitle for the blog post."
     description = "This is the content for the new blog post."
+
     fill_in "Title", with: title
+    fill_in "Subtitle", with: subtitle
     fill_in "Description", with: description
+    fill_in "Tags (comma separated)", with: "new, blog, post"
+
     select "published", from: "Status"
     select "public_to_www", from: "Visibility"
-    fill_in "Tags (comma separated)", with: "new, blog, post"
+    select categories.first.name, from: "Category"
+
     # 4. Submit the form
-    click_button "Create Blog Post"
+    click_button "Create Blog post"
     # save_and_open_page
     # 5. Verify the success message and that the new blog post is visible
-    expect(page).to have_content("Blog post was successfully created.")
+    expect(page).to have_content("Blog post created successfully.")
     expect(page).to have_content(title)
+    expect(page).to have_content(subtitle)
     expect(page).to have_content(description)
   end
 
@@ -56,9 +64,9 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
     fill_in "Title", with: new_title
     fill_in "Description", with: new_description
     # Submit the form
-    click_button "Update Blog Post"
+    click_button "Update Blog post"
     # Verify the success message and that the changes are visible on the show page
-    expect(page).to have_content("Blog post was successfully updated.")
+    expect(page).to have_content("Blog post updated successfully.")
     expect(page).to have_content(new_title)
     expect(page).to have_content(new_description)
   end
@@ -79,7 +87,7 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
       click_link "Delete", href: aurelius_press_admin_document_blog_post_path(blog_post_one)
     end
     # 5. Verify the blog post was deleted successfully
-    expect(page).to have_content "Blog post was successfully destroyed."
+    expect(page).to have_content "Blog post deleted successfully."
     expect(page).to have_current_path(aurelius_press_admin_document_blog_posts_path)
     expect(page).not_to have_content blog_post_one.title
     expect(AureliusPress::Document::BlogPost.count).to eq(1)

@@ -3,18 +3,23 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   before_action :set_tags_and_categories, only: [:new, :edit]
 
   def index
-    @pages = AureliusPress::Document::Page.all
+    # The policy scope will filter the documents based on the current user's role.
+    authorize AureliusPress::Document::Page, :index?, policy_class: AureliusPress::DocumentPolicy
+    @pages = policy_scope(AureliusPress::Document::Page, policy_scope_class: AureliusPress::DocumentPolicy::Scope)
   end
 
   def show
+    authorize @page, :show?, policy_class: AureliusPress::DocumentPolicy
   end
 
   def new
     @page = AureliusPress::Document::Page.new
+    authorize @page, :new?, policy_class: AureliusPress::DocumentPolicy
   end
 
   def create
     @page = AureliusPress::Document::Page.new(page_params)
+    authorize @page, :create?, policy_class: AureliusPress::DocumentPolicy
     if @page.save
       redirect_to aurelius_press_admin_document_page_path(@page), notice: "Page was successfully created."
     else
@@ -24,9 +29,11 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   end
 
   def edit
+    authorize @page, :edit?, policy_class: AureliusPress::DocumentPolicy
   end
 
   def update
+    authorize @page, :update?, policy_class: AureliusPress::DocumentPolicy
     if @page.update(page_params)
       redirect_to aurelius_press_admin_document_page_path(@page), notice: "Page was successfully updated."
     else
@@ -35,6 +42,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   end
 
   def destroy
+    authorize @page, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @page.destroy
     redirect_to aurelius_press_admin_document_pages_path, notice: "Page was successfully destroyed."
   end
