@@ -1,0 +1,58 @@
+<% form_url = (@page.new_record? ? aurelius_press_admin_document_pages_path : aurelius_press_admin_document_page_path(@page)) %>
+<%= simple_form_for @page, url: form_url do |f| %>
+
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+
+    <%= f.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
+
+    <div class="row">
+      <div class="column">
+        <%= f.input :title, required: true, autofocus: true, input_html: { class: "form-control" } %>
+      </div>
+      <div class="column">
+        <%= f.input :subtitle, input_html: { class: "form-control" } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= f.input :description, as: :text, input_html: { rows: 5, class: "form-control" } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= f.input :category_id, collection: @categories, label_method: :name, value_method: :id, as: :select, prompt: "Select Category" %>
+      </div>
+      <div class="column">
+        <%= f.input :tags, as: :string, label: "Tags (comma separated)", hint: "e.g., rails, ruby, webdev" %>
+      </div>
+      <div class="column">
+        <%= f.input :published_at, as: :datetime %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= f.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys, prompt: "Select Status" %>
+      </div>
+      <div class="column">
+        <%= f.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys, prompt: "Select Visibility" %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= f.input :comments_enabled, as: :boolean, label: "Allow Comments?" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: "button", role: :button %>
+    <%= link_to "Back", aurelius_press_admin_document_pages_path, class: "button" %>
+  </div>
+<% end %>

@@ -1,5 +1,5 @@
 class AureliusPress::Admin::ApplicationController < AureliusPress::ApplicationController
-  # before_action :authorize_admin_access
+  before_action :authorize_admin_access
 
   def authorize(record, query = nil, policy_class: nil)
     @_pundit_policy_authorized = true
