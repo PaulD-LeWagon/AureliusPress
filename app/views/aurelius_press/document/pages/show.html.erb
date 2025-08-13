@@ -1,2 +1,46 @@
 <h1>AureliusPress::Document::Pages#show</h1>
-<p>Find me in app/views/aurelius_press/document/pages/show.html.erb</p>
+
+<%= link_to "Edit", edit_aurelius_press_page_path(@page) %> |
+<%= link_to "Delete", aurelius_press_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+<%= link_to "Back to Pages", aurelius_press_pages_path %>
+
+
+<h2><%= @page.title %></h2>
+<% if @page.subtitle.present? %>
+  <h3><%= @page.subtitle %></h3>
+<% end %>
+
+<p>
+  <strong>Author:</strong>
+  <%= @page.user.full_name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @page.description %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @page.status.humanize %>
+</p>
+
+<p>
+  <strong>Visibility:</strong>
+  <%= @page.visibility.humanize %>
+</p>
+
+<p>
+  <strong>Published At:</strong>
+  <%= @page.published_at %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @page.tags.join(", ") %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @page.category.name if @page.category %>
+</p>

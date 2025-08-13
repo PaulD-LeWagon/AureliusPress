@@ -50,6 +50,13 @@
   }
 }
 
+trix-editor {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-base);
+  padding: 10px;
+  color: white;
+}
+
 body,
 .content {
   margin: 0;

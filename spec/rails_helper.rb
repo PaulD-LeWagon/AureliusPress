@@ -20,6 +20,11 @@ require "database_cleaner/active_record"
 
 require "support/action_text_helper"
 
+# Require the top-level module first to stop rspec from spazzing-out!
+require_relative "../app/modules/aurelius_press"
+# Load all other support files
+Dir[Rails.root.join("spec", "support", "**", "*.rb")].each { |f| require f }
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -82,6 +87,7 @@ end
 
 RSpec.configure do |config|
   config.include ActionTextHelper
+  config.include DebugHelper, type: :feature
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.before(:each, type: :feature) do

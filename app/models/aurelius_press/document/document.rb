@@ -62,11 +62,13 @@ class AureliusPress::Document::Document < ApplicationRecord
   NAMESPACED_COMMENTABLE_TYPES = (TYPES - %w[Page]).map { |type| "AureliusPress::Document::#{type}" }
 
   # Enums
-  enum :status, [:draft, :published, :archived]
+  enum :status, [:draft, :published, :scheduled, :archived, :in_review, :trashed]
   enum :visibility, [:private_to_owner, :private_to_group, :private_to_app_users, :public_to_www]
 
   # Callbacks
   after_initialize :set_defaults, if: :new_record?
+  before_validation :set_published_at, if: :will_be_published?
+  before_validation :clear_published_at, if: :will_be_draft?
 
   # Associations
   belongs_to :user, class_name: "AureliusPress::User"
@@ -106,10 +108,12 @@ class AureliusPress::Document::Document < ApplicationRecord
   validates :user, presence: true
 
   # Scopes
+  scope :recent, -> { order(created_at: :desc) }
   scope :published, -> { where(status: :published) }
   scope :archived, -> { where(status: :archived) }
-  scope :recent, -> { order(created_at: :desc) }
+  scope :draft, -> { where(status: :draft) }
   scope :by_status, ->(status) { where(status: status) if status.present? }
+
   scope :by_visibility, ->(visibility) { where(visibility: visibility) if visibility.present? }
   scope :by_type, ->(type) { where(type: type) if type.present? }
   scope :by_title, ->(title) { where("title ILIKE ?", "%#{title}%") if title.present? }
@@ -144,7 +148,22 @@ class AureliusPress::Document::Document < ApplicationRecord
 
   private
 
-  # Callbacks for default values (these are correctly implemented using ||=)
+  def set_published_at
+    self.published_at ||= Time.current
+  end
+
+  def clear_published_at
+    self.published_at = nil
+  end
+
+  def will_be_published?
+    status_changed? && status == 'published'
+  end
+
+  def will_be_draft?
+    status_changed? && status == 'draft'
+  end
+
   def set_defaults
     self.visibility ||= :private_to_owner
     self.status ||= :draft

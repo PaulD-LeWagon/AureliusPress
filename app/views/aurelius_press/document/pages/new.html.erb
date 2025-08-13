@@ -1,2 +1,6 @@
 <h1>AureliusPress::Document::Pages#new</h1>
-<p>Find me in app/views/aurelius_press/document/pages/new.html.erb</p>
+<h2>Create New Page</h2>
+<%= render "aurelius_press/admin/document/pages/form",
+           page: @page,
+           categories: @categories,
+           tags: @tags %>

@@ -1,0 +1,56 @@
+<h1>AureliusPress::Document::AtomicBlogPosts#show</h1>
+
+<%= link_to "Edit", edit_aurelius_press_atomic_blog_post_path(@atomic_blog_post) %> |
+<%= link_to "Delete", aurelius_press_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+<%= link_to "Back to Atomic Blog Posts", aurelius_press_atomic_blog_posts_path %>
+
+
+<h2><%= @atomic_blog_post.title %></h2>
+<% if @atomic_blog_post.subtitle.present? %>
+  <h3><%= @atomic_blog_post.subtitle %></h3>
+<% end %>
+
+<p>
+  <strong>Author:</strong>
+  <%= @atomic_blog_post.user.full_name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @atomic_blog_post.description %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @atomic_blog_post.content %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @atomic_blog_post.status.humanize %>
+</p>
+
+<p>
+  <strong>Visibility:</strong>
+  <%= @atomic_blog_post.visibility.humanize %>
+</p>
+
+<p>
+  <strong>Published At:</strong>
+  <%= @atomic_blog_post.published_at %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @atomic_blog_post.tags.join(", ") %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @atomic_blog_post.category.name if @atomic_blog_post.category %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= image_tag @atomic_blog_post.image_file if @atomic_blog_post.image_file.attached? %>
+</p>
