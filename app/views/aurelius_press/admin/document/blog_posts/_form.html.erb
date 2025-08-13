@@ -1,4 +1,11 @@
-<% form_url = (@blog_post.new_record? ? aurelius_press_admin_document_blog_posts_path : aurelius_press_admin_document_blog_post_path(@blog_post)) %>
+<% if controller_path.include?("admin") %>
+  <% in_admin_ns = true %>
+  <% form_url = (@blog_post.new_record? ? aurelius_press_admin_document_blog_posts_path : aurelius_press_admin_document_blog_post_path(@blog_post)) %>
+<% else %>
+  <% in_admin_ns = false %>
+  <% form_url = (@blog_post.new_record? ? aurelius_press_blog_posts_path : aurelius_press_blog_post_path(@blog_post)) %>
+<% end %>
+
 <%= simple_form_for @blog_post, url: form_url do |f| %>
 
   <%= f.error_notification %>
@@ -53,6 +60,16 @@
 
   <div class="form-actions">
     <%= f.button :submit, class: "button", role: :button %>
-    <%= link_to "Back", aurelius_press_admin_document_blog_posts_path, class: "button" %>
+    <% if in_admin_ns %>
+      <% if @blog_post.persisted? %>
+        <%= link_to "Delete", aurelius_press_admin_document_blog_post_path(@blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+      <% end %>
+      <%= link_to "Back", aurelius_press_admin_document_blog_posts_path, class: "button" %>
+    <% else %>
+      <% if @blog_post.persisted? %>
+        <%= link_to "Delete", aurelius_press_blog_post_path(@blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+      <% end %>
+      <%= link_to "Back", aurelius_press_blog_posts_path, class: "button" %>
+    <% end %>
   </div>
 <% end %>

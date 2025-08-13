@@ -1,2 +1,38 @@
 <h1>AureliusPress::Document::Pages#index</h1>
-<p>Find me in app/views/aurelius_press/document/pages/index.html.erb</p>
+
+<%= link_to "New Page", new_aurelius_press_page_path %>
+
+<h2>All Pages</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Created At</th>
+      <th>Updated At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pages.each do |page| %>
+      <tr>
+        <td><%= page.id %></td>
+        <td>
+          <%= page.title %>
+          <br>
+          <%= page.subtitle if page.subtitle.present? %>
+        </td>
+        <td><%= page.description if page.description.present? %></td>
+        <td><%= page.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+        <td><%= page.updated_at.strftime("%Y-%m-%d %H:%M") %></td>
+        <td>
+          <%= link_to "Show", aurelius_press_page_path(page) %>
+          <%= link_to "Edit", edit_aurelius_press_page_path(page) %>
+          <%= link_to "Delete", aurelius_press_page_path(page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -28,12 +28,6 @@ class AureliusPress::Document::BlogPost < AureliusPress::Document::Document
 
   after_initialize :set_defaults, if: :new_record?
 
-  validates :published_at, presence: true, if: :published?
-
-  def published?
-    published_at.present? && published_at <= Time.current
-  end
-
   private
 
   def set_defaults

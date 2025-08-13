@@ -1,2 +1,6 @@
 <h1>AureliusPress::Document::Pages#edit</h1>
-<p>Find me in app/views/aurelius_press/document/pages/edit.html.erb</p>
+<h2>Edit Page</h2>
+<%= render "aurelius_press/admin/document/pages/form",
+           page: @page,
+           categories: @categories,
+           tags: @tags %>

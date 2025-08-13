@@ -1,4 +1,13 @@
-<% form_url = (@atomic_blog_post.new_record? ? aurelius_press_admin_document_atomic_blog_posts_path : aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post)) %>
+<% if controller_path.include?("admin") %>
+  <% in_admin_ns = true %>
+  <% form_url = (@atomic_blog_post.new_record? ? aurelius_press_admin_document_atomic_blog_posts_path : aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post)) %>
+<% else %>
+  <% in_admin_ns = false %>
+  <% form_url = (@atomic_blog_post.new_record? ? aurelius_press_atomic_blog_posts_path : aurelius_press_atomic_blog_post_path(@atomic_blog_post)) %>
+<% end %>
+
+<h3><%= @atomic_blog_post.new_record? ? "New" : "Edit" %> Atomic Blog Post</h3>
+
 <%= simple_form_for @atomic_blog_post, url: form_url do |f| %>
 
   <%= f.error_notification %>
@@ -66,6 +75,16 @@
 
   <div class="form-actions">
     <%= f.button :submit, class: "button", role: :button %>
-    <%= link_to "Back", aurelius_press_admin_document_atomic_blog_posts_path, class: "button" %>
+    <% if in_admin_ns %>
+      <% if @atomic_blog_post.persisted? %>
+        <%= link_to "Delete", aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+      <% end %>
+      <%= link_to "Back", aurelius_press_admin_document_atomic_blog_posts_path, class: "button" %>
+    <% else %>
+      <% if @atomic_blog_post.persisted? %>
+        <%= link_to "Delete", aurelius_press_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+      <% end %>
+      <%= link_to "Back", aurelius_press_atomic_blog_posts_path, class: "button" %>
+    <% end %>
   </div>
 <% end %>

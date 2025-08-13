@@ -1,4 +1,11 @@
-<% form_url = (@page.new_record? ? aurelius_press_admin_document_pages_path : aurelius_press_admin_document_page_path(@page)) %>
+<% if controller_path.include?("admin") %>
+  <% in_admin_ns = true %>
+  <% form_url = (@page.new_record? ? aurelius_press_admin_document_pages_path : aurelius_press_admin_document_page_path(@page)) %>
+<% else %>
+  <% in_admin_ns = false %>
+  <% form_url = (@page.new_record? ? aurelius_press_pages_path : aurelius_press_page_path(@page)) %>
+<% end %>
+
 <%= simple_form_for @page, url: form_url do |f| %>
 
   <%= f.error_notification %>
@@ -53,6 +60,16 @@
 
   <div class="form-actions">
     <%= f.button :submit, class: "button", role: :button %>
-    <%= link_to "Back", aurelius_press_admin_document_pages_path, class: "button" %>
+    <% if in_admin_ns %>
+      <% if @page.persisted? %>
+        <%= link_to "Delete", aurelius_press_admin_document_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+      <% end %>
+      <%= link_to "Back", aurelius_press_admin_document_pages_path, class: "button" %>
+    <% else %>
+      <% if @page.persisted? %>
+        <%= link_to "Delete", aurelius_press_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+      <% end %>
+      <%= link_to "Back", aurelius_press_pages_path, class: "button" %>
+    <% end %>
   </div>
 <% end %>

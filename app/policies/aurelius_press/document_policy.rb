@@ -4,41 +4,31 @@ class AureliusPress::DocumentPolicy < ::ApplicationPolicy
     user.present?
   end
 
-  # def show?
-  #   if record.published?
-  #     # Public documents are visible to everyone
-  #     return true if record.visibility == "public_to_www"
-  #     # Users and Readers can see documents with app or public visibility
-  #     if user.user? || user.reader?
-  #       return true if record.visibility.in?(["public_to_app_users", "public_to_www"])
-  #     end
-  #     # Users can see documents in their groups
-  #     return true if user.user? && record.visibility == "private_to_group" && user.groups.include?(record.group)
-  #   end
-  #   # Superusers, Admins, and Moderators have blanket access
-  #   return true if user.superuser? || user.admin? || user.moderator?
-  #   # Owners can always see their own documents
-  #   return true if record.user == user
-  #   # Otherwise, access is denied
-  #   false
-  # end
-
   def show?
-    # Superusers, Admins, and Mods can see everything regardless of status or visibility
-    return true if user.superuser? || user.admin? || user.moderator?
-    # Owners can always see their own documents, regardless of status or visibility
+    # 1. Superusers and Admins can see everything regardless of status or visibility
+    return true if user.superuser? || user.admin?
+    # 2. Deny access to trashed documents for everybody else.
+    return false if record.trashed?
+    # 3. Moderators can see everything except trashed documents
+    return true if user.moderator?
+    # 4. Deny access to documents in_review to everybody else lower than a mdoerator.
+    return false if record.in_review?
+    # 5. Owners can always see their own documents, regardless of visibility and status (excluding trashed and in_review)
     return true if record.user == user
-    # All other conditions must check for a published status
+    # 6. Deny access to scheduled documents as only users and above should be able to view them.
+    return false if record.scheduled?
+    # 7. All other conditions must check for a published status
     return false unless record.published?
-    # Public documents are visible to everyone
+    # 8. Public documents are visible to everyone
     return true if record.visibility == "public_to_www"
-    # Users and Readers can see documents with app-level visibility
-    if user.user? || user.reader?
-      return true if record.visibility == "public_to_app_users"
+    # 9. Users can see documents with app-level visibility and group membership
+    if user.user?
+      return true if record.public_to_app_users?
+      return true if record.private_to_group? && user.groups.include?(record.group)
     end
-    # Users can see documents in their groups
-    return true if user.user? && record.visibility == "private_to_group" && user.groups.include?(record.group)
-    # All other cases are false by default
+    # 10. Readers can see published documents for app users.
+    return true if user.reader? && record.public_to_app_users?
+    # 11. All other cases are false by default
     false
   end
 
@@ -70,17 +60,23 @@ class AureliusPress::DocumentPolicy < ::ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       case
-      when user.superuser? || user.admin? || user.moderator?
-        # Admins and Mods can see everything
+      when user.superuser? || user.admin?
+        # Superusers and Admins can see everything
         scope.all
+      when user.moderator?
+        # Moderators can see everything except trashed documents
+        scope.where.not(status: :trashed)
       when user.user?
-        # Start with their own documents
-        own_docs = scope.where(user: user)
-        # Build conditions for other accessible documents
-        accessible_docs_conditions = scope.where(visibility: ["public_to_app_users", "public_to_www"], status: :published)
-        group_docs = scope.joins(:groups).where(groups: { id: user.groups.pluck(:id) }, status: :published)
-        # Combine the scopes
-        own_docs.or(accessible_docs_conditions).or(group_docs)
+        # Query 1: Get IDs of the user's own documents (any status)
+        own_docs_ids = scope.where(user: user).where.not(status: [:in_review, :trashed]).pluck(:id)
+        # Query 2: Get IDs of published, public documents
+        public_docs_ids = scope.where(visibility: ["public_to_app_users", "public_to_www"], status: :published).pluck(:id)
+        # Query 3: Get IDs of published documents for groups the user belongs to
+        group_docs_ids = scope.joins(:groups).where(groups: { id: user.groups.pluck(:id) }, status: :published).pluck(:id)
+        # Combine all the unique IDs and return the documents
+        combined_ids = (own_docs_ids + public_docs_ids + group_docs_ids).uniq
+        # Return the final scope
+        scope.where(id: combined_ids)
       when user.reader?
         # Reader sees published documents that are app-public or public-to-www
         scope.where(visibility: ["public_to_app_users", "public_to_www"], status: :published)
@@ -90,28 +86,6 @@ class AureliusPress::DocumentPolicy < ::ApplicationPolicy
       end
     end
   end
-
-  # class Scope < ApplicationPolicy::Scope
-  #   def resolve
-  #     if user.superuser? || user.admin? || user.moderator?
-  #       # Admins and Mods can see everything
-  #       scope.all
-  #     elsif user.user?
-  #       # A user sees their own docs (any status)
-  #       own_docs = scope.where(user: user)
-  #       # Plus, app-public, public-to-web, and their group's docs (only if published)
-  #       other_docs = scope.where(visibility: ["public_to_app_users", "public_to_www"], published: true).or(scope.joins(:groups).where(groups: { id: user.groups.pluck(:id) }, published: true))
-  #       # Combine own docs with other accessible docs?
-  #       own_docs.or(other_docs)
-  #     elsif user.reader?
-  #       # A reader only sees app-public and public-to-web docs
-  #       scope.where(visibility: ["public_to_app_users", "public_to_www"], published: true)
-  #     else
-  #       # Guest or nil user only sees public-to-web docs
-  #       scope.where(visibility: "public_to_www", published: true)
-  #     end
-  #   end
-  # end
 
   private
 
