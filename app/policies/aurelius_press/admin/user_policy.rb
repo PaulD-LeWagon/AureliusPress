@@ -1,7 +1,7 @@
 class AureliusPress::Admin::UserPolicy < AureliusPress::Admin::ApplicationPolicy
   attr_reader :params
 
-  def initialize(user, record, params)
+  def initialize(user, record, params = {})
     super(user, record)
     @params = params
   end

@@ -6,60 +6,74 @@
   <% form_url = (@page.new_record? ? aurelius_press_pages_path : aurelius_press_page_path(@page)) %>
 <% end %>
 
-<%= simple_form_for @page, url: form_url do |f| %>
+<%= simple_form_for @page, url: form_url do |form| %>
 
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= form.error_notification %>
+  <%= form.error_notification message: form.object.errors[:base].to_sentence if form.object.errors[:base].present? %>
 
   <div class="form-inputs">
 
-    <%= f.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
+    <%= form.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
 
     <div class="row">
       <div class="column">
-        <%= f.input :title, required: true, autofocus: true, input_html: { class: "form-control" } %>
+        <%= form.input :title, required: true, autofocus: true, input_html: { class: "form-control" } %>
       </div>
       <div class="column">
-        <%= f.input :subtitle, input_html: { class: "form-control" } %>
+        <%= form.input :subtitle, input_html: { class: "form-control" } %>
       </div>
     </div>
 
     <div class="row">
       <div class="column">
-        <%= f.input :description, as: :text, input_html: { rows: 5, class: "form-control" } %>
+        <%= form.input :description, as: :text, input_html: { rows: 5, class: "form-control" } %>
       </div>
     </div>
 
     <div class="row">
       <div class="column">
-        <%= f.input :category_id, collection: @categories, label_method: :name, value_method: :id, as: :select, prompt: "Select Category" %>
+        <%= form.input :category_id, collection: @categories, label_method: :name, value_method: :id, as: :select, prompt: "Select Category" %>
       </div>
       <div class="column">
-        <%= f.input :tags, as: :string, label: "Tags (comma separated)", hint: "e.g., rails, ruby, webdev" %>
+        <%= form.input :tags, as: :string, label: "Tags (comma separated)", hint: "e.g., rails, ruby, webdev" %>
       </div>
       <div class="column">
-        <%= f.input :published_at, as: :datetime %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="column">
-        <%= f.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys, prompt: "Select Status" %>
-      </div>
-      <div class="column">
-        <%= f.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys, prompt: "Select Visibility" %>
+        <%= form.input :published_at, as: :datetime %>
       </div>
     </div>
 
     <div class="row">
       <div class="column">
-        <%= f.input :comments_enabled, as: :boolean, label: "Allow Comments?" %>
+        <%= form.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys, prompt: "Select Status" %>
+      </div>
+      <div class="column">
+        <%= form.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys, prompt: "Select Visibility" %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= form.input :comments_enabled, as: :boolean, label: "Allow Comments?" %>
       </div>
     </div>
   </div>
 
+  <div id="the-content-blocks">
+    <%= form.simple_fields_for :content_blocks do |content_block_fields| %>
+      <%= render "aurelius_press/admin/content_block/content_block_fields", form: content_block_fields %>
+    <% end %>
+  </div>
+
   <div class="form-actions">
-    <%= f.button :submit, class: "button", role: :button %>
+    <%= form.button :submit, class: "button", role: :button %>
+
+    <div class="content-block-button-group">
+      <%= link_to_add_nested form, :content_blocks, "#the-content-blocks", link_text: "Add Rich Text Block", link_classes: "button", tag_attributes: { role: "button" }, partial: "aurelius_press/admin/content_block/content_block_fields", partial_locals: { type: "rich_text_block" } %>
+      <%= link_to_add_nested form, :content_blocks, "#the-content-blocks", link_text: "Add Image Block", link_classes: "button", tag_attributes: { role: "button" }, partial: "aurelius_press/admin/content_block/content_block_fields", partial_locals: { type: "image_block" } %>
+      <%= link_to_add_nested form, :content_blocks, "#the-content-blocks", link_text: "Add Gallery Block", link_classes: "button", tag_attributes: { role: "button" }, partial: "aurelius_press/admin/content_block/content_block_fields", partial_locals: { type: "gallery_block" } %>
+      <%= link_to_add_nested form, :content_blocks, "#the-content-blocks", link_text: "Add Video Embed Block", link_classes: "button", tag_attributes: { role: "button" }, partial: "aurelius_press/admin/content_block/content_block_fields", partial_locals: { type: "video_embed_block" } %>
+    </div>
+
     <% if in_admin_ns %>
       <% if @page.persisted? %>
         <%= link_to "Delete", aurelius_press_admin_document_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>

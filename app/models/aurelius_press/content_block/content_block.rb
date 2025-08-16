@@ -50,6 +50,7 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
 
   # The key line for Delegated Types: defines the types it can "delegate" to
   delegated_type :contentable, types: self.get_namespaced_types, dependent: :destroy, inverse_of: :content_block
+  accepts_nested_attributes_for :contentable, allow_destroy: true
 
   # Polymorphic associations for comments, likes
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
@@ -88,5 +89,17 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   # Instance method to return the contentable type class
   def contentable_type_class
     contentable.class
+  end
+
+  def contentable_attributes=(attributes)
+    contentable_type = attributes['type']
+
+    # Check if the delegated type is a valid class within our namespace
+    if contentable_type.present? && "AureliusPress::ContentBlock::#{contentable_type}".safe_constantize
+      # Build a new contentable object of the correct type
+      self.contentable = "AureliusPress::ContentBlock::#{contentable_type}".constantize.new(attributes.except('type'))
+    end
+    # Finally, call the original method to process the rest of the attributes
+    super
   end
 end

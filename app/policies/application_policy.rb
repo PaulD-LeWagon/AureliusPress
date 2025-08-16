@@ -1,7 +1,7 @@
 class ApplicationPolicy
   attr_reader :user, :record, :params
 
-  def initialize(user, record, params)
+  def initialize(user, record, params = {})
     @user = user
     @record = record
     @params = params

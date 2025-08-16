@@ -1,6 +1,7 @@
 class AureliusPress::DocumentPolicy < ::ApplicationPolicy
   def index?
     # All authenticated users can see the index page
+    # @TODO: I suspect this will have to change if we want a truly public interface.
     user.present?
   end
 

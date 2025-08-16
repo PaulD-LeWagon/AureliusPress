@@ -62,6 +62,7 @@ group :development, :test do
   gem "rubocop-rspec", require: false # RSpec specific RuboCop rules
   # gem "rspec_junit_formatter" # For generating JUnit XML reports from RSpec tests
   gem "annotate", git: "https://github.com/ctran/annotate_models.git"
+  gem "parallel_tests"
 end
 
 group :development do

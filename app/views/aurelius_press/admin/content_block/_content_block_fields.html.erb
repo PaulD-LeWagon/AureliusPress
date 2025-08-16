@@ -1,0 +1,25 @@
+<% content_block_type = local_assigns.key?(:type) ? type : form.object.contentable_type&.underscore %>
+<div class="nested-fields added-by-vanilla-nested">
+  <%= form.hidden_field :id %>
+  <%= form.hidden_field :_destroy, class: "destroy-field" %>
+
+  <div class="field-group">
+    <label>Meta Data</label>
+    <%= form.input :position %>
+    <%= form.input :html_id %>
+    <%= form.input :html_class %>
+    <%= form.input :data_attributes, as: :text %>
+  </div>
+
+  <div class="field-group">
+    <label>Content</label>
+    <% # Render the delegated type %>
+  <% if content_block_type.present? %>
+    <%= form.fields_for :contentable, form.object.contentable || "AureliusPress::ContentBlock::#{content_block_type.classify}".constantize.new do |delegated_form| %>
+      <%= delegated_form.hidden_field :type, value: content_block_type.camelize %>
+      <%= render "aurelius_press/admin/content_block/#{content_block_type.pluralize}/#{content_block_type}_fields", form: delegated_form %>
+    <% end %>
+  <% end %>
+
+  <%= link_to_remove_nested form, link_text: "Remove" %>
+</div>

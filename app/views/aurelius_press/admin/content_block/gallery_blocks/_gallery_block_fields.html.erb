@@ -1,0 +1,3 @@
+<% form.hidden_field :id %>
+<% form.input :layout_type, as: :select, collection: AureliusPress::ContentBlock::GalleryBlock.layout_types.keys %>
+<% form.input :images, as: :file, multiple: true %>

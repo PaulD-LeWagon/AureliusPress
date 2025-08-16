@@ -90,6 +90,69 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
       :description,
       :status,
       :visibility,
+      content_blocks_attributes: [
+        :id,
+        :_destroy,
+        :contentable_id,
+        :contentable_type,
+        :position,
+        :html_id,
+        :html_class,
+        :data_attributes,
+        # Permit contentable attributes to catch all delegated type attributes
+        contentable: [
+          :id,
+          :type, # The type of the delegated class (e.g., RichTextBlock)
+          :content, # from RichTextBlock
+          :image,   # from ImageBlock
+          :caption, # from ImageBlock and GalleryImage
+          :alignment,
+          :link_title,
+          :link_class,
+          :link_target,
+          :link_url,
+          :embed_code, # from VideoEmbedBlock
+          :description,
+          :video_url,
+          :layout_type, # from GalleryBlock
+          gallery_images_attributes: [:id, :_destroy, :image, :caption, :position],
+        ],
+      ],
     )
   end
+
+  # def page_params
+  #   params.require(:aurelius_press_document_page).permit(
+  #     :id,
+  #     :user_id,
+  #     :category_id,
+  #     :type,
+  #     :title,
+  #     :slug,
+  #     :subtitle,
+  #     :description,
+  #     :status,
+  #     :visibility,
+  #     # :tags,
+  #     content_blocks_attributes: [
+  #       :id,
+  #       :_destroy,
+  #       :contentable_id,
+  #       :contentable_type,
+  #       :position,
+  #       :html_id,
+  #       :html_class,
+  #       :data_attributes,
+  #       rich_text_block_attributes: [:id, :_destroy, :content],
+  #       image_block_attributes: [:id, :_destroy, :caption, :alignment, :link_title, :link_class, :link_target, :link_url],
+  #       video_embed_block_attributes: [:id, :_destroy, :embed_code, :description, :video_url],
+  #       gallery_block_attributes: [
+  #         :id,
+  #         :_destroy,
+  #         :layout_type,
+  #         gallery_images_attributes: [:id, :_destroy, :image, :caption, :position],
+  #       ],
+  #     ],
+  #   )
+  # end
 end

@@ -1,0 +1,8 @@
+<% if partial_locals[:type].present? %>
+  <% partial_name = partial_locals[:type].underscore %>
+  <%= render "aurelius_press/admin/content_blocks/#{partial_name}_fields", form: form %>
+<% else %>
+  <% # Existing content blocks have a type on their object %>
+  <% partial_name = form.object.contentable_type.underscore %>
+  <%= render "aurelius_press/admin/content_blocks/#{partial_name}_fields", form: form %>
+<% end %>

@@ -1,0 +1,9 @@
+<%= form.hidden_field :id %>
+<%= form.input :caption %>
+<%= form.input :image, as: :file, label: "Image", hint: "Upload an image for this block" %>
+<%= form.input :alignment, as: :select, collection: AureliusPress::ContentBlock::ImageBlock.alignments.keys %>
+<%= form.input :link_text %>
+<%= form.input :link_title %>
+<%= form.input :link_class %>
+<%= form.input :link_target %>
+<%= form.input :link_url %>
