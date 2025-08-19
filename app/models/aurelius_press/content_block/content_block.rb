@@ -1,3 +1,4 @@
+require Rails.root.join("app/helpers/data_attributes_helper")
 # == Schema Information
 #
 # Table name: aurelius_press_content_blocks
@@ -9,7 +10,7 @@
 #  position         :integer          default(0), not null
 #  html_id          :string
 #  html_class       :string
-#  data_attributes  :jsonb
+#  data_attributes  :jsonb      default({})
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #
@@ -18,6 +19,8 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   # ContentBlock model represents a block of content within a Document
   # It uses Delegated Types to allow different types of content blocks
   # such as RichText, Image, Video, etc.
+
+  include DataAttributesHelper
 
   # ContentBlock types (delegated types)
   # These are the types of content blocks that can be created
@@ -91,15 +94,25 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
     contentable.class
   end
 
-  def contentable_attributes=(attributes)
-    contentable_type = attributes['type']
+  def to_partial_path
+    "aurelius_press/admin/content_block/content_block"
+  end
 
-    # Check if the delegated type is a valid class within our namespace
-    if contentable_type.present? && "AureliusPress::ContentBlock::#{contentable_type}".safe_constantize
-      # Build a new contentable object of the correct type
-      self.contentable = "AureliusPress::ContentBlock::#{contentable_type}".constantize.new(attributes.except('type'))
+  # Custom reader for data_attributes
+  # Converts the jsonb object into a formatted string for the form or html element
+  # e.g. { "data": { "cb": { "value": "one" } } } -> "data-cb-value=\"one\""
+  def data_attributes
+    data_hash_to_string(self[:data_attributes])
+  end
+
+  # Custom writer for data_attributes
+  # Converts the string from the form back into a jsonb object
+  # e.g. "data-cb-value=\"one\"" -> { "data" => { "cb" => { "value" => "one" } } }
+  def data_attributes=(value)
+    if value.is_a?(Hash)
+      self[:data_attributes] = value
+    else
+      self[:data_attributes] = string_to_data_hash(value)
     end
-    # Finally, call the original method to process the rest of the attributes
-    super
   end
 end

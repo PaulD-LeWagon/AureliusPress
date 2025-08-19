@@ -1,0 +1,7 @@
+<div id="<%= gallery_block.id %>" class="gallery-images" data-gallery-layout="<%= gallery_block.layout_type %>">
+  <% gallery_block.images.each_with_index do |image, index| %>
+    <figure id="<%= "gallery-#{gallery_block.id}-image-#{index + 1}" %>">
+        <%= image_tag image if image.present? %>
+    </figure>
+  <% end %>
+</div>

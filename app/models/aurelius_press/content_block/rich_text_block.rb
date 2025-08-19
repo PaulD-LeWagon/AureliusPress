@@ -7,12 +7,20 @@
 #  updated_at :datetime         not null
 #
 class AureliusPress::ContentBlock::RichTextBlock < ApplicationRecord
+
   self.table_name = "aurelius_press_rich_text_blocks"
-  has_one :content_block, as: :contentable, touch: true, dependent: :destroy
+
+  include ::Contentable
+
   has_rich_text :content
 
-  validates :content_block, presence: true
   validate :validate_content_presence
+
+  public
+  
+  def to_partial_path
+    "aurelius_press/admin/content_block/rich_text_blocks/rich_text_block"
+  end
 
   private
 

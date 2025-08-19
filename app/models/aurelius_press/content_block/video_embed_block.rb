@@ -10,16 +10,17 @@
 #  video_url   :string
 #
 class AureliusPress::ContentBlock::VideoEmbedBlock < ApplicationRecord
+
   self.table_name = "aurelius_press_video_embed_blocks"
-  has_one :content_block, as: :contentable, touch: true, dependent: :destroy
-  # Add validations for embed_code format/presence
-  validates :content_block, presence: true
+
+  include ::Contentable
+
+  # Ensure embed_code is present
+  validates :embed_code, presence: true
   # Ensure video_url is present for setting embed_code
   validates :video_url, presence: true
   # Custom validation to ensure the embed_code is a valid YouTube video URL
   validate :video_url_is_valid_youtube_video
-  # Ensure embed_code is present
-  validates :embed_code, presence: true
 
   # Callbacks
   before_validation :set_embed_code
@@ -35,6 +36,11 @@ class AureliusPress::ContentBlock::VideoEmbedBlock < ApplicationRecord
   end
 
   # Instance methods
+  public
+
+  def to_partial_path
+    "aurelius_press/admin/content_block/video_embed_blocks/video_embed_block"
+  end
   # This is a convenience method to get the video ID for a specific
   # VideoEmbedBlock instance.
   def youtube_video_id

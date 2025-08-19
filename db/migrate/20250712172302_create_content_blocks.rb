@@ -6,7 +6,7 @@ class CreateContentBlocks < ActiveRecord::Migration[7.2]
       t.integer :position, null: false, default: 0
       t.string :html_id, null: true
       t.string :html_class
-      t.jsonb :data_attributes, default: {}
+      t.jsonb :data_attributes, default: {}, null: false
 
       t.timestamps
     end

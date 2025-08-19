@@ -44,3 +44,10 @@
   <strong>Category:</strong>
   <%= @page.category.name if @page.category %>
 </p>
+
+<div class="content-blocks">
+  <h3>Content Blocks</h3>
+  <% @page.content_blocks.order(:position).each do |content_block| %>
+    <%= render content_block %>
+  <% end %>
+</div>

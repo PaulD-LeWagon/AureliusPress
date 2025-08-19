@@ -1,0 +1,10 @@
+<figure id="<%= image_block.id %>" class="image-block <%= image_block.alignment %>">
+  <% if image_block.link_url.present? %>
+    <%= link_to image_tag(image_block.image, alt: image_block.caption), image_block.link_url, class: image_block.link_class, target: image_block.link_target, title: image_block.link_title %>
+  <% else %>
+    <%= image_tag image_block.image, alt: image_block.caption if image_block.image.present? %>
+  <% end %>
+  <% if image_block.caption.present? %>
+    <figcaption><%= image_block.caption %></figcaption>
+  <% end %>
+</figure>

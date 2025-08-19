@@ -23,6 +23,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
     if @page.save
       redirect_to aurelius_press_admin_document_page_path(@page), notice: "Page was successfully created."
     else
+      raise
       set_tags_and_categories
       render :new, status: :unprocessable_entity
     end
@@ -34,9 +35,11 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
 
   def update
     authorize @page, :update?, policy_class: AureliusPress::DocumentPolicy
+    raise
     if @page.update(page_params)
       redirect_to aurelius_press_admin_document_page_path(@page), notice: "Page was successfully updated."
     else
+      set_tags_and_categories
       render :edit, status: :unprocessable_entity
     end
   end
@@ -78,6 +81,10 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   #  comments_enabled :boolean          default(FALSE), not null
   #  tags             :text             default([]), not null, array: true
 
+  # app/controllers/aurelius_press/admin/document/pages_controller.rb
+
+  # app/controllers/aurelius_press/admin/document/pages_controller.rb
+
   def page_params
     params.require(:aurelius_press_document_page).permit(
       :id,
@@ -99,14 +106,16 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
         :html_id,
         :html_class,
         :data_attributes,
-        # Permit contentable attributes to catch all delegated type attributes
-        contentable: [
+        # Permit the nested attributes via contentable
+        contentable_attributes: [
+          # :_destroy,
           :id,
-          :type, # The type of the delegated class (e.g., RichTextBlock)
+          :type,
           :content, # from RichTextBlock
           :image,   # from ImageBlock
           :caption, # from ImageBlock and GalleryImage
           :alignment,
+          :link_text,
           :link_title,
           :link_class,
           :link_target,
@@ -120,6 +129,49 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
       ],
     )
   end
+
+  # def page_params
+  #   params.require(:aurelius_press_document_page).permit(
+  #     :id,
+  #     :user_id,
+  #     :category_id,
+  #     :type,
+  #     :title,
+  #     :slug,
+  #     :subtitle,
+  #     :description,
+  #     :status,
+  #     :visibility,
+  #     content_blocks_attributes: [
+  #       :id,
+  #       :_destroy,
+  #       :contentable_id,
+  #       :contentable_type,
+  #       :position,
+  #       :html_id,
+  #       :html_class,
+  #       :data_attributes,
+  #       # Permit contentable attributes to catch all delegated type attributes
+  #       contentable: [
+  #         :id,
+  #         :type, # The type of the delegated class (e.g., RichTextBlock)
+  #         :content, # from RichTextBlock
+  #         :image,   # from ImageBlock
+  #         :caption, # from ImageBlock and GalleryImage
+  #         :alignment,
+  #         :link_title,
+  #         :link_class,
+  #         :link_target,
+  #         :link_url,
+  #         :embed_code, # from VideoEmbedBlock
+  #         :description,
+  #         :video_url,
+  #         :layout_type, # from GalleryBlock
+  #         gallery_images_attributes: [:id, :_destroy, :image, :caption, :position],
+  #       ],
+  #     ],
+  #   )
+  # end
 
   # def page_params
   #   params.require(:aurelius_press_document_page).permit(

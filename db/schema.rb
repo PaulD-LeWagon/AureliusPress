@@ -98,7 +98,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_30_181443) do
     t.integer "position", default: 0, null: false
     t.string "html_id"
     t.string "html_class"
-    t.jsonb "data_attributes", default: {}
+    t.jsonb "data_attributes", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contentable_type", "contentable_id"], name: "idx_on_contentable_type_contentable_id_7a76fe5668"
