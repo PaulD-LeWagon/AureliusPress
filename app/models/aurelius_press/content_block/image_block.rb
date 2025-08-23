@@ -21,6 +21,8 @@ class AureliusPress::ContentBlock::ImageBlock < ApplicationRecord
 
   has_one_attached :image
 
+  validates :image, presence: true, on: :create
+
   enum :alignment, [
     :left,
     :right,

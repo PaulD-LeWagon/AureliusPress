@@ -1,4 +1,10 @@
-<div id="<%= gallery_block.id %>" class="gallery-images" data-gallery-layout="<%= gallery_block.layout_type %>">
+<% cb = gallery_block.content_block %>
+<% position = "data-cb-position=\"#{cb.position}\"" if cb.position.present? %>
+<% html_id = "id=\"#{cb.html_id}\"" if cb.html_id.present? %>
+<% html_class = "class=\"content-block gallery-block #{cb.html_class}\"".strip %>
+<% data_attributes = cb.data_attributes == "{}" ? "" : cb.data_attributes %>
+<% attrs = [html_id, html_class, position, data_attributes].compact.join(" ") %>
+<div <%= raw attrs.strip %> data-gallery-layout="<%= gallery_block.layout_type %>">
   <% gallery_block.images.each_with_index do |image, index| %>
     <figure id="<%= "gallery-#{gallery_block.id}-image-#{index + 1}" %>">
         <%= image_tag image if image.present? %>

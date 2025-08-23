@@ -1,53 +1,58 @@
-<h1>AureliusPress::Admin::Document::Pages#show</h1>
+<div class="container">
+  <h1>AureliusPress::Admin::Document::Pages#show</h1>
 
-<%= link_to "Edit", edit_aurelius_press_admin_document_page_path(@page) %> |
-<%= link_to "Delete", aurelius_press_admin_document_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
-<%= link_to "Back to Pages", aurelius_press_admin_document_pages_path %>
+  <div class="page-links">
+    <%= link_to "Edit", edit_aurelius_press_admin_document_page_path(@page) %> |
+    <%= link_to "Delete", aurelius_press_admin_document_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+    <%= link_to "Back to Pages", aurelius_press_admin_document_pages_path %>
+  </div>
 
 
-<h2><%= @page.title %></h2>
-<% if @page.subtitle.present? %>
-  <h3><%= @page.subtitle %></h3>
-<% end %>
-
-<p>
-  <strong>Author:</strong>
-  <%= @page.user.full_name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @page.description %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @page.status.humanize %>
-</p>
-
-<p>
-  <strong>Visibility:</strong>
-  <%= @page.visibility.humanize %>
-</p>
-
-<p>
-  <strong>Published At:</strong>
-  <%= @page.published_at %>
-</p>
-
-<p>
-  <strong>Tags:</strong>
-  <%= @page.tags.join(", ") %>
-</p>
-
-<p>
-  <strong>Category:</strong>
-  <%= @page.category.name if @page.category %>
-</p>
-
-<div class="content-blocks">
-  <h3>Content Blocks</h3>
-  <% @page.content_blocks.order(:position).each do |content_block| %>
-    <%= render content_block %>
+  <h2><%= @page.title %></h2>
+  <% if @page.subtitle.present? %>
+    <h3><%= @page.subtitle %></h3>
   <% end %>
+
+  <p>
+    <strong>Author:</strong>
+    <%= @page.user.full_name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= @page.description %>
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+    <%= @page.status.humanize %>
+  </p>
+
+  <p>
+    <strong>Visibility:</strong>
+    <%= @page.visibility.humanize %>
+  </p>
+
+  <p>
+    <strong>Published At:</strong>
+    <%= @page.published_at %>
+  </p>
+
+  <p>
+    <strong>Tags:</strong>
+    <%= @page.tags.join(", ") %>
+  </p>
+
+  <p>
+    <strong>Category:</strong>
+    <%= @page.category.name if @page.category %>
+  </p>
+
+  <div class="content-blocks">
+    <h3>Content Blocks</h3>
+    <% @page.content_blocks.order(:position).each do |content_block| %>
+      <%= render content_block %>
+    <% end %>
+  </div>
+
 </div>

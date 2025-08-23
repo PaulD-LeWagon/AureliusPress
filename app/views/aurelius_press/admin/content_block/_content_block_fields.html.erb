@@ -1,31 +1,34 @@
-<% initial_type = local_assigns.key?(:type) ? type : form.object.contentable_type
-  if initial_type.present?
-    # Correctly handle both '::' and '/' in the class name
-    class_name_underscored = initial_type.underscore.split(/::|\//).last
-    class_name_namespaced = initial_type.classify.include?("::") ? initial_type.classify : "AureliusPress::ContentBlock::#{initial_type.classify}" %>
-  <div class="nested-fields added-by-vanilla-nested">
+<% block_name = form.object.contentable_type.underscore.split("/").last.humanize.titleize %>
+<div class="nested-form-wrapper content-block-fields content-block-<%= block_name.parameterize %>-fields" data-nested-forms-target="contentBlock">
+  <h3><%= block_name %></h3>
+  <%= form.hidden_field :id %>
+  <%= form.hidden_field :contentable_type %>
+  <%= form.hidden_field :_destroy %>
 
-    <h3><%= class_name_underscored.humanize.titleize %></h3>
-
-    <%= form.hidden_field :id %>
-    <%= form.hidden_field :contentable_type, value: class_name_namespaced %>
-    <%= form.hidden_field :_destroy, class: "destroy-field" %>
-
-    <div class="field-group">
-      <label>Meta Data</label>
-      <%= form.input :position %>
-      <%= form.input :html_id %>
-      <%= form.input :html_class %>
-      <%= form.input :data_attributes, as: :text %>
+  <div class="grid row field-group">
+    <div class="column">
+      <%= form.input :position, input_html: { class: "cb-position", data: { nested_forms_target: "position" } }, label: "Block Position (ltr and ttb)", error: "Position must be unique." %>
     </div>
-
-    <div class="field-group">
-      <label>Content</label>
-      <%= form.fields_for :contentable, form.object.contentable || class_name_namespaced.constantize.new do |delegated_form| %>
-        <%= render "aurelius_press/admin/content_block/#{class_name_underscored.pluralize}/#{class_name_underscored}_fields", form: delegated_form %>
-      <% end %>
+    <div class="column">
+      <%= form.input :html_id, label: "HTML ID", input_html: { placeholder: "e.g. my-custom-id", hint: "Add a custom ID." } %>
     </div>
-
-    <%= link_to_remove_nested form, link_text: "Remove" %>
+    <div class="column">
+      <%= form.input :html_class, label: "HTML Class", input_html: { placeholder: "e.g. my-custom-class", hint: "Add a custom class." } %>
+    </div>
   </div>
-<% end %>
+
+  <div class="grid row field-group">
+    <div class="column">
+      <%= form.input :data_attributes, as: :text, label: "Data Attributes", input_html: { placeholder: "e.g. data-attribute-one=\"the value\" data-attribute-two=\"another value\"", hint: "Add your custom data attributes." } %>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <%# This is the correct way to handle the nested contentable object %>
+    <%= form.simple_fields_for :contentable, form.object.contentable || form.object.build_contentable do |delegated_form| %>
+      <%= render "aurelius_press/admin/content_block/#{form.object.contentable_type.underscore.split('/').last.pluralize}/#{form.object.contentable_type.underscore.split('/').last}_fields", form: delegated_form %>
+    <% end %>
+  </div>
+
+  <button type="button" data-action="nested-forms#remove">Remove</button>
+</div>

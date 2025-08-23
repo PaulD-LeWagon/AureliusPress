@@ -1,16 +1,19 @@
-<% if video_embed_block.youtube_video_id.present? %>
-  <div id="video-embed-<%= video_embed_block.id %>" class="video-embed-container">
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/<%= video_embed_block.youtube_video_id %>?rel=0"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>
-    <% if video_embed_block.description.present? %>
-      <figcaption><%= video_embed_block.description %></figcaption>
-    <% end %>
-  </div>
-  <% else %>
-    <% raise "No video ID available for this block." %>
+<% cb = video_embed_block.content_block %>
+<% position = "data-cb-position=\"#{cb.position}\"" if cb.position.present? %>
+<% html_id = "id=\"#{cb.html_id}\"" if cb.html_id.present? %>
+<% html_class = "class=\"content-block video-embed-block #{cb.html_class}\"".strip %>
+<% data_attributes = cb.data_attributes == "{}" ? "" : cb.data_attributes %>
+<% attrs = [html_id, html_class, position, data_attributes].compact.join(" ") %>
+<div <%= raw attrs.strip %>>
+  <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/<%= video_embed_block.youtube_video_id %>?rel=0"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+  <% if video_embed_block.description.present? %>
+    <figcaption><%= video_embed_block.description %></figcaption>
   <% end %>
+</div>

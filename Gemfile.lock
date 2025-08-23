@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/arielj/vanilla-nested.git
-  revision: cab8f390dc99eed933952f6fcc14603bad30c6a8
-  branch: main
-  specs:
-    vanilla_nested (1.7.0)
-
-GIT
   remote: https://github.com/ctran/annotate_models.git
   revision: 5d01c4171990c4fe7b9b0977b05ce14a98209e53
   specs:
@@ -512,7 +505,6 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
-  vanilla_nested!
   view_component
   web-console
   webrick

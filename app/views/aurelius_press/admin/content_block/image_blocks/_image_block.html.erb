@@ -1,4 +1,10 @@
-<figure id="<%= image_block.id %>" class="image-block <%= image_block.alignment %>">
+<% cb = image_block.content_block %>
+<% position = "data-cb-position=\"#{cb.position}\"" if cb.position.present? %>
+<% html_id = "id=\"#{cb.html_id}\"" if cb.html_id.present? %>
+<% html_class = "class=\"content-block image-block #{image_block.alignment} #{cb.html_class}\"".strip %>
+<% data_attributes = cb.data_attributes == "{}" ? "" : cb.data_attributes %>
+<% attrs = [html_id, html_class, position, data_attributes].compact.join(" ") %>
+<figure <%= raw attrs.strip %>>
   <% if image_block.link_url.present? %>
     <%= link_to image_tag(image_block.image, alt: image_block.caption), image_block.link_url, class: image_block.link_class, target: image_block.link_target, title: image_block.link_title %>
   <% else %>

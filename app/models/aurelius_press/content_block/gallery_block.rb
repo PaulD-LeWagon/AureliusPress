@@ -21,7 +21,7 @@ class AureliusPress::ContentBlock::GalleryBlock < ApplicationRecord
   ], default: :carousel
 
   # Additional validations can be added here
-  validate :validate_images_presence
+  validate :validate_images_presence, on: :create
 
   public
 

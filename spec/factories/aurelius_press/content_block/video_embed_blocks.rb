@@ -18,22 +18,23 @@ FactoryBot.define do
     # you might temporarily set it or leave it out.
     embed_code { nil } # This will be set by the before_validation callback if left unset
     # Valid YouTube video URL for testing
-    video_url { "https://www.youtube.com/watch?v=VIDEO_ID123" }
+    video_url { "https://www.youtube.com/watch?v=#{%w[jOa7SN232EM 0ir1qkPXPVM 7xWsXTXsbtI vTAOh1ARBOI].sample}" }
     description { Faker::Lorem.sentence(word_count: 10) }
 
-    trait :with_embed_code do
-      embed_code { "VIDEO_ID123" }
+    trait :with_embed_code do                                   
+      embed_code { "0ir1qkPXPVM" }
     end
 
     trait :with_short_youtube_url do
-      video_url { "https://youtu.be/VIDEO_ID234" }
+      video_url { "https://youtu.be/7xWsXTXsbtI" }
     end
 
     trait :with_youtube_list_url do
-      video_url { "https://www.youtube.com/watch?v=VIDEO_ID345&list=PL12345" }
+      video_url { "https://www.youtube.com/watch?v=jOa7SN232EM" }
     end
 
     trait :with_vimeo_url do
+      # This will fail as the Vimeo URL is not a valid YouTube URL
       video_url { "https://vimeo.com/VIDEO_ID456" }
     end
 
@@ -48,9 +49,9 @@ FactoryBot.define do
     end
 
     trait :with_belt_and_braces do
-      video_url { "https://www.youtube.com/watch?v=VIDEO_ID007" }
-      embed_code { "VIDEO_ID007" }
-      description { Faker::Lorem.sentence }
+      video_url { "https://youtu.be/vTAOh1ARBOI?list=RDGMEMQ1dJ7wXfLlqCjwV0xfSNbAVM0ir1qkPXPVM" }
+      embed_code { "vTAOh1ARBOI" }
+      description { "Bebe Rexha - Sacrifice (Official Music Video)" }
     end
   end
 end

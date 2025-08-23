@@ -1,6 +1,6 @@
 class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::ApplicationController
   before_action :set_page, only: [:show, :edit, :update, :destroy]
-  before_action :set_tags_and_categories, only: [:new, :edit]
+  before_action :set_tags_and_categories, only: [:show, :new, :edit]
 
   def index
     # The policy scope will filter the documents based on the current user's role.
@@ -35,10 +35,11 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
 
   def update
     authorize @page, :update?, policy_class: AureliusPress::DocumentPolicy
-    raise
+    # raise
     if @page.update(page_params)
       redirect_to aurelius_press_admin_document_page_path(@page), notice: "Page was successfully updated."
     else
+      raise "Validation errors: #{@page.errors.full_messages}"
       set_tags_and_categories
       render :edit, status: :unprocessable_entity
     end
@@ -57,7 +58,8 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   end
 
   def set_tags_and_categories
-    @tags = AureliusPress::Taxonomy::Tag.all
+    # AureliusPress::Taxonomy::Tag.all
+    @tags = "not, yet, implemented"
     @categories = AureliusPress::Taxonomy::Category.all
   end
 
@@ -97,6 +99,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
       :description,
       :status,
       :visibility,
+      :published_at,
       content_blocks_attributes: [
         :id,
         :_destroy,
@@ -108,7 +111,6 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
         :data_attributes,
         # Permit the nested attributes via contentable
         contentable_attributes: [
-          # :_destroy,
           :id,
           :type,
           :content, # from RichTextBlock
@@ -124,7 +126,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
           :description,
           :video_url,
           :layout_type, # from GalleryBlock
-          gallery_images_attributes: [:id, :_destroy, :image, :caption, :position],
+          images: []
         ],
       ],
     )
