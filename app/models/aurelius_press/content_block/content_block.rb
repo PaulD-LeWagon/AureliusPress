@@ -1,3 +1,4 @@
+require Rails.root.join("app/helpers/data_attributes_helper")
 # == Schema Information
 #
 # Table name: aurelius_press_content_blocks
@@ -9,7 +10,7 @@
 #  position         :integer          default(0), not null
 #  html_id          :string
 #  html_class       :string
-#  data_attributes  :jsonb
+#  data_attributes  :jsonb      default({})
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #
@@ -18,6 +19,8 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   # ContentBlock model represents a block of content within a Document
   # It uses Delegated Types to allow different types of content blocks
   # such as RichText, Image, Video, etc.
+
+  include DataAttributesHelper
 
   # ContentBlock types (delegated types)
   # These are the types of content blocks that can be created
@@ -50,6 +53,7 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
 
   # The key line for Delegated Types: defines the types it can "delegate" to
   delegated_type :contentable, types: self.get_namespaced_types, dependent: :destroy, inverse_of: :content_block
+  accepts_nested_attributes_for :contentable, allow_destroy: true, reject_if: :all_blank
 
   # Polymorphic associations for comments, likes
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
@@ -62,7 +66,6 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   # Add uniqueness validation for position within a document:
   validates :position,
     presence: true,
-    uniqueness: { scope: :document_id },
     numericality: {
       only_integer: true,
       greater_than_or_equal_to: 0,
@@ -80,6 +83,8 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   # Add default_scope { order(:position) } for ordered retrieval
   default_scope { order(:position) }
 
+  before_validation :set_html_id_to_nil_if_blank
+
   # Instance method to return the contentable type name
   def contentable_type_name
     contentable.class.name.demodulize.underscore
@@ -88,5 +93,37 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   # Instance method to return the contentable type class
   def contentable_type_class
     contentable.class
+  end
+
+  def to_partial_path
+    "aurelius_press/admin/content_block/content_block"
+  end
+
+  # Custom reader for data_attributes
+  # Converts the jsonb object into a formatted string for the form or html element
+  # e.g. { "data": { "cb": { "value": "one" } } } -> "data-cb-value=\"one\""
+  def data_attributes
+    if self[:data_attributes] == {} || self[:data_attributes] == { "data" => {} }
+      ""
+    else
+      data_hash_to_string(self[:data_attributes])
+    end
+  end
+
+  # Custom writer for data_attributes
+  # Converts the string from the form back into a jsonb object
+  # e.g. "data-cb-value=\"one\"" -> { "data" => { "cb" => { "value" => "one" } } }
+  def data_attributes=(value)
+    if value.is_a?(Hash)
+      self[:data_attributes] = value
+    else
+      self[:data_attributes] = string_to_data_hash(value)
+    end
+  end
+
+  private
+
+  def set_html_id_to_nil_if_blank
+    self.html_id = nil if html_id.blank?
   end
 end

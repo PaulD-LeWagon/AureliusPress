@@ -88,6 +88,7 @@ end
 RSpec.configure do |config|
   config.include ActionTextHelper
   config.include DebugHelper, type: :feature
+  config.include Capybara::DSL, type: :feature
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.before(:each, type: :feature) do

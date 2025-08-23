@@ -1,0 +1,20 @@
+<div class="image-block-fields" data-controller="image-blocks">
+  <%= form.hidden_field :id %>
+  <%= form.input :caption %>
+  <%= form.input :alignment, as: :select, collection: AureliusPress::ContentBlock::ImageBlock.alignments.keys %>
+  <% if form.object.image.attached? %>
+    <div class="current-image mb-3">
+      <h5>Current Image</h5>
+      <%= image_tag form.object.image, width: 200 %>
+    </div>
+  <% end %>
+  <%= form.input :image, as: :file, label: "Upload an Image" %>
+  <button class="my-3 button-secondary" data-action="click->image-blocks#toggleLinkFields">Link Options</button>
+  <div class="link-fields hide">
+    <%= form.input :link_text %>
+    <%= form.input :link_title %>
+    <%= form.input :link_class %>
+    <%= form.input :link_target %>
+    <%= form.input :link_url %>
+  </div>
+</div>

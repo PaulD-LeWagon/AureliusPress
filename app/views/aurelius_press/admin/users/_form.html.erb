@@ -32,7 +32,7 @@
 
     <div class="form-field-group">
       <%= f.label :role %>
-      <% allowed_roles = AureliusPress::User.roles.map { |name, value| [name.capitalize, name] if value < AureliusPress::User.roles[current_user.role] }.compact %>
+      <% allowed_roles = AureliusPress::User.roles.map { |name, value| [name.humanize, name] if value < AureliusPress::User.roles[current_user.role] }.compact %>
       <%= f.select :role, options_for_select(allowed_roles, selected: f.object.role), {}, { class: "form-control", readonly: AureliusPress::User.roles[current_user.role] < AureliusPress::User.roles[:admin] } %>
     </div>
 

@@ -60,7 +60,6 @@ class AureliusPress::Document::Document < ApplicationRecord
   NAMESPACED_TYPES = TYPES.map { |type| "AureliusPress::Document::#{type}" }
   # Commentable types for polymorphic association
   NAMESPACED_COMMENTABLE_TYPES = (TYPES - %w[Page]).map { |type| "AureliusPress::Document::#{type}" }
-
   # Enums
   enum :status, [:draft, :published, :scheduled, :archived, :in_review, :trashed]
   enum :visibility, [:private_to_owner, :private_to_group, :private_to_app_users, :public_to_www]
@@ -82,6 +81,7 @@ class AureliusPress::Document::Document < ApplicationRecord
   # E.g., document.content_blocks.image_blocks will return only image blocks
   # document.content_blocks.rich_text_blocks will return only rich text blocks
   has_many :content_blocks, dependent: :destroy, inverse_of: :document, class_name: "AureliusPress::ContentBlock::ContentBlock"
+  accepts_nested_attributes_for :content_blocks, reject_if: :all_blank, allow_destroy: true
   # A Document can have many comments (and replies) if they are enabled
   # This is a polymorphic association, allowing comments on different document
   # types.

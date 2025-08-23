@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_30_181443) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -98,12 +98,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_30_181443) do
     t.integer "position", default: 0, null: false
     t.string "html_id"
     t.string "html_class"
-    t.jsonb "data_attributes", default: {}
+    t.jsonb "data_attributes", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contentable_type", "contentable_id"], name: "idx_on_contentable_type_contentable_id_7a76fe5668"
     t.index ["contentable_type", "contentable_id"], name: "index_content_blocks_on_contentable"
-    t.index ["document_id", "html_id"], name: "idx_content_blocks_on_document_id_html_id", unique: true, where: "(html_id IS NOT NULL)"
+    t.index ["document_id", "html_id"], name: "idx_aurelius_press_content_blocks_on_document_id_html_id", unique: true, where: "((html_id IS NOT NULL) AND ((html_id)::text <> ''::text))"
     t.index ["document_id"], name: "index_aurelius_press_content_blocks_on_document_id"
   end
 

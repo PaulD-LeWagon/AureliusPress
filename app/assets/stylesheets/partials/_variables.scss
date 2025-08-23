@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $primary-color: #007bff;
 $inverse-color: #ff8000;
 $light-primary-color: #53affb;
@@ -45,3 +47,16 @@ $spacing-double: $spacing-base * 2;
 
 $tile-card-width: 17rem;
 $tile-card-height: $tile-card-width * 0.667; // 2/3 aspect ratio
+
+// // Create an empty map to hold the spacer values
+// $spacers: ();
+// // Loop to populate the map with key-value pairs
+// @for $i from 1 through 8 {
+//   $spacers: map-merge($spacers, (#{$i}: $i * 0.25rem));
+// }
+
+// .my-element {
+//   // Use map-get to retrieve a value from the map
+//   margin-top: map-get($spacers, 3); // Retrieves 0.75rem
+//   padding: map-get($spacers, 5);    // Retrieves 1.25rem
+// }

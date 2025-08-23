@@ -92,6 +92,10 @@ class AureliusPress::User < ApplicationRecord
     "#{first_name} #{last_name}".strip
   end
 
+  def to_s
+    full_name
+  end
+
   private
 
   def set_username_from_email

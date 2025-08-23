@@ -9,8 +9,11 @@
 #
 class AureliusPress::ContentBlock::GalleryBlock < ApplicationRecord
   self.table_name = "aurelius_press_gallery_blocks"
-  has_one :content_block, as: :contentable, touch: true, dependent: :destroy
+
+  include ::Contentable
+
   has_many_attached :images
+
   enum :layout_type, [
     :grid,
     :carousel,
@@ -18,7 +21,13 @@ class AureliusPress::ContentBlock::GalleryBlock < ApplicationRecord
   ], default: :carousel
 
   # Additional validations can be added here
-  validate :validate_images_presence
+  validate :validate_images_presence, on: :create
+
+  public
+
+  def to_partial_path
+    "aurelius_press/admin/content_block/gallery_blocks/gallery_block"
+  end
 
   private
 

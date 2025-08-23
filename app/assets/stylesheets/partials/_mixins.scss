@@ -1,1 +1,39 @@
-// Todo...
+@mixin spacing-utilities($prefix, $property, $base: 0.25rem, $max: 8) {
+  @for $i from 1 through $max {
+    $value: ($i * $base);
+
+    // All sides
+    .#{$prefix}-#{$i} {
+      #{$property}: $value !important;
+    }
+    // Top and bottom
+    .#{$prefix}y-#{$i} {
+      #{$property}-top: $value !important;
+      #{$property}-bottom: $value !important;
+    }
+    // Left and right
+    .#{$prefix}x-#{$i} {
+      #{$property}-left: $value !important;
+      #{$property}-right: $value !important;
+    }
+    // Top
+    .#{$prefix}t-#{$i} {
+      #{$property}-top: $value !important;
+    }
+    // Right
+    .#{$prefix}r-#{$i} {
+      #{$property}-right: $value !important;
+    }
+    // Bottom
+    .#{$prefix}b-#{$i} {
+      #{$property}-bottom: $value !important;
+    }
+    // Left
+    .#{$prefix}l-#{$i} {
+      #{$property}-left: $value !important;
+    }
+  }
+}
+// Generate the margin and padding classes
+@include spacing-utilities('m', 'margin', 0.25rem, 10);
+@include spacing-utilities('p', 'padding', 0.25rem, 10);

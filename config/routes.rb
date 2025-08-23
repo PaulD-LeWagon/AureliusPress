@@ -29,27 +29,34 @@ Rails.application.routes.draw do
       # All CRUD actions (index, show, new, create, edit, update, destroy)
       namespace :document do
         resources :atomic_blog_posts, path: "atomic-blog-posts" do
-          resources :comments
-          resources :notes do
-            resources :comments
+          resources :comments, only: [:create, :update, :destroy]
+          resources :notes, only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
           end
         end
         resources :blog_posts, path: "blog-posts" do
-          resources :comments
-          resources :notes do
-            resources :comments
+          resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
+            resources :notes, only: [:create, :update, :destroy] do
+              resources :comments, only: [:create, :update, :destroy]
+            end
+          end
+          resources :comments, only: [:create, :update, :destroy]
+          resources :notes, only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
           end
         end
         resources :pages do
-          resources :comments
-          resources :notes do
-            resources :comments
+          resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
+            resources :notes, only: [:create, :update, :destroy] do
+              resources :comments, only: [:create, :update, :destroy]
+            end
+          end
+          resources :notes, only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
           end
         end
-      end
-      namespace :fragment do
-        resources :notes
-        resources :comments
       end
       namespace :catalogue do
         resources :authors
@@ -65,10 +72,6 @@ Rails.application.routes.draw do
         resources :groups
         # resources :group_memberships
       end
-      # namespace :authorship do
-      # resources :roles
-      # resources :permissions
-      # end
       resources :users
     end
     # --- Public-facing (Non-Admin) Routes ---
@@ -84,24 +87,36 @@ Rails.application.routes.draw do
     # Define routes for users
     # resources :users, only: [:show, :edit, :update]
     # Concrete Document Routes
-    # Define routes for Pages
-    resources :pages, module: "document" do
-      resources :notes do # Notes on Pages (pages/:page_id/notes)
-        resources :comments # Comments on Notes (pages/:page_id/notes/:note_id/comments)
-      end
-    end
     # Define routes for Atomic Blog Posts
     resources :atomic_blog_posts, path: "atomic-blog-posts", module: "document" do
-      resources :comments # Comments on Atomic Blog Posts (atomic_blog_posts/:atomic_blog_post_id/comments)
-      resources :notes do # Notes on Atomic Blog Posts (atomic_blog_posts/:atomic_blog_post_id/notes)
-        resources :comments # Comments on Notes (atomic_blog_posts/:atomic_blog_post_id/notes/:note_id/comments)
+      resources :comments, only: [:create, :update, :destroy]
+      resources :notes, only: [:create, :update, :destroy] do
+        resources :comments, only: [:create, :update, :destroy]
       end
     end
     # Define routes for Blog Posts
     resources :blog_posts, path: "blog-posts", module: "document" do
-      resources :comments # Comments on Blog Posts (blog_posts/:blog_post_id/comments)
-      resources :notes do # Notes on Blog Posts (blog_posts/:blog_post_id/notes)
-        resources :comments # Comments on Notes (blog_posts/:blog_post_id/notes/:note_id/comments)
+      resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
+        resources :comments, only: [:create, :update, :destroy]
+        resources :notes, only: [:create, :update, :destroy] do
+          resources :comments, only: [:create, :update, :destroy]
+        end
+      end
+      resources :comments, only: [:create, :update, :destroy]
+      resources :notes, only: [:create, :update, :destroy] do
+        resources :comments, only: [:create, :update, :destroy]
+      end
+    end
+    # Define routes for Pages
+    resources :pages, module: "document" do
+      resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
+        resources :comments, only: [:create, :update, :destroy]
+        resources :notes, only: [:create, :update, :destroy] do
+          resources :comments, only: [:create, :update, :destroy]
+        end
+      end
+      resources :notes, only: [:create, :update, :destroy] do
+        resources :comments, only: [:create, :update, :destroy]
       end
     end
   end

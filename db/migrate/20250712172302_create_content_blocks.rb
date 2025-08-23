@@ -6,13 +6,13 @@ class CreateContentBlocks < ActiveRecord::Migration[7.2]
       t.integer :position, null: false, default: 0
       t.string :html_id, null: true
       t.string :html_class
-      t.jsonb :data_attributes, default: {}
+      t.jsonb :data_attributes, default: {}, null: false
 
       t.timestamps
     end
     add_index :content_blocks, [:contentable_type, :contentable_id]
     add_index :content_blocks, [:document_id, :html_id], unique: true,
-                                                         name: "idx_content_blocks_on_document_id_html_id", # Recommended custom name
+                                                         name: "idx_content_blocks_on_document_id_html_id",
                                                          where: "html_id IS NOT NULL"
   end
 end

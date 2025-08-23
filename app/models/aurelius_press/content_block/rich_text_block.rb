@@ -7,16 +7,24 @@
 #  updated_at :datetime         not null
 #
 class AureliusPress::ContentBlock::RichTextBlock < ApplicationRecord
-  self.table_name = "aurelius_press_rich_text_blocks"
-  has_one :content_block, as: :contentable, touch: true, dependent: :destroy
-  has_rich_text :body
 
-  validates :content_block, presence: true
-  validate :validate_body_presence
+  self.table_name = "aurelius_press_rich_text_blocks"
+
+  include ::Contentable
+
+  has_rich_text :content
+
+  validate :validate_content_presence
+
+  public
+  
+  def to_partial_path
+    "aurelius_press/admin/content_block/rich_text_blocks/rich_text_block"
+  end
 
   private
 
-  def validate_body_presence
-    errors.add(:body, "can't be blank") if body.blank?
+  def validate_content_presence
+    errors.add(:content, "can't be blank") if content.blank?
   end
 end

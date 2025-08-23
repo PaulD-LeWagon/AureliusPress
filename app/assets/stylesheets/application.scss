@@ -16,9 +16,10 @@
 @use "pico/pico.colors.min.css" as *;
 @use "pico/pico.min.css" as *;
 @use "partials/variables" as *;
+@use "partials/mixins" as *;
 
-// @use "partials/mixins";
-// @use "partials/pico-page-form";
+@use "partials/buttons" as *;
+@use "partials/pico-page-form" as *;
 // @use "view_components/card";
 
 :root {
@@ -41,20 +42,50 @@
   padding: 0;
   box-sizing: border-box;
   a {
-    // color: var(--link-color);
+    color: $light-primary-color;
     text-decoration: none;
     &:hover {
-      // color: var(--link-hover-color);
-      text-decoration: underline;
+      color: $dark-primary-color;
     }
   }
 }
 
-trix-editor {
-  border: 1px solid var(--border-color);
+.content-block {
+  &::before {
+    content: "Content Block";
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    background-color: var(--primary-color);
+    padding: 1rem;
+  }
+  border: 3px solid white;
   border-radius: var(--border-radius-base);
-  padding: 10px;
+  padding: 1rem;
+  background-color: var(--background-color);
   color: white;
+}
+
+.content-block-fields {
+  margin-top: $spacing-base * 3;
+  border-top: solid 1px white;
+  padding-top: $spacing-base * 2;
+}
+
+.image-block-fields {
+  .file {
+    margin: 0;
+  }
+}
+
+.page-links {
+  margin: 1rem 0;
+  a {
+    padding: 0;
+    margin-left: 0;
+    margin-right: $spacing-half;
+  }
 }
 
 body,
@@ -81,31 +112,31 @@ body,
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 80%;
   margin: 0 10%;
-  padding: 0 15px;
-  &.section {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 20px;
-  }
-  table {
-    width: auto;
-    border-collapse: collapse;
-    th,
-    td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-    th {
-      background-color: var(--primary-color);
-      color: white;
-    }
-    tr:hover {
-      background-color: var(--secondary-color);
-    }
-  }
+  padding: 0 $spacing-one-and-a-half;
+  // &.section {
+  //   padding: 20px 0;
+  //   border-bottom: 1px solid var(--border-color);
+  //   margin-bottom: 20px;
+  // }
+  // table {
+  //   width: auto;
+  //   border-collapse: collapse;
+  //   th,
+  //   td {
+  //     padding: 10px;
+  //     text-align: left;
+  //     border-bottom: 1px solid var(--border-color);
+  //   }
+  //   th {
+  //     background-color: var(--primary-color);
+  //     color: white;
+  //   }
+  //   tr:hover {
+  //     background-color: var(--secondary-color);
+  //   }
+  // }
 }
 
 div.hero-banner {

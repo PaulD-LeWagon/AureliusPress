@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/arielj/vanilla-nested.git
-  revision: cab8f390dc99eed933952f6fcc14603bad30c6a8
-  branch: main
-  specs:
-    vanilla_nested (1.7.0)
-
-GIT
   remote: https://github.com/ctran/annotate_models.git
   revision: 5d01c4171990c4fe7b9b0977b05ce14a98209e53
   specs:
@@ -255,6 +248,8 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.27.0)
+    parallel_tests (5.4.0)
+      parallel
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
@@ -488,6 +483,7 @@ DEPENDENCIES
   image_processing (~> 1.14)
   importmap-rails
   jbuilder
+  parallel_tests
   pg (~> 1.1)
   pry-byebug
   pry-rails
@@ -509,7 +505,6 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
-  vanilla_nested!
   view_component
   web-console
   webrick

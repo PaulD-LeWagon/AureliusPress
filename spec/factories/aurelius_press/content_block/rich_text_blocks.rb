@@ -14,17 +14,17 @@ FactoryBot.define do
     # :attached_to_a, document_type: :blog_post || document_obj: create(:blog_post)
     #
     association :content_block, factory: :aurelius_press_content_block_content_block, strategy: :build
-    # Double set the body attribute for good measure
-    body {
+    # Double set the content attribute for good measure
+    content {
       ActionText::RichText.new(
         body: Faker::Lorem.paragraphs(
           number: 2,
         ).join("\n\n"),
       )
     }
-    # Action Text content for the body
+    # Action Text content for the content attribute
     after(:build) do |block|
-      block.body = ActionText::RichText.new(
+      block.content = ActionText::RichText.new(
         body: Faker::Lorem
           .paragraphs(number: 2)
           .join("\n\n"),

@@ -28,4 +28,25 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      aurelius_press/user:
+        roles:
+          reader: Reader
+          user: User
+          moderator: Moderator
+          admin: Admin
+          superuser: Superuser
+      aurelius_press/document/page:
+        statuses:
+          draft: Draft
+          published: Published
+          scheduled: Scheduled
+          archived: Archived
+          in_review: In Review
+          trashed: Trashed
+        visibilities:
+          private_to_owner: Private to Owner
+          private_to_group: Publish to Group
+          private_to_app_users: Publish to Platform
+          public_to_www: Publish to Web
