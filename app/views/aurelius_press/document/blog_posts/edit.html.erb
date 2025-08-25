@@ -1,6 +1,8 @@
-<h1>AureliusPress::Document::BlogPosts#edit</h1>
-<h2>Edit Blog Post</h2>
-<%= render "aurelius_press/admin/document/blog_posts/form",
-           blog_post: @blog_post,
+<div class="container">
+  <h1>AureliusPress::Document::BlogPosts#edit</h1>
+  <h2>Edit Post</h2>
+  <%= render "aurelius_press/admin/document/blog_posts/form",
+             blog_post: @blog_post,
            categories: @categories,
            tags: @tags %>
+</div>

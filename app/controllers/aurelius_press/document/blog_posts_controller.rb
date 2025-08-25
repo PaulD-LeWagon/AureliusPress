@@ -21,7 +21,7 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
     authorize @blog_post, :create?, policy_class: AureliusPress::DocumentPolicy
 
     if @blog_post.save
-      redirect_to aurelius_press_blog_post_path(@blog_post), notice: "Blog post was successfully created."
+      redirect_to aurelius_press_blog_post_path(@blog_post), notice: action_was_successfully(:created)
     else
       set_tags_and_categories
       render :new, status: :unprocessable_entity
@@ -36,7 +36,7 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
     authorize @blog_post, :update?, policy_class: AureliusPress::DocumentPolicy
 
     if @blog_post.update(blog_post_params)
-      redirect_to aurelius_press_blog_post_path(@blog_post), notice: "Blog post was successfully updated."
+      redirect_to aurelius_press_blog_post_path(@blog_post), notice: action_was_successfully(:updated)
     else
       set_tags_and_categories
       render :edit, status: :unprocessable_entity
@@ -46,7 +46,7 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
   def destroy
     authorize @blog_post, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @blog_post.destroy
-    redirect_to aurelius_press_blog_posts_path, notice: "Blog post was successfully deleted."
+    redirect_to aurelius_press_blog_posts_path, notice: action_was_successfully(:deleted)
   end
 
   private
@@ -97,5 +97,9 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
   def set_tags_and_categories
     @tags = AureliusPress::Taxonomy::Tag.all
     @categories = AureliusPress::Taxonomy::Category.all
+  end
+
+  def action_was_successfully(action)
+    "Blog post #{action} successfully."
   end
 end

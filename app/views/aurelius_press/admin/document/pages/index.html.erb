@@ -1,10 +1,11 @@
 <div class="container">
   <h1>AureliusPress::Admin::Document::Pages<b><i>#index</i></b></h1>
-  <p>Find me in app/views/aurelius_press/admin/document/pages/index.html.erb</p>
-
-  <%= link_to "New Page", new_aurelius_press_admin_document_page_path %>
 
   <h2>View All Pages</h2>
+
+  <div class="page-links">
+    <%= link_to "Add New Page", new_aurelius_press_admin_document_page_path %>
+  </div>
 
   <% if @pages.any? %>
     <table>

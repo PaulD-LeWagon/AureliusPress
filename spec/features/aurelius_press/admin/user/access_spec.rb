@@ -24,9 +24,6 @@ RSpec.feature "Admin User Management Access" do
         visit aurelius_press_admin_users_path
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
-        accept_confirm do
-          click_link "Logout"
-        end
       end
     end
 
@@ -36,9 +33,6 @@ RSpec.feature "Admin User Management Access" do
         visit new_aurelius_press_admin_user_path
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
-        accept_confirm do
-          click_link "Logout"
-        end
       end
     end
 
@@ -60,9 +54,6 @@ RSpec.feature "Admin User Management Access" do
         visit aurelius_press_admin_user_path(create(:aurelius_press_user))
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
-        accept_confirm do
-          click_link "Logout"
-        end
       end
     end
   end
@@ -79,11 +70,11 @@ RSpec.feature "Admin User Management Access" do
     scenario "can only see non-admin users on the dashboard" do
       another_admin = create(:aurelius_press_admin_user)
       visit aurelius_press_admin_users_path
-      # The @admin user should see @readers, users and moderators only
+      # The admin user should see readers, users and moderators only
       expect(page).to have_content(@reader.email)
       expect(page).to have_content(@user.email)
       expect(page).to have_content(@moderator.email)
-      # The @admin user should NOT see another @admin or a @superuser
+      # The admin user should NOT see another admin or a superuser
       expect(page).not_to have_content(another_admin.email)
       expect(page).not_to have_content(@superuser.email)
     end
@@ -131,7 +122,7 @@ RSpec.feature "Admin User Management Access" do
       expect(@user.reload.role).to eq("moderator")
     end
 
-    scenario "cannot upgrade a user's role to that of @admin or higher (only superusers can do this)" do
+    scenario "cannot upgrade a user's role to that of admin or higher (only superusers can do this)" do
       visit edit_aurelius_press_admin_user_path(@user)
       # Assert that the dropdown contains the correct options
       expect(page).to have_select("Role", with_options: ["Reader", "User", "Moderator"])

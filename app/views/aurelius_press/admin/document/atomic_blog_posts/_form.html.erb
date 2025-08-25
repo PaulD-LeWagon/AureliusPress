@@ -11,11 +11,41 @@
 <%= simple_form_for @atomic_blog_post, url: form_url do |f| %>
 
   <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
 
-    <%= f.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
+    <div class="grid row">
+      <div class="column">
+        <label>Author</label>
+        <% if @atomic_blog_post.new_record? %>
+          <%= f.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
+          <input type="text" value="<%= current_user.full_name %>" readonly />
+        <% else %>
+          <input type="text" value="<%= @atomic_blog_post.user.full_name %>" readonly />
+        <% end %>
+      </div>
+      <div class="column">
+        <%= f.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys.map { |status| [t(status), status] }, prompt: "Select Status", input_html: { data: { action: "change->document-meta#onStatusChange", document_meta_target: "statusSelect" } } %>
+      </div>
+      <div class="column">
+        <%= f.input :published_at, as: :date, html5: true, readonly: true, input_html: { data: { document_meta_target: "publishedAt" } } %>
+      </div>
+      <div class="column">
+        <%= f.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys.map { |visibility| [t(visibility), visibility] }, prompt: "Select Visibility" %>
+      </div>
+    </div>
+
+    <div class="grid row">
+      <div class="column">
+        <%= f.input :category_id, collection: @categories, label_method: :name, value_method: :id, as: :select, prompt: "Select Category" %>
+      </div>
+      <div class="column hide">
+        <% #= f.input :tags, as: :string, input_html: { value: @atomic_blog_post.tag_list.join(", "), data: { role: "tagsinput" } }, hint: "Separate tags with commas" %>
+      </div>
+      <div class="column flex justify-start items-center">
+        <%= f.input :comments_enabled, as: :boolean, label: "Enable Comments" %>
+      </div>
+    </div>
 
     <div class="row">
       <div class="column">
@@ -34,57 +64,41 @@
 
     <div class="row">
       <div class="column">
-        <%= f.rich_text_area :content, id: "trix-content"  %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="column">
         <%= f.input :image_file, as: :file, label: "Featured Image", hint: "Upload an image for the blog post" %>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="column">
-        <%= f.input :category_id, collection: @categories, label_method: :name, value_method: :id, as: :select, prompt: "Select Category" %>
-      </div>
-      <div class="column">
-        <%= f.input :tags, as: :string, label: "Tags (comma separated)", hint: "e.g., rails, ruby, webdev" %>
-      </div>
-      <div class="column">
-        <%= f.input :published_at, as: :datetime %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="column">
-        <%= f.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys, prompt: "Select Status" %>
-      </div>
-      <div class="column">
-        <%= f.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys, prompt: "Select Visibility" %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="column">
-        <%= f.input :comments_enabled, as: :boolean, label: "Allow Comments?" %>
       </div>
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: "button", role: :button %>
+  <div class="row">
+    <div class="column">
+      <%= f.rich_text_area :content, id: "trix-content" %>
+    </div>
+  </div>
+
+  <div class="grid form-actions">
+
     <% if in_admin_ns %>
+
       <% if @atomic_blog_post.persisted? %>
-        <%= link_to "Delete", aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+
+        <%= link_to "Delete", aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger", role: :button %>
+
       <% end %>
-      <%= link_to "Back", aurelius_press_admin_document_atomic_blog_posts_path, class: "button" %>
+
+      <%= link_to "Back", aurelius_press_admin_document_atomic_blog_posts_path, class: "button", role: :button %>
+
     <% else %>
+
       <% if @atomic_blog_post.persisted? %>
-        <%= link_to "Delete", aurelius_press_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger" %>
+
+        <%= link_to "Delete", aurelius_press_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger", role: :button %>
+
       <% end %>
-      <%= link_to "Back", aurelius_press_atomic_blog_posts_path, class: "button" %>
+
+      <%= link_to "Back", aurelius_press_atomic_blog_posts_path, class: "button", role: :button %>
+
     <% end %>
+
+    <%= f.button :submit, value: "#{@atomic_blog_post.new_record? ? "Create" : "Update"}", class: "button button-success", role: :button %>
   </div>
 <% end %>

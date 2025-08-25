@@ -1,56 +1,75 @@
-<h1>AureliusPress::Document::AtomicBlogPosts#show</h1>
+<div class="container">
 
-<%= link_to "Edit", edit_aurelius_press_atomic_blog_post_path(@atomic_blog_post) %> |
-<%= link_to "Delete", aurelius_press_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
-<%= link_to "Back to Atomic Blog Posts", aurelius_press_atomic_blog_posts_path %>
+  <h1>AureliusPress::Document::AtomicBlogPosts#show</h1>
 
+  <div class="page-links">
+    <%= link_to "Edit", edit_aurelius_press_atomic_blog_post_path(@atomic_blog_post) %> |
+    <%= link_to "Delete", aurelius_press_atomic_blog_post_path(@atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+    <%= link_to "Back to Atomic Blog Posts", aurelius_press_atomic_blog_posts_path %>
+  </div>
 
-<h2><%= @atomic_blog_post.title %></h2>
-<% if @atomic_blog_post.subtitle.present? %>
-  <h3><%= @atomic_blog_post.subtitle %></h3>
-<% end %>
+  <article class="atomic-blog-post">
 
-<p>
-  <strong>Author:</strong>
-  <%= @atomic_blog_post.user.full_name %>
-</p>
+    <p>
+      <strong>Image:</strong>
+      <%= image_tag @atomic_blog_post.image_file if @atomic_blog_post.image_file.attached? %>
+    </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @atomic_blog_post.description %>
-</p>
+    <h2><%= @atomic_blog_post.title %></h2>
+    <% if @atomic_blog_post.subtitle.present? %>
+      <h3><%= @atomic_blog_post.subtitle %></h3>
+    <% end %>
 
-<p>
-  <strong>Content:</strong>
-  <%= @atomic_blog_post.content %>
-</p>
+    <p>
+      <strong>Content:</strong>
+      <%= @atomic_blog_post.content %>
+    </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @atomic_blog_post.status.humanize %>
-</p>
+    <div class="metadata">
+      <p>
+        <strong>Author:</strong>
+        <%= @atomic_blog_post.user.full_name %>
+      </p>
 
-<p>
-  <strong>Visibility:</strong>
-  <%= @atomic_blog_post.visibility.humanize %>
-</p>
+      <p class="meta-description">
+        <strong>Description:</strong>
+        <%= @atomic_blog_post.description %>
+      </p>
 
-<p>
-  <strong>Published At:</strong>
-  <%= @atomic_blog_post.published_at %>
-</p>
+      <p>
+        <strong>Status:</strong>
+        <%= @atomic_blog_post.status.humanize %>
+      </p>
 
-<p>
-  <strong>Tags:</strong>
-  <%= @atomic_blog_post.tags.join(", ") %>
-</p>
+      <p>
+        <strong>Visibility:</strong>
+        <%= @atomic_blog_post.visibility.humanize %>
+      </p>
 
-<p>
-  <strong>Category:</strong>
-  <%= @atomic_blog_post.category.name if @atomic_blog_post.category %>
-</p>
+      <p>
+        <strong>Published At:</strong>
+        <%= @atomic_blog_post.published_at %>
+      </p>
 
-<p>
-  <strong>Image:</strong>
-  <%= image_tag @atomic_blog_post.image_file if @atomic_blog_post.image_file.attached? %>
-</p>
+      <p>
+        <strong>Category:</strong>
+        <%= @atomic_blog_post.category.name if @atomic_blog_post.category %>
+      </p>
+
+      <p>
+        <strong>Tags:</strong>
+        <%= @atomic_blog_post.tags.join(", ") %>
+      </p>
+    </div>
+
+    <div class="notes">
+      <%= render @atomic_blog_post.notes %>
+    </div>
+
+    <div class="comments">
+      <%= render @atomic_blog_post.comments %>
+    </div>
+
+  </article>
+
+</div>

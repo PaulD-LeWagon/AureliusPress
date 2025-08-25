@@ -50,6 +50,17 @@
   }
 }
 
+.trix-content {
+  color: white;
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+.form-actions {
+  margin-top: $spacing-base;
+}
+
 .content-block {
   &::before {
     content: "Content Block";
@@ -99,16 +110,33 @@ body,
   display: flex;
 }
 
+.items-start {
+  align-items: flex-start;
+}
 .items-center {
   align-items: center;
 }
+.items-between {
+  align-items: space-between;
+}
+.items-end {
+  align-items: flex-end;
+}
 
+.justify-start {
+  justify-content: flex-start;
+}
 .justify-center {
   justify-content: center;
 }
-
 .justify-between {
   justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-end {
+  justify-content: flex-end;
 }
 
 .container {

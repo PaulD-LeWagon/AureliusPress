@@ -20,7 +20,7 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
     authorize @page, :create?, policy_class: AureliusPress::DocumentPolicy
 
     if @page.save
-      redirect_to aurelius_press_page_path(@page), notice: "Page was successfully created."
+      redirect_to aurelius_press_page_path(@page), notice: action_was_successfully(:created)
     else
       set_tags_and_categories
       render :new, status: :unprocessable_entity
@@ -35,7 +35,7 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
     authorize @page, :update?, policy_class: AureliusPress::DocumentPolicy
 
     if @page.update(page_params)
-      redirect_to aurelius_press_page_path(@page), notice: "Page was successfully updated."
+      redirect_to aurelius_press_page_path(@page), notice: action_was_successfully(:updated)
     else
       set_tags_and_categories
       render :edit, status: :unprocessable_entity
@@ -45,7 +45,7 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
   def destroy
     authorize @page, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @page.destroy
-    redirect_to aurelius_press_pages_path, notice: "Page was successfully deleted."
+    redirect_to aurelius_press_pages_path, notice: action_was_successfully(:deleted)
   end
 
   private
@@ -96,5 +96,9 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
   def set_tags_and_categories
     @tags = AureliusPress::Taxonomy::Tag.all
     @categories = AureliusPress::Taxonomy::Category.all
+  end
+
+  def action_was_successfully(action)
+    "Page #{action} successfully."
   end
 end

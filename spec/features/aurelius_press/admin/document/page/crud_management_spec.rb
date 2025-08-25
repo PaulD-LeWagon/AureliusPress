@@ -15,14 +15,13 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
     description = "This is the content for the new page."
     fill_in "Title", with: title
     fill_in "Description", with: description
-    select "published", from: "Status"
-    select "public_to_www", from: "Visibility"
-    fill_in "Tags (comma separated)", with: "new, page, tags"
+    select "Published", from: "Status"
+    select "Public To Www", from: "Visibility"
     # 4. Submit the form
-    click_button "Create Page"
+    click_button "Create"
     # save_and_open_page
     # 5. Verify the success message and that the new page is visible
-    expect(page).to have_content("Page was successfully created.")
+    expect(page).to have_content("Page created successfully.")
     expect(page).to have_content(title)
     expect(page).to have_content(description)
   end
@@ -57,9 +56,9 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
     fill_in "Title", with: new_title
     fill_in "Description", with: new_description
     # Submit the form
-    click_button "Update Page"
+    click_button "Update"
     # Verify the success message and that the changes are visible on the show page
-    expect(page).to have_content("Page was successfully updated.")
+    expect(page).to have_content("Page updated successfully.")
     expect(page).to have_content(new_title)
     expect(page).to have_content(new_description)
   end
@@ -80,7 +79,7 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
       click_link "Delete", href: aurelius_press_admin_document_page_path(page_one)
     end
     # 5. Verify the page was deleted successfully
-    expect(page).to have_content "Page was successfully destroyed."
+    expect(page).to have_content "Page deleted successfully."
     expect(page).to have_current_path(aurelius_press_admin_document_pages_path)
     expect(page).not_to have_content page_one.title
     expect(AureliusPress::Document::Page.count).to eq(1)

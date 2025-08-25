@@ -13,7 +13,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
         visit aurelius_press_atomic_blog_posts_path
         # Assert that the page is the index path
         expect(current_path).to eq(aurelius_press_atomic_blog_posts_path)
-        expect(page).to have_content("Atomic Blog Posts")
+        expect(page).to have_content("All Atomic Posts")
         sign_out the_agent
       end
     end
@@ -80,7 +80,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
         visit aurelius_press_atomic_blog_posts_path
         # Assert that the page is the index path
         expect(current_path).to eq(aurelius_press_atomic_blog_posts_path)
-        expect(page).to have_content("Atomic Blog Posts")
+        expect(page).to have_content("All Atomic Posts")
         expect(page).to have_content(posts.first.title)
         expect(page).to have_content(someone_elses_posts.first.title)
         sign_out the_agent
@@ -91,7 +91,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
       [user].each do |the_actor|
         sign_in the_actor
         visit new_aurelius_press_atomic_blog_post_path
-        expect(page).to have_content("Create New Atomic Blog Post")
+        expect(page).to have_content("New Atomic Post")
         expect(current_path).to eq(new_aurelius_press_atomic_blog_post_path)
         sign_out the_actor
       end
@@ -101,7 +101,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
       [user].each do |the_actor|
         sign_in the_actor
         visit edit_aurelius_press_atomic_blog_post_path(posts.second)
-        expect(page).to have_content("Edit Atomic Blog Post")
+        expect(page).to have_content("Edit Atomic Post")
         expect(current_path).to eq(edit_aurelius_press_atomic_blog_post_path(posts.second))
         sign_out the_actor
       end
@@ -115,7 +115,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
         accept_confirm do
           click_link "Delete"
         end
-        expect(page).to have_content("Atomic blog post was successfully deleted.")
+        expect(page).to have_content("Atomic blog post deleted successfully.")
         sign_out the_actor
       end
     end
