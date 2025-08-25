@@ -20,7 +20,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
     @atomic_blog_post = AureliusPress::Document::AtomicBlogPost.new(atomic_blog_post_params)
     authorize @atomic_blog_post, :create?, policy_class: AureliusPress::DocumentPolicy
     if @atomic_blog_post.save
-      redirect_to aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), notice: 'Atomic blog post was successfully created.'
+      redirect_to aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), notice: action_was_successfully(:created)
     else
       set_tags_and_categories
       render :new, status: :unprocessable_entity
@@ -34,7 +34,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
   def update
     authorize @atomic_blog_post, :update?, policy_class: AureliusPress::DocumentPolicy
     if @atomic_blog_post.update(atomic_blog_post_params)
-      redirect_to aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), notice: 'Atomic blog post was successfully updated.'
+      redirect_to aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), notice: action_was_successfully(:updated)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +43,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
   def destroy
     authorize @atomic_blog_post, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @atomic_blog_post.destroy
-    redirect_to aurelius_press_admin_document_atomic_blog_posts_url, notice: 'Atomic blog post was successfully destroyed.'
+    redirect_to aurelius_press_admin_document_atomic_blog_posts_url, notice: action_was_successfully(:deleted)
   end
 
   private
@@ -55,6 +55,10 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
   def set_tags_and_categories
     @tags = AureliusPress::Taxonomy::Tag.all
     @categories = AureliusPress::Taxonomy::Category.all
+  end
+
+  def action_was_successfully(action)
+    "Atomic blog post #{action} successfully."
   end
 
   def atomic_blog_post_params

@@ -70,7 +70,7 @@ RSpec.feature "Admin can manage access to Atomic Blog Posts", type: :feature, js
         sign_in the_agent
         visit aurelius_press_admin_document_atomic_blog_posts_path
         expect(page).to have_content("AureliusPress::Admin::Document::AtomicBlogPosts#index")
-        expect(page).to have_content("View All Atomic Blog Posts")
+        expect(page).to have_content("All Atomic Posts")
         expect(current_path).to eq(aurelius_press_admin_document_atomic_blog_posts_path)
         sign_out the_agent
       end
@@ -117,7 +117,7 @@ RSpec.feature "Admin can manage access to Atomic Blog Posts", type: :feature, js
         accept_confirm do
           click_link "Delete"
         end
-        expect(page).to have_content("Atomic blog post was successfully destroyed.")
+        expect(page).to have_content("Atomic blog post deleted successfully.")
         sign_out the_agent
       end
     end

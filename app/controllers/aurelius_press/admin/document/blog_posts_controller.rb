@@ -20,7 +20,7 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
     @blog_post = AureliusPress::Document::BlogPost.new(blog_post_params)
     authorize @blog_post, :create?, policy_class: AureliusPress::DocumentPolicy
     if @blog_post.save
-      redirect_to aurelius_press_admin_document_blog_post_path(@blog_post), notice: "Blog post created successfully."
+      redirect_to aurelius_press_admin_document_blog_post_path(@blog_post), notice: action_was_successfully(:created)
     else
       set_tags_and_categories
       render :new, status: :unprocessable_entity
@@ -34,7 +34,7 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
   def update
     authorize @blog_post, :update?, policy_class: AureliusPress::DocumentPolicy
     if @blog_post.update(blog_post_params)
-      redirect_to aurelius_press_admin_document_blog_post_path(@blog_post), notice: "Blog post updated successfully."
+      redirect_to aurelius_press_admin_document_blog_post_path(@blog_post), notice: action_was_successfully(:updated)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,38 +42,70 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
 
   def destroy
     @blog_post.destroy
-    redirect_to aurelius_press_admin_document_blog_posts_path, notice: "Blog post deleted successfully."
+    redirect_to aurelius_press_admin_document_blog_posts_path, notice: action_was_successfully(:deleted)
   end
 
   private
 
   def blog_post_params
     params.require(:aurelius_press_document_blog_post).permit(
-      :id, # integer, primary key
-      :user_id, # references, the user who created the document
-      :category_id, # references, the category the document belongs to
-      :type, # string, used for Single Table Inheritance (STI)
-      :title, # string, the title of the document
-      :slug, # string, a URL-friendly version of the title (auto-generated)
-      :subtitle, # string, a short descriptive subtitle
-      :description, # string, the main content of the blog post
-      :status, # enum, representing the document's status (default: draft)
-      :visibility, # enum, representing who can see the document (default: private_to_owner)
-      :published_at, # datetime, the date when the document was published (optional)
-      :comments_enabled, # boolean, whether comments are enabled for the document (default: true)
-      # :tags, # string, a comma-separated list of tags for the document
-      # :content_blocks_attributes # nested attributes for content blocks
+      :id,
+      :user_id,
+      :category_id,
+      :type,
+      :title,
+      :slug,
+      :subtitle,
+      :description,
+      :status,
+      :visibility,
+      :published_at,
+      :comments_enabled,
+      # :tags
+      content_blocks_attributes: [
+        :id,
+        :_destroy,
+        :contentable_id,
+        :contentable_type,
+        :position,
+        :html_id,
+        :html_class,
+        :data_attributes,
+        # Permit the nested attributes via contentable
+        contentable_attributes: [
+          :id,
+          :type,
+          :content, # from RichTextBlock
+          :image,   # from ImageBlock
+          :caption, # from ImageBlock and GalleryImage
+          :alignment,
+          :link_text,
+          :link_title,
+          :link_class,
+          :link_target,
+          :link_url,
+          :embed_code, # from VideoEmbedBlock
+          :description,
+          :video_url,
+          :layout_type, # from GalleryBlock
+          images: []
+        ],
+      ],
     )
   end
 
   private
 
   def set_blog_post
-    @blog_post = AureliusPress::Document::BlogPost.find_by(slug: params[:id])
+    @blog_post = AureliusPress::Document::BlogPost.find_by!(slug: params[:id])
   end
 
   def set_tags_and_categories
     @tags = AureliusPress::Taxonomy::Tag.all
     @categories = AureliusPress::Taxonomy::Category.all
+  end
+
+  def action_was_successfully(action)
+    "Blog post #{action} successfully."
   end
 end

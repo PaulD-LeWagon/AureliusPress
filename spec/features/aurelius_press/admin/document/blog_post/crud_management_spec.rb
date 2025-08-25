@@ -19,14 +19,13 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
     fill_in "Title", with: title
     fill_in "Subtitle", with: subtitle
     fill_in "Description", with: description
-    fill_in "Tags (comma separated)", with: "new, blog, post"
 
-    select "published", from: "Status"
-    select "public_to_www", from: "Visibility"
+    select "Published", from: "Status"
+    select "Public To Www", from: "Visibility"
     select categories.first.name, from: "Category"
 
     # 4. Submit the form
-    click_button "Create Blog post"
+    click_button "Create"
     # save_and_open_page
     # 5. Verify the success message and that the new blog post is visible
     expect(page).to have_content("Blog post created successfully.")
@@ -41,8 +40,8 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
     # 2. Navigate to the admin blog posts index page
     visit aurelius_press_admin_document_blog_posts_path
     # 3. Verify that the admin can see the blog post titles and content
-    expect(page).to have_content("Blog Posts")
-    expect(page).to have_link("New Blog Post", href: new_aurelius_press_admin_document_blog_post_path)
+    expect(page).to have_content("All Posts")
+    expect(page).to have_link("Add New Post", href: new_aurelius_press_admin_document_blog_post_path)
     # 4. Assert that both blog posts created by FactoryBot are visible
     expect(page).to have_content(blog_post_one.title)
     expect(page).to have_content(blog_post_one.description)
@@ -64,7 +63,7 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
     fill_in "Title", with: new_title
     fill_in "Description", with: new_description
     # Submit the form
-    click_button "Update Blog post"
+    click_button "Update"
     # Verify the success message and that the changes are visible on the show page
     expect(page).to have_content("Blog post updated successfully.")
     expect(page).to have_content(new_title)

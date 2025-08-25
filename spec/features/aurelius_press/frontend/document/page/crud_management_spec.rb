@@ -31,17 +31,16 @@ RSpec.feature "User can manage a Page (CRUD)", :js do
     description = "This is the content for the new page."
     fill_in "Title", with: title
     fill_in "Description", with: description
-    select "published", from: "Status"
-    select "public_to_www", from: "Visibility"
-    fill_in "Tags (comma separated)", with: "new, page, tags"
+    select "Published", from: "Status"
+    select "Public To Www", from: "Visibility"
     # 4. Submit the form
-    click_button "Create Page"
+    click_button "Create"
     # Custom debug information
     print_debug_info
     # 5. Verify the success message and that the new page is visible
     expect(page).to have_content(title)
     expect(page).to have_content(description)
-    expect(page).to have_content("Page was successfully created.")
+    expect(page).to have_content("Page created successfully.")
   end
 
   scenario "READ - user can view a list of all pages" do
@@ -75,13 +74,13 @@ RSpec.feature "User can manage a Page (CRUD)", :js do
     fill_in "Title", with: new_title
     fill_in "Description", with: new_description
     # Submit the form
-    click_button "Update Page"
+    click_button "Update"
     # Custom debug information
     print_debug_info
     # Verify the success message and that the changes are visible on the show page
     expect(page).to have_content(new_title)
     expect(page).to have_content(new_description)
-    expect(page).to have_content("Page was successfully updated.")
+    expect(page).to have_content("Page updated successfully.")
   end
 
   scenario "DELETE - user can delete a Page" do
@@ -105,7 +104,7 @@ RSpec.feature "User can manage a Page (CRUD)", :js do
     expect(page).to have_current_path(aurelius_press_pages_path)
     expect(page).not_to have_content page_one.title
     expect(AureliusPress::Document::Page.count).to eq(1)
-    expect(page).to have_content "Page was successfully deleted."
+    expect(page).to have_content "Page deleted successfully."
   end
 
   scenario "BULK Operations - An user can perform bulk actions on Pages" do

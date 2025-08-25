@@ -118,7 +118,7 @@ RSpec.feature "Admin can manage access to Pages", type: :feature, js: true do
         accept_confirm do
           click_link "Delete"
         end
-        expect(page).to have_content("Page was successfully destroyed.")
+        expect(page).to have_content("Page deleted successfully.")
         sign_out the_agent
       end
     end

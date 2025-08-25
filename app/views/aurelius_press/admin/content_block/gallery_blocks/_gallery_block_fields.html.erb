@@ -1,10 +1,10 @@
 <% the_images_path_name = form.object_name + "[images][]" %>
 <%= form.hidden_field :id %>
+<%= form.input :layout_type, as: :select, collection: AureliusPress::ContentBlock::GalleryBlock.layout_types.keys %>
 <% if form.object.images.any? %>
   <% form.object.images.each do |image| %>
     <%= image_tag image, width: 200 %>
     <%= hidden_field_tag the_images_path_name, image.signed_id %>
   <% end %>
 <% end %>
-<%= form.input :layout_type, as: :select, collection: AureliusPress::ContentBlock::GalleryBlock.layout_types.keys %>
 <%= form.input :images, as: :file, input_html: { name: the_images_path_name, multiple: true } %>

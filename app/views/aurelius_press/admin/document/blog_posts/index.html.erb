@@ -1,36 +1,39 @@
-<h1>AureliusPress::Admin::Document::BlogPosts#index</h1>
+<div class="container">
+  <h1>AureliusPress::Admin::Document::BlogPosts#index</h1>
 
-<h2>View All Blog Posts</h2>
+  <h2>All Posts</h2>
 
-<%= link_to "New Blog Post", new_aurelius_press_admin_document_blog_post_path %>
+  <div class="page-links">
+    <%= link_to "Add New Post", new_aurelius_press_admin_document_blog_post_path %>
+  </div>
 
-<h2>All Blog Posts</h2>
-
-<% if @blog_posts.any? %>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @blog_posts.each do |blog_post| %>
-        <tr></tr>
-          <td><%= blog_post.id %></td>
-          <td><%= blog_post.title %></td>
-          <td><%= blog_post.description %></td>
-          <td>
-            <%= link_to "Show", aurelius_press_admin_document_blog_post_path(blog_post) %> |
-            <%= link_to "Edit", edit_aurelius_press_admin_document_blog_post_path(blog_post) %> |
-            <%= link_to "Delete", aurelius_press_admin_document_blog_post_path(blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-          </td>
+  <% if @blog_posts.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>No blog posts found.</p>
-<% end %>
+      </thead>
+      <tbody>
+        <% @blog_posts.each do |blog_post| %>
+          <tr></tr>
+            <td><%= blog_post.id %></td>
+            <td><%= blog_post.title %></td>
+            <td><%= blog_post.description %></td>
+            <td>
+              <%= link_to "Show", aurelius_press_admin_document_blog_post_path(blog_post) %> |
+              <%= link_to "Edit", edit_aurelius_press_admin_document_blog_post_path(blog_post) %> |
+              <%= link_to "Delete", aurelius_press_admin_document_blog_post_path(blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No blog posts found.</p>
+  <% end %>
+
+</div>

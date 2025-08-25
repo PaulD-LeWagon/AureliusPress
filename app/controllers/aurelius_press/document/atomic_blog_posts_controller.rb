@@ -20,7 +20,7 @@ class AureliusPress::Document::AtomicBlogPostsController < AureliusPress::Applic
     @atomic_blog_post = AureliusPress::Document::AtomicBlogPost.new(atomic_blog_post_params)
     authorize @atomic_blog_post, :create?, policy_class: AureliusPress::DocumentPolicy
     if @atomic_blog_post.save!
-      redirect_to aurelius_press_atomic_blog_post_path(@atomic_blog_post), notice: "Atomic blog post was successfully created."
+      redirect_to aurelius_press_atomic_blog_post_path(@atomic_blog_post), notice: action_was_successfully(:created)
     else
       set_tags_and_categories
       render :new, status: :unprocessable_entity
@@ -35,7 +35,7 @@ class AureliusPress::Document::AtomicBlogPostsController < AureliusPress::Applic
     authorize @atomic_blog_post, :update?, policy_class: AureliusPress::DocumentPolicy
 
     if @atomic_blog_post.update(atomic_blog_post_params)
-      redirect_to aurelius_press_atomic_blog_post_path(@atomic_blog_post), notice: "Atomic blog post was successfully updated."
+      redirect_to aurelius_press_atomic_blog_post_path(@atomic_blog_post), notice: action_was_successfully(:updated)
     else
       set_tags_and_categories
       render :edit, status: :unprocessable_entity
@@ -45,7 +45,7 @@ class AureliusPress::Document::AtomicBlogPostsController < AureliusPress::Applic
   def destroy
     authorize @atomic_blog_post, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @atomic_blog_post.destroy
-    redirect_to aurelius_press_atomic_blog_posts_path, notice: "Atomic blog post was successfully deleted."
+    redirect_to aurelius_press_atomic_blog_posts_path, notice: action_was_successfully(:deleted)
   end
 
   private
@@ -98,5 +98,9 @@ class AureliusPress::Document::AtomicBlogPostsController < AureliusPress::Applic
   def set_tags_and_categories
     @tags = AureliusPress::Taxonomy::Tag.all
     @categories = AureliusPress::Taxonomy::Category.all
+  end
+
+  def action_was_successfully(action)
+    "Atomic blog post #{action} successfully."
   end
 end

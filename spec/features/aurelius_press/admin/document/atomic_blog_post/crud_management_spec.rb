@@ -17,18 +17,17 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     content = "<p>This is the main content of the new page.</p>"
     fill_in "Title", with: title
     fill_in "Description", with: description
-    select "published", from: "Status"
-    select "public_to_www", from: "Visibility"
+    select "Published", from: "Status"
+    select "Public To Www", from: "Visibility"
     select categories.first.name, from: "Category"
-    fill_in "Tags (comma separated)", with: "new, atomic, blog, post"
     fill_in_rich_text_area "trix-content", with: content
     attach_file "Featured Image", Rails.root.join("spec/fixtures/files/test_image.png")
     # save_and_open_page
     # 4. Submit the form
-    click_button "Create Atomic blog post"
+    click_button "Create"
     # save_and_open_page
     # 5. Verify the success message and that the new atomic blog post is visible
-    expect(page).to have_content("Atomic blog post was successfully created.")
+    expect(page).to have_content("Atomic blog post created successfully.")
     expect(page).to have_content(title)
     expect(page).to have_content(description)
   end
@@ -39,8 +38,8 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     # 2. Navigate to the admin atomic blog posts index page
     visit aurelius_press_admin_document_atomic_blog_posts_path
     # 3. Verify that the admin can see the atomic blog post titles and content
-    expect(page).to have_content("Atomic Blog Posts")
-    expect(page).to have_link("New Atomic Blog Post", href: new_aurelius_press_admin_document_atomic_blog_post_path)
+    expect(page).to have_content("Atomic Posts")
+    expect(page).to have_link("Add New Post", href: new_aurelius_press_admin_document_atomic_blog_post_path)
     # 4. Assert that both atomic blog posts created by FactoryBot are visible
     expect(page).to have_content(atomic_blog_post_one.title)
     expect(page).to have_content(atomic_blog_post_one.description)
@@ -62,9 +61,9 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     fill_in "Title", with: new_title
     fill_in "Description", with: new_description
     # Submit the form
-    click_button "Update Atomic blog post"
+    click_button "Update"
     # Verify the success message and that the changes are visible on the show page
-    expect(page).to have_content("Atomic blog post was successfully updated.")
+    expect(page).to have_content("Atomic blog post updated successfully.")
     expect(page).to have_content(new_title)
     expect(page).to have_content(new_description)
   end
@@ -85,7 +84,7 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
       click_link "Delete", href: aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post_one)
     end
     # 5. Verify the atomic blog post was deleted successfully
-    expect(page).to have_content "Atomic blog post was successfully destroyed."
+    expect(page).to have_content "Atomic blog post deleted successfully."
     expect(page).to have_current_path(aurelius_press_admin_document_atomic_blog_posts_path)
     expect(page).not_to have_content atomic_blog_post_one.title
     expect(AureliusPress::Document::AtomicBlogPost.count).to eq(1)

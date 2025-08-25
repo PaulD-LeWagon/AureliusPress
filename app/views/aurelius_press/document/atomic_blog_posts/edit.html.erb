@@ -1,6 +1,7 @@
-<h1>AureliusPress::Document::AtomicBlogPosts#edit</h1>
-<h2>Edit Atomic Blog Post</h2>
-<%= render "aurelius_press/admin/document/atomic_blog_posts/form",
-           atomic_blog_post: @atomic_blog_post,
-           categories: @categories,
-           tags: @tags %>
+<div class="container">
+  <h1>Edit Atomic Post</h1>
+  <%= render "aurelius_press/admin/document/atomic_blog_posts/form",
+             atomic_blog_post: @atomic_blog_post,
+             categories: @categories,
+             tags: @tags %>
+</div>

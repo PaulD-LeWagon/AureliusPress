@@ -26,14 +26,13 @@ RSpec.feature "user can manage a Blog Post (CRUD)", :js do
     description = "This is the content for the new blog post."
     fill_in "Title", with: title
     fill_in "Description", with: description
-    select "published", from: "Status"
-    select "public_to_www", from: "Visibility"
-    fill_in "Tags (comma separated)", with: "new, page, tags"
+    select "Published", from: "Status"
+    select "Public To Www", from: "Visibility"
     # 4. Submit the form
-    click_button "Create Blog post"
+    click_button "Create"
     # save_and_open_page
     # 5. Verify the success message and that the new blog post is visible
-    expect(page).to have_content("Blog post was successfully created.")
+    expect(page).to have_content("Blog post created successfully.")
     expect(page).to have_content(title)
     expect(page).to have_content(description)
   end
@@ -44,8 +43,8 @@ RSpec.feature "user can manage a Blog Post (CRUD)", :js do
     # 2. Navigate to the user blog posts index page
     visit aurelius_press_blog_posts_path
     # 3. Verify that the user can see the blog post titles and content
-    expect(page).to have_content("Blog Posts")
-    expect(page).to have_link("New Blog Post", href: new_aurelius_press_blog_post_path)
+    expect(page).to have_content("All Posts")
+    expect(page).to have_link("Add New Post", href: new_aurelius_press_blog_post_path)
     # 4. Assert that both blog posts created by FactoryBot are visible
     expect(page).to have_content(post_one.title)
     expect(page).to have_content(post_one.description)
@@ -67,12 +66,12 @@ RSpec.feature "user can manage a Blog Post (CRUD)", :js do
     fill_in "Title", with: new_title
     fill_in "Description", with: new_description
     # Submit the form
-    click_button "Update Blog post"
+    click_button "Update"
     # Verify the success message and that the changes are visible on the show page
     expect(page).to have_current_path(aurelius_press_blog_post_path(blog_post_to_edit.reload))
     expect(page).to have_content(new_title)
     expect(page).to have_content(new_description)
-    expect(page).to have_content("Blog post was successfully updated.")
+    expect(page).to have_content("Blog post updated successfully.")
   end
 
   scenario "DELETE - user can delete a Blog post" do
@@ -94,7 +93,7 @@ RSpec.feature "user can manage a Blog Post (CRUD)", :js do
     expect(page).to have_current_path(aurelius_press_blog_posts_path)
     expect(page).not_to have_content post_one.title
     expect(AureliusPress::Document::BlogPost.count).to eq(1)
-    expect(page).to have_content "Blog post was successfully deleted."
+    expect(page).to have_content "Blog post deleted successfully."
   end
 
   scenario "BULK Operations - An user can perform bulk actions on Blog posts" do

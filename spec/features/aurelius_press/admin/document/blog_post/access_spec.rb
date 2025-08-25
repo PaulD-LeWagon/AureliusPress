@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Admin can manage access to Pages", type: :feature, js: true do
+RSpec.feature "Admin can manage access to Blog Posts", type: :feature, js: true do
   let!(:reader) { create(:aurelius_press_reader_user) }
   let!(:user) { create(:aurelius_press_user) }
   let!(:moderator) { create(:aurelius_press_moderator_user) }
@@ -70,7 +70,7 @@ RSpec.feature "Admin can manage access to Pages", type: :feature, js: true do
         sign_in the_agent
         visit aurelius_press_admin_document_blog_posts_path
         expect(page).to have_content("AureliusPress::Admin::Document::BlogPosts#index")
-        expect(page).to have_content("View All Blog Posts")
+        expect(page).to have_content("All Posts")
         expect(current_path).to eq(aurelius_press_admin_document_blog_posts_path)
         sign_out the_agent
       end
