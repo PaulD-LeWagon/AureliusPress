@@ -19,6 +19,20 @@
   <body>
     <%= render "layouts/navigation" %>
 
+    <div data-controller="colour-diff" class="container hide">
+      <h2>Colour (Lightness) Difference Calculator</h2>
+      <div class="colour-inputs grid row">
+        <input type="color" data-colour-diff-target="color1" />
+        <input type="color" data-colour-diff-target="color2" />
+        <button data-colour-diff-target="calculateButton" data-action="colour-diff#onClickCalculate">Calculate</button>
+      </div>
+      <h3>Results</h3>
+      <div class="colour-results grid row">
+        <div data-colour-diff-target="result" class="p-3 grid row"></div>
+        <pre data-colour-diff-target="code" class="p-3"></pre>
+      </div>
+    </div>
+
     <%= yield %>
 
     <%= render "layouts/flash_messages" %>

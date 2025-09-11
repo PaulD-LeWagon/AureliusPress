@@ -1,0 +1,10 @@
+include:
+  - app/
+  - config/
+  - lib/
+  - spec/
+exclude:
+  - log/
+  - tmp/
+  - node_modules/
+  - test/

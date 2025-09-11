@@ -113,16 +113,16 @@
 
     <% if in_admin_ns %>
       <% if @page.persisted? %>
-        <%= link_to "Delete", aurelius_press_admin_document_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger", role: "button" %>
+        <%= link_to "Delete", aurelius_press_admin_document_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
       <% end %>
-      <%= link_to "Back", aurelius_press_admin_document_pages_path, class: "button", role: "button" %>
+      <%= link_to "Back", aurelius_press_admin_document_pages_path, class: "button warning", role: "button" %>
     <% else %>
       <% if @page.persisted? %>
-        <%= link_to "Delete", aurelius_press_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger", role: "button" %>
+        <%= link_to "Delete", aurelius_press_page_path(@page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
       <% end %>
-      <%= link_to "Back", aurelius_press_pages_path, class: "button", role: "button" %>
+      <%= link_to "Back", aurelius_press_pages_path, class: "button warning", role: "button" %>
     <% end %>
 
-    <%= form.button :submit, value: "#{@page.new_record? ? "Create" : "Update"}", class: "button", role: :button %>
+    <%= form.button :submit, value: "#{@page.new_record? ? "Create" : "Update"}", class: "button success", role: :button %>
   </div>
 <% end %>

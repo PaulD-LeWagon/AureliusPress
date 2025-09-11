@@ -1,0 +1,154 @@
+@use "sass:color";
+@use "sass:map";
+@use "sass:math";
+@use "sass:string";
+
+@function dec-to-hex($dec) {
+    $hex: "0123456789ABCDEF";
+    $first: (($dec - $dec % 16)/16)+1;
+    $second: ($dec % 16)+1;
+    @return string.slice($hex, $first, $first) + string.slice($hex, $second, $second)
+}
+
+@function color-to-hex($color) {
+  @debug #{color};
+  $hex: '#';
+  $rgb-values: (
+    color.channel($color, "red"),
+    color.channel($color, "green"),
+    color.channel($color, "blue")
+  );
+
+  @each $value in $rgb-values {
+    @debug $value;
+    $rounded-value: math.round($value);
+    @debug $rounded-value;
+    $hex-value: dec-to-hex($rounded-value);
+    @if string.length($hex-value) < 2 {
+      $hex-value: $hex-value + $hex-value;
+    }
+    @debug $hex-value;
+    $hex: $hex + $hex-value;
+  }
+  @return $hex;
+}
+
+@function shades($colour-name, $hex-color) {
+  $my-colour-map: ();
+  @each $number, $hsl in $colour-ratios {
+    $new-color: color.adjust(
+      $hex-color,
+      $hue: map.get($hsl, "hue"),
+      $saturation: map.get($hsl, "saturation") * 1%,
+      $lightness: map.get($hsl, "lightness") * 1%
+    );
+    $my-colour-map: map.set(
+      $my-colour-map,
+      #{$colour-name}-#{$number},
+      #{$new-color}
+    );
+    @debug "Created color: #{$colour-name}-#{$number}: #{color-to-hex($new-color)} from: #{$new-color}";
+  }
+  // Set the main colour to the 550 shade
+  $my-colour-map: map.set($my-colour-map, "main", map.get($my-colour-map, 550));
+  // Return the complete colour map
+  @return ($colour-name: $my-colour-map);
+}
+
+$colour-ratios: (
+  50: (
+    "hue": 6.878,
+    "saturation": -11.304,
+    "lightness": 50,
+  ),
+  100: (
+    "hue": 5.466,
+    "saturation": -0.471,
+    "lightness": 45.49,
+  ),
+  150: (
+    "hue": 6.878,
+    "saturation": 4.038,
+    "lightness": 40.588,
+  ),
+  200: (
+    "hue": 6.566,
+    "saturation": 8.077,
+    "lightness": 35.882,
+  ),
+  250: (
+    "hue": 6.165,
+    "saturation": 12.167,
+    "lightness": 31.176,
+  ),
+  300: (
+    "hue": 5.698,
+    "saturation": 12.257,
+    "lightness": 26.275,
+  ),
+  350: (
+    "hue": 4.878,
+    "saturation": 12.417,
+    "lightness": 21.176,
+  ),
+  400: (
+    "hue": 3.449,
+    "saturation": 13.544,
+    "lightness": 16.078,
+  ),
+  450: (
+    "hue": 0.503,
+    "saturation": 13.651,
+    "lightness": 10.588,
+  ),
+  500: (
+    "hue": -0.094,
+    "saturation": -1.108,
+    "lightness": 4.902,
+  ),
+  550: (
+    "hue": 0,
+    "saturation": 0,
+    "lightness": 0,
+  ),
+  600: (
+    "hue": -0.19,
+    "saturation": 0.264,
+    "lightness": -5.098,
+  ),
+  650: (
+    "hue": -0.084,
+    "saturation": 1.88,
+    "lightness": -10,
+  ),
+  700: (
+    "hue": 0.095,
+    "saturation": 3.859,
+    "lightness": -15.098,
+  ),
+  750: (
+    "hue": -0.273,
+    "saturation": 5.44,
+    "lightness": -19.804,
+  ),
+  800: (
+    "hue": 1.713,
+    "saturation": 3.934,
+    "lightness": -24.51,
+  ),
+  850: (
+    "hue": 4.352,
+    "saturation": -0.934,
+    "lightness": -29.216,
+  ),
+  900: (
+    "hue": 9.089,
+    "saturation": -5.787,
+    "lightness": -33.725,
+  ),
+  950: (
+    "hue": 13.969,
+    "saturation": -6.598,
+    "lightness": -38.431,
+  ),
+);
