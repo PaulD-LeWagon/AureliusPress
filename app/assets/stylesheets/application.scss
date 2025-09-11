@@ -39,7 +39,7 @@
   // #{$css-var-prefix}font-family-sans-serif
   // #{$css-var-prefix}font-family-monospace
   // #{$css-var-prefix}text-underline-offset
-  
+
   --primary-color: var(#{$css-var-prefix}primary);
   --secondary-color: var(#{$css-var-prefix}secondary);
   color: var(#{$css-var-prefix}text-color);
@@ -176,7 +176,8 @@ body,
 div.hero-banner {
   position: relative;
   overflow: hidden;
-  height: 400px;
+  height: 450px;
+  margin-bottom: 1rem;
   &::before {
     content: "";
     position: absolute;
@@ -188,15 +189,15 @@ div.hero-banner {
     z-index: -1;
   }
   hgroup {
+    text-align: center;
     h1 {
-      color: white;
-      font-size: 2rem;
+      font-size: 3rem !important;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
     p {
-      font-family: cursive, sans-serif;
-      color: white;
-      font-size: 1.5rem;
+      font-style: italic;
+      font-size: 1.25rem !important;
+      font-family: cursive, sans-serif !important;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
   }

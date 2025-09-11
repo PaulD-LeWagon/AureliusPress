@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
   def index
-    @title = "Home - AureliusPress CMS (Content Management System)"
+    @title = "AureliusPress CMS"
     @subtitle = "Your Personal Document Management System"
     @description = [
       "Welcome to AureliusPress, your personal document management system.",
