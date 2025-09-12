@@ -1,0 +1,26 @@
+@use "@picocss/pico/scss/pico" as *;
+
+h1 {
+  color: var(#{$css-var-prefix}h1-color);
+  // border-bottom: solid var(#{$css-var-prefix}border-width) var(#{$css-var-prefix}border-color);
+}
+h2 {
+  color: var(#{$css-var-prefix}h2-color);
+  // border-bottom: solid var(#{$css-var-prefix}border-width) var(#{$css-var-prefix}border-color);
+}
+h3 {
+  color: var(#{$css-var-prefix}h3-color);
+  // border-bottom: solid var(#{$css-var-prefix}border-width) var(#{$css-var-prefix}border-color);
+}
+h4 {
+  color: var(#{$css-var-prefix}h4-color);
+  // border-bottom: solid var(#{$css-var-prefix}border-width) var(#{$css-var-prefix}border-color);
+}
+h5 {
+  color: var(#{$css-var-prefix}h5-color);
+  // border-bottom: solid var(#{$css-var-prefix}border-width) var(#{$css-var-prefix}border-color);
+}
+h6 {
+  color: var(#{$css-var-prefix}h6-color);
+  // border-bottom: solid var(#{$css-var-prefix}border-width) var(#{$css-var-prefix}border-color);
+}

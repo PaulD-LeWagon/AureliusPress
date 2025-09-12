@@ -1,6 +1,12 @@
-<h1>AureliusPress::Admin::Users<b><i>#edit</i></b></h1>
+<div class="hero-banner small flex justify-center items-center">
+  <hgroup class="container">
+    <h1>AureliusPress::Admin::Users<b><i>#edit</i></b></h1>
+    <p>Edit an existing user in the AureliusPress application.</p>
+  </hgroup>
+</div>
 
-<%= link_to "Delete", aurelius_press_admin_user_path(@user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
-<%= link_to "Back to Users", aurelius_press_admin_users_path %>
+<div class="container">
 
-<%= render "form", user: @user %>
+  <%= render "form", user: @user %>
+
+</div>

@@ -1,35 +1,42 @@
-<h1>AureliusPress::Admin::Users<b><i>#index</i></b></h1>
-<p>Manage users of the AureliusPress application.</p>
-<div>
-  <h2>Users</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Status</th>
-        <th>Role</th>
-        <th>Full Name</th>
-        <th>Email</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
+<div class="hero-banner small flex justify-center items-center">
+  <hgroup class="container">
+    <h1>AureliusPress::Admin::Users<b><i>#index</i></b></h1>
+    <p>Manage users of the AureliusPress application.</p>
+  </hgroup>
+</div>
+
+<div class="container">
+  <div>
+    <h2 class="flex justify-between items-center"><span>Users</span> <%= link_to "New User", new_aurelius_press_admin_user_path, class: "button success", role: "button" %></h2>
+    <table>
+      <thead>
         <tr>
-          <td><%= user.id %></td>
-          <td><%= user.status %></td>
-          <td><%= user.role %></td>
-          <td><%= user.full_name %></td>
-          <td><%= user.email %></td>
-          <td>
-            <%= link_to 'Edit', edit_aurelius_press_admin_user_path(user) %>
-            &nbsp;|&nbsp;
-            <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-          </td>
+          <th>ID</th>
+          <th>Status</th>
+          <th>Role</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <br>
-  <%= link_to 'New User', new_aurelius_press_admin_user_path %>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td><%= user.status %></td>
+            <td><%= user.role %></td>
+            <td><%= user.full_name %></td>
+            <td><%= user.email %></td>
+            <td>
+              <%= link_to 'Show', aurelius_press_admin_user_path(user) %>
+              &nbsp;
+              <%= link_to 'Edit', edit_aurelius_press_admin_user_path(user) %>
+              &nbsp;
+              <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

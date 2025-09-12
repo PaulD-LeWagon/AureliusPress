@@ -74,6 +74,7 @@ class AureliusPress::Admin::UsersController < AureliusPress::Admin::ApplicationC
       :role,
       :bio,
       :avatar,
+      :age,
       # group_ids: [],
       # aurelius_press_community_group_memberships_attributes: [:id, :group_id, :_destroy]
     )

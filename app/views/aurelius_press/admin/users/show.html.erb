@@ -1,28 +1,39 @@
-<h1>AureliusPress::Admin::Users<b><i>#show</i></b></h1>
+<div class="hero-banner small flex justify-center items-center">
+  <hgroup class="container">
+    <h1>AureliusPress::Admin::Users<b><i>#show</i></b></h1>
+    <p>View a user's profile.</p>
+  </hgroup>
+</div>
 
-<%= link_to "Edit", edit_aurelius_press_admin_user_path(@user) %> |
-<%= link_to "Delete", aurelius_press_admin_user_path(@user), data: {  turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
-<%= link_to "Back to Users", aurelius_press_admin_users_path %>
+<div class="container">
 
-<% if @user.avatar.attached? %>
-  <h3>Avatar:</h3>
-  <%= image_tag @user.avatar %>
-<% else %>
-  <p>No avatar uploaded.</p>
-<% end %>
+  <%= link_to "Edit", edit_aurelius_press_admin_user_path(@user) %> |
+  <%= link_to "Delete", aurelius_press_admin_user_path(@user), data: {  turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
+  <%= link_to "Back to Users", aurelius_press_admin_users_path %>
 
-<h2>User: <%= @user.full_name %></h2>
-<p>Username: <%= @user.username %></p>
-<p>Age: <%= @user.age %></p>
-<p>Email: <%= @user.email %></p>
-<p>Role: <%= @user.role %></p>
-<p>Status: <%= @user.status %></p>
+  <hr>
 
-<% if @user.bio.present? %>
-  <h3>Bio:</h3>
-  <div class="rich-text">
-    <%= @user.bio.body.to_s.html_safe %>
-  </div>
-<% else %>
-  <p>No bio available.</p>
-<% end %>
+  <% if @user.avatar.attached? %>
+    <h3>Avatar:</h3>
+    <%= image_tag @user.avatar %>
+  <% else %>
+    <p>No avatar uploaded.</p>
+  <% end %>
+
+  <h2>User: <%= @user.full_name %></h2>
+  <p>Username: <%= @user.username %></p>
+  <p>Age: <%= @user.age %></p>
+  <p>Email: <%= @user.email %></p>
+  <p>Role: <%= @user.role %></p>
+  <p>Status: <%= @user.status %></p>
+
+  <% if @user.bio.present? %>
+    <h3>Bio:</h3>
+    <div class="rich-text">
+      <%= @user.bio.body.to_s.html_safe %>
+    </div>
+  <% else %>
+    <p>No bio available.</p>
+  <% end %>
+
+</div>

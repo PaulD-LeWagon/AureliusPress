@@ -28,11 +28,14 @@
 
 // @todo: remove the custom scss for new custom pico-scss
 @use "partials/variables" as *;
-@use "partials/mixins" as *;
+// @use "partials/mixins" as *;
 @use "partials/buttons" as *;
-
+@use "partials/typography" as *;
+@use "partials/utilities" as *;
 @use "partials/pico-page-form" as *;
 // @use "view_components/card" as *;
+@use "view_components/navigation" as *;
+@use "view_components/hero-banner" as *;
 
 :root {
   // #{$css-var-prefix}font-family-emoji
@@ -42,19 +45,21 @@
 
   --primary-color: var(#{$css-var-prefix}primary);
   --secondary-color: var(#{$css-var-prefix}secondary);
-  color: var(#{$css-var-prefix}text-color);
-  border-color: var(#{$css-var-prefix}border-color);
-  border-radius: var(#{$css-var-prefix}border-radius);
-  background-color: var(#{$css-var-prefix}background-color);
 
+  border-color: var(#{$css-var-prefix}border-color);
+  border-width: var(#{$css-var-prefix}border-width);
+  border-radius: var(#{$css-var-prefix}border-radius);
+
+  color: var(#{$css-var-prefix}text-color);
   font-family: var(#{$css-var-prefix}font-family);
   font-size: var(#{$css-var-prefix}font-size);
   line-height: var(#{$css-var-prefix}line-height);
 
-  margin: 0;
-  padding: 0;
+  background-color: var(#{$css-var-prefix}background-color);
+
   box-sizing: border-box;
 }
+
 
 .trix-content {
   color: white;
@@ -67,6 +72,7 @@
   margin-top: $spacing-base;
 }
 
+// @Todo: move to _content-block.scss or similar
 .content-block {
   &::before {
     content: "Content Block";
@@ -110,110 +116,4 @@ body,
   margin: 0;
   padding: 0;
   border: none;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-.items-center {
-  align-items: center;
-}
-.items-between {
-  align-items: space-between;
-}
-.items-end {
-  align-items: flex-end;
-}
-
-.justify-start {
-  justify-content: flex-start;
-}
-.justify-center {
-  justify-content: center;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.justify-around {
-  justify-content: space-around;
-}
-.justify-end {
-  justify-content: flex-end;
-}
-
-.container {
-  max-width: 80%;
-  margin: 0 10%;
-  padding: 0 $spacing-one-and-a-half;
-  // &.section {
-  //   padding: 20px 0;
-  //   border-bottom: 1px solid var(--border-color);
-  //   margin-bottom: 20px;
-  // }
-  // table {
-  //   width: auto;
-  //   border-collapse: collapse;
-  //   th,
-  //   td {
-  //     padding: 10px;
-  //     text-align: left;
-  //     border-bottom: 1px solid var(--border-color);
-  //   }
-  //   th {
-  //     background-color: var(--primary-color);
-  //     color: white;
-  //   }
-  //   tr:hover {
-  //     background-color: var(--secondary-color);
-  //   }
-  // }
-}
-
-div.hero-banner {
-  position: relative;
-  overflow: hidden;
-  height: 450px;
-  margin-bottom: 1rem;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--primary-color);
-    z-index: -1;
-  }
-  hgroup {
-    text-align: center;
-    h1 {
-      font-size: 3rem !important;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-    p {
-      font-style: italic;
-      font-size: 1.25rem !important;
-      font-family: cursive, sans-serif !important;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-  }
-}
-
-nav.navigation {
-  background-color: var(--background-color);
-  color: white;
-  padding: 10px 0;
-  a {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.hide {
-  display: none;
 }

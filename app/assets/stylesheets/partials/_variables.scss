@@ -1,30 +1,18 @@
 @use "sass:color";
 
+// @Todo: move to or generate in theme
 $primary-color: #007bff;
 $inverse-color: #ff8000;
 $light-primary-color: #53affb;
 $dark-primary-color: #0056b3;
-
 $secondary-color: #6c757d;
 $success-color: #28a745;
 $danger-color: #dc3545;
 $warning-color: #ffc107;
 $info-color: #17a2b8;
 
-$light-color: #f8f9fa;
-$dark-color: #343a40;
-
-$font-color: #212529;
-$font-color-inverse: #ffffff;
-$font-color-secondary: #6c757d;
-$heading-color: #343a40;
-
-$font-family: "Comfortaa", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-size-base: 13pt;
-$line-height-base: 1;
 
 $border-radius-base: 0.75rem;
-$border-color-base: $dark-color;
 $border-width-base: 1px;
 $border-style-base: solid;
 

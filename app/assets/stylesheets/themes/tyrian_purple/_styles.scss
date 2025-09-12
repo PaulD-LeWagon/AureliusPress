@@ -17,9 +17,13 @@ $black: #000000;
   // Typography
   #{$css-var-prefix}font-family-emoji: "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
-  #{$css-var-prefix}font-family-sans-serif: system-ui, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, Helvetica, Arial, "Helvetica Neue", sans-serif,
-    var(#{$css-var-prefix}font-family-emoji);
+  #{$css-var-prefix}font-family-sans-serif: "Open Sans", Lato, Roboto, system-ui,
+    "Segoe UI", Oxygen, Ubuntu, Cantarell, Helvetica, Arial, "Helvetica Neue",
+    sans-serif, var(#{$css-var-prefix}font-family-emoji);
+  #{$css-var-prefix}font-family-serif: "Merriweather", "Luxurious Roman",
+    "Georgia", serif;
+  #{$css-var-prefix}font-family-cursive: "Quintessential", "Dancing Script",
+    "Sacramento", cursive;
   #{$css-var-prefix}font-family-monospace: ui-monospace, SFMono-Regular,
     "SF Mono", Menlo, Consolas, "Liberation Mono", monospace,
     var(#{$css-var-prefix}font-family-emoji);
@@ -247,42 +251,49 @@ $black: #000000;
   h5,
   h6 {
     #{$css-var-prefix}font-weight: 700;
+    font-family: var(#{$css-var-prefix}font-family-serif);
   }
 
   h1 {
-    #{$css-var-prefix}font-size: 2rem;
+    #{$css-var-prefix}font-size: 2.25rem;
     #{$css-var-prefix}line-height: 1.125;
     #{$css-var-prefix}typography-spacing-top: 3rem;
+    #{$css-var-prefix}border-color: #{$zinc-50};
   }
 
   h2 {
     #{$css-var-prefix}font-size: 1.75rem;
     #{$css-var-prefix}line-height: 1.15;
     #{$css-var-prefix}typography-spacing-top: 2.625rem;
+    #{$css-var-prefix}border-color: #{$zinc-100};
   }
 
   h3 {
     #{$css-var-prefix}font-size: 1.5rem;
     #{$css-var-prefix}line-height: 1.175;
     #{$css-var-prefix}typography-spacing-top: 2.25rem;
+    #{$css-var-prefix}border-color: #{$zinc-200};
   }
 
   h4 {
     #{$css-var-prefix}font-size: 1.25rem;
     #{$css-var-prefix}line-height: 1.2;
     #{$css-var-prefix}typography-spacing-top: 1.874rem;
+    #{$css-var-prefix}border-color: #{$zinc-250};
   }
 
   h5 {
     #{$css-var-prefix}font-size: 1.125rem;
     #{$css-var-prefix}line-height: 1.225;
     #{$css-var-prefix}typography-spacing-top: 1.6875rem;
+    #{$css-var-prefix}border-color: #{$zinc-300};
   }
 
   h6 {
     #{$css-var-prefix}font-size: 1rem;
     #{$css-var-prefix}line-height: 1.25;
     #{$css-var-prefix}typography-spacing-top: 1.5rem;
+    #{$css-var-prefix}border-color: #{$zinc-400};
   }
 }
 

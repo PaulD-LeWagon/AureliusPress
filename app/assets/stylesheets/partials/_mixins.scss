@@ -1,7 +1,6 @@
 @mixin spacing-utilities($prefix, $property, $base: 0.25rem, $max: 8) {
   @for $i from 1 through $max {
     $value: ($i * $base);
-
     // All sides
     .#{$prefix}-#{$i} {
       #{$property}: $value !important;
@@ -34,6 +33,3 @@
     }
   }
 }
-// Generate the margin and padding classes
-@include spacing-utilities('m', 'margin', 0.25rem, 10);
-@include spacing-utilities('p', 'padding', 0.25rem, 10);

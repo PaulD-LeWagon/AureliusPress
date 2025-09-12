@@ -3,6 +3,7 @@
 @use "sass:map";
 @use "@picocss/pico/scss/pico" as *;
 
+// @Todo: these should be pulled from a central location - i.e. the theme.
 // Define custom button colours using a Sass map
 $custom-button-colors: (
   "primary": $primary-color,
@@ -12,8 +13,6 @@ $custom-button-colors: (
   "warning": $warning-color,
   "info": $info-color,
   "inverse": $inverse-color,
-  "light": $light-color,
-  "dark": $dark-color,
 );
 
 // This mixin generates the button styles for a given colour map

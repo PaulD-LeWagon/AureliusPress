@@ -1,5 +1,11 @@
+<div class="hero-banner small flex justify-center items-center">
+  <hgroup class="container">
+    <h1>AureliusPress::Admin::Document::AtomicBlogPosts#index</h1>
+    <p>View all atomic blog posts in the AureliusPress application.</p>
+  </hgroup>
+</div>
+
 <div class="container">
-  <h1>AureliusPress::Admin::Document::AtomicBlogPosts#index</h1>
 
   <h2>All Atomic Posts</h2>
 
@@ -23,9 +29,11 @@
             <td><%= atomic_blog_post.id %></td>
             <td><%= atomic_blog_post.title %></td>
             <td><%= atomic_blog_post.description %></td>
-            <td>
-              <%= link_to "Show", aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post) %> |
-              <%= link_to "Edit", edit_aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post) %> |
+            <td class="no-wrap">
+              <%= link_to "Show", aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post) %>
+              &nbsp;
+              <%= link_to "Edit", edit_aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post) %>
+              &nbsp;
               <%= link_to "Delete", aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
             </td>
           </tr>
