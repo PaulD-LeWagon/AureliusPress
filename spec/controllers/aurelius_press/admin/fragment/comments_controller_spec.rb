@@ -3,15 +3,16 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Fragment::CommentsController, type: :controller do
   render_views
 
+  let!(:moderator_user) { create(:aurelius_press_moderator_user) }
   let!(:user) { create(:aurelius_press_user) }
   let!(:quote) { create(:aurelius_press_catalogue_quote) }
 
   before do
-    sign_in user
+    sign_in moderator_user
   end
 
   after do
-    sign_out user
+    sign_out moderator_user
   end
 
   let(:record_attributes) {

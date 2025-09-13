@@ -39,7 +39,7 @@ RSpec.feature "Admin can manage users (CRUD)", :js do
       )
       # save_and_open_page
       # 4. Submit the form
-      click_button "Create User"
+      click_button "Create"
     }.to change(AureliusPress::User, :count).by(1)
     # 4. Verify successful creation and redirection
     new_user = AureliusPress::User.last
@@ -104,7 +104,7 @@ RSpec.feature "Admin can manage users (CRUD)", :js do
     )
     # save_and_open_page
     # 4. Submit the form
-    click_button "Update User"
+    click_button "Update"
 
     # 5. Verify the user was updated successfully and redirected to the show page
     expect(page).to have_content "User was successfully updated."

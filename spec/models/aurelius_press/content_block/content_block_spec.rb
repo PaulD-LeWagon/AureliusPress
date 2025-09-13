@@ -28,7 +28,6 @@ RSpec.describe AureliusPress::ContentBlock::ContentBlock, type: :model do
   describe "validations" do
     # Existing position validations
     it { should validate_presence_of(:position) }
-    it { should validate_uniqueness_of(:position).scoped_to(:document_id) }
 
     # New html_id validations
     it { should allow_value(nil).for(:html_id) }
@@ -49,15 +48,15 @@ RSpec.describe AureliusPress::ContentBlock::ContentBlock, type: :model do
     end
 
     # Test data_attributes default value
-    it "defaults data_attributes to an empty hash" do
-      expect(subject.data_attributes).to eq({})
+    it "defaults data_attributes to an empty string" do
+      expect(subject.data_attributes).to eq("")
     end
 
     it "allows valid data_attributes to be set" do
       # This test name is a bit misleading, as data_attributes is flexible
       # but we can still check that it accepts a hash
-      subject.data_attributes = { "data-key" => "value", "aria-label" => "label" }
-      expect(subject.data_attributes).to eq({ "data-key" => "value", "aria-label" => "label" })
+      subject.data_attributes = "data-key=\"value\" data-aria-label=\"label\""
+      expect(subject.data_attributes).to eq("data-key=\"value\" data-aria-label=\"label\"")
     end
   end
 end

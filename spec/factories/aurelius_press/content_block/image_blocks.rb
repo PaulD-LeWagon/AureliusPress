@@ -19,6 +19,8 @@ FactoryBot.define do
     caption { Faker::Lorem.sentence(word_count: 5) }
     alignment { AureliusPress::ContentBlock::ImageBlock.alignments.keys.first }
 
+    association :content_block, factory: :aurelius_press_content_block_content_block, strategy: :build
+
     after(:build) do |block|
       unless block.image.attached?
         block.image.attach(

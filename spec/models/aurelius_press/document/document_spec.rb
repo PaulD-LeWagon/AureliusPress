@@ -23,36 +23,6 @@ require "rails_helper"
 RSpec.describe AureliusPress::Document::Document, type: :model do
   subject { create(:aurelius_press_document_blog_post, :with_belt_and_braces) }
 
-  # Document::DOCUMENT_TYPES.each do |document_type|
-  #   describe "validations for #{document_type}" do
-  #     let(:document) { build(document_type.underscore.to_sym) }
-  #     it "is valid with valid attributes" do
-  #       expect(document).to be_valid
-  #     end
-  #     it "is invalid without a title" do
-  #       document.title = nil
-  #       expect(document).not_to be_valid
-  #       expect(document.errors[:title]).to include("can't be blank")
-  #     end
-  #     it "is invalid without a slug" do
-  #       document.slug = nil
-  #       expect(document).not_to be_valid
-  #       expect(document.errors[:slug]).to include("can't be blank")
-  #     end
-  #     it "is invalid without a user" do
-  #       document.user = nil
-  #       expect(document).not_to be_valid
-  #       expect(document.errors[:user]).to include("must exist")
-  #     end
-  #     it "is invalid without a type" do
-  #       document.type = nil
-  #       expect(document).not_to be_valid
-  #       expect(document.errors[:type]).to include("can't be blank")
-  #     end
-  #   end
-  # end
-  # Test Validations
-
   describe "validations" do
     # Create a valid existing document before running uniqueness tests
     # This document will have a user_id and other required fields from its
@@ -73,19 +43,22 @@ RSpec.describe AureliusPress::Document::Document, type: :model do
 
     it {
       should define_enum_for(:status)
-               .with_values([
-                 "draft",
-                 "published",
-                 "archived",
+               .with_values(%w[
+                  draft
+                  published
+                  scheduled
+                  archived
+                  in_review
+                  trashed
                ])
     }
     it {
       should define_enum_for(:visibility)
-               .with_values([
-                 "private_to_owner",
-                 "private_to_group",
-                 "private_to_app_users",
-                 "public_to_www",
+               .with_values(%w[
+                 private_to_owner
+                 private_to_group
+                 private_to_app_users
+                 public_to_www
                ])
     }
 

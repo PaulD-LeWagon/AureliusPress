@@ -3,14 +3,15 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Community::GroupsController, type: :controller do
   render_views # Ensure views are rendered for template checks
 
+  let(:moderator_user) { create(:aurelius_press_moderator_user) }
   let(:creator) { create(:aurelius_press_user) }
 
   before do
-    sign_in creator
+    sign_in moderator_user
   end
 
   after do
-    sign_out creator
+    sign_out moderator_user
   end
 
   # Attributes for DIRECTLY CREATING records (e.g., with FactoryBot's `create`)

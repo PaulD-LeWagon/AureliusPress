@@ -1,13 +1,16 @@
-<div class="hero-banner small flex justify-center items-center">
-  <hgroup class="container">
-    <h1>AureliusPress::Admin::Users<b><i>#index</i></b></h1>
-    <p>Manage users of the AureliusPress application.</p>
-  </hgroup>
-</div>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Users#index",
+     subtitle: "Manage users of the AureliusPress application.",
+     small: true,
+   ) %>
 
 <div class="container">
   <div>
-    <h2 class="flex justify-between items-center"><span>Users</span> <%= link_to "New User", new_aurelius_press_admin_user_path, class: "button success", role: "button" %></h2>
+    <h2 class="flex justify-between items-center">
+      <span>Users</span>
+      <%= link_to "New User", new_aurelius_press_admin_user_path, class: "button success", role: "button" %>
+    </h2>
+
     <table>
       <thead>
         <tr>
@@ -28,9 +31,9 @@
             <td><%= user.full_name %></td>
             <td><%= user.email %></td>
             <td>
-              <%= link_to 'Show', aurelius_press_admin_user_path(user) %>
+              <%= link_to "Show", aurelius_press_admin_user_path(user) %>
               &nbsp;
-              <%= link_to 'Edit', edit_aurelius_press_admin_user_path(user) %>
+              <%= link_to "Edit", edit_aurelius_press_admin_user_path(user) %>
               &nbsp;
               <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
             </td>

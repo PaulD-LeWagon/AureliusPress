@@ -7,14 +7,15 @@ RSpec.describe AureliusPress::Admin::Taxonomy::CategoriesController, type: :cont
   # Adjust these based on your Category model's validations
   let(:valid_attributes) { attributes_for(:aurelius_press_taxonomy_category) }
   let(:invalid_attributes) { attributes_for(:aurelius_press_taxonomy_category, name: nil) } # name is required
+  let(:moderator) { create(:aurelius_press_moderator_user) }
   let(:user) { create(:aurelius_press_user) }
 
   before do
-    sign_in user
+    sign_in moderator
   end
 
   after do
-    sign_out user
+    sign_out moderator
   end
 
   describe "GET #index" do

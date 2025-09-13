@@ -1,7 +1,7 @@
 <div class="hero-banner small flex justify-center items-center">
   <hgroup class="container">
-    <h1>AureliusPress::Admin::Users<b><i>#edit</i></b></h1>
-    <p>Edit an existing user in the AureliusPress application.</p>
+    <h1>AureliusPress::Admin::Document::Pages<b><i>#edit</i></b></h1>
+    <p>Edit an existing page in the AureliusPress application.</p>
   </hgroup>
 </div>
 
@@ -9,6 +9,6 @@
 
   <h2>Edit Page</h2>
 
-  <%= render "form", page: @page, categories: @categories %>
-  
+  <%= render "form", page: @page, categories: @categories, tags: @tags %>
+
 </div>

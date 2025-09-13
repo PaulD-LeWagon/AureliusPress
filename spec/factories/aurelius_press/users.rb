@@ -28,12 +28,14 @@ FactoryBot.define do
     first_name { Faker::Name.first_name }
     # Generates a realistic last name
     last_name { Faker::Name.last_name }
+    age { rand(18..65) }
     # Combines first and last name to create a username
     sequence(:username) { |n| "#{Faker::Internet.username(specifier: "#{first_name} #{last_name} #{n}")}" }
     # Generates a unique email address for each user factory
     email { "#{username.parameterize}@example.gmail.com" }
     # Sets the default role for the user
     role { :user } # e.g., :reader, :user, :moderator, :admin, :superuser
+    status { :active } # e.g., :active, :inactive, :banned
     # Attaches an avatar image using Active Storage.
     # This assumes you have a 'test_image.png' file in your spec/fixtures/files directory.
     # Make sure to create this directory and place a dummy image file there.

@@ -58,10 +58,29 @@ Rails.application.routes.draw do
           end
         end
       end
+      namespace :fragment do
+        resources :comments
+        resources :notes
+      end
       namespace :catalogue do
-        resources :authors
-        resources :sources
-        resources :quotes
+        resources :authors do
+          resources :comments, only: [:create, :update, :destroy]
+          resources :notes, only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
+          end
+        end
+        resources :sources do
+          resources :comments, only: [:create, :update, :destroy]
+          resources :notes, only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
+          end
+        end
+        resources :quotes do
+          resources :comments, only: [:create, :update, :destroy]
+          resources :notes, only: [:create, :update, :destroy] do
+            resources :comments, only: [:create, :update, :destroy]
+          end
+        end
       end
       namespace :taxonomy do
         resources :tags
@@ -76,17 +95,30 @@ Rails.application.routes.draw do
     end
     # --- Public-facing (Non-Admin) Routes ---
     namespace :catalogue do
-      resources :authors, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
-      resources :sources, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
-      resources :quotes, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
+      resources :authors, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
+        resources :comments, only: [:create, :update, :destroy]
+        resources :notes, only: [:create, :update, :destroy] do
+          resources :comments, only: [:create, :update, :destroy]
+        end
+      end
+      resources :sources, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
+        resources :comments, only: [:create, :update, :destroy]
+        resources :notes, only: [:create, :update, :destroy] do
+          resources :comments, only: [:create, :update, :destroy]
+        end
+      end
+      resources :quotes, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
+        resources :comments, only: [:create, :update, :destroy]
+        resources :notes, only: [:create, :update, :destroy] do
+          resources :comments, only: [:create, :update, :destroy]
+        end
+      end
     end
-    # resources :categories, only: [:create, :update], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
-    # resources :tags, only: [:create, :update], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ }
-    # # Flattened Likes for ALL likeable objects
-    # resources :likes, only: [:create, :destroy, :update]
+    # Flattened Likes for ALL likeable objects
+    resources :likes, only: [:create, :destroy, :update]
     # Define routes for users
-    # resources :users, only: [:show, :edit, :update]
-    # Concrete Document Routes
+    resources :users, only: [:show, :edit, :update]
+    ## Concrete Document Routes
     # Define routes for Atomic Blog Posts
     resources :atomic_blog_posts, path: "atomic-blog-posts", module: "document" do
       resources :comments, only: [:create, :update, :destroy]

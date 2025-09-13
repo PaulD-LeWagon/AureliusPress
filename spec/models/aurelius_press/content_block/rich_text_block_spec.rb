@@ -33,7 +33,7 @@ RSpec.describe AureliusPress::ContentBlock::RichTextBlock, type: :model do
 
   describe "associations" do
     it { should have_one(:content_block) }
-    it { should have_rich_text(:body) }
+    it { should have_rich_text(:content) }
   end
 
   describe "validations" do
@@ -43,21 +43,21 @@ RSpec.describe AureliusPress::ContentBlock::RichTextBlock, type: :model do
       expect(subject.content_block).to be_a(AureliusPress::ContentBlock::ContentBlock)
     end
 
-    it "validates presence of content body (rich text)" do
+    it "validates presence of content (rich text)" do
       subject.save!
       expect(subject).to be_valid
       expect(subject).to be_persisted
       expect(subject).to be_a(AureliusPress::ContentBlock::RichTextBlock)
-      expect(subject.body).to be_present
-      expect(subject.body.to_plain_text).to be_present
+      expect(subject.content).to be_present
+      expect(subject.content.to_plain_text).to be_present
     end
 
-    it "[FAILS] body content does not exist" do
+    it "[FAILS] content does not exist" do
       expect(empty_rich_text_block).not_to be_valid
       expect(empty_rich_text_block).not_to be_persisted
-      expect(empty_rich_text_block.body).to be_nil
-      expect(empty_rich_text_block.errors[:body]).to be_present
-      expect(empty_rich_text_block.errors[:body]).to include("can't be blank")
+      expect(empty_rich_text_block.content).to be_nil
+      expect(empty_rich_text_block.errors[:content]).to be_present
+      expect(empty_rich_text_block.errors[:content]).to include("can't be blank")
     end
   end
 end

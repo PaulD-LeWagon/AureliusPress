@@ -1,53 +1,97 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe "AureliusPress::Document::Pages", type: :request do
-  describe "GET /index" do
+RSpec.describe AureliusPress::Document::Page, type: :request do
+  let!(:aurelius_press_page) { create(:aurelius_press_document_page) }
+
+  before do
+    sign_in create(:aurelius_press_admin_user)
+  end
+
+  describe "GET /pages/index" do
     it "returns http success" do
-      get "/aurelius_press/document/pages/index"
+      get aurelius_press_pages_path
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /show" do
+  #----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  describe "GET /pages/show" do
     it "returns http success" do
-      get "/aurelius_press/document/pages/show"
+      get aurelius_press_page_path(aurelius_press_page)
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /new" do
+  #----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  describe "GET /pages/new" do
     it "returns http success" do
-      get "/aurelius_press/document/pages/new"
+      get new_aurelius_press_page_path
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /create" do
+  #----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  describe "POST /pages/create" do
+    context "with valid parameters" do
+      let(:valid_attributes) { attributes_for(:aurelius_press_document_page, user_id: create(:aurelius_press_admin_user).id) }
+
+      it "creates a new page" do
+        expect {
+          post aurelius_press_pages_path, params: { aurelius_press_document_page: valid_attributes }
+        }.to change(AureliusPress::Document::Page, :count).by(1)
+      end
+
+      it "redirects to the created page" do
+        post aurelius_press_pages_path, params: { aurelius_press_document_page: valid_attributes }
+        expect(response).to redirect_to(aurelius_press_page_path(AureliusPress::Document::Page.last))
+      end
+    end
+  end
+
+  #----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  describe "GET /pages/:slug/edit" do
     it "returns http success" do
-      get "/aurelius_press/document/pages/create"
+      get edit_aurelius_press_page_path(aurelius_press_page)
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /edit" do
-    it "returns http success" do
-      get "/aurelius_press/document/pages/edit"
-      expect(response).to have_http_status(:success)
+  #----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  describe "PATCH /pages/:slug" do
+    context "with valid parameters" do
+      let(:new_attributes) { { title: "The New Title" } }
+
+      it "updates the requested page" do
+        patch aurelius_press_page_path(aurelius_press_page), params: { aurelius_press_document_page: new_attributes }
+        aurelius_press_page.reload
+        expect(aurelius_press_page.title).to eq("The New Title")
+      end
+
+      it "redirects to the page" do
+        patch aurelius_press_page_path(aurelius_press_page), params: { aurelius_press_document_page: new_attributes }
+        aurelius_press_page.reload
+        expect(response).to redirect_to(aurelius_press_page_path(aurelius_press_page))
+      end
     end
   end
 
-  describe "GET /update" do
-    it "returns http success" do
-      get "/aurelius_press/document/pages/update"
-      expect(response).to have_http_status(:success)
+  #----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  describe "DELETE /pages/:slug" do
+    it "destroys the requested page" do
+      expect {
+        delete aurelius_press_page_path(aurelius_press_page)
+      }.to change(AureliusPress::Document::Page, :count).by(-1)
+    end
+
+    it "redirects to the pages list" do
+      delete aurelius_press_page_path(aurelius_press_page)
+      expect(response).to redirect_to(aurelius_press_pages_path)
     end
   end
-
-  describe "GET /destroy" do
-    it "returns http success" do
-      get "/aurelius_press/document/pages/destroy"
-      expect(response).to have_http_status(:success)
-    end
-  end
-
 end

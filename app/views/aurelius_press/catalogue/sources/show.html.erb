@@ -1,2 +1,17 @@
-<h1>AureliusPress::Catalogue::Sources#show</h1>
-<p>Find me in app/views/aurelius_press/catalogue/sources/show.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Catalogue::Source#show",
+     subtitle: "Find me in app/views/aurelius_press/catalogue/sources/show.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Catalogue::Source#show">
+
+  <h1>Source <%= @source.title %></h1>
+
+  <p><strong>Title:</strong> <%= @source.title %></p>
+  <p><strong>Author:</strong> <%= @source.author.name if @source.author %></p>
+  <p><strong>Published At:</strong> <%= l(@source.published_at, format: :long) if @source.published_at %></p>
+  <p><strong>Created At:</strong> <%= l(@source.created_at, format: :long) %></p>
+  <p><strong>Updated At:</strong> <%= l(@source.updated_at, format: :long) %></p>
+
+</div>

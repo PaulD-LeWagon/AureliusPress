@@ -3,16 +3,17 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Community::LikesController, type: :controller do
   render_views # Ensure views are rendered for template checks
 
+  let!(:moderator_user) { create(:aurelius_press_moderator_user) }
   let!(:user) { create(:aurelius_press_user) }
   let!(:source) { create(:aurelius_press_catalogue_source) }
   let!(:quote) { create(:aurelius_press_catalogue_quote, source: source) }
 
   before do
-    sign_in user
+    sign_in moderator_user
   end
 
   after do
-    sign_out user
+    sign_out moderator_user
   end
 
   let(:record_attributes) {

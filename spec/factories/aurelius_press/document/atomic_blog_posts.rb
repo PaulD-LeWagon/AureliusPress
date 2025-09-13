@@ -25,6 +25,7 @@ FactoryBot.define do
     status { :published }
     visibility { :public_to_www }
     published_at { Time.current }
+    content { ActionText::RichText.new(body: Faker::Lorem.paragraphs(number: 3).join("\n\n")) }
     # Action Text: Attaches rich text content.
     # This requires an instance of ActionText::RichText to be associated.
     # The `content` attribute is what Trix editor binds to.
