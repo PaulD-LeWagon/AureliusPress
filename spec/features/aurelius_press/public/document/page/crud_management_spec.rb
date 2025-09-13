@@ -22,7 +22,7 @@ RSpec.feature "User can manage a Page (CRUD)", :js do
   }
 
   scenario "CREATE - user can create a new page" do
-    # 1. Log in as an user
+    # 1. Log in as a user
     sign_in user
     # 2. Visit the new page form
     visit new_aurelius_press_page_path
