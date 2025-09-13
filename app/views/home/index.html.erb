@@ -1,23 +1,20 @@
 <div class="content">
 
-  <div class="hero-banner flex items-center">
+  <div class="hero-banner flex justify-center items-center">
     <hgroup class="container">
       <h1><%= @title %></h1>
       <p><%= @subtitle %></p>
     </hgroup>
   </div>
 
-  <div data-controller="hello" class="container">
-    Placeholder for Stimulus controller content.
-  </div>
-
   <div class="container">
 
-    <%= link_to "User Management", aurelius_press_admin_users_path %>
+    <h2 class="mt-10 mb-5"><%= @description.shift %></h2>
 
     <% @description.each do |paragraph| %>
       <p><%= paragraph %></p>
     <% end %>
 
   </div>
+
 </div>

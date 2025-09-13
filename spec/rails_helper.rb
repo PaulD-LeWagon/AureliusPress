@@ -10,9 +10,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # return unless Rails.env.test?
 require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
-
 require "action_text/system_test_helper"
-
 # For Active Storage fixture file uploads
 require "action_dispatch/testing/test_process"
 
@@ -91,6 +89,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL, type: :feature
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.before(:each, type: :feature) do
     Capybara.default_driver = :selenium_headless
   end

@@ -51,7 +51,7 @@ module Sluggable
       # Note: BUT WHAT IF THE SLUG IS ALREADY SET WITH A CUSTOM VALUE? |
       # ---------------------------------------------------------------
     elsif source_has_changed && self.slug != source_value.parameterize
-      self.slug = source_value.parameterize
+      self.slug = source_value.parameterize if source_value.present?
     end
     # Return the slug even if still blank, so it can be used in validations.
     # A random slug for, say, a new Quote without text or a category without a

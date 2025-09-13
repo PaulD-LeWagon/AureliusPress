@@ -36,6 +36,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
     if @atomic_blog_post.update(atomic_blog_post_params)
       redirect_to aurelius_press_admin_document_atomic_blog_post_path(@atomic_blog_post), notice: action_was_successfully(:updated)
     else
+      set_tags_and_categories
       render :edit, status: :unprocessable_entity
     end
   end

@@ -4,14 +4,15 @@ require "action_dispatch/testing/test_process"
 RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: :controller do
   render_views
 
+  let!(:admin_user) { create(:aurelius_press_admin_user) }
   let!(:user) { create(:aurelius_press_user) }
 
   before do
-    sign_in user
+    sign_in admin_user
   end
 
   after do
-    sign_out user
+    sign_out admin_user
   end
 
   let!(:atomic_blog_post_record) do
@@ -56,7 +57,6 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
 
   describe "GET #index" do
     it "returns a successful response and assigns @atomic_blog_posts" do
-      create(:aurelius_press_document_atomic_blog_post)
       get :index
       expect(response).to be_successful
       expect(assigns(:atomic_blog_posts)).to_not be_nil
@@ -66,7 +66,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
 
   describe "GET #show" do
     it "returns a successful response and assigns @atomic_blog_post" do
-      get :show, params: { id: atomic_blog_post_record.id }
+      get :show, params: { id: atomic_blog_post_record.slug }
       expect(response).to be_successful
       expect(assigns(:atomic_blog_post)).to eq(atomic_blog_post_record)
     end
@@ -120,7 +120,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
 
   describe "GET #edit" do
     it "returns a successful response and assigns @atomic_blog_post" do
-      get :edit, params: { id: atomic_blog_post_record.id }
+      get :edit, params: { id: atomic_blog_post_record.slug }
       expect(response).to be_successful
       expect(assigns(:atomic_blog_post)).to eq(atomic_blog_post_record)
     end
@@ -140,7 +140,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
       end
 
       it "updates the requested atomic blog post" do
-        patch :update, params: { id: atomic_blog_post_to_update.id, aurelius_press_document_atomic_blog_post: new_valid_param_attributes }
+        patch :update, params: { id: atomic_blog_post_to_update.slug, aurelius_press_document_atomic_blog_post: new_valid_param_attributes }
         atomic_blog_post_to_update.reload
         expect(atomic_blog_post_to_update.title).to eq(new_valid_param_attributes[:title])
         expect(atomic_blog_post_to_update.content.to_plain_text).to eq(new_valid_param_attributes[:content])
@@ -151,7 +151,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
       end
 
       it "redirects to the atomic blog post" do
-        patch :update, params: { id: atomic_blog_post_to_update.id, aurelius_press_document_atomic_blog_post: new_valid_param_attributes }
+        patch :update, params: { id: atomic_blog_post_to_update.slug, aurelius_press_document_atomic_blog_post: new_valid_param_attributes }
         atomic_blog_post_to_update.reload
         expect(response).to redirect_to(aurelius_press_admin_document_atomic_blog_post_url(atomic_blog_post_to_update))
       end
@@ -161,7 +161,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
       let!(:atomic_blog_post_to_update) { atomic_blog_post_record }
 
       it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: atomic_blog_post_to_update.id, aurelius_press_document_atomic_blog_post: invalid_param_attributes }
+        patch :update, params: { id: atomic_blog_post_to_update.slug, aurelius_press_document_atomic_blog_post: invalid_param_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
       end
@@ -169,7 +169,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
       it "does not update the atomic blog post" do
         original_title = atomic_blog_post_to_update.title
         original_content = atomic_blog_post_to_update.content
-        patch :update, params: { id: atomic_blog_post_to_update.id, aurelius_press_document_atomic_blog_post: invalid_param_attributes }
+        patch :update, params: { id: atomic_blog_post_to_update.slug, aurelius_press_document_atomic_blog_post: invalid_param_attributes }
         atomic_blog_post_to_update.reload
         expect(atomic_blog_post_to_update.title).to eq(original_title)
         expect(atomic_blog_post_to_update.content).to eq(original_content)
@@ -181,13 +181,13 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
     it "destroys the requested atomic blog post" do
       atomic_post_to_destroy = create(:aurelius_press_document_atomic_blog_post, user: create(:aurelius_press_user), category: create(:aurelius_press_taxonomy_category))
       expect {
-        delete :destroy, params: { id: atomic_post_to_destroy.id }
+        delete :destroy, params: { id: atomic_post_to_destroy.slug }
       }.to change(AureliusPress::Document::AtomicBlogPost, :count).by(-1)
     end
 
     it "redirects to the atomic blog posts list" do
       atomic_post_to_destroy = create(:aurelius_press_document_atomic_blog_post, user: create(:aurelius_press_user), category: create(:aurelius_press_taxonomy_category))
-      delete :destroy, params: { id: atomic_post_to_destroy.id }
+      delete :destroy, params: { id: atomic_post_to_destroy.slug }
       expect(response).to redirect_to(aurelius_press_admin_document_atomic_blog_posts_url)
     end
   end

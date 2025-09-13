@@ -103,7 +103,7 @@ RSpec.describe AureliusPress::Document::Page, type: :model do
   describe "Delegated Type Content Blocks" do
     it "allows creating content blocks with an ImageBlock contentable" do
       page = create(:aurelius_press_document_page)
-      image_content = create(:aurelius_press_content_block_image_block) # This is the actual image data
+      image_content = build(:aurelius_press_content_block_image_block) # This is the actual image data
       content_block_instance = nil
       expect {
         # Create the ContentBlock that links the page to the specific image_content

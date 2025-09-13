@@ -1,0 +1,49 @@
+@use "@picocss/pico/scss/pico" as *;
+
+// @TODO: use pico spacing and move custom spacing to the theme
+
+div.hero-banner, div.hero-component {
+  position: relative;
+  overflow: hidden;
+  height: 450px;
+  margin-bottom: 1rem;
+  &.small {
+    min-height: 180px;
+    max-height: 250px;
+    h1 {
+      font-size: 2rem !important;
+    }
+    p {
+      font-size: 1.25rem !important;
+    }
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    z-index: -1;
+  }
+  hgroup {
+    text-align: center;
+    h1 {
+      font-family: var(#{$css-var-prefix}font-family-serif) !important;
+      font-size: 3rem !important;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+      padding-bottom: 0.5rem;
+      border-bottom: solid var(#{$css-var-prefix}border-width)
+        var(#{$css-var-prefix}background-color);
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-style: oblique;
+      font-size: 1.5rem !important;
+      font-family: var(#{$css-var-prefix}font-family-cursive) !important;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+}

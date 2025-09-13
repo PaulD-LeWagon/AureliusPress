@@ -1,69 +1,152 @@
 @use "variables" as *;
 @use "sass:color";
+@use "sass:map";
+@use "@picocss/pico/scss/pico" as *;
 
+// @Todo: these should be pulled from a central location - i.e. the theme.
+// Define custom button colours using a Sass map
+$custom-button-colors: (
+  "primary": $primary-color,
+  "secondary": $secondary-color,
+  "success": $success-color,
+  "danger": $danger-color,
+  "warning": $warning-color,
+  "info": $info-color,
+  "inverse": $inverse-color,
+);
+
+// This mixin generates the button styles for a given colour map
+@mixin custom-buttons($colors, $parent-selector: "", $css-var-prefix: "") {
+  @each $name, $value in $colors {
+    // Generate Pico-like CSS variables for the custom colour
+    :root {
+      #{$css-var-prefix}#{$name}-background: #{$value};
+      #{$css-var-prefix}#{$name}-border: #{$value};
+      #{$css-var-prefix}#{$name}-inverse: var(#{$css-var-prefix}inverse);
+      #{$css-var-prefix}#{$name}-hover-background: #{color.adjust(
+          $value,
+          $lightness: -10%
+        )};
+      #{$css-var-prefix}#{$name}-hover-border: #{color.adjust(
+          $value,
+          $lightness: -10%
+        )};
+      #{$css-var-prefix}#{$name}-focus: #{color.adjust(
+          $value,
+          $lightness: -5%
+        )};
+    }
+
+    // Default button style
+    #{$parent-selector}
+      :is(
+        a.#{$name},
+        button.#{$name},
+        [type="submit"].#{$name},
+        [type="reset"].#{$name},
+        [type="button"].#{$name},
+        [type="file"]::file-selector-button.#{$name},
+        [role="button"].#{$name}
+      ) {
+      #{$css-var-prefix}background-color: var(
+        #{$css-var-prefix}#{$name}-background
+      );
+      #{$css-var-prefix}border-color: var(#{$css-var-prefix}#{$name}-border);
+      #{$css-var-prefix}color: var(#{$css-var-prefix}#{$name}-inverse);
+      #{$css-var-prefix}hover-background-color: var(
+        #{$css-var-prefix}#{$name}-hover-background
+      );
+      #{$css-var-prefix}hover-border-color: var(
+        #{$css-var-prefix}#{$name}-hover-border
+      );
+      #{$css-var-prefix}focus-color: var(#{$css-var-prefix}#{$name}-focus);
+    }
+
+    // Outline variant
+    #{$parent-selector}
+      :is(
+        a.outline.#{$name},
+        button.outline.#{$name},
+        [type="submit"].outline.#{$name},
+        [type="reset"].outline.#{$name},
+        [type="button"].outline.#{$name},
+        [type="file"]::file-selector-button.outline.#{$name},
+        [role="button"].outline.#{$name}
+      ) {
+      #{$css-var-prefix}background-color: transparent;
+      #{$css-var-prefix}color: var(#{$css-var-prefix}#{$name}-background);
+      #{$css-var-prefix}border-color: var(
+        #{$css-var-prefix}#{$name}-background
+      );
+
+      &:is(
+          [aria-current]:not([aria-current="false"]),
+          :hover,
+          :active,
+          :focus
+        ) {
+        #{$css-var-prefix}background-color: transparent;
+        #{$css-var-prefix}color: var(
+          #{$css-var-prefix}#{$name}-hover-background
+        );
+        #{$css-var-prefix}border-color: var(
+          #{$css-var-prefix}#{$name}-hover-border
+        );
+      }
+    }
+
+    // Contrast variant
+    #{$parent-selector}
+      :is(
+        a.contrast.#{$name},
+        button.contrast.#{$name},
+        [type="submit"].contrast.#{$name},
+        [type="reset"].contrast.#{$name},
+        [type="button"].contrast.#{$name},
+        [type="file"]::file-selector-button.contrast.#{$name},
+        [role="button"].contrast.#{$name}
+      ) {
+      #{$css-var-prefix}background-color: var(
+        #{$css-var-prefix}#{$name}-inverse
+      );
+      #{$css-var-prefix}border-color: var(#{$css-var-prefix}#{$name}-inverse);
+      #{$css-var-prefix}color: var(#{$css-var-prefix}#{$name}-background);
+      #{$css-var-prefix}hover-background-color: var(
+        #{$css-var-prefix}#{$name}-background
+      );
+      #{$css-var-prefix}hover-border-color: var(
+        #{$css-var-prefix}#{$name}-background
+      );
+      #{$css-var-prefix}hover-color: var(#{$css-var-prefix}#{$name}-inverse);
+      #{$css-var-prefix}focus-color: var(#{$css-var-prefix}#{$name}-focus);
+    }
+  }
+}
+
+@include custom-buttons(
+  $custom-button-colors,
+  $css-var-prefix: $css-var-prefix
+);
+
+// General button styles
+button,
 .button,
 [role="button"] {
   cursor: pointer;
-  color: white !important;
   text-decoration: none;
   margin-bottom: 1rem;
+  transition:
+    color 0.5s ease-in-out,
+    background-color 0.5s ease-in-out,
+    border-color 0.5s ease-in-out,
+    box-shadow 0.5s ease-in-out,
+    brightness 0.5s ease-in-out;
   &:hover {
     text-decoration: none;
+    filter: brightness(90%);
   }
-}
-
-.button-primary {
-  background-color: $primary-color;
-  color: white;
-  &:hover {
-    background-color: color.adjust($primary-color, $lightness: -5%);
-  }
-}
-
-.button-inverse {
-  background-color: $inverse-color;
-  color: white;
-  &:hover {
-    background-color: color.adjust($inverse-color, $lightness: -5%);
-  }
-}
-
-.button-secondary {
-  background-color: $secondary-color;
-  color: white;
-  &:hover {
-    background-color: color.adjust($secondary-color, $lightness: -5%);
-  }
-}
-
-.button-success {
-  background-color: $success-color;
-  color: white;
-  &:hover {
-    background-color: color.adjust($success-color, $lightness: -5%);
-  }
-}
-
-.button-danger {
-  background-color: $danger-color;
-  color: white;
-  &:hover {
-    background-color: color.adjust($danger-color, $lightness: -5%);
-  }
-}
-
-.button-warning {
-  background-color: $warning-color;
-  color: white;
-  &:hover {
-    background-color: color.adjust($warning-color, $lightness: -5%);
-  }
-}
-
-.button-info {
-  background-color: $info-color;
-  color: white;
-  &:hover {
-    background-color: color.adjust($info-color, $lightness: -5%);
-  }
+  // .secondary {
+  //   background-color: var(#{$css-var-prefix}secondary-background);
+  //   color: white;
+  // }
 }

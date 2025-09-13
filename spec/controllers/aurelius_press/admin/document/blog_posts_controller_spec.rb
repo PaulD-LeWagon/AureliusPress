@@ -3,14 +3,15 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :controller do
   render_views
 
+  let!(:admin_user) { create(:aurelius_press_admin_user) }
   let!(:user) { create(:aurelius_press_user) }
 
   before do
-    sign_in user
+    sign_in admin_user
   end
 
   after do
-    sign_out user
+    sign_out admin_user
   end
 
   let!(:blog_post) do
@@ -59,7 +60,7 @@ RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :contr
 
   describe "GET #show" do
     it "returns a successful response and assigns @blog_post" do
-      get :show, params: { id: blog_post.id }
+      get :show, params: { id: blog_post.slug }
       expect(response).to be_successful
       expect(assigns(:blog_post)).to eq(blog_post)
     end
@@ -104,7 +105,7 @@ RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :contr
 
   describe "GET #edit" do
     it "returns a successful response and assigns @blog_post" do
-      get :edit, params: { id: blog_post.id }
+      get :edit, params: { id: blog_post.slug }
       expect(response).to be_successful
       expect(assigns(:blog_post)).to eq(blog_post)
     end
@@ -116,13 +117,13 @@ RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :contr
       let(:new_valid_param_attributes) { { title: "#2. Updated Blog Post Title" }.merge(param_attributes) }
 
       it "updates the requested blog post" do
-        patch :update, params: { id: blog_post_to_update.id, aurelius_press_document_blog_post: new_valid_param_attributes }
+        patch :update, params: { id: blog_post_to_update.slug, aurelius_press_document_blog_post: new_valid_param_attributes }
         blog_post_to_update.reload
         expect(blog_post_to_update.title).to eq(new_valid_param_attributes[:title])
       end
 
       it "redirects to the blog post" do
-        patch :update, params: { id: blog_post_to_update.id, aurelius_press_document_blog_post: new_valid_param_attributes }
+        patch :update, params: { id: blog_post_to_update.slug, aurelius_press_document_blog_post: new_valid_param_attributes }
         expect(response).to redirect_to(aurelius_press_admin_document_blog_post_url(blog_post_to_update))
       end
     end
@@ -131,14 +132,14 @@ RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :contr
       let!(:blog_post_to_update) { blog_post }
 
       it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: blog_post_to_update.id, aurelius_press_document_blog_post: invalid_param_attributes }
+        patch :update, params: { id: blog_post_to_update.slug, aurelius_press_document_blog_post: invalid_param_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
       end
 
       it "does not update the blog post" do
         original_title = blog_post_to_update.title
-        patch :update, params: { id: blog_post_to_update.id, aurelius_press_document_blog_post: invalid_param_attributes }
+        patch :update, params: { id: blog_post_to_update.slug, aurelius_press_document_blog_post: invalid_param_attributes }
         blog_post_to_update.reload
         expect(blog_post_to_update.title).to eq(original_title)
       end
@@ -148,12 +149,12 @@ RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :contr
   describe "DELETE #destroy" do
     it "destroys the requested blog post" do
       expect {
-        delete :destroy, params: { id: blog_post.id }
+        delete :destroy, params: { id: blog_post.slug }
       }.to change(AureliusPress::Document::BlogPost, :count).by(-1)
     end
 
     it "redirects to the blog posts list" do
-      delete :destroy, params: { id: blog_post.id }
+      delete :destroy, params: { id: blog_post.slug }
       expect(response).to redirect_to(aurelius_press_admin_document_blog_posts_url)
     end
   end

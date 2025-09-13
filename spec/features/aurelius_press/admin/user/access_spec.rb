@@ -87,7 +87,7 @@ RSpec.feature "Admin User Management Access" do
       fill_in "Password", with: "password"
       fill_in "Password confirmation", with: "password"
       select "User", from: "Role"
-      click_button "Create User"
+      click_button "Create"
       expect(page).to have_content("User was successfully created.")
     end
 
@@ -95,7 +95,7 @@ RSpec.feature "Admin User Management Access" do
       updated_name = "Updated #{Faker::Name.first_name}"
       visit edit_aurelius_press_admin_user_path(@user)
       fill_in "First name", with: updated_name
-      click_button "Update User"
+      click_button "Update"
       expect(page).to have_content("User was successfully updated.")
       expect(@user.reload.first_name).to eq(updated_name)
     end
@@ -117,7 +117,7 @@ RSpec.feature "Admin User Management Access" do
     scenario "can change a user's role to a lower or equal role" do
       visit edit_aurelius_press_admin_user_path(@user)
       select "Moderator", from: "Role"
-      click_button "Update User"
+      click_button "Update"
       expect(page).to have_content("User was successfully updated.")
       expect(@user.reload.role).to eq("moderator")
     end
@@ -130,7 +130,7 @@ RSpec.feature "Admin User Management Access" do
       expect(page).to have_no_select("Role", with_options: ["Admin", "Superuser"])
       # Verify that the user cannot be upgraded
       select "Moderator", from: "Role"
-      click_button "Update User"
+      click_button "Update"
       expect(page).to have_content("User was successfully updated.")
       expect(@user.reload.role).to eq("moderator")
     end
@@ -148,7 +148,7 @@ RSpec.feature "Admin User Management Access" do
     scenario "can edit a regular user" do
       visit edit_aurelius_press_admin_user_path(@user)
       fill_in "First name", with: "SuperUpdated"
-      click_button "Update User"
+      click_button "Update"
       expect(page).to have_content("User was successfully updated.")
       expect(@user.reload.first_name).to eq("SuperUpdated")
     end
@@ -164,7 +164,7 @@ RSpec.feature "Admin User Management Access" do
     scenario "can also edit an admin user" do
       visit edit_aurelius_press_admin_user_path(@admin)
       fill_in "First name", with: "SuperUpdatedAdmin"
-      click_button "Update User"
+      click_button "Update"
       expect(page).to have_content("User was successfully updated.")
       expect(@admin.reload.first_name).to eq("SuperUpdatedAdmin")
     end
@@ -180,7 +180,7 @@ RSpec.feature "Admin User Management Access" do
     scenario "can change a user's role to any role" do
       visit edit_aurelius_press_admin_user_path(@user)
       select "Admin", from: "Role"
-      click_button "Update User"
+      click_button "Update"
       expect(page).to have_content("User was successfully updated.")
       expect(@user.reload.role).to eq("admin")
     end

@@ -39,7 +39,7 @@ FactoryBot.define do
     # - [Optional] comments_enabled: boolean, whether comments are allowed on the document
 
     # Association: Ensures a user is created and associated with the document
-    association :user, factory: :aurelius_press_user
+    association :user, factory: :aurelius_press_user, strategy: :create
     # Association: Optionally associates a category. If `nil` or not provided,
     # it will create a category. Set `category { nil }` to explicitly not assign one.
     # association :category, factory: :category # Creates a category for the document

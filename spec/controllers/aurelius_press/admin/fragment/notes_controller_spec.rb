@@ -3,14 +3,15 @@ require "rails_helper"
 RSpec.describe AureliusPress::Admin::Fragment::NotesController, type: :controller do
   render_views
 
+  let!(:moderator_user) { create(:aurelius_press_moderator_user) }
   let!(:user) { create(:aurelius_press_user) }
 
   before do
-    sign_in user
+    sign_in moderator_user
   end
 
   after do
-    sign_out user
+    sign_out moderator_user
   end
 
   # Attributes for direct record creation

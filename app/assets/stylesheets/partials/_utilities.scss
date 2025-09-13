@@ -1,0 +1,76 @@
+// Utility classes for common styles
+@use "mixins" as *;
+@use "variables" as *;
+
+// Generate the margin and padding classes
+@include spacing-utilities('m', 'margin', 0.25rem, 10);
+@include spacing-utilities('p', 'padding', 0.25rem, 10);
+
+.hide {
+  display: none;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+.items-center {
+  align-items: center;
+}
+.items-between {
+  align-items: space-between;
+}
+.items-end {
+  align-items: flex-end;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+
+.container {
+  max-width: 90%;
+  margin: 0 5%;
+  padding: 0 $spacing-one-and-a-half;
+  &.section {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+  }
+  table {
+    width: auto;
+    border-collapse: collapse;
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    tr:hover {
+      background-color: var(--secondary-color);
+    }
+  }
+}

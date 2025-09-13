@@ -23,9 +23,11 @@ class HeroComponent < ApplicationComponent
   erb_template <<-ERB
     <div <%= html_attributes %>>
       <div class="container grid">
+        <% if @src.present? %>
         <div class="hero-image-cont">
           <img src="<%= @src %>" alt="<%= @alt %>" class="<%= @img_class %>" />
         </div>
+        <% end %>
         <hgroup class="hero-header-group">
           <h<%= @level %> class="title">
             <%= @title %>
@@ -63,18 +65,21 @@ class HeroComponent < ApplicationComponent
   #       only augment the current styling, ensure to include the default class in your custom class string.
   #       For example, `css_class: "hero-component custom-class"` will apply both classes.
 
-  attr_reader :level, :title, :subtitle, :src, :alt, :img_class, :css_class, :html_options
+  attr_reader :level, :title, :subtitle, :small, :src, :alt, :img_class, :css_class, :html_options
 
   def initialize(
     level: 1,
     title: "",
     subtitle: "",
+    small: false,
     css_class: "hero-component",
     src: "",
     alt: "",
     img_class: "hero-img",
     html_options: {}
   )
+    css_class += " small" if small
+    css_class += " flex justify-center items-center"
     @level = level
     @title = title
     @subtitle = subtitle

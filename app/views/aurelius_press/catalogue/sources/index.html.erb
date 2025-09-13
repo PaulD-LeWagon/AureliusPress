@@ -1,2 +1,18 @@
-<h1>AureliusPress::Catalogue::Sources#index</h1>
-<p>Find me in app/views/aurelius_press/catalogue/sources/index.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Catalogue::Source#index",
+     subtitle: "Find me in app/views/aurelius_press/catalogue/sources/index.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Catalogue::Source#index">
+
+  <h1>Sources</h1>
+
+  <ul>
+    <% @sources.each do |source| %>
+      <li>
+        <%= link_to source.title, aurelius_press_catalogue_source_path(source) %>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -12,12 +12,33 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quintessential&family=Dancing+Script:wght@400..700&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luxurious+Roman&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oxygen:wght@300;400;700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <%= render "layouts/navigation" %>
+
+    <div data-controller="colour-diff" class="container hide">
+      <h2>Colour (Lightness) Difference Calculator</h2>
+      <div class="colour-inputs grid row">
+        <input type="color" data-colour-diff-target="color1" />
+        <input type="color" data-colour-diff-target="color2" />
+        <button data-colour-diff-target="calculateButton" data-action="colour-diff#onClickCalculate">Calculate</button>
+      </div>
+      <h3>Results</h3>
+      <div class="colour-results grid row">
+        <div data-colour-diff-target="result" class="p-3 grid row"></div>
+        <pre data-colour-diff-target="code" class="p-3"></pre>
+      </div>
+    </div>
 
     <%= yield %>
 

@@ -1,2 +1,20 @@
-<h1>AureliusPress::Catalogue::Quotes#show</h1>
-<p>Find me in app/views/aurelius_press/catalogue/quotes/show.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Catalogue::Quotes#show",
+     subtitle: "Find me in app/views/aurelius_press/catalogue/quotes/show.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Catalogue::Quotes#show">
+
+  <h1>Quote <%= quote.id %></h1>
+
+  <p><strong>Content:</strong> <%= quote.content %></p>
+
+  <p><strong>Author:</strong> <%= quote.author.name if quote.author %></p>
+
+  <p><strong>Source:</strong> <%= quote.source.title if quote.source %></p>
+  
+  <p><strong>Created At:</strong> <%= l(quote.created_at, format: :long) %></p>
+  <p><strong>Updated At:</strong> <%= l(quote.updated_at, format: :long) %></p>
+
+</div>

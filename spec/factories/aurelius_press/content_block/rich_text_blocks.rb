@@ -33,7 +33,7 @@ FactoryBot.define do
 
     trait :without_content do
       after(:build) do |block|
-        block.body = nil
+        block.content = nil
       end
     end
   end

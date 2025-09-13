@@ -1,0 +1,12 @@
+@use "@picocss/pico/scss/pico" as *;
+
+nav.navigation {
+  background-color: var(--background-color);
+  color: white;
+  padding: 10px 0;
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

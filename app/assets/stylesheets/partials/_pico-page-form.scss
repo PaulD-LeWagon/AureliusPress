@@ -1,3 +1,4 @@
+@use "@picocss/pico/scss/pico" as *;
 @use "variables" as *;
 @use "sass:color";
 @use "sass:math";
@@ -5,17 +6,17 @@
 .pico-page-form {
   trix-toolbar {
     .trix-button {
-      background-color: $primary-color !important;
+      background-color: var(#{$css-var-prefix}primary-background) !important;
       transition: $transition-base;
       &.trix-active {
-        background-color: color.adjust($primary-color, $lightness: -10%) !important;
+        filter: brightness(90%) !important;
       }
     }
   }
   trix-editor {
-    color: $light-color;
-    line-height: $line-height-base * 1.25;
-    background-color: color.adjust($dark-color, $lightness: -7%);
+    color: var(#{$css-var-prefix}text-color);
+    line-height: var(#{$css-var-prefix}line-height);
+    background-color: var(#{$css-var-prefix}background-color);
     border-radius: math.div($border-radius-base * 1, 3);
     box-shadow: $box-shadow-base;
     padding: 1rem;
@@ -41,7 +42,7 @@
       margin-bottom: $spacing-base * 1.75;
     }
     .pico-form-input {
-      border: $border-width-base $border-style-base $border-color-base;
+      border-style: solid;
       transition: background-color border-color, $transition-base;
       &:focus {
         border-color: color.adjust($primary-color, $lightness: -10%);

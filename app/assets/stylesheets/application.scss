@@ -11,44 +11,55 @@
  * It is generally better to create a new file per style scope.
  *
  */
-
+@use "sass:map";
+@use "sass:meta";
 @use "actiontext.css" as *;
-@use "pico/pico.colors.min.css" as *;
-@use "pico/pico.min.css" as *;
-@use "partials/variables" as *;
-@use "partials/mixins" as *;
 
+@use "@picocss/pico/scss/pico" as * with (
+  // Custom pico configuration
+  $modules: ("themes/default": false),
+  $css-var-prefix: "--ap-",
+  $enable-semantic-container: true,
+  $enable-responsive-spacings: true,
+  $theme-color: "tyrian-purple"
+);
+// Load the custom theme styles
+@use "themes/tyrian-purple";
+
+// @todo: remove the custom scss for new custom pico-scss
+@use "partials/variables" as *;
+// @use "partials/mixins" as *;
 @use "partials/buttons" as *;
+@use "partials/typography" as *;
+@use "partials/utilities" as *;
 @use "partials/pico-page-form" as *;
-// @use "view_components/card";
+// @use "view_components/card" as *;
+@use "view_components/navigation" as *;
+@use "view_components/hero-banner" as *;
 
 :root {
-  --primary-color: #{$primary-color};
-  --secondary-color: #{$secondary-color};
-  --text-color: #{$dark-color};
-  --border-color: #{$dark-color};
-  --border-radius: #{$border-radius-base};
-  --background-color: #{$dark-color};
-  --font-family: #{$font-family};
-  --font-size: #{$font-size-base};
-  --line-height: #{$line-height-base};
+  // #{$css-var-prefix}font-family-emoji
+  // #{$css-var-prefix}font-family-sans-serif
+  // #{$css-var-prefix}font-family-monospace
+  // #{$css-var-prefix}text-underline-offset
 
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-  line-height: var(--line-height);
-  color: var(--text-color);
-  background-color: var(--background-color);
-  margin: 0;
-  padding: 0;
+  --primary-color: var(#{$css-var-prefix}primary);
+  --secondary-color: var(#{$css-var-prefix}secondary);
+
+  border-color: var(#{$css-var-prefix}border-color);
+  border-width: var(#{$css-var-prefix}border-width);
+  border-radius: var(#{$css-var-prefix}border-radius);
+
+  color: var(#{$css-var-prefix}text-color);
+  font-family: var(#{$css-var-prefix}font-family);
+  font-size: var(#{$css-var-prefix}font-size);
+  line-height: var(#{$css-var-prefix}line-height);
+
+  background-color: var(#{$css-var-prefix}background-color);
+
   box-sizing: border-box;
-  a {
-    color: $light-primary-color;
-    text-decoration: none;
-    &:hover {
-      color: $dark-primary-color;
-    }
-  }
 }
+
 
 .trix-content {
   color: white;
@@ -61,6 +72,7 @@
   margin-top: $spacing-base;
 }
 
+// @Todo: move to _content-block.scss or similar
 .content-block {
   &::before {
     content: "Content Block";
@@ -104,110 +116,4 @@ body,
   margin: 0;
   padding: 0;
   border: none;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-.items-center {
-  align-items: center;
-}
-.items-between {
-  align-items: space-between;
-}
-.items-end {
-  align-items: flex-end;
-}
-
-.justify-start {
-  justify-content: flex-start;
-}
-.justify-center {
-  justify-content: center;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.justify-around {
-  justify-content: space-around;
-}
-.justify-end {
-  justify-content: flex-end;
-}
-
-.container {
-  max-width: 80%;
-  margin: 0 10%;
-  padding: 0 $spacing-one-and-a-half;
-  // &.section {
-  //   padding: 20px 0;
-  //   border-bottom: 1px solid var(--border-color);
-  //   margin-bottom: 20px;
-  // }
-  // table {
-  //   width: auto;
-  //   border-collapse: collapse;
-  //   th,
-  //   td {
-  //     padding: 10px;
-  //     text-align: left;
-  //     border-bottom: 1px solid var(--border-color);
-  //   }
-  //   th {
-  //     background-color: var(--primary-color);
-  //     color: white;
-  //   }
-  //   tr:hover {
-  //     background-color: var(--secondary-color);
-  //   }
-  // }
-}
-
-div.hero-banner {
-  position: relative;
-  overflow: hidden;
-  height: 400px;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--primary-color);
-    z-index: -1;
-  }
-  hgroup {
-    h1 {
-      color: white;
-      font-size: 2rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-    p {
-      font-family: cursive, sans-serif;
-      color: white;
-      font-size: 1.5rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-  }
-}
-
-nav.navigation {
-  background-color: var(--background-color);
-  color: white;
-  padding: 10px 0;
-  a {
-    margin-right: 15px;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.hide {
-  display: none;
 }

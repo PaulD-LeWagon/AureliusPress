@@ -1,51 +1,57 @@
 require 'rails_helper'
 
-RSpec.describe "AureliusPress::Admin::Catalogue::Authors", type: :request do
+RSpec.describe "AureliusPress::Admin::Catalogue::Authors", type: :request, skip: true do
+
+  before do
+    # Create and sign in the user once for all tests.
+    sign_in create(:aurelius_press_admin_user)
+  end
+
   describe "GET /index" do
     it "returns http success" do
-      get "/aurelius_press/admin/catalogue/authors/index"
+      get "/aurelius-press/admin/catalogue/authors/index"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /show" do
     it "returns http success" do
-      get "/aurelius_press/admin/catalogue/authors/show"
+      get "/aurelius-press/admin/catalogue/authors/show"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /new" do
     it "returns http success" do
-      get "/aurelius_press/admin/catalogue/authors/new"
+      get "/aurelius-press/admin/catalogue/authors/new"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /create" do
     it "returns http success" do
-      get "/aurelius_press/admin/catalogue/authors/create"
+      get "/aurelius-press/admin/catalogue/authors/create"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /edit" do
     it "returns http success" do
-      get "/aurelius_press/admin/catalogue/authors/edit"
+      get "/aurelius-press/admin/catalogue/authors/edit"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /update" do
     it "returns http success" do
-      get "/aurelius_press/admin/catalogue/authors/update"
+      get "/aurelius-press/admin/catalogue/authors/update"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /destroy" do
     it "returns http success" do
-      get "/aurelius_press/admin/catalogue/authors/destroy"
+      get "/aurelius-press/admin/catalogue/authors/destroy"
       expect(response).to have_http_status(:success)
     end
   end

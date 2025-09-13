@@ -1,2 +1,23 @@
-<h1>AureliusPress::Catalogue::Quotes#index</h1>
-<p>Find me in app/views/aurelius_press/catalogue/quotes/index.html.erb</p>
+<%= render HeroComponent.new(
+  title: "AureliusPress::Catalogue::Quotes#index",
+  subtitle: "Find me in app/views/aurelius_press/catalogue/quotes/index.html.erb",
+  small: true
+) %>
+
+<div class="container" template="AureliusPress::Catalogue::Quotes#index">
+  <div class="section">
+    <h2 class="title is-4">All Quotes</h2>
+    <p>Welcome to the quotes index page. Here you can find a collection of insightful quotes from various authors and sources.</p>
+    <ul>
+      <% @quotes.each do |quote| %>
+        <li>
+          <%= link_to quote.content.truncate(50) %>
+          by
+          <%= link_to quote.author.name %>
+          from
+          <%= link_to quote.source.title %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
