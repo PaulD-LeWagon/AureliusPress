@@ -8,7 +8,7 @@
   <div>
     <h2 class="flex justify-between items-center">
       <span>Users</span>
-      <%= link_to "New User", new_aurelius_press_admin_user_path, class: "button success", role: "button" %>
+      <%= link_to "New User", new_aurelius_press_admin_user_path, class: "button btn-sm success", role: "button" %>
     </h2>
 
     <table>
@@ -31,11 +31,11 @@
             <td><%= user.full_name %></td>
             <td><%= user.email %></td>
             <td>
-              <%= link_to "Show", aurelius_press_admin_user_path(user) %>
+              <%= link_to "Show", aurelius_press_admin_user_path(user), class: "button btn-sm text-dark success", role: "button" %>
               &nbsp;
-              <%= link_to "Edit", edit_aurelius_press_admin_user_path(user) %>
+              <%= link_to "Edit", edit_aurelius_press_admin_user_path(user), class: "button btn-sm text-dark warning", role: "button" %>
               &nbsp;
-              <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+              <%= link_to "Delete", aurelius_press_admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button btn-sm text-dark danger", role: "button" %>
             </td>
           </tr>
         <% end %>
