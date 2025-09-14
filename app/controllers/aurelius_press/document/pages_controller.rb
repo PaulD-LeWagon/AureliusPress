@@ -1,6 +1,7 @@
 class AureliusPress::Document::PagesController < AureliusPress::ApplicationController
   before_action :set_page, only: [:show, :edit, :update, :destroy]
   before_action :set_tags_and_categories, only: [:new, :edit]
+
   def index
     authorize AureliusPress::Document::Page, :index?, policy_class: AureliusPress::DocumentPolicy
     @pages = policy_scope(AureliusPress::Document::Page, policy_scope_class: AureliusPress::DocumentPolicy::Scope)
@@ -51,41 +52,65 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
   private
 
   # == Schema Information
-#
-# Table name: aurelius_press_documents
-#
-#  id               :bigint           not null, primary key
-#  user_id          :bigint           not null
-#  category_id      :bigint
-#  type             :string           not null
-#  slug             :string           not null
-#  title            :string           not null
-#  subtitle         :string
-#  description      :text
-#  status           :integer          default("draft"), not null
-#  visibility       :integer          default("private_to_owner"), not null
-#  published_at     :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  comments_enabled :boolean          default(FALSE), not null
-#  tags ???
+  #
+  # Table name: aurelius_press_documents
+  #
+  #  id               :bigint           not null, primary key
+  #  user_id          :bigint           not null
+  #  category_id      :bigint
+  #  type             :string           not null
+  #  slug             :string           not null
+  #  title            :string           not null
+  #  subtitle         :string
+  #  description      :text
+  #  status           :integer          default("draft"), not null
+  #  visibility       :integer          default("private_to_owner"), not null
+  #  published_at     :datetime
+  #  created_at       :datetime         not null
+  #  updated_at       :datetime         not null
+  #  tags             :text             default([]), not null, array: true
   def page_params
     params.require(:aurelius_press_document_page).permit(
       :id,
       :user_id,
-      :slug,
+      :category_id,
+      :type,
       :title,
+      :slug,
       :subtitle,
       :description,
       :status,
       :visibility,
       :published_at,
-      :created_at,
-      :updated_at,
-      :comments_enabled,
-      :category_id,
-      # tag_ids: [], ???
-      # content_block_ids: [] ???
+      content_blocks_attributes: [
+        :id,
+        :_destroy,
+        :contentable_id,
+        :contentable_type,
+        :position,
+        :html_id,
+        :html_class,
+        :data_attributes,
+        # Permit the nested attributes via contentable
+        contentable_attributes: [
+          :id,
+          :type,
+          :content, # from RichTextBlock
+          :image,   # from ImageBlock
+          :caption, # from ImageBlock and GalleryImage
+          :alignment,
+          :link_text,
+          :link_title,
+          :link_class,
+          :link_target,
+          :link_url,
+          :embed_code, # from VideoEmbedBlock
+          :description,
+          :video_url,
+          :layout_type, # from GalleryBlock
+          images: [],
+        ],
+      ],
     )
   end
 
