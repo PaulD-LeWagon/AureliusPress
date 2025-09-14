@@ -1,7 +1,8 @@
-@use "variables" as *;
 @use "sass:color";
 @use "sass:map";
+@use "sass:math";
 @use "@picocss/pico/scss/pico" as *;
+@use "variables" as *;
 
 // @Todo: these should be pulled from a central location - i.e. the theme.
 // Define custom button colours using a Sass map
@@ -127,6 +128,47 @@ $custom-button-colors: (
   $custom-button-colors,
   $css-var-prefix: $css-var-prefix
 );
+// Button sizing mixin
+$pico-font-size: 100%; // Corresponds to Pico's hard-coded font-size
+$pico-line-height: 1.5; // Corresponds to Pico's hard-coded line-height
+$pico-form-element-spacing: 1rem; // Corresponds to Pico's hard-coded spacing
+// A scale factor is used to calculate padding and font size relative to Pico's default settings.
+@mixin button-size($scale) {
+  $padding: math.div($pico-form-element-spacing, 2) * $scale;
+  $font-size-adjust: math.div($pico-font-size, 1.25) * $scale;
+  // Set padding
+  padding: $padding;
+  // Set font size
+  font-size: $font-size-adjust;
+  // The line-height and margin should be handled by the form elements' parent,
+  // but we can set them to ensure consistency.
+  line-height: $pico-line-height;
+  margin: 0;
+}
+// Button size classes
+// Each class uses the mixin with a different scale factor.
+// .btn-xs: Extra-small button
+.btn-xs {
+  font-weight: 700;
+  @include button-size(0.5);
+}
+// .btn-sm: Small button
+.btn-sm {
+  font-weight: 650;
+  @include button-size(0.75);
+}
+// .btn-md: Medium button (Pico default)
+.btn-md {
+  @include button-size(1);
+}
+// .btn-lg: Large button
+.btn-lg {
+  @include button-size(1.25);
+}
+// .btn-xl: Extra-large button
+.btn-xl {
+  @include button-size(1.5);
+}
 
 // General button styles
 button,
@@ -135,11 +177,8 @@ button,
   cursor: pointer;
   text-decoration: none;
   margin-bottom: 1rem;
-  transition:
-    color 0.5s ease-in-out,
-    background-color 0.5s ease-in-out,
-    border-color 0.5s ease-in-out,
-    box-shadow 0.5s ease-in-out,
+  transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out,
+    border-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out,
     brightness 0.5s ease-in-out;
   &:hover {
     text-decoration: none;

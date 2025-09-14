@@ -95,8 +95,6 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
     )
   end
 
-  private
-
   def set_blog_post
     @blog_post = AureliusPress::Document::BlogPost.find_by!(slug: params[:id])
   end

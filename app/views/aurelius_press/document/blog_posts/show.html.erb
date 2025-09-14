@@ -47,4 +47,15 @@
     <strong>Category:</strong>
     <%= @blog_post.category.name if @blog_post.category %>
   </p>
+
+  <div class="content-blocks">
+    <h3>Content Blocks</h3>
+
+      <% @blog_post.content_blocks.order(:position).each do |content_block| %>
+
+        <%= render content_block %>
+        
+      <% end %>
+
+  </div>
 </div>

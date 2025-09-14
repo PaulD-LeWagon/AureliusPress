@@ -70,28 +70,57 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
   #  updated_at       :datetime         not null
   #  comments_enabled :boolean          default(FALSE), not null
   #  tags ???
+  private
+
   def blog_post_params
     params.require(:aurelius_press_document_blog_post).permit(
       :id,
       :user_id,
-      :slug,
+      :category_id,
+      :type,
       :title,
+      :slug,
       :subtitle,
       :description,
       :status,
       :visibility,
       :published_at,
-      :created_at,
-      :updated_at,
       :comments_enabled,
-      :category_id,
-      # tag_ids: [],
-      # content_block_ids: []
+      # :tags
+      content_blocks_attributes: [
+        :id,
+        :_destroy,
+        :contentable_id,
+        :contentable_type,
+        :position,
+        :html_id,
+        :html_class,
+        :data_attributes,
+        # Permit the nested attributes via contentable
+        contentable_attributes: [
+          :id,
+          :type,
+          :content, # from RichTextBlock
+          :image,   # from ImageBlock
+          :caption, # from ImageBlock and GalleryImage
+          :alignment,
+          :link_text,
+          :link_title,
+          :link_class,
+          :link_target,
+          :link_url,
+          :embed_code, # from VideoEmbedBlock
+          :description,
+          :video_url,
+          :layout_type, # from GalleryBlock
+          images: [],
+        ],
+      ],
     )
   end
 
   def set_blog_post
-    @blog_post = AureliusPress::Document::BlogPost.find_by(slug: params[:id])
+    @blog_post = AureliusPress::Document::BlogPost.find_by!(slug: params[:id])
   end
 
   def set_tags_and_categories
