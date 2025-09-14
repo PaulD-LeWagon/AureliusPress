@@ -59,26 +59,26 @@ Rails.application.routes.draw do
         end
       end
       namespace :fragment do
-        resources :comments
-        resources :notes
+        resources :comments, only: [:index, :show, :destroy]
+        resources :notes, only: [:index, :show, :destroy]
       end
       namespace :catalogue do
         resources :authors do
-          resources :comments, only: [:create, :update, :destroy]
-          resources :notes, only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
+          resources :comments, only: [:index, :show, :destroy]
+          resources :notes, only: [:index, :show, :destroy] do
+            resources :comments, only: [:index, :show, :destroy]
           end
         end
         resources :sources do
-          resources :comments, only: [:create, :update, :destroy]
-          resources :notes, only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
+          resources :comments, only: [:index, :show, :destroy]
+          resources :notes, only: [:index, :show, :destroy] do
+            resources :comments, only: [:index, :show, :destroy]
           end
         end
         resources :quotes do
-          resources :comments, only: [:create, :update, :destroy]
-          resources :notes, only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
+          resources :comments, only: [:index, :show, :destroy]
+          resources :notes, only: [:index, :show, :destroy] do
+            resources :comments, only: [:index, :show, :destroy]
           end
         end
       end
@@ -88,6 +88,7 @@ Rails.application.routes.draw do
       end
       namespace :community do
         resources :likes
+        # resources :reactions
         resources :groups
         # resources :group_memberships
       end

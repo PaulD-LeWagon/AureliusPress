@@ -12,3 +12,4 @@ pin "color" # @5.0.1
 pin "color-string" # @2.1.1
 pin "color-convert" # @3.1.1
 pin "color-name" # @2.0.1
+pin "list" # @2.0.19

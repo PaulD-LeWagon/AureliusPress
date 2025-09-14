@@ -101,32 +101,24 @@
 
   <div class="form-actions grid">
 
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::RichTextBlock">
-      + Text
-    </button>
-
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::ImageBlock">
-      + Image
-    </button>
-
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::GalleryBlock">
-      + Gallery
-    </button>
-
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::VideoEmbedBlock">
-      + Video
-    </button>
-
     <% if in_admin_ns %>
       <% if @blog_post.persisted? %>
-        <%= link_to "Delete", aurelius_press_admin_document_blog_post_path(@blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger", role: "button" %>
+
+        <%= link_to "Delete", aurelius_press_admin_document_blog_post_path(@blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
       <% end %>
+
       <%= link_to "Back", aurelius_press_admin_document_blog_posts_path, class: "button", role: "button" %>
+
     <% else %>
       <% if @blog_post.persisted? %>
-        <%= link_to "Delete", aurelius_press_blog_post_path(@blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button button-danger", role: "button" %>
+
+        <%= link_to "Delete", aurelius_press_blog_post_path(@blog_post), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
       <% end %>
+
       <%= link_to "Back", aurelius_press_blog_posts_path, class: "button", role: "button" %>
+
     <% end %>
 
     <%= form.button :submit, value: "#{@blog_post.new_record? ? "Create" : "Update"}", class: "button", role: :button %>

@@ -1,0 +1,64 @@
+<% in_admin_ns = controller_path.include?("admin")
+  form_url = if @comment.new_record?
+      in_admin_ns ? aurelius_press_admin_fragment_comments_path : aurelius_press_fragment_comments_path
+    else
+      in_admin_ns ? aurelius_press_admin_fragment_comment_path(@comment) : aurelius_press_fragment_comment_path(@comment)
+    end %>
+
+<%= simple_form_for @comment, url: form_url, html: { class: "pico-page-form" } do |form| %>
+
+  <%= form.error_notification %>
+
+  <div class="form-inputs">
+    <div class="grid row">
+      <div class="column">
+        <label>Author</label>
+        <% if @comment.new_record? %>
+          <%= form.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
+          <input type="text" value="<%= current_user.full_name %>" readonly />
+        <% else %>
+          <input type="text" value="<%= @comment.user.full_name %>" readonly />
+        <% end %>
+      </div>
+      <div class="column">
+        <%= form.input :status, as: :select, collection: AureliusPress::Fragment::Comment.statuses.keys.map { |s| [t(s), s] }, prompt: "Select Status" %>
+      </div>
+      <div class="column">
+        <%= form.input :visibility, as: :select, collection: AureliusPress::Fragment::Comment.visibilities.keys.map { |v| [t(v), v] }, prompt: "Select Visibility" %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= form.input :title, required: true, autofocus: true, input_html: { class: "form-control" } %>
+      </div>
+      <div class="column">
+        <%= form.input :commentable, as: :select, required: true,
+                                     collection: @commentable_objects,
+                                     label: "Associate Comment With:",
+                                     prompt: "Select Commentable",
+                                     input_html: {
+                                       name: "aurelius_press_fragment_comment[commentable_sgid]",
+                                     } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <%= form.input :content, as: :rich_text_area %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions grid">
+
+    <% if in_admin_ns %>
+      <% if @comment.persisted? %>
+        <%= link_to "Delete", aurelius_press_admin_fragment_comment_path(@comment), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+      <% end %>
+      <%= link_to "Back", aurelius_press_admin_fragment_comments_path, class: "button info", role: "button" %>
+    <% end %>
+
+    <%= form.button :submit, value: "#{@comment.new_record? ? "Create" : "Update"}", class: "button warning", role: :button %>
+  </div>
+<% end %>

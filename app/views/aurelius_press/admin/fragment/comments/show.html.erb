@@ -1,2 +1,30 @@
-<h1>AureliusPress::Admin::Fragment::Comments#show</h1>
-<p>Find me in app/views/aurelius_press/admin/fragment/comments/show.html.erb</p>
+<%= HeroComponent.new(
+     title: "AureliusPress::Admin::Fragment::Comments#show",
+     subtitle: "Find me in app/views/aurelius_press/admin/fragment/comments/show.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Fragment::Comments#show">
+
+  <h3 class="mt-4">Viewing Comment</h3>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p><strong>Commentable:</strong> <%= @comment.commentable_type %> ##<%= @comment.commentable_id %></p>
+      <p><strong>User:</strong> <%= @comment.user.email if @comment.user %></p>
+      <p><strong>Created At:</strong> <%= l(@comment.created_at, format: :short) %></p>
+      <hr>
+      <div>
+        <strong>Content:</strong>
+        <div class="border p-3">
+          <%= @comment.content.body.to_s.html_safe %>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <%= link_to "Back to Comments", aurelius_press_admin_fragment_comments_path, class: "button btn-sm", role: "button" %>
+      <%= link_to "Delete", aurelius_press_admin_fragment_comment_path(@comment), data: {  turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this comment?" }, class: "button btn-sm danger", role: "button" %>
+    </div>
+  </div>
+
+</div>
