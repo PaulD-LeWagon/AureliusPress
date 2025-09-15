@@ -1,0 +1,37 @@
+<%= render HeroComponent.new(
+     title: "AureliusPress::Users#show",
+     subtitle: "Viewing your (#{@user.full_name}'s) profile.",
+     small: true
+   ) %>
+
+<div class="container">
+
+  <%= link_to "Edit", edit_aurelius_press_user_path(@user), class: "button btn-sm warning", role: "button" %> |
+  <%= link_to "Delete", aurelius_press_user_path(@user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button btn-sm danger", role: "button" %>
+
+  <hr>
+
+  <% if @user.avatar.attached? %>
+    <h3>Avatar:</h3>
+    <%= image_tag @user.avatar %>
+  <% else %>
+    <p>No avatar uploaded.</p>
+  <% end %>
+
+  <h2>User: <%= @user.full_name %></h2>
+  <p>Username: <%= @user.username %></p>
+  <p>Age: <%= @user.age %></p>
+  <p>Email: <%= @user.email %></p>
+  <p>Role: <%= @user.role %></p>
+  <p>Status: <%= @user.status %></p>
+
+  <% if @user.bio.present? %>
+    <h3>Bio:</h3>
+    <div class="rich-text">
+      <%= @user.bio.body.to_s.html_safe %>
+    </div>
+  <% else %>
+    <p>No bio available.</p>
+  <% end %>
+
+</div>

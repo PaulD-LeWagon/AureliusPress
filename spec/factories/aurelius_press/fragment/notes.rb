@@ -18,7 +18,7 @@
 #
 FactoryBot.define do
   factory :aurelius_press_fragment_note, parent: :aurelius_press_fragment_fragment, class: "AureliusPress::Fragment::Note" do
-    association :notable, factory: :aurelius_press_document_blog_post
+    association :notable, factory: :aurelius_press_document_blog_post, strategy: :build
     type { "AureliusPress::Fragment::Note" }
     title { Faker::Book.title }
     status { :draft }

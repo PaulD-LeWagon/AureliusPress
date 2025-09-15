@@ -1,13 +1,8 @@
 <div class="content">
 
-  <div class="hero-banner flex justify-center items-center">
-    <hgroup class="container">
-      <h1><%= @title %></h1>
-      <p><%= @subtitle %></p>
-    </hgroup>
-  </div>
+  <%= render HeroComponent.new(title: @title, subtitle: @subtitle) %>
 
-  <div class="container">
+  <div class="container text-center">
 
     <h2 class="mt-10 mb-5"><%= @description.shift %></h2>
 

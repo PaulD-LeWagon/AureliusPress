@@ -19,7 +19,7 @@
   // Custom pico configuration
   $modules: ("themes/default": false),
   $css-var-prefix: "--ap-",
-  $enable-semantic-container: true,
+  // $enable-semantic-container: true,
   $enable-responsive-spacings: true,
   $theme-color: "tyrian-purple"
 );
@@ -71,7 +71,6 @@
 .form-actions {
   margin-top: $spacing-base;
 }
-
 // @Todo: move to _content-block.scss or similar
 .content-block {
   &::before {
@@ -116,4 +115,21 @@ body,
   margin: 0;
   padding: 0;
   border: none;
+}
+
+footer.main {
+  background-color: var(--primary-color);
+  text-align: center;
+  padding: $spacing-base;
+  margin: 0;
+  margin-top: $spacing-base * 4;
+  min-height: $spacing-base * 12;
+  width: 100% !important;
+  p {
+    margin: 0.325rem 0;
+    font-weight: 400;
+    em {
+      font-style: oblique;
+    }
+  }
 }

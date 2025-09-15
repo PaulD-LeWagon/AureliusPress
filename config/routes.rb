@@ -96,19 +96,19 @@ Rails.application.routes.draw do
     end
     # --- Public-facing (Non-Admin) Routes ---
     namespace :catalogue do
-      resources :authors, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
+      resources :authors, only: [:index, :show], param: :slug do
         resources :comments, only: [:create, :update, :destroy]
         resources :notes, only: [:create, :update, :destroy] do
           resources :comments, only: [:create, :update, :destroy]
         end
       end
-      resources :sources, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
+      resources :sources, only: [:index, :show], param: :slug do
         resources :comments, only: [:create, :update, :destroy]
         resources :notes, only: [:create, :update, :destroy] do
           resources :comments, only: [:create, :update, :destroy]
         end
       end
-      resources :quotes, only: [:index, :show], param: :slug, constraints: { slug: /(?!new|edit)[a-zA-Z0-9\-_]+/ } do
+      resources :quotes, only: [:index, :show], param: :slug do
         resources :comments, only: [:create, :update, :destroy]
         resources :notes, only: [:create, :update, :destroy] do
           resources :comments, only: [:create, :update, :destroy]

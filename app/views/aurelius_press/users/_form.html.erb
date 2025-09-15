@@ -1,0 +1,83 @@
+<%= simple_form_for @user, url: aurelius_press_user_path(@user) do |f| %>
+
+  <h3>Edit User:</h3>
+
+  <div class="form-errors">
+    <%= f.error_notification message: "Please fix the errors below." %>
+  </div>
+
+  <div class="form-inputs">
+
+    <%= f.input :id, as: :hidden, input_html: { value: @user.id } if @user.persisted? %>
+
+    <div class="form-field-group personal-details">
+      <div class="grid row">
+        <div class="col">
+          <%= f.object.avatar.attached? ? image_tag(f.object.avatar.variant(resize_to_limit: [100, 100])) : content_tag(:span, "No avatar uploaded") %>
+          <%= f.input :avatar, as: :file, hint: "Upload a profile picture." %>
+        </div>
+      </div>
+
+      <div class="grid row">
+        <div class="col">
+          <%= f.input :first_name %>
+        </div>
+        <div class="col">
+          <%= f.input :last_name %>
+        </div>
+        <div class="col">
+          <%= f.input :age, as: :integer, input_html: { min: 0, max: 120 } %>
+        </div>
+      </div>
+
+      <div class="grid row">
+        <div class="col">
+          <%= f.input :username %>
+        </div>
+        <div class="col">
+          <%= f.input :email, input_html: { autocomplete: "email" } %>
+        </div>
+        <div class="col hide">
+          <%# <%= f.input :phonenumber, input_html: { autocomplete: "tel" } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-field-group mb-4">
+      <%= f.label :bio, "Bio" %>
+      <%= f.rich_text_area :bio, id: "trix_bio_id" %>
+    </div>
+
+    <% if f.object.new_record? %>
+      <div class="grid row">
+        <%= f.input :password %>
+        <%= f.input :password_confirmation %>
+      </div>
+    <% else %>
+      <div class="grid row">
+        <%= f.input :password, required: false %>
+        <%= f.input :password_confirmation, required: false %>
+      </div>
+      <small>* Leave password fields blank to keep current password.</small>
+    <% end %>
+
+    <div class="grid row">
+      <div class="col">
+        <%= f.input :status, as: :string, readonly: true %>
+      </div>
+      <div class="col">
+        <%= f.input :role, as: :string, readonly: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-controls grid row my-4">
+
+    <% if @user.persisted? %>
+      <%= link_to "Delete", aurelius_press_user_path(@user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+    <% end %>
+
+    <%= f.button :submit, value: "Update", class: "button warning", role: "button" %>
+  </div>
+
+<% end %>

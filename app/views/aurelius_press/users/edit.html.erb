@@ -1,0 +1,11 @@
+<%= render HeroComponent.new(
+     title: "AureliusPress::Users#edit",
+     subtitle: "Editing your (#{@user.full_name}'s) profile.",
+     small: true
+   ) %>
+
+<div class="container">
+
+  <%= render "form", user: @user %>
+
+</div>
