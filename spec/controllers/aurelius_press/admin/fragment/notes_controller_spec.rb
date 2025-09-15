@@ -64,88 +64,6 @@ RSpec.describe AureliusPress::Admin::Fragment::NotesController, type: :controlle
     end
   end
 
-  describe "GET #new" do
-    it "returns a successful response" do
-      get :new
-      expect(response).to be_successful
-      expect(assigns(:note)).to be_a_new(AureliusPress::Fragment::Note)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid parameters" do
-      it "creates a new Note" do
-        expect {
-          post :create, params: { aurelius_press_fragment_note: param_attributes }
-        }.to change(AureliusPress::Fragment::Note, :count).by(1)
-      end
-
-      it "redirects to the created note" do
-        post :create, params: { aurelius_press_fragment_note: param_attributes }
-        expect(response).to redirect_to(aurelius_press_admin_fragment_note_path(AureliusPress::Fragment::Note.last))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "does not create a new Note" do
-        expect {
-          post :create, params: { aurelius_press_fragment_note: invalid_param_attributes }
-        }.to_not change(AureliusPress::Fragment::Note, :count)
-      end
-
-      it "renders a response with 422 status (unprocessable_entity)" do
-        post :create, params: { aurelius_press_fragment_note: invalid_param_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response).to render_template(:new)
-      end
-    end
-  end
-
-  describe "GET #edit" do
-    it "returns a successful response and assigns @note" do
-      note = create(:aurelius_press_fragment_note, record_attributes)
-      get :edit, params: { id: note.id }
-      expect(response).to be_successful
-      expect(assigns(:note)).to eq(note)
-    end
-  end
-
-  describe "PATCH #update" do
-    context "with valid parameters" do
-      let!(:note_to_update) { create(:aurelius_press_fragment_note, record_attributes) }
-      let(:new_valid_param_attributes) { { content: "An updated thought." } }
-
-      it "updates the requested note" do
-        patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: new_valid_param_attributes }
-        note_to_update.reload
-        expect(note_to_update.content.to_plain_text).to eq(new_valid_param_attributes[:content])
-        expect(note_to_update.content).to be_a(ActionText::RichText)
-      end
-
-      it "redirects to the note" do
-        patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: new_valid_param_attributes }
-        expect(response).to redirect_to(aurelius_press_admin_fragment_note_path(note_to_update))
-      end
-    end
-
-    context "with invalid parameters" do
-      let!(:note_to_update) { create(:aurelius_press_fragment_note, record_attributes) }
-
-      it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: invalid_param_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response).to render_template(:edit)
-      end
-
-      it "does not update the note" do
-        original_body = note_to_update.content
-        patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: invalid_param_attributes }
-        note_to_update.reload
-        expect(note_to_update.content).to eq(original_body)
-      end
-    end
-  end
-
   describe "DELETE #destroy" do
     it "destroys the requested note" do
       note = create(:aurelius_press_fragment_note, record_attributes)
@@ -160,4 +78,87 @@ RSpec.describe AureliusPress::Admin::Fragment::NotesController, type: :controlle
       expect(response).to redirect_to(aurelius_press_admin_fragment_notes_url)
     end
   end
+
+  # Obsolete actions (new, edit, create, update) are not needed for moderation
+  # describe "GET #new" do
+  #   it "returns a successful response" do
+  #     get :new
+  #     expect(response).to be_successful
+  #     expect(assigns(:note)).to be_a_new(AureliusPress::Fragment::Note)
+  #   end
+  # end
+
+  # describe "POST #create" do
+  #   context "with valid parameters" do
+  #     it "creates a new Note" do
+  #       expect {
+  #         post :create, params: { aurelius_press_fragment_note: param_attributes }
+  #       }.to change(AureliusPress::Fragment::Note, :count).by(1)
+  #     end
+
+  #     it "redirects to the created note" do
+  #       post :create, params: { aurelius_press_fragment_note: param_attributes }
+  #       expect(response).to redirect_to(aurelius_press_admin_fragment_note_path(AureliusPress::Fragment::Note.last))
+  #     end
+  #   end
+
+  #   context "with invalid parameters" do
+  #     it "does not create a new Note" do
+  #       expect {
+  #         post :create, params: { aurelius_press_fragment_note: invalid_param_attributes }
+  #       }.to_not change(AureliusPress::Fragment::Note, :count)
+  #     end
+
+  #     it "renders a response with 422 status (unprocessable_entity)" do
+  #       post :create, params: { aurelius_press_fragment_note: invalid_param_attributes }
+  #       expect(response).to have_http_status(:unprocessable_entity)
+  #       expect(response).to render_template(:new)
+  #     end
+  #   end
+  # end
+
+  # describe "GET #edit" do
+  #   it "returns a successful response and assigns @note" do
+  #     note = create(:aurelius_press_fragment_note, record_attributes)
+  #     get :edit, params: { id: note.id }
+  #     expect(response).to be_successful
+  #     expect(assigns(:note)).to eq(note)
+  #   end
+  # end
+
+  # describe "PATCH #update" do
+  #   context "with valid parameters" do
+  #     let!(:note_to_update) { create(:aurelius_press_fragment_note, record_attributes) }
+  #     let(:new_valid_param_attributes) { { content: "An updated thought." } }
+
+  #     it "updates the requested note" do
+  #       patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: new_valid_param_attributes }
+  #       note_to_update.reload
+  #       expect(note_to_update.content.to_plain_text).to eq(new_valid_param_attributes[:content])
+  #       expect(note_to_update.content).to be_a(ActionText::RichText)
+  #     end
+
+  #     it "redirects to the note" do
+  #       patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: new_valid_param_attributes }
+  #       expect(response).to redirect_to(aurelius_press_admin_fragment_note_path(note_to_update))
+  #     end
+  #   end
+
+  #   context "with invalid parameters" do
+  #     let!(:note_to_update) { create(:aurelius_press_fragment_note, record_attributes) }
+
+  #     it "renders a response with 422 status (unprocessable_entity)" do
+  #       patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: invalid_param_attributes }
+  #       expect(response).to have_http_status(:unprocessable_entity)
+  #       expect(response).to render_template(:edit)
+  #     end
+
+  #     it "does not update the note" do
+  #       original_body = note_to_update.content
+  #       patch :update, params: { id: note_to_update.id, aurelius_press_fragment_note: invalid_param_attributes }
+  #       note_to_update.reload
+  #       expect(note_to_update.content).to eq(original_body)
+  #     end
+  #   end
+  # end
 end

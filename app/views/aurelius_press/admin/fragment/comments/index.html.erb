@@ -1,2 +1,38 @@
-<h1>AureliusPress::Admin::Fragment::Comments#index</h1>
-<p>Find me in app/views/aurelius_press/admin/fragment/comments/index.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Fragment::Comments#index",
+     subtitle: "Find me in app/views/aurelius_press/admin/fragment/comments/index.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Fragment::Comments#index">
+
+  <h3 class="mt-4">View Comments</h3>
+
+  <div class="list-group mb-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Comment</th>
+          <th>Commentable</th>
+          <th>User</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @comments.each do |comment| %>
+          <tr>
+            <td><%= comment.id %></td>
+            <td class="no-wrap"><%= comment.content.body.to_plain_text.truncate(30) %></td>
+            <td>#<%= comment.commentable_id %> <%= comment.commentable_type %><br /><%= comment.commentable if comment.commentable %></td>
+            <td><%= comment.user.full_name if comment.user %></td>
+            <td><%= l(comment.created_at, format: :short) %></td>
+            <td>
+              <%= link_to "View Details", aurelius_press_admin_fragment_comment_path(comment), class: "button btn-sm", role: "button" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>

@@ -44,6 +44,10 @@ class AureliusPress::Fragment::Comment < AureliusPress::Fragment::Fragment
   # Callbacks
   after_initialize :set_defaults, if: :new_record?
 
+  def to_s
+    "Comment: #{content.body.to_plain_text.truncate(30)} by #{user&.full_name}"
+  end
+
   private
 
   def commentable_type_is_allowed
