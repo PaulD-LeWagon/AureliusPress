@@ -12,7 +12,7 @@ RSpec.feature "Admins can moderate Notes (CRUD)", :js do
   # Create a blog post to associate comments with
   let!(:blog_post) { create(:aurelius_press_document_blog_post) }
   # Create a comments to work with
-  let!(:note_one) { create(:aurelius_press_fragment_note, commentable: blog_post, user: user, content: "This is the first note.") }
+  let!(:note_one) { create(:aurelius_press_fragment_note, notable: blog_post, user: user, content: "This is the first note.") }
 
   scenario "READ - Power Users can view a list of all notes" do
     power_users.each do |the_actor|
@@ -57,8 +57,8 @@ RSpec.feature "Admins can moderate Notes (CRUD)", :js do
       # Clear out existing notes to ensure a clean state
       AureliusPress::Fragment::Note.destroy_all
       # Ensure we have two notes to start with
-      note_one = create(:aurelius_press_fragment_note, commentable: blog_post, user: user, content: "This is the first note.") if note_one.nil?
-      note_two = create(:aurelius_press_fragment_note, commentable: blog_post, user: user, content: "This is the second note.") if note_two.nil?
+      note_one = create(:aurelius_press_fragment_note, notable: blog_post, user: user, content: "This is the first note.") if note_one.nil?
+      note_two = create(:aurelius_press_fragment_note, notable: blog_post, user: user, content: "This is the second note.") if note_two.nil?
 
       note_text = note_one.content.body.to_plain_text
       # 1. Log in as a power user

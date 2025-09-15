@@ -1,2 +1,38 @@
-<h1>AureliusPress::Admin::Fragment::Notes#index</h1>
-<p>Find me in app/views/aurelius_press/admin/fragment/notes/index.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Fragment::Notes#index",
+     subtitle: "Find me in app/views/aurelius_press/admin/fragment/notes/index.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Fragment::Notes#index">
+
+  <h3 class="mt-4">View Notes</h3>
+
+  <div class="list-group mb-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Note</th>
+          <th>Noteable</th>
+          <th>User</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @notes.each do |note| %>
+          <tr>
+            <td><%= note.id %></td>
+            <td class="no-wrap"><%= note.content.body.to_plain_text.truncate(30) %></td>
+            <td>#<%= note.notable_id %> <%= note.notable_type %><br /><%= note.notable if note.notable %></td>
+            <td><%= note.user.full_name if note.user %></td>
+            <td><%= l(note.created_at, format: :short) %></td>
+            <td>
+              <%= link_to "View Details", aurelius_press_admin_fragment_note_path(note), class: "button btn-sm", role: "button" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
