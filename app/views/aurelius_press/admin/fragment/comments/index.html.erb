@@ -12,6 +12,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Comment</th>
           <th>Commentable</th>
           <th>User</th>
@@ -22,9 +23,10 @@
       <tbody>
         <% @comments.each do |comment| %>
           <tr>
-            <td><%= comment.content.body.to_plain_text.truncate(30) %></td>
-            <td><%= comment.commentable_type %> ##<%= comment.commentable_id %></td>
-            <td><%= comment.user.email if comment.user %></td>
+            <td><%= comment.id %></td>
+            <td class="no-wrap"><%= comment.content.body.to_plain_text.truncate(30) %></td>
+            <td>#<%= comment.commentable_id %> <%= comment.commentable_type %><br /><%= comment.commentable if comment.commentable %></td>
+            <td><%= comment.user.full_name if comment.user %></td>
             <td><%= l(comment.created_at, format: :short) %></td>
             <td>
               <%= link_to "View Details", aurelius_press_admin_fragment_comment_path(comment), class: "button btn-sm", role: "button" %>

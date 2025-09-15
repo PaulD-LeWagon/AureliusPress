@@ -1,6 +1,19 @@
 class AureliusPress::Admin::Fragment::CommentsController < AureliusPress::Admin::ApplicationController
   before_action :set_comment, only: %i[ show destroy ] # edit update
 
+  ## Admin interface for managing comments
+  # This section contains actions for managing comments in the admin interface.
+  # Only index, show, and destroy actions are currently enabled as that is all
+  # that is needed for moderation purposes.
+  #
+  # Other actions (new, edit, create, update) are commented out to prevent
+  # creation or modification of comments via the admin interface.
+  # However, when soft deletion is implemented, the update action will be needed.
+  # And a "Reporting" and "User Ban" feature will be required in the future.
+  #
+  # @todo: Implement soft deletion for comments
+  # @todo Add pagination to index action if comment volume is high.
+
   # GET /aurelius_press/admin/fragment/comments
   def index
     @comments = AureliusPress::Fragment::Comment.all
