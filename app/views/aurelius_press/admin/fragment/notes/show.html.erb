@@ -1,2 +1,30 @@
-<h1>AureliusPress::Admin::Fragment::Notes#show</h1>
-<p>Find me in app/views/aurelius_press/admin/fragment/notes/show.html.erb</p>
+<%= HeroComponent.new(
+     title: "AureliusPress::Admin::Fragment::Notes#show",
+     subtitle: "Find me in app/views/aurelius_press/admin/fragment/notes/show.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Fragment::Notes#show">
+
+  <h3 class="mt-4">Viewing Note</h3>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p><strong>Notable:</strong> <%= @note.notable_type %> ##<%= @note.notable_id %></p>
+      <p><strong>User:</strong> <%= @note.user.email if @note.user %></p>
+      <p><strong>Created At:</strong> <%= l(@note.created_at, format: :short) %></p>
+      <hr>
+      <div>
+        <strong>Content:</strong>
+        <div class="border p-3">
+          <%= @note.content.body.to_s.html_safe %>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <%= link_to "Back to Notes", aurelius_press_admin_fragment_notes_path, class: "button btn-sm", role: "button" %>
+      <%= link_to "Delete", aurelius_press_admin_fragment_note_path(@note), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this note?" }, class: "button btn-sm danger", role: "button" %>
+    </div>
+  </div>
+
+</div>

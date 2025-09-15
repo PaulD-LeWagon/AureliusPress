@@ -56,10 +56,33 @@
     <%= @blog_post.category.name if @blog_post.category %>
   </p>
 
+  <p>
+    <strong>Comments Enabled:</strong>
+    <%= @blog_post.comments_enabled ? "Yes" : "No" %>
+  </p>
+
   <div class="content-blocks">
     <h3>Content Blocks</h3>
     <% @blog_post.content_blocks.order(:position).each do |content_block| %>
       <%= render content_block %>
+    <% end %>
+  </div>
+
+  <div class="comment-section">
+    <h3>Comments</h3>
+    <% @blog_post.comments.each do |comment| %>
+      <div class="comment">
+        <p><strong><%= comment.user&.full_name || 'Unknown User' %>:</strong> <%= comment.content.body.to_plain_text %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="note-section">
+    <h3>Notes</h3>
+    <% @blog_post.notes.each do |note| %>
+      <div class="note">
+        <p><strong><%= note.user&.full_name || 'Unknown User' %>:</strong> <%= note.content.body.to_plain_text %></p>
+      </div>
     <% end %>
   </div>
 

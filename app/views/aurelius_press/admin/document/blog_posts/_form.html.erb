@@ -72,7 +72,7 @@
         <% #= form.input :tags, as: :string, input_html: { value: @blog_post.tag_list.join(", "), data: { role: "tagsinput" } }, hint: "Separate tags with commas" %>
       </div>
       <div class="column flex justify-start items-center">
-        <%= form.input :comments_enabled, as: :boolean, label: "Enable Comments" %>
+        <%= form.input :comments_enabled, as: :boolean, label: "Enable Comments", input_html: { role: "switch" } %>
       </div>
     </div>
 
