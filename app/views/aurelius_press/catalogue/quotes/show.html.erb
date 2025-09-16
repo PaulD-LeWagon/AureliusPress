@@ -6,15 +6,15 @@
 
 <div class="container" template="AureliusPress::Catalogue::Quotes#show">
 
-  <h1>Quote <%= quote.id %></h1>
+  <h1>Quote <%= @quote.id %></h1>
 
-  <p><strong>Content:</strong> <%= quote.content %></p>
+  <p><strong>Content:</strong> <%= @quote.text %></p>
 
-  <p><strong>Author:</strong> <%= quote.author.name if quote.author %></p>
+  <p><strong>Author:</strong> <%= @quote.source_authors.map(&:name).join(", ") if @quote.source_authors.any? %></p>
 
-  <p><strong>Source:</strong> <%= quote.source.title if quote.source %></p>
-  
-  <p><strong>Created At:</strong> <%= l(quote.created_at, format: :long) %></p>
-  <p><strong>Updated At:</strong> <%= l(quote.updated_at, format: :long) %></p>
+  <p><strong>Source:</strong> <%= @quote.source.title if @quote.source %></p>
+
+  <p><strong>Created At:</strong> <%= l(@quote.created_at, format: :long) %></p>
+  <p><strong>Updated At:</strong> <%= l(@quote.updated_at, format: :long) %></p>
 
 </div>

@@ -1,0 +1,61 @@
+<% if controller_path.include?("admin") %>
+  <% in_admin_ns = true %>
+  <% form_url = (@author.new_record? ? aurelius_press_admin_catalogue_authors_path : aurelius_press_admin_catalogue_author_path(@author)) %>
+<% else %>
+  <% in_admin_ns = false %>
+  <% form_url = (@author.new_record? ? aurelius_press_catalogue_authors_path : aurelius_press_catalogue_author_path(@author)) %>
+<% end %>
+
+<%= simple_form_for @author, url: form_url, html: { class: "pico-page-form" }, data: { controller: "auto-slugify" } do |form| %>
+
+  <%= form.error_notification %>
+
+  <div class="form-inputs">
+    <div class="grid">
+      <div class="column">
+        <%= form.input :name, required: true, autofocus: true, input_html: { data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
+      </div>
+      <div class="column">
+        <%= form.input :slug, hint: "Can be a custom slug, if desired!", input_html: { data: { auto_slugify_target: "slug" } } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <%= form.input :bio, as: :text, input_html: { rows: 5 } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <%= form.input :comments_enabled, as: :boolean, input_html: { role: "switch" } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions grid">
+
+    <% if in_admin_ns %>
+
+      <% if @author.persisted? %>
+
+        <%= link_to "Delete", aurelius_press_admin_catalogue_author_path(@author), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
+      <% end %>
+
+      <%= link_to "Back", aurelius_press_admin_catalogue_authors_path, class: "button warning", role: "button" %>
+
+    <% else %>
+
+      <% if @author.persisted? %>
+
+        <%= link_to "Delete", aurelius_press_catalogue_author_path(@author), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
+      <% end %>
+
+      <%= link_to "Back", aurelius_press_catalogue_authors_path, class: "button warning", role: "button" %>
+
+    <% end %>
+
+    <%= form.button :submit, value: @author.new_record? ? "Create" : "Update", class: "button success", role: "button" %>
+
+  </div>
+<% end %>

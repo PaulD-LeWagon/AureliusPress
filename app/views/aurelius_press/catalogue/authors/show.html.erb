@@ -10,7 +10,6 @@
 
   <p><strong>Name:</strong> <%= @author.name %></p>
   <p><strong>Bio:</strong> <%= @author.bio %></p>
-  <p><strong>Birthdate:</strong> <%= l(@author.birthdate, format: :long) if @author.birthdate %></p>
   <p><strong>Created At:</strong> <%= l(@author.created_at, format: :long) %></p>
   <p><strong>Updated At:</strong> <%= l(@author.updated_at, format: :long) %></p>
 

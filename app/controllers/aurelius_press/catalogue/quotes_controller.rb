@@ -4,6 +4,12 @@ class AureliusPress::Catalogue::QuotesController < AureliusPress::ApplicationCon
   end
 
   def show
-    @quote = AureliusPress::Catalogue::Quote.find(params[:id])
+    if params[:slug].present?
+      @quote = AureliusPress::Catalogue::Quote.find_by(slug: params[:slug])
+    elsif params[:id].present?
+      @quote = AureliusPress::Catalogue::Quote.find(params[:id])
+    else
+      raise ActiveRecord::RecordNotFound, "No identifier provided"
+    end
   end
 end

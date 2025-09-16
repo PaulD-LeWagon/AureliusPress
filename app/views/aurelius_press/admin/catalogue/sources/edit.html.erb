@@ -1,2 +1,10 @@
-<h1>AureliusPress::Admin::Catalogue::Sources#edit</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/sources/edit.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Catalogue::Sources#edit",
+     subtitle: "Find me in app/views/aurelius_press/admin/catalogue/sources/edit.html.erb",
+     small: true,
+   ) %>
+<div class="container" template="AureliusPress::Admin::Catalogue::Sources#edit">
+
+  <%= render "form", source: @source %>
+
+</div>

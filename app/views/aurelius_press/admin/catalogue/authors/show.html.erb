@@ -1,2 +1,32 @@
-<h1>AureliusPress::Admin::Catalogue::Authors#show</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/authors/show.html.erb</p>
+<%= render HeroComponent.new(
+      title: "AureliusPress::Admin::Catalogue::Authors#show",
+      subtitle: "Find me in app/views/aurelius_press/admin/catalogue/authors/show.html.erb",
+      small: true,
+    ) %>
+
+<div class="container" template="AureliusPress::Admin::Catalogue::Authors#show">
+  <div class="card">
+
+    <div class="card-header">
+      <h2><%= @author.name %></h2>
+      <p><em>Slug: <%= @author.slug %></em></p>
+    </div>
+
+    <div class="card-body">
+
+      <p><strong>Bio:</strong> <%= @author.bio.present? ? @author.bio : "N/A" %></p>
+
+      <p><strong>Comments Enabled:</strong> <%= @author.comments_enabled ? "Yes" : "No" %></p>
+
+      <p><strong>Created At:</strong> <%= l(@author.created_at, format: :long) %></p>
+      <p><strong>Updated At:</strong> <%= l(@author.updated_at, format: :long) %></p>
+
+    </div>
+
+    <div class="card-footer">
+      <%= link_to "Edit", edit_aurelius_press_admin_catalogue_author_path(@author), class: "button warning", role: "button" %>
+      <%= link_to "Back to Authors", aurelius_press_admin_catalogue_authors_path, class: "button success", role: "button" %>
+    </div>
+    
+  </div>
+</div>

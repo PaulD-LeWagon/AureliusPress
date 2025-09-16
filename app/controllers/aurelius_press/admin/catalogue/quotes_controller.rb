@@ -1,5 +1,6 @@
 class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::ApplicationController
   before_action :set_quote, only: %i[ show edit update destroy ]
+  before_action :set_sources_and_original_quotes, only: %i[ new edit create update ]
 
   # GET /aurelius-press/admin/catalogue/quotes
   def index
@@ -24,7 +25,7 @@ class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::
     @quote = AureliusPress::Catalogue::Quote.new(quote_params)
 
     if @quote.save
-      redirect_to aurelius_press_admin_catalogue_quote_path(@quote), notice: "Quote was successfully created."
+      redirect_to aurelius_press_admin_catalogue_quote_path(@quote), notice: action_was_successfully(:created), status: :see_other
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +34,7 @@ class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::
   # PATCH/PUT /aurelius-press/admin/catalogue/quotes/:id
   def update
     if @quote.update(quote_params)
-      redirect_to aurelius_press_admin_catalogue_quote_path(@quote), notice: "Quote was successfully updated.", status: :see_other
+      redirect_to aurelius_press_admin_catalogue_quote_path(@quote), notice: action_was_successfully(:updated), status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -42,23 +43,35 @@ class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::
   # DELETE /aurelius-press/admin/catalogue/quotes/:id
   def destroy
     @quote.destroy!
-    redirect_to aurelius_press_admin_catalogue_quotes_url, notice: "Quote was successfully destroyed.", status: :see_other
+    redirect_to aurelius_press_admin_catalogue_quotes_url, notice: action_was_successfully(:deleted), status: :see_other
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_quote
-    @quote = AureliusPress::Catalogue::Quote.find(params[:id])
+    @quote = AureliusPress::Catalogue::Quote.find_by(slug: params[:id])
+  end
+
+  def set_sources_and_original_quotes
+    @sources = AureliusPress::Catalogue::Source.all
+    @original_quotes = AureliusPress::Catalogue::Quote.all
+  end
+
+  def action_was_successfully(action)
+    "Quote #{action} successfully."
   end
 
   # Only allow a list of trusted parameters through.
   def quote_params
     params.require(:aurelius_press_catalogue_quote).permit(
       :id,
+      :slug,
       :text,
+      :context,
       :source_id,
       :original_quote_id,
+      :comments_enabled
     )
   end
 end

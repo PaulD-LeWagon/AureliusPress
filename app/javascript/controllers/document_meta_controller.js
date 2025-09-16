@@ -5,6 +5,7 @@ export default class extends Controller {
   static targets = ["statusSelect", "publishedAt"]
   connect() {
     console.log("Document Meta Controller connected")
+    // this.#currentTargetValues()
   }
 
   onStatusChange() {
@@ -29,7 +30,7 @@ export default class extends Controller {
       }
     } else if (status === "published") {
       // Set the current date and time
-      publishedAtSelect.value = new Date().toISOString().slice(0, 16)
+      publishedAtSelect.value = new Date().toISOString().slice(0, 10)
       // Ensure the publishedAt field is readonly
       if (this.#isNotReadOnly(publishedAtSelect)) {
         publishedAtSelect.setAttribute("readonly", true)
@@ -39,12 +40,13 @@ export default class extends Controller {
       console.log("In catch-all")
       if (!publishedAt) {
         console.log("publishedAt:", publishedAt)
-        publishedAtSelect.value = new Date().toISOString().slice(0, 16)
+        publishedAtSelect.value = new Date().toISOString().slice(0, 10)
       }
       if (this.#isNotReadOnly(publishedAtSelect)) {
         publishedAtSelect.setAttribute("readonly", true)
       }
     }
+    this.#currentTargetValues()
   }
 
   #isReadOnly(element) {
@@ -53,5 +55,10 @@ export default class extends Controller {
 
   #isNotReadOnly(element) {
     return !this.#isReadOnly(element)
+  }
+
+  #currentTargetValues() {
+    console.log("statusSelectTarget:", this.statusSelectTarget.value)
+    console.log("publishedAtTarget:", this.publishedAtTarget.value)
   }
 }

@@ -1,2 +1,40 @@
-<h1>AureliusPress::Admin::Catalogue::Sources#show</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/sources/show.html.erb</p>
+<%= render HeroComponent.new(
+      title: "AureliusPress::Admin::Catalogue::Sources#show",
+      subtitle: "Find me in app/views/aurelius_press/admin/catalogue/sources/show.html.erb",
+      small: true,
+    ) %>
+
+<div class="container" template="AureliusPress::Admin::Catalogue::Sources#show">
+  <div class="card">
+
+    <div class="card-header">
+      <h2><%= @source.title %></h2>
+      <p><em>Slug: <%= @source.slug %></em></p>
+    </div>
+
+    <div class="card-body">
+
+      <p><strong>Authors:</strong> <%= @source.authors.any? ? @source.authors.map(&:name).join(", ") : "N/A" %></p>
+
+      <p><strong>Source Type:</strong> <%= @source.source_type.humanize %></p>
+
+      <p><strong>Description:</strong> <%= @source.description.present? ? @source.description : "N/A" %></p>
+
+      <p><strong>ISBN:</strong> <%= @source.isbn.present? ? @source.isbn : "N/A" %></p>
+
+      <p><strong>Date:</strong> <%= @source.date.present? ? l(@source.date, format: :long) : "N/A" %></p>
+
+      <p><strong>Comments Enabled:</strong> <%= @source.comments_enabled ? "Yes" : "No" %></p>
+
+      <p><strong>Created At:</strong> <%= l(@source.created_at, format: :long) %></p>
+      <p><strong>Updated At:</strong> <%= l(@source.updated_at, format: :long) %></p>
+
+    </div>
+
+    <div class="card-footer">
+      <%= link_to "Edit", edit_aurelius_press_admin_catalogue_source_path(@source), class: "button warning", role: "button" %>
+      <%= link_to "Back to sources", aurelius_press_admin_catalogue_sources_path, class: "button success", role: "button" %>
+    </div>
+
+  </div>
+</div>

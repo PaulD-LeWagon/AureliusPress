@@ -1,2 +1,11 @@
-<h1>AureliusPress::Admin::Catalogue::Quotes#new</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/quotes/new.html.erb</p>
+<%= render HeroComponent.new(
+      title: "AureliusPress::Admin::Catalogue::Quotes#new",
+      subtitle: "Find me in app/views/aurelius_press/admin/catalogue/quotes/new.html.erb",
+      small: true,
+    ) %>
+
+<div class="container" template="AureliusPress::Admin::Catalogue::Quotes#new">
+
+  <%= render "form", quote: @quote %>
+
+</div>

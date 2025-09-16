@@ -5,37 +5,43 @@ class AureliusPress::Admin::Catalogue::AuthorsController < AureliusPress::Admin:
 
   # GET /aurelius-press/admin/catalogue/authors
   def index
-    @authors = AureliusPress::Catalogue::Author.all
+    authorize AureliusPress::Catalogue::Author, :index?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
+    @authors = policy_scope(AureliusPress::Catalogue::Author, policy_scope_class: AureliusPress::Admin::Catalogue::AuthorPolicy::Scope)
   end
 
   # GET /aurelius-press/admin/catalogue/authors/:id
   def show
+    authorize @author, :show?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
   end
 
   # GET /aurelius-press/admin/catalogue/authors/new
   def new
     @author = AureliusPress::Catalogue::Author.new
-  end
-
-  # GET /aurelius-press/admin/catalogue/authors/:id/edit
-  def edit
+    authorize @author, :new?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
   end
 
   # POST /aurelius-press/admin/catalogue/authors
   def create
     @author = AureliusPress::Catalogue::Author.new(author_params)
+    authorize @author, :create?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
 
     if @author.save
-      redirect_to aurelius_press_admin_catalogue_author_path(@author), notice: "Author was successfully created."
+      redirect_to aurelius_press_admin_catalogue_author_path(@author), notice: action_was_successfully(:created), status: :see_other
     else
       render :new, status: :unprocessable_entity
     end
   end
 
+  # GET /aurelius-press/admin/catalogue/authors/:id/edit
+  def edit
+    authorize @author, :edit?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
+  end
+
   # PATCH/PUT /aurelius-press/admin/catalogue/authors/:id
   def update
+    authorize @author, :update?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
     if @author.update(author_params)
-      redirect_to aurelius_press_admin_catalogue_author_path(@author), notice: "Author was successfully updated.", status: :see_other
+      redirect_to aurelius_press_admin_catalogue_author_path(@author), notice: action_was_successfully(:updated), status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,15 +49,20 @@ class AureliusPress::Admin::Catalogue::AuthorsController < AureliusPress::Admin:
 
   # DELETE /aurelius-press/admin/catalogue/authors/:id
   def destroy
+    authorize @author, :destroy?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
     @author.destroy!
-    redirect_to aurelius_press_admin_catalogue_authors_url, notice: "Author was successfully destroyed.", status: :see_other
+    redirect_to aurelius_press_admin_catalogue_authors_url, notice: action_was_successfully(:deleted), status: :see_other
   end
 
   private
 
+  def action_was_successfully(action)
+    "Author #{action} successfully."
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_author
-    @author = AureliusPress::Catalogue::Author.find(params[:id])
+    @author = AureliusPress::Catalogue::Author.find_by!(slug: params[:id])
   end
 
   # Only allow a list of trusted parameters through.

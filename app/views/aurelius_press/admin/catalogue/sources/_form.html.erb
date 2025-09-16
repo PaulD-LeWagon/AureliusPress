@@ -1,0 +1,79 @@
+<% if controller_path.include?("admin") %>
+  <% in_admin_ns = true %>
+  <% form_url = (@source.new_record? ? aurelius_press_admin_catalogue_sources_path : aurelius_press_admin_catalogue_source_path(@source)) %>
+<% else %>
+  <% in_admin_ns = false %>
+  <% form_url = (@source.new_record? ? aurelius_press_catalogue_sources_path : aurelius_press_catalogue_source_path(@source)) %>
+<% end %>
+
+<%= simple_form_for @source, url: form_url, html: { class: "pico-page-form", data: { controller: "auto-slugify" } } do |form| %>
+
+  <%= form.error_notification %>
+
+  <div class="form-inputs">
+    <div class="grid">
+      <div class="column">
+        <%= form.input :title, required: true, autofocus: true, input_html: { data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
+      </div>
+      <div class="column">
+        <%= form.input :slug, required: false, hint: "Can be a custom slug, if desired!", input_html: { data: { auto_slugify_target: "slug" } } %>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="column">
+        <%= form.input :source_type, as: :select, collection: AureliusPress::Catalogue::Source.source_types.keys.map { |type| [type.humanize, type] }, prompt: "Select Type" %>
+      </div>
+      <div class="column">
+        <%= form.input :date, as: :date, required: true, html5: true %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <%= form.input :isbn %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <%= form.input :description, as: :text, input_html: { rows: 5 } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <%= form.input :author_ids, as: :select, collection: @authors, label_method: :name, value_method: :id, input_html: { multiple: true } %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <%= form.input :comments_enabled, as: :boolean, input_html: { role: "switch" } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions grid">
+
+    <% if in_admin_ns %>
+
+      <% if @source.persisted? %>
+
+        <%= link_to "Delete", aurelius_press_admin_catalogue_source_path(@source), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
+      <% end %>
+
+      <%= link_to "Back", aurelius_press_admin_catalogue_sources_path, class: "button warning", role: "button" %>
+
+    <% else %>
+
+      <% if @source.persisted? %>
+
+        <%= link_to "Delete", aurelius_press_catalogue_source_path(@source), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
+      <% end %>
+
+      <%= link_to "Back", aurelius_press_catalogue_sources_path, class: "button warning", role: "button" %>
+
+    <% end %>
+
+    <%= form.button :submit, value: @source.new_record? ? "Create" : "Update", class: "button success", role: "button" %>
+
+  </div>
+<% end %>

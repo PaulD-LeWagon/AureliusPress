@@ -4,15 +4,32 @@
      small: true,
    ) %>
 
-<div class="container" template="AureliusPress::Catalogue::Author#index">
+<div class="container" template="AureliusPress::Catalogue::Authors#index">
 
   <h1>Authors</h1>
 
-  <ul>
-    <% @authors.each do |author| %>
-      <li>
-        <%= link_to author.name, aurelius_press_catalogue_author_path(author) %>
-      </li>
-    <% end %>
-  </ul>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Bio</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @authors.each do |author| %>
+        <tr>
+          <td><%= author.name %></td>
+          <td><%= truncate(author.bio, length: 20) %></td>
+          <td><%= l(author.created_at, format: :long) %></td>
+          <td><%= l(author.updated_at, format: :long) %></td>
+          <td>
+            <%= link_to "View Details", aurelius_press_catalogue_author_path(author), class: "button btn-sm warning", role: "button" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

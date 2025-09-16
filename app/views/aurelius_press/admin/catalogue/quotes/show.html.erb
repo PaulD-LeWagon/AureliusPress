@@ -1,2 +1,32 @@
-<h1>AureliusPress::Admin::Catalogue::Quotes#show</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/quotes/show.html.erb</p>
+<%= render HeroComponent.new(
+      title: "AureliusPress::Admin::Catalogue::Quotes#show",
+      subtitle: "Find me in app/views/aurelius_press/admin/catalogue/quotes/show.html.erb",
+      small: true,
+    ) %>
+
+<div class="container" template="AureliusPress::Admin::Catalogue::Quotes#show">
+  <div class="card">
+
+    <div class="card-header">
+      <h2><%= @quote.text %></h2>
+      <p><em>Slug: <%= @quote.slug %></em></p>
+    </div>
+
+    <div class="card-body">
+
+      <p><strong>Context:</strong> <%= @quote.context.present? ? @quote.context : "N/A" %></p>
+
+      <p><strong>Comments Enabled:</strong> <%= @quote.comments_enabled ? "Yes" : "No" %></p>
+
+      <p><strong>Created At:</strong> <%= l(@quote.created_at, format: :long) %></p>
+      <p><strong>Updated At:</strong> <%= l(@quote.updated_at, format: :long) %></p>
+
+    </div>
+
+    <div class="card-footer">
+      <%= link_to "Edit", edit_aurelius_press_admin_catalogue_quote_path(@quote), class: "button warning", role: "button" %>
+      <%= link_to "Back to quotes", aurelius_press_admin_catalogue_quotes_path, class: "button success", role: "button" %>
+    </div>
+
+  </div>
+</div>

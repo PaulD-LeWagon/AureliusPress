@@ -1,5 +1,6 @@
 class AureliusPress::Admin::Catalogue::SourcesController < AureliusPress::Admin::ApplicationController
   before_action :set_source, only: %i[ show edit update destroy ]
+  before_action :set_authors, only: %i[ new edit create update ]
 
   # GET /aurelius-press/admin/catalogue/sources
   def index
@@ -48,7 +49,11 @@ class AureliusPress::Admin::Catalogue::SourcesController < AureliusPress::Admin:
   private
 
   def set_source
-    @source = AureliusPress::Catalogue::Source.find(params[:id])
+    @source = AureliusPress::Catalogue::Source.find_by!(slug:params[:id])
+  end
+
+  def set_authors
+    @authors = AureliusPress::Catalogue::Author.all
   end
 
   def source_params
@@ -60,6 +65,9 @@ class AureliusPress::Admin::Catalogue::SourcesController < AureliusPress::Admin:
       :author_id,
       :source_type,
       :date,
+      :isbn, :comments_enabled,
+      author_ids: [],
+      # affiliate_links_attributes: %i[id name url _destroy]
     )
   end
 end

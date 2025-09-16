@@ -11,11 +11,13 @@
     <ul>
       <% @quotes.each do |quote| %>
         <li>
-          <%= link_to quote.content.truncate(50) %>
-          by
-          <%= link_to quote.author.name %>
+          <%= link_to quote.text.truncate(50), aurelius_press_catalogue_quote_path(quote) %>
           from
-          <%= link_to quote.source.title %>
+          <%= link_to quote.source.title, aurelius_press_catalogue_source_path(quote.source) %>
+          by
+          <% quote.source_authors.each do |author| %>
+            <%= link_to author.name, aurelius_press_catalogue_author_path(author) %>
+          <% end %>
         </li>
       <% end %>
     </ul>

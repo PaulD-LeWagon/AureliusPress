@@ -1,2 +1,38 @@
-<h1>AureliusPress::Admin::Catalogue::Quotes#index</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/quotes/index.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Catalogue::Quotes#index",
+     subtitle: "Find me in app/views/aurelius_press/admin/catalogue/quotes/index.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Catalogue::Quotes#index">
+  <h3 class="mb-3 flex justify-between align-center">
+    <span>View quotes</span>
+    <%= link_to "New quote", new_aurelius_press_admin_catalogue_quote_path, class: "button btn-sm success", role: "button" %>
+  </h3>
+
+  <table style="min-width: 100%;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Text</th>
+        <th>Context</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @quotes.each do |quote| %>
+        <tr>
+          <td><%= quote.id %></td>
+          <td><%= quote.text.truncate(30) %></td>
+          <td><%= quote.context.truncate(30) %></td>
+          <td class="flex gap-2">
+            <%= link_to "Show", aurelius_press_admin_catalogue_quote_path(quote), class: "button btn-sm primary", role: "button" %>
+            <%= link_to "Edit", edit_aurelius_press_admin_catalogue_quote_path(quote), class: "button btn-sm warning", role: "button" %>
+            <%= link_to "Delete", aurelius_press_admin_catalogue_quote_path(quote), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button btn-sm danger", role: "button" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

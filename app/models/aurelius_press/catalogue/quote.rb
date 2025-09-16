@@ -43,6 +43,7 @@ class AureliusPress::Catalogue::Quote < ApplicationRecord
 
   def sluggable_text
     # Ensure it's never blank, append ID if text is blank for uniqueness
-    self.text.blank? ? "quote-#{id || SecureRandom.hex(4)}" : self.text[0..29] # Truncate to 30 characters
+    # This may need to be revisited (TEXT IS THE QUOTE AFTER ALL)
+    self.text.blank? ? "quote-#{id || SecureRandom.hex(4)}"[0..29] : self.text[0..29] # Truncate to 30 characters
   end
 end

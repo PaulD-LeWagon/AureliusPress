@@ -1,2 +1,11 @@
-<h1>AureliusPress::Admin::Catalogue::Authors#new</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/authors/new.html.erb</p>
+<%= render HeroComponent.new(
+      title: "AureliusPress::Admin::Catalogue::Authors#new",
+      subtitle: "Find me in app/views/aurelius_press/admin/catalogue/authors/new.html.erb",
+      small: true,
+    ) %>
+    
+<div class="container" template="AureliusPress::Admin::Catalogue::Authors#new">
+
+  <%= render "form", author: @author %>
+
+</div>

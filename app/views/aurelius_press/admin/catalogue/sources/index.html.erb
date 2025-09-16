@@ -1,2 +1,40 @@
-<h1>AureliusPress::Admin::Catalogue::Sources#index</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/sources/index.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Catalogue::Sources#index",
+     subtitle: "Find me in app/views/aurelius_press/admin/catalogue/sources/index.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Catalogue::Sources#index">
+  <h3 class="mb-3 flex justify-between align-center">
+    <span>View Sources</span>
+    <%= link_to "New source", new_aurelius_press_admin_catalogue_source_path, class: "button btn-sm success", role: "button" %>
+  </h3>
+
+  <table style="min-width: 100%;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Source Type</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @sources.each do |source| %>
+        <tr>
+          <td><%= source.id %></td>
+          <td><%= source.source_type.humanize %></td>
+          <td><%= source.title %></td>
+          <td><%= source.description.truncate(30) %></td>
+          <td class="flex gap-2">
+            <%= link_to "Show", aurelius_press_admin_catalogue_source_path(source), class: "button btn-sm", role: "button" %>
+            <%= link_to "Edit", edit_aurelius_press_admin_catalogue_source_path(source), class: "button btn-sm warning", role: "button" %>
+            <%= link_to "Delete", aurelius_press_admin_catalogue_source_path(source), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button btn-sm danger", role: "button" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

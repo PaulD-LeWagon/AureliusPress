@@ -6,7 +6,7 @@
   <% form_url = (@page.new_record? ? aurelius_press_pages_path : aurelius_press_page_path(@page)) %>
 <% end %>
 
-<%= simple_form_for @page, url: form_url, html: { class: "pico-page-form" }, data: { controller: "nested-forms document-meta", nested_form_wrapper_selector_value: ".nested-form-wrapper" } do |form| %>
+<%= simple_form_for @page, url: form_url, html: { class: "pico-page-form" }, data: { controller: "nested-forms document-meta auto-slugify", nested_form_wrapper_selector_value: ".nested-form-wrapper" } do |form| %>
 
   <template data-nested-forms-target="template" data-nested-forms-name="AureliusPress::ContentBlock::RichTextBlock">
     <%= form.simple_fields_for :content_blocks, AureliusPress::ContentBlock::ContentBlock.new(contentable_type: "AureliusPress::ContentBlock::RichTextBlock"), child_index: "NEW_RECORD" do |content_block_form| %>
@@ -49,15 +49,7 @@
         <%= form.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys.map { |status| [t(status), status] }, prompt: "Select Status", input_html: { data: { action: "change->document-meta#onStatusChange", document_meta_target: "statusSelect" } } %>
       </div>
       <div class="column">
-        <%= form.input :published_at,
-                       as: :datetime,
-                       html5: true,
-                       readonly: true,
-                       input_html: {
-                         data: {
-                           document_meta_target: "publishedAt",
-                         },
-                       } %>
+        <%= form.input :published_at, as: :date, html5: true, readonly: true, input_html: { data: { document_meta_target: "publishedAt" } } %>
       </div>
       <div class="column">
         <%= form.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys.map { |visibility| [t(visibility), visibility] }, prompt: "Select Visibility" %>
@@ -70,10 +62,15 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="grid row">
       <div class="column">
-        <%= form.input :title, required: true, autofocus: true, input_html: { class: "form-control" } %>
+        <%= form.input :title, required: true, autofocus: true, input_html: { class: "form-control", data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
       </div>
+      <div class="column">
+        <%= form.input :slug, hint: "Can be a custom slug, if desired!", input_html: { class: "form-control", data: { auto_slugify_target: "slug" } } %>
+      </div>
+    </div>
+    <div class="row">
       <div class="column">
         <%= form.input :subtitle, input_html: { class: "form-control" } %>
       </div>
@@ -124,5 +121,6 @@
     <% end %>
 
     <%= form.button :submit, value: "#{@page.new_record? ? "Create" : "Update"}", class: "button success", role: :button %>
+
   </div>
 <% end %>

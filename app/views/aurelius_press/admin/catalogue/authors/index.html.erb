@@ -1,2 +1,38 @@
-<h1>AureliusPress::Admin::Catalogue::Authors#index</h1>
-<p>Find me in app/views/aurelius_press/admin/catalogue/authors/index.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Catalogue::Authors#index",
+     subtitle: "Find me in app/views/aurelius_press/admin/catalogue/authors/index.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Catalogue::Authors#index">
+  <h3 class="mb-3 flex justify-between align-center">
+    <span>View Authors</span>
+    <%= link_to "New Author", new_aurelius_press_admin_catalogue_author_path, class: "button btn-sm success", role: "button" %>
+  </h3>
+
+  <table style="min-width: 100%;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Bio</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @authors.each do |author| %>
+        <tr>
+          <td><%= author.id %></td>
+          <td><%= author.name %></td>
+          <td><%= author.bio.truncate(30) %></td>
+          <td class="flex gap-2">
+            <%= link_to "Show", aurelius_press_admin_catalogue_author_path(author), class: "button btn-sm primary", role: "button" %>
+            <%= link_to "Edit", edit_aurelius_press_admin_catalogue_author_path(author), class: "button btn-sm warning", role: "button" %>
+            <%= link_to "Delete", aurelius_press_admin_catalogue_author_path(author), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button btn-sm danger", role: "button" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

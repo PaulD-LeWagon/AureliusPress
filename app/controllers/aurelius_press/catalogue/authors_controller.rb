@@ -4,6 +4,12 @@ class AureliusPress::Catalogue::AuthorsController < AureliusPress::ApplicationCo
   end
 
   def show
-    @author = AureliusPress::Catalogue::Author.find(params[:id])
+    if params[:slug].present?
+      @author = AureliusPress::Catalogue::Author.find_by(slug: params[:slug])
+    elsif params[:id].present?
+      @author = AureliusPress::Catalogue::Author.find(params[:id])
+    else
+      raise ActiveRecord::RecordNotFound, "No identifier provided"
+    end
   end
 end

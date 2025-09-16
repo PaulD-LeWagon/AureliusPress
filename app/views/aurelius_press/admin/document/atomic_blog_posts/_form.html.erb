@@ -8,7 +8,7 @@
 
 <h3><%= @atomic_blog_post.new_record? ? "New" : "Edit" %> Atomic Blog Post</h3>
 
-<%= simple_form_for @atomic_blog_post, url: form_url do |f| %>
+<%= simple_form_for @atomic_blog_post, url: form_url, html: { class: "pico-page-form", data: { controller: "document-meta auto-slugify" } } do |f| %>
 
   <%= f.error_notification %>
 
@@ -47,10 +47,15 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="grid row">
       <div class="column">
-        <%= f.input :title, required: true, autofocus: true, input_html: { class: "form-control" } %>
+        <%= f.input :title, required: true, autofocus: true, input_html: { class: "form-control", data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
       </div>
+      <div class="column">
+        <%= f.input :slug, hint: "Can be a custom slug, if desired!", input_html: { class: "form-control", data: { auto_slugify_target: "slug" } } %>
+      </div>
+    </div>
+    <div class="row">
       <div class="column">
         <%= f.input :subtitle, input_html: { class: "form-control" } %>
       </div>
