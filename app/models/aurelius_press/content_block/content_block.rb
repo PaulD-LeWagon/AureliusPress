@@ -56,6 +56,7 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   accepts_nested_attributes_for :contentable, allow_destroy: true, reject_if: :all_blank
 
   # Polymorphic associations for comments, likes
+  has_many :reactions, as: :reactable, class_name: "AureliusPress::Community::Reaction", dependent: :destroy, inverse_of: :reactable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
   # Polymorphic association for notes, allowing users to add notes to content blocks
   has_many :notes, as: :notable, class_name: "AureliusPress::Fragment::Note", dependent: :destroy, inverse_of: :notable
@@ -68,7 +69,7 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
     presence: true,
     numericality: {
       only_integer: true,
-      greater_than_or_equal_to: 0,
+      greater_than_or_equal_to: 0
     }
   # Validate html_id uniqueness within the same document (HTML IDs should be unique across the entire page)
   # Allow nil/blank as ID is optional, but if present, must be unique for that document
@@ -78,7 +79,7 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
                         with: /\A[a-zA-Z][a-zA-Z0-9\-_:]*\z/,
                         message: "must start with a letter and contain only \
                           letters, numbers, hyphens, underscores, or colons",
-                        allow_blank: true,
+                        allow_blank: true
                       }
   # Add default_scope { order(:position) } for ordered retrieval
   default_scope { order(:position) }

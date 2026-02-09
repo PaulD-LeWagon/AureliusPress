@@ -64,8 +64,8 @@ class AureliusPress::Document::Document < ApplicationRecord
   # Commentable types for polymorphic association
   NAMESPACED_COMMENTABLE_TYPES = (TYPES - %w[Page]).map { |type| "AureliusPress::Document::#{type}" }
   # Enums
-  enum :status, [:draft, :published, :scheduled, :archived, :in_review, :trashed]
-  enum :visibility, [:private_to_owner, :private_to_group, :private_to_app_users, :public_to_www]
+  enum :status, [ :draft, :published, :scheduled, :archived, :in_review, :trashed ]
+  enum :visibility, [ :private_to_owner, :private_to_group, :private_to_app_users, :public_to_www ]
 
   # Callbacks
   after_initialize :set_defaults, if: :new_record?
@@ -90,6 +90,7 @@ class AureliusPress::Document::Document < ApplicationRecord
   # different document types.
   has_many :comments, as: :commentable, class_name: "AureliusPress::Fragment::Comment", dependent: :destroy, inverse_of: :commentable
   has_many :notes, as: :notable, class_name: "AureliusPress::Fragment::Note", dependent: :destroy, inverse_of: :notable
+  has_many :reactions, as: :reactable, class_name: "AureliusPress::Community::Reaction", dependent: :destroy, inverse_of: :reactable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
   has_and_belongs_to_many :groups,
                           class_name: "AureliusPress::Community::Group",
@@ -157,11 +158,11 @@ class AureliusPress::Document::Document < ApplicationRecord
   end
 
   def will_be_published?
-    status_changed? && status == 'published'
+    status_changed? && status == "published"
   end
 
   def will_be_draft?
-    status_changed? && status == 'draft'
+    status_changed? && status == "draft"
   end
 
   def set_defaults

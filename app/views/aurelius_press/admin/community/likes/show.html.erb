@@ -1,2 +1,14 @@
-<h1>AureliusPress::Admin::Community::Likes#show</h1>
-<p>Find me in app/views/aurelius_press/admin/community/likes/show.html.erb</p>
+<p>
+  <strong>User:</strong>
+  <%= @like.user.id %>
+</p>
+<p>
+  <strong>Likeable:</strong>
+  <%= @like.likeable_type %> #<%= @like.likeable_id %>
+</p>
+<p>
+  <strong>State:</strong>
+  <%= @like.state %>
+</p>
+<%= link_to 'Edit', edit_aurelius_press_admin_community_like_path(@like) %>
+<%= link_to 'Back', aurelius_press_admin_community_likes_path %>

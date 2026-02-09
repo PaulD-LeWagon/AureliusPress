@@ -22,6 +22,7 @@ class AureliusPress::Catalogue::Author < ApplicationRecord
   has_many :sources, through: :authorships, source: :source, inverse_of: :authors
   has_many :quotes, through: :sources, source: :quotes
   has_many :comments, as: :commentable, class_name: "AureliusPress::Fragment::Comment", dependent: :destroy, inverse_of: :commentable
+  has_many :reactions, as: :reactable, class_name: "AureliusPress::Community::Reaction", dependent: :destroy, inverse_of: :reactable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
   # Active Storage association
   has_one_attached :image

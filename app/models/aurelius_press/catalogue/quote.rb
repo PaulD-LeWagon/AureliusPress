@@ -27,6 +27,7 @@ class AureliusPress::Catalogue::Quote < ApplicationRecord
   belongs_to :original_quote, class_name: "AureliusPress::Catalogue::Quote", optional: true
   has_many :variants, class_name: "AureliusPress::Catalogue::Quote", foreign_key: :original_quote_id
   has_many :comments, as: :commentable, class_name: "AureliusPress::Fragment::Comment", dependent: :destroy, inverse_of: :commentable
+  has_many :reactions, as: :reactable, class_name: "AureliusPress::Community::Reaction", dependent: :destroy, inverse_of: :reactable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
 
   # Helper to get authors of the quote's source e.g. (a_quote.source_authors)

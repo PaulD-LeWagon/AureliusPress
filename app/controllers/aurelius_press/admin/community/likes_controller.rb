@@ -8,7 +8,6 @@ class AureliusPress::Admin::Community::LikesController < AureliusPress::Admin::A
 
   # GET /aurelius_press/admin/community/likes/1
   def show
-    # @like is set by before_action
   end
 
   # GET /aurelius_press/admin/community/likes/new
@@ -18,7 +17,6 @@ class AureliusPress::Admin::Community::LikesController < AureliusPress::Admin::A
 
   # GET /aurelius_press/admin/community/likes/1/edit
   def edit
-    # @like is set by before_action
   end
 
   # POST /aurelius_press/admin/community/likes
@@ -43,23 +41,16 @@ class AureliusPress::Admin::Community::LikesController < AureliusPress::Admin::A
 
   # DELETE /aurelius_press/admin/community/likes/1
   def destroy
-    @like.destroy!
+    @like.destroy
     redirect_to aurelius_press_admin_community_likes_url, notice: "Like was successfully destroyed."
   end
 
   private
+    def set_like
+      @like = AureliusPress::Community::Like.find(params[:id])
+    end
 
-  def set_like
-    @like = AureliusPress::Community::Like.find(params[:id])
-  end
-
-  def like_params
-    params.require(:aurelius_press_community_like).permit(
-      :id,
-      :user_id,
-      :likeable_id,
-      :likeable_type,
-      :emoji
-    )
-  end
+    def like_params
+      params.require(:aurelius_press_community_like).permit(:user_id, :likeable_id, :likeable_type, :state)
+    end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_19_050021) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_09_204812) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -215,12 +215,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_19_050021) do
     t.bigint "user_id", null: false
     t.string "likeable_type", null: false
     t.bigint "likeable_id", null: false
-    t.integer "emoji"
+    t.integer "state", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["likeable_type", "likeable_id"], name: "index_aurelius_press_likes_on_likeable_type_and_likeable_id"
-    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable"
-    t.index ["user_id", "likeable_type", "likeable_id"], name: "idx_likes_unique_per_user_item", unique: true
+    t.index ["likeable_type", "likeable_id"], name: "index_aurelius_press_likes_on_likeable"
+    t.index ["user_id", "likeable_type", "likeable_id"], name: "idx_ap_likes_unique_user_item", unique: true
     t.index ["user_id"], name: "index_aurelius_press_likes_on_user_id"
   end
 
@@ -236,6 +235,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_19_050021) do
     t.index ["original_quote_id"], name: "index_aurelius_press_quotes_on_original_quote_id"
     t.index ["slug"], name: "index_aurelius_press_quotes_on_slug", unique: true
     t.index ["source_id"], name: "index_aurelius_press_quotes_on_source_id"
+  end
+
+  create_table "aurelius_press_reactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "reactable_type", null: false
+    t.bigint "reactable_id", null: false
+    t.integer "emoji"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reactable_type", "reactable_id"], name: "idx_on_reactable_type_reactable_id_3ebbe20a64"
+    t.index ["reactable_type", "reactable_id"], name: "index_likes_on_likeable"
+    t.index ["user_id", "reactable_type", "reactable_id"], name: "idx_reactions_unique_per_user_item", unique: true
+    t.index ["user_id"], name: "index_aurelius_press_reactions_on_user_id"
   end
 
   create_table "aurelius_press_rich_text_blocks", force: :cascade do |t|
@@ -329,5 +341,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_19_050021) do
   add_foreign_key "aurelius_press_likes", "aurelius_press_users", column: "user_id"
   add_foreign_key "aurelius_press_quotes", "aurelius_press_quotes", column: "original_quote_id"
   add_foreign_key "aurelius_press_quotes", "aurelius_press_sources", column: "source_id"
+  add_foreign_key "aurelius_press_reactions", "aurelius_press_users", column: "user_id"
   add_foreign_key "aurelius_press_taggings", "aurelius_press_tags", column: "tag_id"
 end

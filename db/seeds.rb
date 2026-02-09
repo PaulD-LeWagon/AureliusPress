@@ -15,7 +15,7 @@ puts "Seeding development database..."
   AureliusPress::ContentBlock::ContentBlock.name,
   AureliusPress::Taxonomy::Category.name,
   AureliusPress::Taxonomy::Tag.name,
-  AureliusPress::Community::Like.name,
+  AureliusPress::Community::Reaction.name,
 ].flatten.each do |type|
   Object.const_get(type).destroy_all
 end

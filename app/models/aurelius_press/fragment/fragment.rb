@@ -61,13 +61,14 @@ class AureliusPress::Fragment::Fragment < ApplicationRecord
   end
 
   # Enums
-  enum :status, [:draft, :published, :archived]
-  enum :visibility, [:private_to_owner, :private_to_group, :private_to_app_users, :public_to_www]
+  enum :status, [ :draft, :published, :archived ]
+  enum :visibility, [ :private_to_owner, :private_to_group, :private_to_app_users, :public_to_www ]
 
   # Associations
   # A Fragment subclass belongs to a user (the author of the fragment)
   belongs_to :user, class_name: "AureliusPress::User"
   # A Fragment can have many Likes (polymorphic association)
+  has_many :reactions, as: :reactable, class_name: "AureliusPress::Community::Reaction", dependent: :destroy, inverse_of: :reactable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
 
   # Action Text

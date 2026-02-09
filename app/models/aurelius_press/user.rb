@@ -47,7 +47,9 @@ class AureliusPress::User < ApplicationRecord
   has_many :comments, dependent: :destroy, class_name: "AureliusPress::Fragment::Comment", inverse_of: :user
   # Has many Notes
   has_many :notes, dependent: :destroy, class_name: "AureliusPress::Fragment::Note", inverse_of: :user
-  # Has many Likes
+  # Has many Reactions
+  has_many :reactions, dependent: :destroy, class_name: "AureliusPress::Community::Reaction", inverse_of: :user
+  # Has many Likes (votes)
   has_many :likes, dependent: :destroy, class_name: "AureliusPress::Community::Like", inverse_of: :user
   # Active Storage for avatar/profile picture
   has_one_attached :avatar
@@ -74,7 +76,7 @@ class AureliusPress::User < ApplicationRecord
     :inactive,
     :banned,
     :suspended,
-    :pending,
+    :pending
   ], default: :active
 
   # Validations

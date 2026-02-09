@@ -29,56 +29,56 @@ Rails.application.routes.draw do
       # All CRUD actions (index, show, new, create, edit, update, destroy)
       namespace :document do
         resources :atomic_blog_posts, path: "atomic-blog-posts" do
-          resources :comments, only: [:create, :update, :destroy]
-          resources :notes, only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
+          resources :comments, only: [ :create, :update, :destroy ]
+          resources :notes, only: [ :create, :update, :destroy ] do
+            resources :comments, only: [ :create, :update, :destroy ]
           end
         end
         resources :blog_posts, path: "blog-posts" do
-          resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
-            resources :notes, only: [:create, :update, :destroy] do
-              resources :comments, only: [:create, :update, :destroy]
+          resources :content_blocks, path: "cb", only: [ :create, :update, :destroy ] do
+            resources :comments, only: [ :create, :update, :destroy ]
+            resources :notes, only: [ :create, :update, :destroy ] do
+              resources :comments, only: [ :create, :update, :destroy ]
             end
           end
-          resources :comments, only: [:create, :update, :destroy]
-          resources :notes, only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
+          resources :comments, only: [ :create, :update, :destroy ]
+          resources :notes, only: [ :create, :update, :destroy ] do
+            resources :comments, only: [ :create, :update, :destroy ]
           end
         end
         resources :pages do
-          resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
-            resources :notes, only: [:create, :update, :destroy] do
-              resources :comments, only: [:create, :update, :destroy]
+          resources :content_blocks, path: "cb", only: [ :create, :update, :destroy ] do
+            resources :comments, only: [ :create, :update, :destroy ]
+            resources :notes, only: [ :create, :update, :destroy ] do
+              resources :comments, only: [ :create, :update, :destroy ]
             end
           end
-          resources :notes, only: [:create, :update, :destroy] do
-            resources :comments, only: [:create, :update, :destroy]
+          resources :notes, only: [ :create, :update, :destroy ] do
+            resources :comments, only: [ :create, :update, :destroy ]
           end
         end
       end
       namespace :fragment do
-        resources :comments, only: [:index, :show, :destroy]
-        resources :notes, only: [:index, :show, :destroy]
+        resources :comments, only: [ :index, :show, :destroy ]
+        resources :notes, only: [ :index, :show, :destroy ]
       end
       namespace :catalogue do
         resources :authors do
-          resources :comments, only: [:index, :show, :destroy]
-          resources :notes, only: [:index, :show, :destroy] do
-            resources :comments, only: [:index, :show, :destroy]
+          resources :comments, only: [ :index, :show, :destroy ]
+          resources :notes, only: [ :index, :show, :destroy ] do
+            resources :comments, only: [ :index, :show, :destroy ]
           end
         end
         resources :sources do
-          resources :comments, only: [:index, :show, :destroy]
-          resources :notes, only: [:index, :show, :destroy] do
-            resources :comments, only: [:index, :show, :destroy]
+          resources :comments, only: [ :index, :show, :destroy ]
+          resources :notes, only: [ :index, :show, :destroy ] do
+            resources :comments, only: [ :index, :show, :destroy ]
           end
         end
         resources :quotes do
-          resources :comments, only: [:index, :show, :destroy]
-          resources :notes, only: [:index, :show, :destroy] do
-            resources :comments, only: [:index, :show, :destroy]
+          resources :comments, only: [ :index, :show, :destroy ]
+          resources :notes, only: [ :index, :show, :destroy ] do
+            resources :comments, only: [ :index, :show, :destroy ]
           end
         end
       end
@@ -87,6 +87,7 @@ Rails.application.routes.draw do
         resources :categories
       end
       namespace :community do
+        resources :reactions
         resources :likes
         # resources :reactions
         resources :groups
@@ -96,60 +97,62 @@ Rails.application.routes.draw do
     end
     # --- Public-facing (Non-Admin) Routes ---
     namespace :catalogue do
-      resources :authors, only: [:index, :show], param: :slug do
-        resources :comments, only: [:create, :update, :destroy]
-        resources :notes, only: [:create, :update, :destroy] do
-          resources :comments, only: [:create, :update, :destroy]
+      resources :authors, only: [ :index, :show ], param: :slug do
+        resources :comments, only: [ :create, :update, :destroy ]
+        resources :notes, only: [ :create, :update, :destroy ] do
+          resources :comments, only: [ :create, :update, :destroy ]
         end
       end
-      resources :sources, only: [:index, :show], param: :slug do
-        resources :comments, only: [:create, :update, :destroy]
-        resources :notes, only: [:create, :update, :destroy] do
-          resources :comments, only: [:create, :update, :destroy]
+      resources :sources, only: [ :index, :show ], param: :slug do
+        resources :comments, only: [ :create, :update, :destroy ]
+        resources :notes, only: [ :create, :update, :destroy ] do
+          resources :comments, only: [ :create, :update, :destroy ]
         end
       end
-      resources :quotes, only: [:index, :show], param: :slug do
-        resources :comments, only: [:create, :update, :destroy]
-        resources :notes, only: [:create, :update, :destroy] do
-          resources :comments, only: [:create, :update, :destroy]
+      resources :quotes, only: [ :index, :show ], param: :slug do
+        resources :comments, only: [ :create, :update, :destroy ]
+        resources :notes, only: [ :create, :update, :destroy ] do
+          resources :comments, only: [ :create, :update, :destroy ]
         end
       end
     end
     # Flattened Likes for ALL likeable objects
-    resources :likes, only: [:create, :destroy, :update]
+    resources :reactions, only: [ :create, :destroy, :update ]
+    # Genuine Likes (Votes)
+    resources :likes, only: [ :create, :destroy, :update ]
     # Define routes for users
-    resources :users, only: [:show, :edit, :update]
+    resources :users, only: [ :show, :edit, :update ]
     ## Concrete Document Routes
     # Define routes for Atomic Blog Posts
     resources :atomic_blog_posts, path: "atomic-blog-posts", module: "document" do
-      resources :comments, only: [:create, :update, :destroy]
-      resources :notes, only: [:create, :update, :destroy] do
-        resources :comments, only: [:create, :update, :destroy]
+      resources :comments, only: [ :create, :update, :destroy ]
+      resources :notes, only: [ :create, :update, :destroy ] do
+        resources :comments, only: [ :create, :update, :destroy ]
       end
     end
     # Define routes for Blog Posts
     resources :blog_posts, path: "blog-posts", module: "document" do
-      resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
-        resources :comments, only: [:create, :update, :destroy]
-        resources :notes, only: [:create, :update, :destroy] do
-          resources :comments, only: [:create, :update, :destroy]
+      resources :content_blocks, path: "cb", only: [ :create, :update, :destroy ] do
+        resources :comments, only: [ :create, :update, :destroy ]
+        resources :notes, only: [ :create, :update, :destroy ] do
+          resources :comments, only: [ :create, :update, :destroy ]
         end
       end
-      resources :comments, only: [:create, :update, :destroy]
-      resources :notes, only: [:create, :update, :destroy] do
-        resources :comments, only: [:create, :update, :destroy]
+      resources :comments, only: [ :create, :update, :destroy ]
+      resources :notes, only: [ :create, :update, :destroy ] do
+        resources :comments, only: [ :create, :update, :destroy ]
       end
     end
     # Define routes for Pages
     resources :pages, module: "document" do
-      resources :content_blocks, path: "cb", only: [:create, :update, :destroy] do
-        resources :comments, only: [:create, :update, :destroy]
-        resources :notes, only: [:create, :update, :destroy] do
-          resources :comments, only: [:create, :update, :destroy]
+      resources :content_blocks, path: "cb", only: [ :create, :update, :destroy ] do
+        resources :comments, only: [ :create, :update, :destroy ]
+        resources :notes, only: [ :create, :update, :destroy ] do
+          resources :comments, only: [ :create, :update, :destroy ]
         end
       end
-      resources :notes, only: [:create, :update, :destroy] do
-        resources :comments, only: [:create, :update, :destroy]
+      resources :notes, only: [ :create, :update, :destroy ] do
+        resources :comments, only: [ :create, :update, :destroy ]
       end
     end
   end
