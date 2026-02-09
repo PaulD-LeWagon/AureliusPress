@@ -15,6 +15,8 @@
 class AureliusPress::Catalogue::Quote < ApplicationRecord
   self.table_name = "aurelius_press_quotes"
 
+  include Categorizable
+  include Taggable
   include Sluggable
   # Tell Sluggable to use the 'sluggable_text' method as source,
   # but to watch the 'text' column for changes.
@@ -24,7 +26,6 @@ class AureliusPress::Catalogue::Quote < ApplicationRecord
   belongs_to :source, class_name: "AureliusPress::Catalogue::Source", inverse_of: :quotes
   belongs_to :original_quote, class_name: "AureliusPress::Catalogue::Quote", optional: true
   has_many :variants, class_name: "AureliusPress::Catalogue::Quote", foreign_key: :original_quote_id
-
   has_many :comments, as: :commentable, class_name: "AureliusPress::Fragment::Comment", dependent: :destroy, inverse_of: :commentable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
 

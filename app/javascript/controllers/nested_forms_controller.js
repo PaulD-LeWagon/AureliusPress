@@ -1,7 +1,7 @@
 import NestedForm from "stimulus-rails-nested-form"
 
 export default class extends NestedForm {
-  static targets = ["position", "template", "contentBlock", "fieldsContainer"]
+  static targets = ["position"]
 
   connect() {
     setTimeout(() => {
@@ -12,6 +12,11 @@ export default class extends NestedForm {
 
   add(event) {
     event.preventDefault()
+
+    const targetName = event.currentTarget.dataset.nestedFormsTargetName
+    const target = this.targetTargets.find(
+      (t) => t.dataset.nestedFormsTargetName === targetName
+    )
     const templateName = event.currentTarget.dataset.nestedFormsName
     const template = this.templateTargets.find(
       (t) => t.dataset.nestedFormsName === templateName
@@ -23,7 +28,7 @@ export default class extends NestedForm {
       /NEW_RECORD/g,
       new Date().getTime()
     )
-    this.targetTarget.insertAdjacentHTML("beforebegin", newHtml)
+    target.insertAdjacentHTML("beforebegin", newHtml)
     this.#resetPositionOrder()
   }
 
@@ -34,6 +39,7 @@ export default class extends NestedForm {
   }
 
   #resetPositionOrder() {
+    if (this.positionTargets.length === 0) return
     this.positionTargets.forEach((cbPosition, index) => {
       cbPosition.dataset.nestedFormsIndex = index
       cbPosition.value = index + 1

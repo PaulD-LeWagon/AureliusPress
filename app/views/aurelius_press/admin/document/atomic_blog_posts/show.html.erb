@@ -50,10 +50,15 @@
     <%= @atomic_blog_post.tags.join(", ") %>
   </p>
 
-  <p>
-    <strong>Category:</strong>
-    <%= @atomic_blog_post.category.name if @atomic_blog_post.category %>
-  </p>
+  <% if @atomic_blog_post.category %>
+    <p>
+      <strong>Category:</strong>
+      <%= link_to @atomic_blog_post.category.name, aurelius_press_admin_taxonomy_category_path(@atomic_blog_post.category) %>
+      <br>
+      <strong>Category Slug:</strong>
+      <%= @atomic_blog_post.category.slug %>
+    </p>
+  <% end %>
 
   <p>
     <strong>Comments Enabled:</strong>
@@ -72,21 +77,26 @@
     <%= @atomic_blog_post.content %>
   </p>
 
-  <div class="comment-section">
-    <h3>Comments</h3>
-    <% @atomic_blog_post.comments.each do |comment| %>
-      <div class="comment">
-        <p><strong><%= comment.user&.full_name || 'Unknown User' %>:</strong> <%= comment.content.body.to_plain_text %></p>
-      </div>
-    <% end %>
-  </div>
+  <% if @atomic_blog_post.comments_enabled %>
+    <div class="comment-section">
+      <h3>Comments</h3>
+      <% @atomic_blog_post.comments.each do |comment| %>
+        <div class="comment">
+          <p><strong><%= comment.user&.full_name || 'Unknown User' %>:</strong> <%= comment.content.body %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
-  <div class="note-section">
-    <h3>Notes</h3>
-    <% @atomic_blog_post.notes.each do |note| %>
-      <div class="note">
-        <p><strong><%= note.user&.full_name || 'Unknown User' %>:</strong> <%= note.content.body.to_plain_text %></p>
-      </div>
-    <% end %>
-  </div>
+  <% if @atomic_blog_post&.notes&.any? %>
+    <div class="note-section">
+      <h3>Notes</h3>
+      <% @atomic_blog_post.notes.each do |note| %>
+        <div class="note">
+          <p><strong><%= note.user&.full_name || 'Unknown User' %>:</strong> <%= note.content.body %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
 </div>

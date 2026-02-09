@@ -3,7 +3,7 @@ class AureliusPress::Admin::Taxonomy::CategoriesController < AureliusPress::Admi
 
   # GET /aurelius_press/admin/taxonomy/categories
   def index
-    @categories = AureliusPress::Taxonomy::Category.all
+    @categories = AureliusPress::Taxonomy::Category.all.order(:name)
   end
 
   # GET /aurelius_press/admin/taxonomy/categories/1
@@ -50,7 +50,14 @@ class AureliusPress::Admin::Taxonomy::CategoriesController < AureliusPress::Admi
   private
 
   def set_category
-    @category = AureliusPress::Taxonomy::Category.find(params[:id])
+    if params[:id]
+      @category = AureliusPress::Taxonomy::Category.find_by(slug: params[:id])
+    elsif params[:slug]
+      @category = AureliusPress::Taxonomy::Category.find_by(slug: params[:slug])
+    end
+    if not @category
+      redirect_to aurelius_press_admin_taxonomy_categories_path, notice: "Category not found."
+    end
   end
 
   def category_params

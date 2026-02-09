@@ -21,12 +21,27 @@
       <p><strong>Created At:</strong> <%= l(@author.created_at, format: :long) %></p>
       <p><strong>Updated At:</strong> <%= l(@author.updated_at, format: :long) %></p>
 
+      <h3>Works</h3>
+      <% if @author.authorships.any? %>
+        <ul>
+          <% @author.authorships.each do |authorship| %>
+            <li>
+              <strong>Source:</strong>
+              <%= link_to authorship.source.title, aurelius_press_admin_catalogue_source_path(authorship.source) %>
+              (<em><%= authorship.role.humanize %></em>)
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No works found.</p>
+      <% end %>
+
     </div>
 
     <div class="card-footer">
       <%= link_to "Edit", edit_aurelius_press_admin_catalogue_author_path(@author), class: "button warning", role: "button" %>
       <%= link_to "Back to Authors", aurelius_press_admin_catalogue_authors_path, class: "button success", role: "button" %>
     </div>
-    
+
   </div>
 </div>

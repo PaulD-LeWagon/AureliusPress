@@ -2,6 +2,7 @@ class AureliusPress::Admin::Catalogue::AuthorsController < AureliusPress::Admin:
   # before_action :authenticate_user! # Ensure user is authenticated
   # before_action :authorize_admin! # Ensure user is authorized
   before_action :set_author, only: %i[ show edit update destroy ]
+  before_action :set_sources, only: %i[ new edit create update ]
 
   # GET /aurelius-press/admin/catalogue/authors
   def index
@@ -65,8 +66,26 @@ class AureliusPress::Admin::Catalogue::AuthorsController < AureliusPress::Admin:
     @author = AureliusPress::Catalogue::Author.find_by!(slug: params[:id])
   end
 
+  def set_sources
+    @sources = AureliusPress::Catalogue::Source.ordered_by_type.ordered_by_title
+  end
+
   # Only allow a list of trusted parameters through.
   def author_params
-    params.require(:aurelius_press_catalogue_author).permit(:id, :name, :bio, :slug)
+    params.require(:aurelius_press_catalogue_author).permit(
+      :id,
+      :image,
+      :name,
+      :slug,
+      :bio,
+      :birth_date,
+      :death_date,
+      authorships_attributes: [
+        :id,
+        :source_id,
+        :role,
+        :_destroy
+      ]
+    )
   end
 end

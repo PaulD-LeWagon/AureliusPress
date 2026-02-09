@@ -1,2 +1,64 @@
-<h1>AureliusPress::Admin::Taxonomy::Categories#show</h1>
-<p>Find me in app/views/aurelius_press/admin/taxonomy/categories/show.html.erb</p>
+<%= render HeroComponent.new(
+  title: "AureliusPress::Admin::Taxonomy::Categories#show",
+  subtitle: "Find me in app/views/aurelius_press/admin/taxonomy/categories/show.html.erb",
+  small: true
+) %>
+
+<div class="container" template="AureliusPress::Admin::Taxonomy::Categories#show">
+
+  <%= link_to 'Edit Category', edit_aurelius_press_admin_taxonomy_category_path(@category), class: 'button warning', role: 'button' %>
+  <%= link_to 'Back to Categories', aurelius_press_admin_taxonomy_categories_path, class: 'button secondary', role: 'button' %>
+  <%= link_to 'Delete Category', aurelius_press_admin_taxonomy_category_path(@category), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'button danger', role: 'button' %>
+
+  <hr>
+
+  <div class="row">
+
+    <h3><%= @category.name %></h3>
+    <hr>
+    <p><strong>Name:</strong> <%= @category.name %></p>
+    <p><strong>Slug:</strong> <%= @category.slug %></p>
+    <p><strong>Created At:</strong> <%= l(@category.created_at, format: :long) %></p>
+    <p><strong>Updated At:</strong> <%= l(@category.updated_at, format: :long) %></p>
+
+    <h2>Posts in this Category</h2>
+    <% if @category.blog_posts.any? %>
+      <ul>
+        <% @category.blog_posts.each do |post| %>
+          <li>
+            <%= link_to post.title, aurelius_press_admin_document_blog_post_path(post) %> - <em><%= l(post.created_at, format: :short) %></em>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No posts found in this category. <%= link_to 'Create one?', new_aurelius_press_admin_document_blog_post_path %></p>
+    <% end %>
+
+    <h2>Atomic Posts in this Category</h2>
+    <% if @category.atomic_blog_posts.any? %>
+      <ul>
+        <% @category.atomic_blog_posts.each do |post| %>
+          <li>
+            <%= link_to post.title, aurelius_press_admin_document_atomic_blog_post_path(post) %> - <em><%= l(post.created_at, format: :short) %></em>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No posts found in this category. <%= link_to 'Create one?', new_aurelius_press_admin_document_blog_post_path %></p>
+    <% end %>
+
+    <h2>Pages in this Category</h2>
+    <% if @category.pages.any? %>
+      <ul>
+        <% @category.pages.each do |page| %>
+          <li>
+            <%= link_to page.title, aurelius_press_admin_document_page_path(page) %> - <em><%= l(page.created_at, format: :short) %></em>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No pages found in this category. <%= link_to 'Create one?', new_aurelius_press_admin_document_page_path %></p>
+    <% end %>
+
+  </div>
+</div>

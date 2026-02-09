@@ -22,9 +22,27 @@ class AureliusPress::Taxonomy::Category < ApplicationRecord
   slugged_by :name
 
   # Associations
-  has_many :documents, dependent: :destroy, class_name: "AureliusPress::Document::Document", inverse_of: :category
-
+  has_many :categorizations, class_name: "AureliusPress::Taxonomy::Categorization", dependent: :destroy, inverse_of: :category
+  has_many :categorizables, through: :categorizations, source: :categorizable
+  # has_many :documents, dependent: :destroy, class_name: "AureliusPress::Document::Document", inverse_of: :cate# Specific document type associations
+  has_many :blog_posts, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Document::BlogPost"
+  has_many :atomic_blog_posts, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Document::AtomicBlogPost"
+  has_many :pages, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Document::Page"
+  has_many :quotes, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Catalogue::Quote"
+  has_many :sources, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Catalogue::Source"
   # Validations
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
+
+  # Scopes
+  scope :ordered, -> { order(:name) }
+
+  # Instance Methods
+  def to_param
+    slug
+  end
+
+  def to_s
+    name
+  end
 end

@@ -131,7 +131,7 @@ puts "Creating documents with belt and braces. So, prepare for a cascade \nof us
     docs.sample,
     :with_belt_and_braces,
     user: user,
-    category: categories.sample,
+    category: categories.sample
   )
   user = users_array.sample
   puts "Create doc for #{user.full_name}"

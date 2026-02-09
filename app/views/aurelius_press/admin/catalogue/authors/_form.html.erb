@@ -6,12 +6,23 @@
   <% form_url = (@author.new_record? ? aurelius_press_catalogue_authors_path : aurelius_press_catalogue_author_path(@author)) %>
 <% end %>
 
-<%= simple_form_for @author, url: form_url, html: { class: "pico-page-form" }, data: { controller: "auto-slugify" } do |form| %>
+<%= simple_form_for @author, url: form_url, html: { class: "pico-page-form" }, data: { controller: "nested-forms auto-slugify", nested_form_wrapper_selector_value: ".nested-form-wrapper" } do |form| %>
+
+  <template data-nested-forms-target="template" data-nested-forms-name="AureliusPress::Catalogue::Authorship">
+    <%= form.simple_fields_for :authorships, AureliusPress::Catalogue::Authorship.new, child_index: "NEW_RECORD" do |authorship_form| %>
+      <%= render "authorship_fields", form: authorship_form %>
+    <% end %>
+  </template>
 
   <%= form.error_notification %>
 
   <div class="form-inputs">
-    <div class="grid">
+    <div class="grid row">
+      <div class="column">
+        <%= form.input :image, as: :file, hint: form.object.image.attached? ? image_tag(form.object.image.variant(resize_to_limit: [150, 150])) : content_tag(:span, "No image uploaded yet"), label: "Author Image" %>
+      </div>
+    </div>
+    <div class="grid row">
       <div class="column">
         <%= form.input :name, required: true, autofocus: true, input_html: { data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
       </div>
@@ -19,11 +30,31 @@
         <%= form.input :slug, hint: "Can be a custom slug, if desired!", input_html: { data: { auto_slugify_target: "slug" } } %>
       </div>
     </div>
+    <div class="grid row">
+      <div class="column">
+        <%= form.input :birth_date, as: :date, html5: true, required: false, label: "Born" %>
+      </div>
+      <div class="column">
+        <%= form.input :death_date, as: :date, html5: true, required: false, label: "Died" %>
+      </div>
+    </div>
     <div class="row">
       <div class="column">
         <%= form.input :bio, as: :text, input_html: { rows: 5 } %>
       </div>
     </div>
+
+    <h4>Works</h4>
+    <div id="authorship-fields">
+
+      <%= form.simple_fields_for :authorships do |authorship_form| %>
+        <%= render "authorship_fields", form: authorship_form %>
+      <% end %>
+
+      <div data-nested-forms-target="target"></div>
+
+    </div>
+
     <div class="row">
       <div class="column">
         <%= form.input :comments_enabled, as: :boolean, input_html: { role: "switch" } %>
@@ -35,23 +66,27 @@
 
     <% if in_admin_ns %>
 
+      <button title="Add another source?" type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::Catalogue::Authorship" class="button">
+        + Source
+      </button>
+
+      <%= link_to "Back", aurelius_press_admin_catalogue_authors_path, title: "Back to Authors", class: "button warning", role: "button" %>
+
       <% if @author.persisted? %>
 
-        <%= link_to "Delete", aurelius_press_admin_catalogue_author_path(@author), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+        <%= link_to "Delete", aurelius_press_admin_catalogue_author_path(@author), title: "Delete Author", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
 
       <% end %>
-
-      <%= link_to "Back", aurelius_press_admin_catalogue_authors_path, class: "button warning", role: "button" %>
 
     <% else %>
 
+      <%= link_to "Back", aurelius_press_catalogue_authors_path, title: "Back to Authors", class: "button warning", role: "button" %>
+
       <% if @author.persisted? %>
 
-        <%= link_to "Delete", aurelius_press_catalogue_author_path(@author), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+        <%= link_to "Delete", aurelius_press_catalogue_author_path(@author), title: "Delete Author", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
 
       <% end %>
-
-      <%= link_to "Back", aurelius_press_catalogue_authors_path, class: "button warning", role: "button" %>
 
     <% end %>
 

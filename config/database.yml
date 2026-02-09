@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: aurelius_press_production
-  username: aurelius_press
+  username: aurelius_press_user
   password: <%= ENV["AURELIUS_PRESS_DATABASE_PASSWORD"] %>

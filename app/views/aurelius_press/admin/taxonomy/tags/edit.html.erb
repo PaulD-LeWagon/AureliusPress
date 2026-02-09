@@ -1,2 +1,9 @@
-<h1>AureliusPress::Admin::Taxonomy::Tags#edit</h1>
-<p>Find me in app/views/aurelius_press/admin/taxonomy/tags/edit.html.erb</p>
+<%= render HeroComponent.new(
+     title: "AureliusPress::Admin::Taxonomy::Tags#edit",
+     subtitle: "Find me in app/views/aurelius_press/admin/taxonomy/tags/edit.html.erb",
+     small: true,
+   ) %>
+
+<div class="container" template="AureliusPress::Admin::Taxonomy::Tags#edit">
+  <%= render "form", tag: @tag %>
+</div>

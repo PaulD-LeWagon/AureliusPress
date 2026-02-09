@@ -14,6 +14,16 @@
 
     <div class="card-body">
 
+      <figure class="source-cover">
+        <% if @source.cover_image.attached? %>
+          <%= image_tag @source.cover_image.variant(resize_to_limit: [300, 450]), alt: @source.title %>
+        <% else %>
+          <p>No cover image available.</p>
+        <% end %>
+      </figure>
+
+      <h3>Details</h3>
+
       <p><strong>Authors:</strong> <%= @source.authors.any? ? @source.authors.map(&:name).join(", ") : "N/A" %></p>
 
       <p><strong>Source Type:</strong> <%= @source.source_type.humanize %></p>
@@ -22,10 +32,22 @@
 
       <p><strong>ISBN:</strong> <%= @source.isbn.present? ? @source.isbn : "N/A" %></p>
 
-      <p><strong>Date:</strong> <%= @source.date.present? ? l(@source.date, format: :long) : "N/A" %></p>
+      <p><strong>Published:</strong> <%= @source.date.present? ? l(@source.date, format: :year) : "N/A" %></p>
 
       <p><strong>Comments Enabled:</strong> <%= @source.comments_enabled ? "Yes" : "No" %></p>
 
+      <h3>Affiliate Links</h3>
+      <% if @source.affiliate_links.any? %>
+        <ul>
+          <% @source.affiliate_links.each do |link| %>
+            <li><a href="<%= link.url %>" target="_blank" rel="noopener noreferrer"><%= link.text %></a></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No affiliate links available.</p>
+      <% end %>
+
+      <h3>Metadata</h3>
       <p><strong>Created At:</strong> <%= l(@source.created_at, format: :long) %></p>
       <p><strong>Updated At:</strong> <%= l(@source.updated_at, format: :long) %></p>
 

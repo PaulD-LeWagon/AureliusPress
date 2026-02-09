@@ -15,69 +15,117 @@
   <div class="form-inputs">
 
     <div class="grid row">
+
       <div class="column">
+
         <label>Author</label>
+
         <% if @atomic_blog_post.new_record? %>
           <%= f.input :user_id, as: :hidden, input_html: { value: current_user.id } %>
           <input type="text" value="<%= current_user.full_name %>" readonly />
         <% else %>
           <input type="text" value="<%= @atomic_blog_post.user.full_name %>" readonly />
         <% end %>
+
       </div>
+
       <div class="column">
         <%= f.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys.map { |status| [t(status), status] }, prompt: "Select Status", input_html: { data: { action: "change->document-meta#onStatusChange", document_meta_target: "statusSelect" } } %>
       </div>
+
       <div class="column">
         <%= f.input :published_at, as: :date, html5: true, readonly: true, input_html: { data: { document_meta_target: "publishedAt" } } %>
       </div>
+
       <div class="column">
         <%= f.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys.map { |visibility| [t(visibility), visibility] }, prompt: "Select Visibility" %>
       </div>
+
     </div>
 
-    <div class="grid row">
-      <div class="column">
-        <%= f.input :category_id, collection: @categories, label_method: :name, value_method: :id, as: :select, prompt: "Select Category" %>
+    <div class="grid row" style="grid-template-columns: 2fr 1fr;">
+
+      <div class="column grid row" data-controller="categories">
+
+        <%= f.fields_for :categorization, @atomic_blog_post.categorization || @atomic_blog_post.build_categorization do |categorization_fields| %>
+
+          <%= categorization_fields.hidden_field :id %>
+
+          <div data-categories-target="categorySelectGroup" id="category_select_group" class="column">
+            <%= categorization_fields.label :category_id, "Select a category" %>
+            <%= categorization_fields.select :category_id, options_from_collection_for_select(AureliusPress::Taxonomy::Category.all, :id, :name, @atomic_blog_post.category&.id), { include_blank: "Choose a category" }, { data: { categories_target: "categorySelect" } } %>
+          </div>
+
+          <div data-categories-target="newCategoryGroup" id="new_category_group" class="column" style="display: none;">
+            <%= categorization_fields.fields_for :category do |category_fields| %>
+              <%= category_fields.label :name, "Add a New Category" %>
+              <%= category_fields.text_field :name, data: { categories_target: "newCategoryInput" }, disabled: true %>
+            <% end %>
+          </div>
+
+        <% end %>
+
+        <div class="button-group">
+          <label>&nbsp;</label>
+          <button data-categories-target="addNewCategoryButton" data-action="click->categories#addNewCategory" class="button">Add a New Category</button>
+          <button data-categories-target="removeNewCategoryButton" data-action="click->categories#removeNewCategory" class="button" style="display: none;">Select an Existing Category</button>
+        </div>
       </div>
+
       <div class="column hide">
         <% #= f.input :tags, as: :string, input_html: { value: @atomic_blog_post.tag_list.join(", "), data: { role: "tagsinput" } }, hint: "Separate tags with commas" %>
       </div>
+
       <div class="column flex justify-start items-center">
         <%= f.input :comments_enabled, as: :boolean, label: "Enable Comments", input_html: { role: "switch" } %>
       </div>
+
     </div>
 
     <div class="grid row">
+
       <div class="column">
         <%= f.input :title, required: true, autofocus: true, input_html: { class: "form-control", data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
       </div>
+
       <div class="column">
         <%= f.input :slug, hint: "Can be a custom slug, if desired!", input_html: { class: "form-control", data: { auto_slugify_target: "slug" } } %>
       </div>
+
     </div>
+
     <div class="row">
+
       <div class="column">
         <%= f.input :subtitle, input_html: { class: "form-control" } %>
       </div>
+
     </div>
 
     <div class="row">
+
       <div class="column">
         <%= f.input :description, as: :text, input_html: { rows: 5, class: "form-control" } %>
       </div>
+
     </div>
 
     <div class="row">
+
       <div class="column">
         <%= f.input :image_file, as: :file, label: "Featured Image", hint: "Upload an image for the blog post" %>
       </div>
+
     </div>
+
   </div>
 
   <div class="row">
+
     <div class="column">
       <%= f.rich_text_area :content, id: "trix-content" %>
     </div>
+
   </div>
 
   <div class="grid form-actions">

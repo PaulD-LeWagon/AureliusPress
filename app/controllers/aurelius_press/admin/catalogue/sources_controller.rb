@@ -65,9 +65,11 @@ class AureliusPress::Admin::Catalogue::SourcesController < AureliusPress::Admin:
       :author_id,
       :source_type,
       :date,
-      :isbn, :comments_enabled,
-      author_ids: [],
-      # affiliate_links_attributes: %i[id name url _destroy]
+      :isbn,
+      :cover_image,
+      :comments_enabled,
+      authorships_attributes: [:id, :author_id, :role, :_destroy],
+      affiliate_links_attributes: [:id, :url, :text, :description, :_destroy]
     )
   end
 end

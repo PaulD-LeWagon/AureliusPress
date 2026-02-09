@@ -170,12 +170,35 @@ FactoryBot.define do
     end
 
     trait :with_category do
-      association :category, factory: :aurelius_press_taxonomy_category
+      transient do
+        category { nil }
+      end
+
+      after(:create) do |document, evaluator|
+        if evaluator.category
+          create(
+            :aurelius_press_taxonomy_categorization,
+            categorizable: document,
+            category: evaluator.category,
+          )
+        end
+      end
     end
 
     trait :with_tags do
-      after(:create) do |document|
-        create_list(:aurelius_press_taxonomy_tag, 3, documents: [document])
+      transient do
+        tags_count { 3 }
+      end
+
+      after(:create) do |document, evaluator|
+        tags = create_list(:aurelius_press_taxonomy_tag, evaluator.tags_count)
+        tags.each do |tag|
+          create(
+            :aurelius_press_taxonomy_tagging,
+            tag: tag,
+            taggable: document
+          )
+        end
       end
     end
 

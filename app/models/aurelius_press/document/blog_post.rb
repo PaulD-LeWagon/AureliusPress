@@ -26,6 +26,8 @@ class AureliusPress::Document::BlogPost < AureliusPress::Document::Document
   # has_many :tags (via Tagging join table - to be created later)
   # has_many :categories (via Categorization join table - to be created later)
 
+  include ::ContentBlockContainer
+
   after_initialize :set_defaults, if: :new_record?
 
   private

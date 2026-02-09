@@ -6,12 +6,29 @@
   <% form_url = (@source.new_record? ? aurelius_press_catalogue_sources_path : aurelius_press_catalogue_source_path(@source)) %>
 <% end %>
 
-<%= simple_form_for @source, url: form_url, html: { class: "pico-page-form", data: { controller: "auto-slugify" } } do |form| %>
+<%= simple_form_for @source, url: form_url, html: { class: "pico-page-form", data: { controller: "nested-forms auto-slugify", nested_form_wrapper_selector_value: ".nested-form-wrapper" } } do |form| %>
+
+  <template data-nested-forms-target="template" data-nested-forms-name="AureliusPress::Catalogue::Authorship">
+    <%= form.simple_fields_for :authorships, AureliusPress::Catalogue::Authorship.new, child_index: "NEW_RECORD" do |authorship_form| %>
+      <%= render "authorship_fields", form: authorship_form %>
+    <% end %>
+  </template>
+
+  <template data-nested-forms-target="template" data-nested-forms-name="AureliusPress::Catalogue::AffiliateLink">
+    <%= form.simple_fields_for :affiliate_links, AureliusPress::Catalogue::AffiliateLink.new, child_index: "NEW_RECORD" do |link_form| %>
+      <%= render "affiliate_links_fields", form: link_form %>
+    <% end %>
+  </template>
 
   <%= form.error_notification %>
 
   <div class="form-inputs">
-    <div class="grid">
+    <div class="grid row">
+      <div class="column">
+        <%= form.input :cover_image, as: :file, hint: form.object.cover_image.attached? ? image_tag(form.object.cover_image.variant(resize_to_limit: [150, 150])) : content_tag(:span, "No cover image uploaded yet"), label: "Cover Image" %>
+      </div>
+    </div>
+    <div class="grid row">
       <div class="column">
         <%= form.input :title, required: true, autofocus: true, input_html: { data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
       </div>
@@ -19,15 +36,13 @@
         <%= form.input :slug, required: false, hint: "Can be a custom slug, if desired!", input_html: { data: { auto_slugify_target: "slug" } } %>
       </div>
     </div>
-    <div class="grid">
+    <div class="grid row">
       <div class="column">
         <%= form.input :source_type, as: :select, collection: AureliusPress::Catalogue::Source.source_types.keys.map { |type| [type.humanize, type] }, prompt: "Select Type" %>
       </div>
       <div class="column">
-        <%= form.input :date, as: :date, required: true, html5: true %>
+        <%= form.input :date, as: :date, required: true, html5: true, label: "Publication Date" %>
       </div>
-    </div>
-    <div class="row">
       <div class="column">
         <%= form.input :isbn %>
       </div>
@@ -37,11 +52,33 @@
         <%= form.input :description, as: :text, input_html: { rows: 5 } %>
       </div>
     </div>
-    <div class="row">
-      <div class="column">
-        <%= form.input :author_ids, as: :select, collection: @authors, label_method: :name, value_method: :id, input_html: { multiple: true } %>
-      </div>
+
+    <div id="authorship-fields" class="embedded-form-container">
+
+      <h4>* Authors</h4>
+      <span class="hint">At least one author is required.</span>
+
+      <%= form.simple_fields_for :authorships do |authorship_form| %>
+        <%= render "authorship_fields", form: authorship_form %>
+      <% end %>
+
+      <div data-nested-forms-target="target" data-nested-forms-target-name="authorship"></div>
+
     </div>
+
+    <div id="affiliate-links-fields" class="embedded-form-container" data-nested-forms-target="fieldsContainer">
+
+      <h4>Affiliate Links</h4>
+      <span class="hint">Optional: Add affiliate links to purchase this source.</span>
+
+      <%= form.simple_fields_for :affiliate_links do |link_form| %>
+        <%= render "affiliate_links_fields", form: link_form %>
+      <% end %>
+
+      <div data-nested-forms-target="target" data-nested-forms-target-name="affiliateLink"></div>
+
+    </div>
+
     <div class="row">
       <div class="column">
         <%= form.input :comments_enabled, as: :boolean, input_html: { role: "switch" } %>
@@ -51,25 +88,33 @@
 
   <div class="form-actions grid">
 
+    <button title="Add an Author" class="button" type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::Catalogue::Authorship" data-nested-forms-target-name="authorship">
+      + Author
+    </button>
+
+    <button title="Add an Affiliate Link" class="button" type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::Catalogue::AffiliateLink" data-nested-forms-target-name="affiliateLink">
+      + Link
+    </button>
+
     <% if in_admin_ns %>
+
+      <%= link_to "Back", aurelius_press_admin_catalogue_sources_path, title: "Back to All Sources", class: "button warning", role: "button" %>
 
       <% if @source.persisted? %>
 
-        <%= link_to "Delete", aurelius_press_admin_catalogue_source_path(@source), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+        <%= link_to "Delete", aurelius_press_admin_catalogue_source_path(@source), title: "Delete Source", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
 
       <% end %>
-
-      <%= link_to "Back", aurelius_press_admin_catalogue_sources_path, class: "button warning", role: "button" %>
 
     <% else %>
 
+      <%= link_to "Back", aurelius_press_catalogue_sources_path, title: "Back to All Sources", class: "button warning", role: "button" %>
+
       <% if @source.persisted? %>
 
-        <%= link_to "Delete", aurelius_press_catalogue_source_path(@source), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+        <%= link_to "Delete", aurelius_press_catalogue_source_path(@source), title: "Delete Source", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
 
       <% end %>
-
-      <%= link_to "Back", aurelius_press_catalogue_sources_path, class: "button warning", role: "button" %>
 
     <% end %>
 

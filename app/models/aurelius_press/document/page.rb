@@ -18,9 +18,15 @@
 #  comments_enabled :boolean          default(FALSE), not null
 #
 class AureliusPress::Document::Page < AureliusPress::Document::Document
-  # Associations @see: Document
-  # @TODO: implement Document Versioning???
-  # has_many :page_versions, dependent: :destroy
+  # Associations @see: Document model for common associations
+  # has_many :comments, dependent: :destroy
+  # has_many :likes, dependent: :destroy
+  # has_many :taggings, dependent: :destroy
+  # has_many :categorizations, dependent: :destroy
+  # has_many :tags (via Tagging join table - to be created later)
+  # has_many :categories (via Categorization join table - to be created later)
+
+  include ::ContentBlockContainer
 
   # Callbacks
   after_initialize :set_defaults, if: :new_record?

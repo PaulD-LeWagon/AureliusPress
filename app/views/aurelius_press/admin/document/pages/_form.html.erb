@@ -35,7 +35,9 @@
   <%= form.error_notification %>
 
   <div class="form-inputs">
+
     <div class="grid row">
+
       <div class="column">
         <label>Author</label>
         <% if @page.new_record? %>
@@ -45,68 +47,101 @@
           <input type="text" value="<%= @page.user.full_name %>" readonly />
         <% end %>
       </div>
+
       <div class="column">
         <%= form.input :status, as: :select, collection: AureliusPress::Document::Document.statuses.keys.map { |status| [t(status), status] }, prompt: "Select Status", input_html: { data: { action: "change->document-meta#onStatusChange", document_meta_target: "statusSelect" } } %>
       </div>
+
       <div class="column">
         <%= form.input :published_at, as: :date, html5: true, readonly: true, input_html: { data: { document_meta_target: "publishedAt" } } %>
       </div>
+
       <div class="column">
         <%= form.input :visibility, as: :select, collection: AureliusPress::Document::Document.visibilities.keys.map { |visibility| [t(visibility), visibility] }, prompt: "Select Visibility" %>
       </div>
+
     </div>
 
-    <div class="row">
-      <div class="column">
-        <%= form.input :category_id, collection: @categories, label_method: :name, value_method: :id, as: :select, prompt: "Select Category" %>
+    <div class="grid row" style="grid-template-columns: 2fr 1fr;">
+
+      <div class="column grid row" data-controller="categories">
+
+        <%= form.fields_for :categorization, @page.categorization || @page.build_categorization do |categorization_fields| %>
+
+          <%= categorization_fields.hidden_field :id %>
+
+          <div data-categories-target="categorySelectGroup" id="category_select_group" class="column">
+            <%= categorization_fields.label :category_id, "Select a category" %>
+            <%= categorization_fields.select :category_id, options_from_collection_for_select(AureliusPress::Taxonomy::Category.all, :id, :name, @page.category&.id), { include_blank: "Choose a category" }, { data: { categories_target: "categorySelect" } } %>
+          </div>
+
+          <div data-categories-target="newCategoryGroup" id="new_category_group" class="column" style="display: none;">
+            <%= categorization_fields.fields_for :category do |category_fields| %>
+              <%= category_fields.label :name, "Add a New Category" %>
+              <%= category_fields.text_field :name, data: { categories_target: "newCategoryInput" }, disabled: true %>
+            <% end %>
+          </div>
+
+        <% end %>
+
+        <div class="button-group">
+          <label>&nbsp;</label>
+          <button data-categories-target="addNewCategoryButton" data-action="click->categories#addNewCategory" class="button">Add a New Category</button>
+          <button data-categories-target="removeNewCategoryButton" data-action="click->categories#removeNewCategory" class="button" style="display: none;">Select an Existing Category</button>
+        </div>
       </div>
+
+      <div class="column hide">
+        <% #= form.input :tags, as: :string, input_html: { value: @blog_post.tag_list.join(", "), data: { role: "tagsinput" } }, hint: "Separate tags with commas" %>
+      </div>
+
     </div>
+
+
 
     <div class="grid row">
+
       <div class="column">
         <%= form.input :title, required: true, autofocus: true, input_html: { class: "form-control", data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
       </div>
+
       <div class="column">
         <%= form.input :slug, hint: "Can be a custom slug, if desired!", input_html: { class: "form-control", data: { auto_slugify_target: "slug" } } %>
       </div>
+
     </div>
+
     <div class="row">
+
       <div class="column">
         <%= form.input :subtitle, input_html: { class: "form-control" } %>
       </div>
+
     </div>
 
     <div class="row">
+
       <div class="column">
-        <%= form.input :description, as: :text, input_html: { rows: 5, class: "form-control" } %>
+        <%= form.input :description, as: :text, hint: "Enter a concise description for SEO purposes.", input_html: { rows: 5, class: "form-control" } %>
       </div>
+
     </div>
 
     <div id="the-content-blocks">
+
       <%= form.simple_fields_for :content_blocks do |content_block_fields| %>
         <%= render "aurelius_press/admin/content_block/content_block_fields", form: content_block_fields %>
       <% end %>
-      <div data-nested-forms-target="target"></div>
+
+      <div data-nested-forms-target="target" data-nested-forms-target-name="contentBlock"></div>
+
     </div>
+
   </div>
 
   <div class="form-actions grid">
 
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::RichTextBlock">
-      + Text
-    </button>
-
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::ImageBlock">
-      + Image
-    </button>
-
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::GalleryBlock">
-      + Gallery
-    </button>
-
-    <button type="button" data-action="nested-forms#add" data-nested-forms-name="AureliusPress::ContentBlock::VideoEmbedBlock">
-      + Video
-    </button>
+    <%= render "aurelius_press/admin/document/nested_forms_content_block_buttons" %>
 
     <% if in_admin_ns %>
       <% if @page.persisted? %>

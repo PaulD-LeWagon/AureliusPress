@@ -43,7 +43,7 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
   # Custom Additions
-  gem "faker", :git => "https://github.com/faker-ruby/faker.git", :branch => "main"
+  gem "faker", git: "https://github.com/faker-ruby/faker.git", branch: "main"
   # Testing gems for TDD with RSpec
   gem "pry-rails" # For debugging in the Rails console
   gem "pry-byebug" # For debugging with Byebug in Pry
@@ -63,6 +63,7 @@ group :development, :test do
   # gem "rspec_junit_formatter" # For generating JUnit XML reports from RSpec tests
   gem "annotate", git: "https://github.com/ctran/annotate_models.git"
   gem "parallel_tests"
+  gem "foreman"
 end
 
 group :development do

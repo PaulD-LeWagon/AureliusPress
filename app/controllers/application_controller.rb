@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
   # Devise: Ensure users are authenticated before accessing certain actions.
   before_action :authenticate_user!
 
+  def record_not_found_raise_404!
+    raise ActiveRecord::RecordNotFound.new("Not Found")
+  end
+
   protected
 
   def user_not_authorized

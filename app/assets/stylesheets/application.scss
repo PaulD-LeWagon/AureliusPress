@@ -62,7 +62,7 @@
 
 
 .trix-content {
-  color: white;
+  color: white !important;
   p {
     margin-bottom: 1rem;
   }
@@ -121,6 +121,17 @@ span.hint {
   font-style: italic;
   font-size: 0.875rem;
   color: var(--secondary-color);
+}
+
+.embedded-form-container {
+  h4 {
+    margin-bottom: 0;
+  }
+  span.hint {
+    margin-top: 0;
+    margin-bottom: $spacing-base;
+    display: block;
+  }
 }
 
 footer.main {

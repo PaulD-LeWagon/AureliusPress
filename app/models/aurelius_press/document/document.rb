@@ -25,6 +25,9 @@ class AureliusPress::Document::Document < ApplicationRecord
   # Note: Comment and Note are no longer direct subclasses of Document. They are
   # now subclasses of the Fragment model.
 
+  # @TODO: implement Document Versioning???
+  # has_many :page_versions, dependent: :destroy
+
   # The Document model is designed to be flexible and extensible, allowing for
   # various document types with shared functionality.
 
@@ -73,15 +76,9 @@ class AureliusPress::Document::Document < ApplicationRecord
   belongs_to :user, class_name: "AureliusPress::User"
 
   # Taxonomy associations
-  belongs_to :category, class_name: "AureliusPress::Taxonomy::Category", optional: true # A Document CAN have a Category
-  has_many :taggings, dependent: :destroy, class_name: "AureliusPress::Taxonomy::Tagging"
-  has_many :tags, through: :taggings, class_name: "AureliusPress::Taxonomy::Tag"
+  include Categorizable
+  include Taggable
 
-  # Delegated Types automatically adds scopes to access specific types!
-  # E.g., document.content_blocks.image_blocks will return only image blocks
-  # document.content_blocks.rich_text_blocks will return only rich text blocks
-  has_many :content_blocks, dependent: :destroy, inverse_of: :document, class_name: "AureliusPress::ContentBlock::ContentBlock"
-  accepts_nested_attributes_for :content_blocks, reject_if: :all_blank, allow_destroy: true
   # A Document can have many comments (and replies) if they are enabled
   # This is a polymorphic association, allowing comments on different document
   # types.
@@ -104,7 +101,6 @@ class AureliusPress::Document::Document < ApplicationRecord
   validates :title, presence: true
   validates :status, presence: true
   validates :visibility, presence: true
-  validates :category, presence: true, if: -> { category_id.present? }
   validates :user, presence: true
 
   # Scopes
@@ -114,11 +110,15 @@ class AureliusPress::Document::Document < ApplicationRecord
   scope :draft, -> { where(status: :draft) }
   scope :by_status, ->(status) { where(status: status) if status.present? }
 
+  # @Todo: All Scopes to be tested
   scope :by_visibility, ->(visibility) { where(visibility: visibility) if visibility.present? }
   scope :by_type, ->(type) { where(type: type) if type.present? }
   scope :by_title, ->(title) { where("title ILIKE ?", "%#{title}%") if title.present? }
+  # @Todo: To be tested - implement tags and categories filtering
   scope :by_tag, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) if tag_name.present? }
-  scope :by_category, ->(category_id) { where(category_id: category_id) if category_id.present? }
+  scope :by_tags, ->(tag_names) { joins(:tags).where(tags: { name: tag_names }) if tag_names.present? }
+  scope :by_category, ->(category_name) { joins(:categories).where(categories: { name: category_name }) if category_name.present? }
+  scope :by_categories, ->(category_names) { joins(:categories).where(categories: { name: category_names }) if category_names.present? }
   scope :by_user, ->(user_id) { where(user_id: user_id) if user_id.present? }
 
   # Class Methods

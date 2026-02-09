@@ -2,21 +2,19 @@
 #
 # Table name: aurelius_press_taggings
 #
-#  id          :bigint           not null, primary key
-#  document_id :bigint           not null
-#  tag_id      :bigint           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id            :bigint           not null, primary key
+#  tag_id        :bigint           not null
+#  taggable_id   :bigint           not null
+#  taggable_type :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 class AureliusPress::Taxonomy::Tagging < ApplicationRecord
   self.table_name = "aurelius_press_taggings"
-  belongs_to :document, class_name: "AureliusPress::Document::Document"
   belongs_to :tag, class_name: "AureliusPress::Taxonomy::Tag"
+  belongs_to :taggable, polymorphic: true
 
-  validates :document, presence: true
   validates :tag, presence: true
-  validates :tag_id, uniqueness: {
-                       scope: :document_id,
-                       message: "already applied to this document",
-                     }
+  validates :taggable, presence: true
+  validates :tag_id, uniqueness: { scope: [:taggable_id, :taggable_type], message: "already applied to this record" }
 end

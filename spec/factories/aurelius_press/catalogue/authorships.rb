@@ -13,8 +13,11 @@ FactoryBot.define do
   factory :aurelius_press_catalogue_authorship, class: "AureliusPress::Catalogue::Authorship" do
     association :author, factory: :aurelius_press_catalogue_author
     association :source, factory: :aurelius_press_catalogue_source
+    role { AureliusPress::Catalogue::Authorship.roles.keys.sample }
 
-    role { :author } # Default role, can be overridden in tests
+    trait :author do
+      role { :author }
+    end
 
     trait :co_author do
       role { :co_author }

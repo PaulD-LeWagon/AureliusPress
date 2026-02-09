@@ -51,10 +51,15 @@
     <%= @blog_post.tags.join(", ") %>
   </p>
 
-  <p>
-    <strong>Category:</strong>
-    <%= @blog_post.category.name if @blog_post.category %>
-  </p>
+  <% if @blog_post.category %>
+    <p>
+      <strong>Category:</strong>
+      <%= link_to @blog_post.category.name, aurelius_press_admin_taxonomy_category_path(@blog_post.category) %>
+      <br>
+      <strong>Category Slug:</strong>
+      <%= @blog_post.category.slug %>
+    </p>
+  <% end %>
 
   <p>
     <strong>Comments Enabled:</strong>
@@ -68,22 +73,26 @@
     <% end %>
   </div>
 
-  <div class="comment-section">
-    <h3>Comments</h3>
-    <% @blog_post.comments.each do |comment| %>
-      <div class="comment">
-        <p><strong><%= comment.user&.full_name || 'Unknown User' %>:</strong> <%= comment.content.body.to_plain_text %></p>
-      </div>
-    <% end %>
-  </div>
+  <% if @blog_post.comments_enabled %>
+    <div class="comment-section">
+      <h3>Comments</h3>
+      <% @blog_post.comments.each do |comment| %>
+        <div class="comment">
+          <p><strong><%= comment.user&.full_name || 'Unknown User' %>:</strong> <%= comment.content.body %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
-  <div class="note-section">
-    <h3>Notes</h3>
-    <% @blog_post.notes.each do |note| %>
-      <div class="note">
-        <p><strong><%= note.user&.full_name || 'Unknown User' %>:</strong> <%= note.content.body.to_plain_text %></p>
-      </div>
-    <% end %>
-  </div>
+  <% if @blog_post.notes.any? %>
+    <div class="note-section">
+      <h3>Notes</h3>
+      <% @blog_post.notes.each do |note| %>
+        <div class="note">
+          <p><strong><%= note.user&.full_name || 'Unknown User' %>:</strong> <%= note.content.body %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
 </div>

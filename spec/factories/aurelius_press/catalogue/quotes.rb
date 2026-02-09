@@ -20,5 +20,10 @@ FactoryBot.define do
     # Ensure source is created by default for valid quotes
     association :source, factory: :aurelius_press_catalogue_source
     original_quote { nil }
+    comments_enabled { [true, false].sample }
+    # After creating a quote, ensure it has at least one categorization
+    after(:create) do |quote|
+      create(:aurelius_press_taxonomy_categorization, categorizable: quote)
+    end
   end
 end

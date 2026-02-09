@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_19_050021) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "comments_enabled", default: false, null: false
+    t.date "birth_date"
+    t.date "death_date"
     t.index ["slug"], name: "index_aurelius_press_authors_on_slug", unique: true
   end
 
@@ -91,6 +93,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
     t.index ["slug"], name: "index_aurelius_press_categories_on_slug", unique: true
   end
 
+  create_table "aurelius_press_categorizations", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.string "categorizable_type", null: false
+    t.bigint "categorizable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["categorizable_id", "categorizable_type", "category_id"], name: "idx_categorizables_on_category_and_type", unique: true
+    t.index ["categorizable_type", "categorizable_id"], name: "index_aurelius_press_categorizations_on_categorizable"
+    t.index ["category_id"], name: "index_aurelius_press_categorizations_on_category_id"
+  end
+
   create_table "aurelius_press_content_blocks", force: :cascade do |t|
     t.bigint "document_id", null: false
     t.string "contentable_type", null: false
@@ -109,7 +122,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
 
   create_table "aurelius_press_documents", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "category_id"
     t.string "type", null: false
     t.string "slug", null: false
     t.string "title", null: false
@@ -121,7 +133,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "comments_enabled", default: false, null: false
-    t.index ["category_id"], name: "index_aurelius_press_documents_on_category_id"
     t.index ["slug"], name: "index_aurelius_press_documents_on_slug", unique: true
     t.index ["user_id"], name: "index_aurelius_press_documents_on_user_id"
   end
@@ -246,12 +257,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
   end
 
   create_table "aurelius_press_taggings", force: :cascade do |t|
-    t.bigint "document_id", null: false
     t.bigint "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["document_id"], name: "index_aurelius_press_taggings_on_document_id"
+    t.string "taggable_type", null: false
+    t.bigint "taggable_id", null: false
     t.index ["tag_id"], name: "index_aurelius_press_taggings_on_tag_id"
+    t.index ["taggable_id", "taggable_type", "tag_id"], name: "idx_taggables_on_tag_and_type", unique: true
+    t.index ["taggable_type", "taggable_id"], name: "index_aurelius_press_taggings_on_taggable"
   end
 
   create_table "aurelius_press_tags", force: :cascade do |t|
@@ -303,8 +316,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "aurelius_press_authorships", "aurelius_press_authors", column: "author_id"
   add_foreign_key "aurelius_press_authorships", "aurelius_press_sources", column: "source_id"
+  add_foreign_key "aurelius_press_categorizations", "aurelius_press_categories", column: "category_id"
   add_foreign_key "aurelius_press_content_blocks", "aurelius_press_documents", column: "document_id"
-  add_foreign_key "aurelius_press_documents", "aurelius_press_categories", column: "category_id"
   add_foreign_key "aurelius_press_documents", "aurelius_press_users", column: "user_id"
   add_foreign_key "aurelius_press_documents_aurelius_press_groups", "aurelius_press_documents"
   add_foreign_key "aurelius_press_documents_aurelius_press_groups", "aurelius_press_groups"
@@ -316,6 +329,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_21_152701) do
   add_foreign_key "aurelius_press_likes", "aurelius_press_users", column: "user_id"
   add_foreign_key "aurelius_press_quotes", "aurelius_press_quotes", column: "original_quote_id"
   add_foreign_key "aurelius_press_quotes", "aurelius_press_sources", column: "source_id"
-  add_foreign_key "aurelius_press_taggings", "aurelius_press_documents", column: "document_id"
   add_foreign_key "aurelius_press_taggings", "aurelius_press_tags", column: "tag_id"
 end

@@ -49,9 +49,19 @@
     <%= @page.tags.join(", ") %>
   </p>
 
+  <% if @page.category %>
+    <p>
+      <strong>Category:</strong>
+      <%= link_to @page.category.name, aurelius_press_admin_taxonomy_category_path(@page.category) %>
+      <br>
+      <strong>Category Slug:</strong>
+      <%= @page.category.slug %>
+    </p>
+  <% end %>
+
   <p>
-    <strong>Category:</strong>
-    <%= @page.category.name if @page.category %>
+    <strong>Comments Enabled:</strong>
+    <%= @page.comments_enabled ? "Yes" : "No" %>
   </p>
 
   <div class="content-blocks">
@@ -60,5 +70,27 @@
       <%= render content_block %>
     <% end %>
   </div>
+
+  <% if @page.comments_enabled %>
+    <div class="comment-section">
+      <h3>Comments</h3>
+      <% @page.comments.each do |comment| %>
+        <div class="comment">
+          <p><strong><%= comment.user&.full_name || 'Unknown User' %>:</strong> <%= comment.content.body %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @page.notes.any? %>
+    <div class="note-section">
+      <h3>Notes</h3>
+      <% @page.notes.each do |note| %>
+        <div class="note">
+          <p><strong><%= note.user&.full_name || 'Unknown User' %>:</strong> <%= note.content.body %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
 </div>

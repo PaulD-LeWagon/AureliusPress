@@ -9,16 +9,34 @@
 #  updated_at :datetime         not null
 #
 class AureliusPress::Taxonomy::Tag < ApplicationRecord
+
+  include Sluggable
+  slugged_by :name
+
   self.table_name = "aurelius_press_tags"
+
   has_many :taggings, dependent: :destroy, class_name: "AureliusPress::Taxonomy::Tagging"
-  has_many :documents, through: :taggings, class_name: "AureliusPress::Document::Document"
+  has_many :taggables, through: :taggings, source: :taggable
+  # Specific document type associations
+  has_many :atomic_blog_posts, through: :taggings, source: :taggable, source_type: "AureliusPress::Document::AtomicBlogPost"
+  has_many :blog_posts, through: :taggings, source: :taggable, source_type: "AureliusPress::Document::BlogPost"
+  has_many :pages, through: :taggings, source: :taggable, source_type: "AureliusPress::Document::Page"
+  has_many :quotes, through: :taggings, source: :taggable, source_type: "AureliusPress::Catalogue::Quote"
+  has_many :sources, through: :taggings, source: :taggable, source_type: "AureliusPress::Catalogue::Source"
+
+
   validates :name, presence: true, uniqueness: true
   validates :slug, presence: true, uniqueness: true
-  before_validation :generate_slug, on: :create
 
-  private
+  # Scopes
+  scope :ordered, -> { order(:name) }
 
-  def generate_slug
-    self.slug = name.parameterize if name.present? && slug.blank?
+  # Instance Methods
+  def to_param
+    slug
+  end
+
+  def to_s
+    name
   end
 end

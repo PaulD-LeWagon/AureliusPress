@@ -6,6 +6,8 @@
 #  name             :string           not null
 #  slug             :string           not null
 #  bio              :text
+#  birth_date       :date
+#  death_date       :date
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  comments_enabled :boolean          default(FALSE), not null
@@ -19,10 +21,12 @@ class AureliusPress::Catalogue::Author < ApplicationRecord
   has_many :authorships, class_name: "AureliusPress::Catalogue::Authorship", dependent: :destroy, inverse_of: :author
   has_many :sources, through: :authorships, source: :source, inverse_of: :authors
   has_many :quotes, through: :sources, source: :quotes
-  has_many :affiliate_links, as: :linkable, class_name: "AureliusPress::Catalogue::AffiliateLink", dependent: :destroy, inverse_of: :linkable
-
   has_many :comments, as: :commentable, class_name: "AureliusPress::Fragment::Comment", dependent: :destroy, inverse_of: :commentable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
+  # Active Storage association
+  has_one_attached :image
+
+  accepts_nested_attributes_for :authorships, reject_if: :all_blank, allow_destroy: true
 
   # Validations
   validates :name, presence: true

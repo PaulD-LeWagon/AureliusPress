@@ -1,6 +1,16 @@
 class AureliusPress::Admin::Taxonomy::TagsController < AureliusPress::Admin::ApplicationController
   before_action :set_tag, only: %i[ show edit update destroy ]
 
+  # GET /aurelius_press/admin/taxonomy/search
+  def search
+    @tags = AureliusPress::Taxonomy::Tag.where("name ILIKE ?", "%#{params[:query]}%")
+    render turbo_stream: turbo_stream.update(
+      "tag_suggestions",
+      partial: "aurelius_press/admin/taxonomy/tags/suggestions",
+      locals: { tags: @tags }
+    )
+  end
+
   # GET /aurelius_press/admin/taxonomy/tags
   def index
     @tags = AureliusPress::Taxonomy::Tag.all
@@ -50,7 +60,13 @@ class AureliusPress::Admin::Taxonomy::TagsController < AureliusPress::Admin::App
   private
 
   def set_tag
-    @tag = AureliusPress::Taxonomy::Tag.find(params[:id])
+    if params[:id]
+      @tag = AureliusPress::Taxonomy::Tag.find_by(slug: params[:id])
+    elsif params[:slug]
+      @tag = AureliusPress::Taxonomy::Tag.find_by(slug: params[:slug])
+    else
+      @tag = AureliusPress::Taxonomy::Tag.find(params[:id])
+    end
   end
 
   def tag_params

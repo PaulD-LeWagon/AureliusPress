@@ -8,11 +8,17 @@
   <div class="card">
 
     <div class="card-header">
-      <h2><%= @quote.text %></h2>
-      <p><em>Slug: <%= @quote.slug %></em></p>
+      <blockquote>
+        <%= @quote.text %>
+        <figcaption>
+          — <i><%= "#{@quote.source_authors.map(&:name).join(", ")}, #{@quote.source.title}" %></i>
+        </figcaption>
+      </blockquote>
     </div>
 
     <div class="card-body">
+
+      <p><em>Slug: <%= @quote.slug %></em></p>
 
       <p><strong>Context:</strong> <%= @quote.context.present? ? @quote.context : "N/A" %></p>
 
