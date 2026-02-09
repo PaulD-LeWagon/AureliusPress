@@ -1,0 +1,55 @@
+<% if controller_path.include?("admin") %>
+  <% in_admin_ns = true %>
+  <% form_url = (@category.new_record? ? aurelius_press_admin_taxonomy_categories_path : aurelius_press_admin_taxonomy_category_path(@category)) %>
+<% else %>
+  <% in_admin_ns = false %>
+  <% form_url = (@category.new_record? ? aurelius_press_categories_path : aurelius_press_category_path(@category)) %>
+<% end %>
+
+<%= simple_form_for @category, url: form_url, html: { class: "pico-page-form" }, data: { controller: "taxonomy-meta auto-slugify" } do |form| %>
+
+  <%= form.error_notification %>
+
+  <div class="form-inputs">
+
+    <div class="grid row">
+
+      <div class="column">
+        <%= form.input :name, required: true, autofocus: true, input_html: { class: "form-control", data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
+      </div>
+
+      <div class="column">
+        <%= form.input :slug, required: false, input_html: { class: "form-control", data: { auto_slugify_target: "slug" } }, hint: "Can be a custom slug, if desired!" %>
+      </div>
+
+    </div>
+
+
+  <div class="form-actions grid">
+
+    <% if in_admin_ns %>
+
+      <% if @category.persisted? %>
+
+        <%= link_to "Delete", aurelius_press_admin_taxonomy_category_path(@category), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
+      <% end %>
+
+      <%= link_to "Back", aurelius_press_admin_taxonomy_categories_path, class: "button warning", role: "button" %>
+
+    <% else %>
+
+      <% if @category.persisted? %>
+
+        <%= link_to "Delete", aurelius_press_category_path(@category), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button danger", role: "button" %>
+
+      <% end %>
+
+      <%= link_to "Back", aurelius_press_categories_path, class: "button warning", role: "button" %>
+
+    <% end %>
+
+    <%= form.button :submit, value: "#{@category.new_record? ? "Create" : "Update"}", class: "button success", role: :button %>
+
+  </div>
+<% end %>

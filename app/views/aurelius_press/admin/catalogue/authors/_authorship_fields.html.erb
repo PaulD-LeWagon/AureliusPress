@@ -1,0 +1,23 @@
+<div class="nested-form-wrapper">
+
+  <%= form.hidden_field :id %>
+  <%= form.hidden_field :_destroy %>
+
+  <div class="field-group grid row" style="grid-template-columns: 8fr 1fr;">
+
+    <div class="grid column" style="">
+      <div class="column">
+        <%= form.input :source_id, as: :select, collection: @sources, label_method: :title, value_method: :id, prompt: "Select a Source", label: false %>
+      </div>
+      <div class="column">
+        <%= form.input :role, as: :select, collection: AureliusPress::Catalogue::Authorship.roles.keys.map { |role| [role.humanize, role] }, prompt: "Select a Role", label: false %>
+      </div>
+    </div>
+
+    <button title="Remove this source" class="button danger" type="button" data-action="nested-forms#remove">
+      - Delete
+    </button>
+
+  </div>
+
+</div>

@@ -1,0 +1,24 @@
+<div class="nested-form-wrapper">
+
+  <%= form.hidden_field :id %>
+  <%= form.hidden_field :_destroy %>
+
+  <div class="grid">
+    <div class="column">
+      <%= form.input :url, required: true, hint: "Enter a full URL including: https://" %>
+    </div>
+    <div class="column">
+      <%= form.input :text, required: true, hint: "The text to display for the link" %>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="column">
+      <%= form.input :description, as: :text, input_html: { rows: 3 } %>
+    </div>
+  </div>
+
+  <button title="Remove this link" class="button danger" type="button" data-action="nested-forms#remove">
+    - Delete
+  </button>
+
+</div>
