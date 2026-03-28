@@ -73,7 +73,7 @@ RSpec.feature "Admins can moderate Notes (CRUD)", :js do
       expect(page).to have_content("Viewing Note")
       expect(page.text.squish).to include(note_text.squish)
       # 6. Click the delete link for the first note and confirm
-      accept_confirm do
+      accept_turbo_confirm do
         click_link "Delete", href: aurelius_press_admin_fragment_note_path(note_one)
       end
       # 7. Verify the note was deleted successfully

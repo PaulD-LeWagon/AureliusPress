@@ -73,7 +73,6 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
     params.require(:aurelius_press_document_page).permit(
       :id,
       :user_id,
-      category_ids: [],
       :type,
       :title,
       :slug,
@@ -82,6 +81,7 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
       :status,
       :visibility,
       :published_at,
+      category_ids: [],
       content_blocks_attributes: [
         :id,
         :_destroy,

@@ -42,7 +42,7 @@ RSpec.feature "Admin User Management Access" do
         visit edit_aurelius_press_admin_user_path(create(:aurelius_press_user))
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Logout"
         end
       end
@@ -155,7 +155,7 @@ RSpec.feature "Admin User Management Access" do
 
     scenario "can destroy a regular user" do
       visit edit_aurelius_press_admin_user_path(@user)
-      accept_confirm do
+      accept_turbo_confirm do
         click_link "Delete"
       end
       expect(page).to have_content("User was successfully destroyed.")
@@ -171,7 +171,7 @@ RSpec.feature "Admin User Management Access" do
 
     scenario "can destroy an admin user" do
       visit edit_aurelius_press_admin_user_path(@admin)
-      accept_confirm do
+      accept_turbo_confirm do
         click_link "Delete"
       end
       expect(page).to have_content("User was successfully destroyed.")

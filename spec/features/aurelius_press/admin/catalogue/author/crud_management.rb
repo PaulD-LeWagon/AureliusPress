@@ -72,7 +72,7 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
     expect(page).to have_content author_two.bio.truncate(25).squish
     expect(AureliusPress::Catalogue::Author.count).to eq(2)
     # 4. Click the delete link for the first author and confirm
-    accept_confirm do
+    accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_admin_catalogue_author_path(author_one)
     end
     # 5. Verify the author was deleted successfully

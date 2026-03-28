@@ -54,7 +54,7 @@ RSpec.feature "User can access the Blog Posts section.", type: :feature, js: tru
         sign_in the_agent
         visit aurelius_press_blog_post_path(someone_elses_posts.first)
         expect(page).to have_content(someone_elses_posts.first.title)
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Delete"
         end
         expect(page).to have_content("You are not authorized to perform this action.")
@@ -112,7 +112,7 @@ RSpec.feature "User can access the Blog Posts section.", type: :feature, js: tru
         sign_in the_actor
         visit aurelius_press_blog_post_path(posts.last)
         expect(page).to have_content(posts.last.title)
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Delete"
         end
         expect(page).to have_content("Blog post deleted successfully.")
@@ -145,7 +145,7 @@ RSpec.feature "User can access the Blog Posts section.", type: :feature, js: tru
         visit aurelius_press_blog_post_path(someone_elses_posts.first)
         expect(page).to have_content(someone_elses_posts.first.title)
         expect(page).to have_content(someone_elses_posts.first.user.full_name)
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Delete"
         end
         expect(page).to have_content("You are not authorized to perform this action.")

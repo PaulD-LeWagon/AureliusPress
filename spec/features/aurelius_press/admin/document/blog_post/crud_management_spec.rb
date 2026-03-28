@@ -22,7 +22,7 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
 
     select "Published", from: "Status"
     select "Public To Www", from: "Visibility"
-    select categories.first.name, from: "Category"
+    check categories.first.name
 
     # 4. Submit the form
     click_button "Create"
@@ -82,7 +82,7 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
     expect(page).to have_content blog_post_two.description
     expect(AureliusPress::Document::BlogPost.count).to eq(2)
     # 4. Click the delete link for the first blog post and confirm
-    accept_confirm do
+    accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_admin_document_blog_post_path(blog_post_one)
     end
     # 5. Verify the blog post was deleted successfully

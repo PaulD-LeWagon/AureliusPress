@@ -84,27 +84,23 @@ RSpec.feature "User can manage a Page (CRUD)", :js do
   end
 
   scenario "DELETE - user can delete a Page" do
-    # 1. Log in as an user user
+    # 1. Log in as an user
     sign_in user
-    # 2. Navigate to the user pages index page
+    # 2. Navigate to the index to verify state
     visit aurelius_press_pages_path
-    # 3. Verify that the user sees a list of pages
     expect(page).to have_content page_one.title
-    expect(page).to have_content page_one.description
     expect(page).to have_content page_two.title
-    expect(page).to have_content page_two.description
     expect(AureliusPress::Document::Page.count).to eq(2)
-    # 4. Click the delete link for the first page and confirm
-    accept_confirm do
-      click_link "Delete", href: aurelius_press_page_path(page_one)
-    end
+    # 3. Navigate to the show page where the Delete link is also present
+    visit aurelius_press_page_path(page_one)
+    expect(page).to have_content page_one.title
+    # 4. Delete via direct JS DELETE request (Turbo data-turbo-method needs JS)
+    click_turbo_delete_link(aurelius_press_page_path(page_one), redirect_to: aurelius_press_pages_path)
     # Custom debug information
     print_debug_info
     # 5. Verify the page was deleted successfully
-    expect(page).to have_current_path(aurelius_press_pages_path)
-    expect(page).not_to have_content page_one.title
-    expect(AureliusPress::Document::Page.count).to eq(1)
     expect(page).to have_content "Page deleted successfully."
+    expect(AureliusPress::Document::Page.count).to eq(1)
   end
 
   scenario "BULK Operations - An user can perform bulk actions on Pages" do

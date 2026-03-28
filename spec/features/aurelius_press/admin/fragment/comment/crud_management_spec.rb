@@ -73,7 +73,7 @@ RSpec.feature "Admin can manage a Comment (CRUD)", :js do
       expect(page).to have_content("Viewing Comment")
       expect(page.text.squish).to include(comment_text.squish)
       # 6. Click the delete link for the first comment and confirm
-      accept_confirm do
+      accept_turbo_confirm do
         click_link "Delete", href: aurelius_press_admin_fragment_comment_path(comment_one)
       end
       # 7. Verify the comment was deleted successfully

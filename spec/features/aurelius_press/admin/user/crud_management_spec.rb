@@ -138,7 +138,7 @@ RSpec.feature "Admin can manage users (CRUD)", :js do
     expect(page).to have_content user.email
     expect(AureliusPress::User.count).to eq(4)
     # 4. Click the delete link for the regular user and confirm
-    accept_confirm do
+    accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_admin_user_path(user)
     end
     # 5. Verify the user was deleted successfully
@@ -160,7 +160,7 @@ RSpec.feature "Admin can manage users (CRUD)", :js do
     # # 4. Choose a bulk action from the dropdown
     # select "Delete Selected Users", from: "bulk_action"
     # # 5. Confirm the bulk action
-    # accept_confirm do
+    # accept_turbo_confirm do
     #   click_button "Apply"
     # end
     # # 6. Verify the users were deleted successfully

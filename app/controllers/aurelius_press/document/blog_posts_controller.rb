@@ -76,7 +76,6 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
     params.require(:aurelius_press_document_blog_post).permit(
       :id,
       :user_id,
-      category_ids: [],
       :type,
       :title,
       :slug,
@@ -87,6 +86,7 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
       :published_at,
       :comments_enabled,
       # :tags
+      category_ids: [],
       content_blocks_attributes: [
         :id,
         :_destroy,

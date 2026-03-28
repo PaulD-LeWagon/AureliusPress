@@ -115,7 +115,7 @@ RSpec.feature "Admin can manage access to Pages", type: :feature, js: true do
         sign_in the_agent
         visit aurelius_press_admin_document_page_path(pages[index])
         expect(current_path).to eq(aurelius_press_admin_document_page_path(pages[index]))
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Delete"
         end
         expect(page).to have_content("Page deleted successfully.")

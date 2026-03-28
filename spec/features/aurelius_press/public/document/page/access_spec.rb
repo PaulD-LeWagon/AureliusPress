@@ -54,7 +54,7 @@ RSpec.feature "User can access Pages Section", type: :feature, js: true do
         sign_in the_agent
         visit aurelius_press_page_path(someone_elses_pages.first)
         expect(page).to have_content(someone_elses_pages.first.title)
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Delete"
         end
         expect(page).to have_content("You are not authorized to perform this action.")
@@ -112,7 +112,7 @@ RSpec.feature "User can access Pages Section", type: :feature, js: true do
         sign_in the_actor
         visit aurelius_press_page_path(pages.last)
         expect(page).to have_content(pages.last.title)
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Delete"
         end
         expect(page).to have_content("Page deleted successfully.")
@@ -145,7 +145,7 @@ RSpec.feature "User can access Pages Section", type: :feature, js: true do
         visit aurelius_press_page_path(someone_elses_pages.first)
         expect(page).to have_content(someone_elses_pages.first.title)
         expect(page).to have_content(someone_elses_pages.first.user.full_name)
-        accept_confirm do
+        accept_turbo_confirm do
           click_link "Delete"
         end
         expect(page).to have_content("You are not authorized to perform this action.")

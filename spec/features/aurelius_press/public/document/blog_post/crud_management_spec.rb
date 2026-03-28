@@ -86,7 +86,7 @@ RSpec.feature "user can manage a Blog Post (CRUD)", :js do
     expect(page).to have_content post_two.description
     expect(AureliusPress::Document::BlogPost.count).to eq(2)
     # 4. Click the delete link for the first blog post and confirm
-    accept_confirm do
+    accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_blog_post_path(post_one)
     end
     # 5. Verify the blog post was deleted successfully

@@ -75,7 +75,7 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
     expect(page).to have_content page_two.description
     expect(AureliusPress::Document::Page.count).to eq(2)
     # 4. Click the delete link for the first page and confirm
-    accept_confirm do
+    accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_admin_document_page_path(page_one)
     end
     # 5. Verify the page was deleted successfully

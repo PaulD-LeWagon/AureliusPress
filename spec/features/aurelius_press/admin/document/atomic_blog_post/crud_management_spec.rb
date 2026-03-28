@@ -19,7 +19,7 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     fill_in "Description", with: description
     select "Published", from: "Status"
     select "Public To Www", from: "Visibility"
-    select categories.first.name, from: "Category"
+    check categories.first.name
     fill_in_rich_text_area "trix-content", with: content
     attach_file "Featured Image", Rails.root.join("spec/fixtures/files/test_image.png")
     # save_and_open_page
@@ -80,7 +80,7 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     expect(page).to have_content atomic_blog_post_two.description
     expect(AureliusPress::Document::AtomicBlogPost.count).to eq(2)
     # 4. Click the delete link for the first atomic blog post and confirm
-    accept_confirm do
+    accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post_one)
     end
     # 5. Verify the atomic blog post was deleted successfully
