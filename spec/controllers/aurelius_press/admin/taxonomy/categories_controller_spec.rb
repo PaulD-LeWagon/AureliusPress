@@ -31,7 +31,7 @@ RSpec.describe AureliusPress::Admin::Taxonomy::CategoriesController, type: :cont
   describe "GET #show" do
     it "returns a successful response and assigns @category" do
       category = create(:aurelius_press_taxonomy_category, name: "Test Category 2")
-      get :show, params: { id: category.id }
+      get :show, params: { id: category.slug }
       expect(response).to be_successful
       expect(assigns(:category)).to eq(category)
     end
@@ -77,7 +77,7 @@ RSpec.describe AureliusPress::Admin::Taxonomy::CategoriesController, type: :cont
   describe "GET #edit" do
     it "returns a successful response and assigns @category" do
       category = create(:aurelius_press_taxonomy_category, name: "Category for Edit")
-      get :edit, params: { id: category.id }
+      get :edit, params: { id: category.slug }
       expect(response).to be_successful
       expect(assigns(:category)).to eq(category)
     end
@@ -89,13 +89,13 @@ RSpec.describe AureliusPress::Admin::Taxonomy::CategoriesController, type: :cont
       let(:new_attributes) { { name: "New Updated Category Name" } }
 
       it "updates the requested category" do
-        patch :update, params: { id: category_to_update.id, aurelius_press_taxonomy_category: new_attributes }
+        patch :update, params: { id: category_to_update.slug, aurelius_press_taxonomy_category: new_attributes }
         category_to_update.reload
         expect(category_to_update.name).to eq("New Updated Category Name")
       end
 
       it "redirects to the category" do
-        patch :update, params: { id: category_to_update.id, aurelius_press_taxonomy_category: new_attributes }
+        patch :update, params: { id: category_to_update.slug, aurelius_press_taxonomy_category: new_attributes }
         category_to_update.reload # Reload to get the updated slug if name affects it
         expect(response).to redirect_to(aurelius_press_admin_taxonomy_category_path(category_to_update))
       end
@@ -105,14 +105,14 @@ RSpec.describe AureliusPress::Admin::Taxonomy::CategoriesController, type: :cont
       let!(:category_to_update) { create(:aurelius_press_taxonomy_category, name: "Valid Category Name") }
 
       it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: category_to_update.id, aurelius_press_taxonomy_category: invalid_attributes }
+        patch :update, params: { id: category_to_update.slug, aurelius_press_taxonomy_category: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
       end
 
       it "does not update the category" do
         original_name = category_to_update.name
-        patch :update, params: { id: category_to_update.id, aurelius_press_taxonomy_category: invalid_attributes }
+        patch :update, params: { id: category_to_update.slug, aurelius_press_taxonomy_category: invalid_attributes }
         category_to_update.reload
         expect(category_to_update.name).to eq(original_name)
       end
@@ -123,13 +123,13 @@ RSpec.describe AureliusPress::Admin::Taxonomy::CategoriesController, type: :cont
     it "destroys the requested category" do
       category = create(:aurelius_press_taxonomy_category, name: "Category to Destroy")
       expect {
-        delete :destroy, params: { id: category.id }
+        delete :destroy, params: { id: category.slug }
       }.to change(AureliusPress::Taxonomy::Category, :count).by(-1)
     end
 
     it "redirects to the categories list" do
       category = create(:aurelius_press_taxonomy_category, name: "Category for Redirect")
-      delete :destroy, params: { id: category.id }
+      delete :destroy, params: { id: category.slug }
       expect(response).to redirect_to(aurelius_press_admin_taxonomy_categories_url)
     end
   end

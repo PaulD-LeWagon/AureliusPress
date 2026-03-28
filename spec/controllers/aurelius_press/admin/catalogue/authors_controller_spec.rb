@@ -54,7 +54,7 @@ RSpec.describe AureliusPress::Admin::Catalogue::AuthorsController, type: :contro
     end
 
     it "returns a successful response - i.e retrieves the subject (author) from the database." do
-      get :show, params: { id: subject.id }
+      get :show, params: { id: subject.slug }
       expect(response).to be_successful
       expect(assigns(:author)).to eq(subject) # Check that @author is assigned and is the correct author
     end
@@ -100,7 +100,7 @@ RSpec.describe AureliusPress::Admin::Catalogue::AuthorsController, type: :contro
   describe "GET #edit" do
     it "returns a successful response and assigns @author" do
       author = create(:aurelius_press_catalogue_author, name: "Author for Edit")
-      get :edit, params: { id: author.id }
+      get :edit, params: { id: author.slug }
       expect(response).to be_successful
       expect(assigns(:author)).to eq(author)
     end
@@ -114,13 +114,13 @@ RSpec.describe AureliusPress::Admin::Catalogue::AuthorsController, type: :contro
       let(:new_attributes) { { name: "New Updated Name" } }
 
       it "updates the requested author" do
-        patch :update, params: { id: author_to_update.id, aurelius_press_catalogue_author: new_attributes }
+        patch :update, params: { id: author_to_update.slug, aurelius_press_catalogue_author: new_attributes }
         author_to_update.reload # Reload the author from the database to get updated values
         expect(author_to_update.name).to eq("New Updated Name")
       end
 
       it "redirects to the author" do
-        patch :update, params: { id: author_to_update.id, aurelius_press_catalogue_author: new_attributes }
+        patch :update, params: { id: author_to_update.slug, aurelius_press_catalogue_author: new_attributes }
         author_to_update.reload # Ensure we have the latest data
         expect(author_to_update.name).to eq("New Updated Name")
         expect(response).to redirect_to(aurelius_press_admin_catalogue_author_path(author_to_update))
@@ -132,14 +132,14 @@ RSpec.describe AureliusPress::Admin::Catalogue::AuthorsController, type: :contro
       let!(:author_to_update) { create(:aurelius_press_catalogue_author, name: "Valid Old Name") }
 
       it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: author_to_update.id, aurelius_press_catalogue_author: invalid_attributes }
+        patch :update, params: { id: author_to_update.slug, aurelius_press_catalogue_author: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit) # Renders the edit template on failure
       end
 
       it "does not update the author" do
         original_name = author_to_update.name
-        patch :update, params: { id: author_to_update.id, aurelius_press_catalogue_author: invalid_attributes }
+        patch :update, params: { id: author_to_update.slug, aurelius_press_catalogue_author: invalid_attributes }
         author_to_update.reload
         expect(author_to_update.name).to eq(original_name) # Name should remain unchanged
       end
@@ -150,13 +150,13 @@ RSpec.describe AureliusPress::Admin::Catalogue::AuthorsController, type: :contro
     it "destroys the requested author" do
       author = create(:aurelius_press_catalogue_author, name: "Author to Destroy") # Create an author to be destroyed
       expect {
-        delete :destroy, params: { id: author.id }
+        delete :destroy, params: { id: author.slug }
       }.to change(AureliusPress::Catalogue::Author, :count).by(-1)
     end
 
     it "redirects to the authors list" do
       author = create(:aurelius_press_catalogue_author, name: "Author for Redirect")
-      delete :destroy, params: { id: author.id }
+      delete :destroy, params: { id: author.slug }
       expect(response).to redirect_to(aurelius_press_admin_catalogue_authors_url)
     end
   end
@@ -164,16 +164,16 @@ RSpec.describe AureliusPress::Admin::Catalogue::AuthorsController, type: :contro
   describe "private methods" do
     it "sets the author for show, edit, update, and destroy actions" do
       author = create(:aurelius_press_catalogue_author, name: "Author for Set")
-      get :show, params: { id: author.id }
+      get :show, params: { id: author.slug }
       expect(assigns(:author)).to eq(author)
 
-      get :edit, params: { id: author.id }
+      get :edit, params: { id: author.slug }
       expect(assigns(:author)).to eq(author)
 
-      patch :update, params: { id: author.id, aurelius_press_catalogue_author: valid_attributes }
+      patch :update, params: { id: author.slug, aurelius_press_catalogue_author: valid_attributes }
       expect(assigns(:author)).to eq(author)
 
-      delete :destroy, params: { id: author.id }
+      delete :destroy, params: { id: author.reload.slug }
       expect(assigns(:author)).to eq(author)
     end
   end

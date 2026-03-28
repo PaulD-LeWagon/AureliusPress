@@ -45,7 +45,7 @@ RSpec.describe AureliusPress::Admin::Catalogue::QuotesController, type: :control
   describe "GET #show" do
     it "returns a successful response and assigns @quote" do
       quote = create(:aurelius_press_catalogue_quote, source: source)
-      get :show, params: { id: quote.id }
+      get :show, params: { id: quote.slug }
       expect(response).to be_successful
       expect(assigns(:quote)).to eq(quote)
     end
@@ -91,7 +91,7 @@ RSpec.describe AureliusPress::Admin::Catalogue::QuotesController, type: :control
   describe "GET #edit" do
     it "returns a successful response and assigns @quote" do
       quote = create(:aurelius_press_catalogue_quote, source: source)
-      get :edit, params: { id: quote.id }
+      get :edit, params: { id: quote.slug }
       expect(response).to be_successful
       expect(assigns(:quote)).to eq(quote)
     end
@@ -103,13 +103,13 @@ RSpec.describe AureliusPress::Admin::Catalogue::QuotesController, type: :control
       let(:new_attributes) { { text: "New updated quote text" } }
 
       it "updates the requested quote" do
-        patch :update, params: { id: quote_to_update.id, aurelius_press_catalogue_quote: new_attributes }
+        patch :update, params: { id: quote_to_update.slug, aurelius_press_catalogue_quote: new_attributes }
         quote_to_update.reload
         expect(quote_to_update.text).to eq("New updated quote text")
       end
 
       it "redirects to the quote" do
-        patch :update, params: { id: quote_to_update.id, aurelius_press_catalogue_quote: new_attributes }
+        patch :update, params: { id: quote_to_update.slug, aurelius_press_catalogue_quote: new_attributes }
         quote_to_update.reload
         expect(response).to redirect_to(aurelius_press_admin_catalogue_quote_path(quote_to_update))
       end
@@ -119,14 +119,14 @@ RSpec.describe AureliusPress::Admin::Catalogue::QuotesController, type: :control
       let!(:quote_to_update) { create(:aurelius_press_catalogue_quote, source: source, text: "Valid quote text") }
 
       it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: quote_to_update.id, aurelius_press_catalogue_quote: invalid_attributes }
+        patch :update, params: { id: quote_to_update.slug, aurelius_press_catalogue_quote: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
       end
 
       it "does not update the quote" do
         original_text = quote_to_update.text
-        patch :update, params: { id: quote_to_update.id, aurelius_press_catalogue_quote: invalid_attributes }
+        patch :update, params: { id: quote_to_update.slug, aurelius_press_catalogue_quote: invalid_attributes }
         quote_to_update.reload
         expect(quote_to_update.text).to eq(original_text)
       end
@@ -137,13 +137,13 @@ RSpec.describe AureliusPress::Admin::Catalogue::QuotesController, type: :control
     it "destroys the requested quote" do
       quote = create(:aurelius_press_catalogue_quote, source: source)
       expect {
-        delete :destroy, params: { id: quote.id }
+        delete :destroy, params: { id: quote.slug }
       }.to change(AureliusPress::Catalogue::Quote, :count).by(-1)
     end
 
     it "redirects to the quotes list" do
       quote = create(:aurelius_press_catalogue_quote, source: source)
-      delete :destroy, params: { id: quote.id }
+      delete :destroy, params: { id: quote.slug }
       expect(response).to redirect_to(aurelius_press_admin_catalogue_quotes_url)
     end
   end

@@ -20,7 +20,6 @@ RSpec.describe AureliusPress::Admin::Document::PagesController, type: :controlle
     # Valid attributes for creating a *new* Page, ensuring uniqueness for title/slug
     @param_attributes = {
       user_id: @user.id, # Create a new user to avoid conflicts if user_id is part of a unique index
-      category_id: @category.id,
       title: "Brand New Page Title #{SecureRandom.hex(4)}", # Ensure uniqueness
       slug: "brand-new-page-title-#{SecureRandom.hex(4)}",   # Ensure uniqueness
       subtitle: "Another unique page subtitle",

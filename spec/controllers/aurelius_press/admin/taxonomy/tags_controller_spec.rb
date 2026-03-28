@@ -29,7 +29,7 @@ RSpec.describe AureliusPress::Admin::Taxonomy::TagsController, type: :controller
   describe "GET #show" do
     it "returns a successful response and assigns @tag" do
       tag = create(:aurelius_press_taxonomy_tag, name: "Test Tag 2")
-      get :show, params: { id: tag.id }
+      get :show, params: { id: tag.slug }
       expect(response).to be_successful
       expect(assigns(:tag)).to eq(tag)
     end
@@ -75,7 +75,7 @@ RSpec.describe AureliusPress::Admin::Taxonomy::TagsController, type: :controller
   describe "GET #edit" do
     it "returns a successful response and assigns @tag" do
       tag = create(:aurelius_press_taxonomy_tag, name: "Tag for Edit")
-      get :edit, params: { id: tag.id }
+      get :edit, params: { id: tag.slug }
       expect(response).to be_successful
       expect(assigns(:tag)).to eq(tag)
     end
@@ -87,13 +87,13 @@ RSpec.describe AureliusPress::Admin::Taxonomy::TagsController, type: :controller
       let(:new_attributes) { { name: "New Updated Tag Name" } }
 
       it "updates the requested tag" do
-        patch :update, params: { id: tag_to_update.id, aurelius_press_taxonomy_tag: new_attributes }
+        patch :update, params: { id: tag_to_update.slug, aurelius_press_taxonomy_tag: new_attributes }
         tag_to_update.reload
         expect(tag_to_update.name).to eq("New Updated Tag Name")
       end
 
       it "redirects to the tag" do
-        patch :update, params: { id: tag_to_update.id, aurelius_press_taxonomy_tag: new_attributes }
+        patch :update, params: { id: tag_to_update.slug, aurelius_press_taxonomy_tag: new_attributes }
         tag_to_update.reload # Reload to get the updated slug if name affects it
         expect(response).to redirect_to(aurelius_press_admin_taxonomy_tag_path(tag_to_update))
       end
@@ -103,14 +103,14 @@ RSpec.describe AureliusPress::Admin::Taxonomy::TagsController, type: :controller
       let!(:tag_to_update) { create(:aurelius_press_taxonomy_tag, name: "Valid Tag Name") }
 
       it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: tag_to_update.id, aurelius_press_taxonomy_tag: invalid_attributes }
+        patch :update, params: { id: tag_to_update.slug, aurelius_press_taxonomy_tag: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
       end
 
       it "does not update the tag" do
         original_name = tag_to_update.name
-        patch :update, params: { id: tag_to_update.id, aurelius_press_taxonomy_tag: invalid_attributes }
+        patch :update, params: { id: tag_to_update.slug, aurelius_press_taxonomy_tag: invalid_attributes }
         tag_to_update.reload
         expect(tag_to_update.name).to eq(original_name)
       end
@@ -121,13 +121,13 @@ RSpec.describe AureliusPress::Admin::Taxonomy::TagsController, type: :controller
     it "destroys the requested tag" do
       tag = create(:aurelius_press_taxonomy_tag, name: "Tag to Destroy")
       expect {
-        delete :destroy, params: { id: tag.id }
+        delete :destroy, params: { id: tag.slug }
       }.to change(AureliusPress::Taxonomy::Tag, :count).by(-1)
     end
 
     it "redirects to the tags list" do
       tag = create(:aurelius_press_taxonomy_tag, name: "Tag for Redirect")
-      delete :destroy, params: { id: tag.id }
+      delete :destroy, params: { id: tag.slug }
       expect(response).to redirect_to(aurelius_press_admin_taxonomy_tags_url)
     end
   end
