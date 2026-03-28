@@ -18,7 +18,7 @@ class AureliusPress::Community::Like < ApplicationRecord
   belongs_to :likeable, polymorphic: true, touch: true
 
   # Enums
-  enum :state, { neutral: 0, like: 1, dislike: 2 }, default: :neutral
+  enum :state, { no_reaction: 0, like: 1, dislike: 2 }, default: :no_reaction
 
   # Validations
   validates :user_id, presence: true, uniqueness: { scope: [ :likeable_type, :likeable_id ], message: "You have already voted on this item." }
@@ -28,5 +28,5 @@ class AureliusPress::Community::Like < ApplicationRecord
   # Scopes
   scope :likes, -> { where(state: :like) }
   scope :dislikes, -> { where(state: :dislike) }
-  scope :neutral, -> { where(state: :neutral) }
+  scope :no_reaction, -> { where(state: :no_reaction) }
 end

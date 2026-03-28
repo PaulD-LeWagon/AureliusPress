@@ -1,0 +1,1011 @@
+yarn run v1.22.22
+$ sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules
+Done in 0.83s.
+.............................F...FF........................F.FFFFFFFFFFF.F.F.FF..FFFFFFF................................FF..........FFF.FFF.....................................FFFFFFFFFCapybara starting Puma...
+* Version 7.0.2, codename: Romantic Warrior
+* Min threads: 0, max threads: 4
+* Listening on http://127.0.0.1:43133
+....*....F*F..F*....*....F*F..FF..F*....*....F*F..F...F*.FFF.F..F...........F.F.....F*.F..F..F....F*...F*.F
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) Admin can manage access to Atomic Blog Posts As a user with insufficient permissions - i.e. Reader or User cannot perform bulk actions
+     # Bulk actions are not permitted for regular users.
+     # ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:55
+
+  2) Admin can manage access to Atomic Blog Posts As a power user: [Moderator, Admin, Superuser] can perform bulk actions
+     # Bulk actions are not permitted for regular users.
+     # ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:125
+
+  3) Admin can manage an AtomicBlogPost (CRUD) BULK Operations - An admin can perform bulk actions on Atomic Blog Posts
+     # Implement bulk actions scenario
+     # ./spec/features/aurelius_press/admin/document/atomic_blog_post/crud_management_spec.rb:93
+
+  4) Admin can manage access to Blog Posts As a user with insufficient permissions - i.e. Reader or User cannot perform bulk actions
+     # Bulk actions are not permitted for regular users.
+     # ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:55
+
+  5) Admin can manage access to Blog Posts As a power user: [Moderator, Admin, Superuser] can perform bulk actions
+     # Bulk actions are not permitted for regular users.
+     # ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:124
+
+  6) Admin can manage a BlogPost (CRUD) BULK Operations - An admin can perform bulk actions on Blog Posts
+     # Implement bulk actions scenario
+     # ./spec/features/aurelius_press/admin/document/blog_post/crud_management_spec.rb:95
+
+  7) Admin can manage access to Pages As a user with insufficient permissions - i.e. Reader or User cannot perform bulk actions
+     # Bulk actions are not permitted for regular users.
+     # ./spec/features/aurelius_press/admin/document/page/access_spec.rb:57
+
+  8) Admin can manage access to Pages As a power user: [Moderator, Admin, Superuser] can perform bulk actions
+     # Bulk actions are not permitted for regular users.
+     # ./spec/features/aurelius_press/admin/document/page/access_spec.rb:126
+
+  9) Admin can manage a Page (CRUD) BULK Operations - An admin can perform bulk actions on Pages
+     # Implement bulk actions scenario
+     # ./spec/features/aurelius_press/admin/document/page/crud_management_spec.rb:88
+
+  10) Admin can manage users (CRUD) BULK Operations - An admin can perform bulk actions on users
+     # Implement bulk actions scenario
+     # ./spec/features/aurelius_press/admin/user/crud_management_spec.rb:151
+
+  11) User can access the Atomic Blog Posts section. As a user with role [:reader] cannot access the #bulk_edit page
+     # Bulk actions are not permitted for readers.
+     # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:66
+
+  12) User can access the Atomic Blog Posts section. As a user with role [:user] can access and perform bulk actions
+     # Bulk actions blog posts not yet implemented.
+     # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:123
+
+Failures:
+
+  1) AureliusPress::Admin::Catalogue::AuthorsController private methods sets the author for show, edit, update, and destroy actions
+     Failure/Error: @author = AureliusPress::Catalogue::Author.find_by!(slug: params[:id])
+
+     ActiveRecord::RecordNotFound:
+       Couldn't find AureliusPress::Catalogue::Author with [WHERE "aurelius_press_authors"."slug" = $1]
+     # ./app/controllers/aurelius_press/admin/catalogue/authors_controller.rb:66:in `set_author'
+     # ./spec/controllers/aurelius_press/admin/catalogue/authors_controller_spec.rb:176:in `block (3 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  2) AureliusPress::Admin::Catalogue::QuotesController POST #create with valid parameters creates a new Quote
+     Failure/Error:
+       expect {
+         post :create, params: { aurelius_press_catalogue_quote: valid_attributes }
+       }.to change(AureliusPress::Catalogue::Quote, :count).by(1)
+
+       expected `AureliusPress::Catalogue::Quote.count` to have changed by 1, but was changed by 0
+     # ./spec/controllers/aurelius_press/admin/catalogue/quotes_controller_spec.rb:65:in `block (4 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  3) AureliusPress::Admin::Catalogue::QuotesController POST #create with valid parameters redirects to the created quote
+     Failure/Error: expect(response).to redirect_to(aurelius_press_admin_catalogue_quote_path(AureliusPress::Catalogue::Quote.last))
+
+     ActionController::UrlGenerationError:
+       No route matches {:action=>"show", :controller=>"aurelius_press/admin/catalogue/quotes", :id=>nil}, missing required keys: [:id]
+     # ./spec/controllers/aurelius_press/admin/catalogue/quotes_controller_spec.rb:72:in `block (4 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  4) AureliusPress::Admin::Community::GroupsController GET #show returns a successful response and assigns @group
+     Failure/Error: @group = AureliusPress::Community::Group.find(params[:id])
+
+     ActiveRecord::RecordNotFound:
+       Couldn't find AureliusPress::Community::Group with 'id'="test-group"
+     # ./app/controllers/aurelius_press/admin/community/groups_controller.rb:49:in `set_group'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:61:in `block (3 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  5) AureliusPress::Admin::Community::GroupsController POST #create with valid parameters creates a new Group
+     Failure/Error: creator_id: creator.slug,
+
+     NoMethodError:
+       undefined method `slug' for an instance of AureliusPress::User
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:31:in `block (2 levels) in <main>'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:79:in `block (5 levels) in <main>'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:78:in `block (4 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  6) AureliusPress::Admin::Community::GroupsController POST #create with valid parameters redirects to the created group
+     Failure/Error: creator_id: creator.slug,
+
+     NoMethodError:
+       undefined method `slug' for an instance of AureliusPress::User
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:31:in `block (2 levels) in <main>'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:84:in `block (4 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  7) AureliusPress::Admin::Community::GroupsController POST #create with invalid parameters does not create a new Group
+     Failure/Error: creator_id: creator.slug,
+
+     NoMethodError:
+       undefined method `slug' for an instance of AureliusPress::User
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:42:in `block (2 levels) in <main>'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:92:in `block (5 levels) in <main>'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:91:in `block (4 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  8) AureliusPress::Admin::Community::GroupsController POST #create with invalid parameters renders a response with 422 status (unprocessable_entity)
+     Failure/Error: creator_id: creator.slug,
+
+     NoMethodError:
+       undefined method `slug' for an instance of AureliusPress::User
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:42:in `block (2 levels) in <main>'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:97:in `block (4 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  9) AureliusPress::Admin::Community::GroupsController GET #edit returns a successful response and assigns @group
+     Failure/Error: @group = AureliusPress::Community::Group.find(params[:id])
+
+     ActiveRecord::RecordNotFound:
+       Couldn't find AureliusPress::Community::Group with 'id'="test-group"
+     # ./app/controllers/aurelius_press/admin/community/groups_controller.rb:49:in `set_group'
+     # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:107:in `block (3 levels) in <main>'
+     # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+     # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  10) AureliusPress::Admin::Community::GroupsController PATCH #update with valid parameters updates the requested group
+      Failure/Error: @group = AureliusPress::Community::Group.find(params[:id])
+
+      ActiveRecord::RecordNotFound:
+        Couldn't find AureliusPress::Community::Group with 'id'="test-group"
+      # ./app/controllers/aurelius_press/admin/community/groups_controller.rb:49:in `set_group'
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:119:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  11) AureliusPress::Admin::Community::GroupsController PATCH #update with valid parameters redirects to the group
+      Failure/Error: @group = AureliusPress::Community::Group.find(params[:id])
+
+      ActiveRecord::RecordNotFound:
+        Couldn't find AureliusPress::Community::Group with 'id'="test-group"
+      # ./app/controllers/aurelius_press/admin/community/groups_controller.rb:49:in `set_group'
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:125:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  12) AureliusPress::Admin::Community::GroupsController PATCH #update with invalid parameters renders a response with 422 status (unprocessable_entity)
+      Failure/Error: creator_id: creator.slug,
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:42:in `block (2 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:134:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  13) AureliusPress::Admin::Community::GroupsController PATCH #update with invalid parameters does not update the group
+      Failure/Error: creator_id: creator.slug,
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:42:in `block (2 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:141:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  14) AureliusPress::Admin::Community::GroupsController DELETE #destroy destroys the requested group
+      Failure/Error: @group = AureliusPress::Community::Group.find(params[:id])
+
+      ActiveRecord::RecordNotFound:
+        Couldn't find AureliusPress::Community::Group with 'id'="test-group"
+      # ./app/controllers/aurelius_press/admin/community/groups_controller.rb:49:in `set_group'
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:152:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:151:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  15) AureliusPress::Admin::Community::GroupsController DELETE #destroy redirects to the groups list
+      Failure/Error: @group = AureliusPress::Community::Group.find(params[:id])
+
+      ActiveRecord::RecordNotFound:
+        Couldn't find AureliusPress::Community::Group with 'id'="test-group"
+      # ./app/controllers/aurelius_press/admin/community/groups_controller.rb:49:in `set_group'
+      # ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:158:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  16) AureliusPress::Admin::Community::LikesController POST #create with valid params creates a new Like
+      Failure/Error: { user_id: user.slug, likeable_type: "AureliusPress::Catalogue::Quote", likeable_id: quote.slug, state: "like" }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/community/likes_controller_spec.rb:13:in `block (2 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/likes_controller_spec.rb:32:in `block (5 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/likes_controller_spec.rb:31:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  17) AureliusPress::Admin::Community::ReactionsController GET #show returns a successful response and assigns @reaction
+      Failure/Error: get :show, params: { id: reaction.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:60:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  18) AureliusPress::Admin::Community::ReactionsController POST #create with valid parameters creates a new Reaction
+      Failure/Error: user_id: user.slug,
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:30:in `block (2 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:78:in `block (5 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:77:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  19) AureliusPress::Admin::Community::ReactionsController POST #create with valid parameters redirects to the created reaction
+      Failure/Error: user_id: user.slug,
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:30:in `block (2 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:83:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  20) AureliusPress::Admin::Community::ReactionsController GET #edit returns a successful response and assigns @reaction
+      Failure/Error: get :edit, params: { id: reaction.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:106:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  21) AureliusPress::Admin::Community::ReactionsController PATCH #update with valid parameters updates the requested reaction
+      Failure/Error: patch :update, params: { id: reaction_to_update.slug, aurelius_press_community_reaction: new_valid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:118:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  22) AureliusPress::Admin::Community::ReactionsController PATCH #update with valid parameters redirects to the reaction
+      Failure/Error: patch :update, params: { id: reaction_to_update.slug, aurelius_press_community_reaction: new_valid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:124:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  23) AureliusPress::Admin::Community::ReactionsController PATCH #update with invalid parameters renders a response with 422 status (unprocessable_entity)
+      Failure/Error: patch :update, params: { id: reaction_to_update.slug, aurelius_press_community_reaction: invalid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:133:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  24) AureliusPress::Admin::Community::ReactionsController PATCH #update with invalid parameters does not update the reaction
+      Failure/Error: patch :update, params: { id: reaction_to_update.slug, aurelius_press_community_reaction: invalid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:140:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  25) AureliusPress::Admin::Community::ReactionsController DELETE #destroy destroys the requested reaction
+      Failure/Error: delete :destroy, params: { id: reaction.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:151:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:150:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  26) AureliusPress::Admin::Community::ReactionsController DELETE #destroy redirects to the reactions list
+      Failure/Error: delete :destroy, params: { id: reaction.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Reaction
+      # ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:157:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  27) AureliusPress::Admin::Document::PagesController POST #create with valid parameters creates a new Page
+      Failure/Error: @page = AureliusPress::Document::Page.new(page_params)
+
+      ActiveModel::UnknownAttributeError:
+        unknown attribute 'category_id' for AureliusPress::Document::Page.
+      # ./app/controllers/aurelius_press/admin/document/pages_controller.rb:21:in `create'
+      # ./spec/controllers/aurelius_press/admin/document/pages_controller_spec.rb:78:in `block (5 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/document/pages_controller_spec.rb:77:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # NoMethodError:
+      #   undefined method `category_id=' for an instance of AureliusPress::Document::Page
+      #   ./app/controllers/aurelius_press/admin/document/pages_controller.rb:21:in `create'
+
+  28) AureliusPress::Admin::Document::PagesController POST #create with valid parameters redirects to the created page
+      Failure/Error: @page = AureliusPress::Document::Page.new(page_params)
+
+      ActiveModel::UnknownAttributeError:
+        unknown attribute 'category_id' for AureliusPress::Document::Page.
+      # ./app/controllers/aurelius_press/admin/document/pages_controller.rb:21:in `create'
+      # ./spec/controllers/aurelius_press/admin/document/pages_controller_spec.rb:83:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # NoMethodError:
+      #   undefined method `category_id=' for an instance of AureliusPress::Document::Page
+      #   ./app/controllers/aurelius_press/admin/document/pages_controller.rb:21:in `create'
+
+  29) AureliusPress::Admin::Fragment::CommentsController GET #show returns a successful response and assigns @comment
+      Failure/Error: get :show, params: { id: comment.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Fragment::Comment
+      # ./spec/controllers/aurelius_press/admin/fragment/comments_controller_spec.rb:53:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  30) AureliusPress::Admin::Fragment::CommentsController DELETE #destroy destroys the requested comment
+      Failure/Error: delete :destroy, params: { id: comment.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Fragment::Comment
+      # ./spec/controllers/aurelius_press/admin/fragment/comments_controller_spec.rb:63:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/fragment/comments_controller_spec.rb:62:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  31) AureliusPress::Admin::Fragment::CommentsController DELETE #destroy redirects to the comments list
+      Failure/Error: delete :destroy, params: { id: comment.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Fragment::Comment
+      # ./spec/controllers/aurelius_press/admin/fragment/comments_controller_spec.rb:70:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  32) AureliusPress::Admin::Fragment::NotesController GET #show returns a successful response and assigns @note
+      Failure/Error: get :show, params: { id: note.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Fragment::Note
+      # ./spec/controllers/aurelius_press/admin/fragment/notes_controller_spec.rb:61:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  33) AureliusPress::Admin::Fragment::NotesController DELETE #destroy destroys the requested note
+      Failure/Error: delete :destroy, params: { id: note.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Fragment::Note
+      # ./spec/controllers/aurelius_press/admin/fragment/notes_controller_spec.rb:71:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/fragment/notes_controller_spec.rb:70:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  34) AureliusPress::Admin::Fragment::NotesController DELETE #destroy redirects to the notes list
+      Failure/Error: delete :destroy, params: { id: note.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Fragment::Note
+      # ./spec/controllers/aurelius_press/admin/fragment/notes_controller_spec.rb:77:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  35) AureliusPress::Admin::UsersController PATCH #update with valid parameters updates the requested user
+      Failure/Error: patch :update, params: { id: user_to_update.slug, aurelius_press_user: new_valid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:129:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  36) AureliusPress::Admin::UsersController PATCH #update with valid parameters redirects to the user
+      Failure/Error: patch :update, params: { id: user_to_update.slug, aurelius_press_user: new_valid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:138:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  37) AureliusPress::Admin::UsersController PATCH #update with invalid parameters renders a response with 422 status (unprocessable_entity)
+      Failure/Error: patch :update, params: { id: user_to_update.slug, aurelius_press_user: @invalid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:148:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  38) AureliusPress::Admin::UsersController PATCH #update with invalid parameters does not update the user
+      Failure/Error: patch :update, params: { id: user_to_update.slug, aurelius_press_user: @invalid_param_attributes }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:156:in `block (4 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  39) AureliusPress::Admin::UsersController DELETE #destroy destroys the requested user
+      Failure/Error: delete :destroy, params: { id: user_to_destroy.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:169:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:168:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  40) AureliusPress::Admin::UsersController DELETE #destroy redirects to the users list
+      Failure/Error: delete :destroy, params: { id: user_to_destroy.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:175:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  41) AureliusPress::LikesController POST #create creates a new Like
+      Failure/Error: { user_id: user.slug, likeable_type: "AureliusPress::Catalogue::Quote", likeable_id: quote.slug, state: "like" }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:13:in `block (2 levels) in <main>'
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:21:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:20:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  42) AureliusPress::LikesController POST #create updates an existing Like
+      Failure/Error: { user_id: user.slug, likeable_type: "AureliusPress::Catalogue::Quote", likeable_id: quote.slug, state: "like" }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::User
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:13:in `block (2 levels) in <main>'
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:28:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:27:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  43) AureliusPress::LikesController DELETE #destroy destroys the requested like
+      Failure/Error: delete :destroy, params: { id: like.slug }
+
+      NoMethodError:
+        undefined method `slug' for an instance of AureliusPress::Community::Like
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:40:in `block (4 levels) in <main>'
+      # ./spec/controllers/aurelius_press/likes_controller_spec.rb:39:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  44) Admin can manage access to Atomic Blog Posts As a power user: [Moderator, Admin, Superuser] can access the delete route/path - i.e. delete a post.
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:117:in `block (4 levels) in <main>'
+      # ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:113:in `each'
+      # ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:113:in `each_with_index'
+      # ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:113:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:117:in `block (4 levels) in <main>'
+
+  45) Admin can manage an AtomicBlogPost (CRUD) CREATE - Admin can create a new Atomic Blog Post
+      Failure/Error: select categories.first.name, from: "Category"
+
+      Capybara::ElementNotFound:
+        Unable to find select box "Category" that is not disabled and Unable to find input box with datalist completion "Category" that is not disabled
+      # ./spec/features/aurelius_press/admin/document/atomic_blog_post/crud_management_spec.rb:22:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Capybara::ElementNotFound:
+      #   Unable to find select box "Category" that is not disabled
+      #   ./spec/features/aurelius_press/admin/document/atomic_blog_post/crud_management_spec.rb:22:in `block (2 levels) in <main>'
+
+  46) Admin can manage an AtomicBlogPost (CRUD) DELETE - Admin can delete a Atomic Blog Post
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete", href: aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post_one)
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/document/atomic_blog_post/crud_management_spec.rb:83:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/document/atomic_blog_post/crud_management_spec.rb:83:in `block (2 levels) in <main>'
+
+  47) Admin can manage access to Blog Posts As a power user: [Moderator, Admin, Superuser] can access the delete route/path - i.e. delete a post.
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:116:in `block (4 levels) in <main>'
+      # ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:112:in `each'
+      # ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:112:in `each_with_index'
+      # ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:112:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:116:in `block (4 levels) in <main>'
+
+  48) Admin can manage ContentBlocks on a BlogPost CREATE - Admin can create and add a content block to a blog post
+      Failure/Error: expect(page).to have_css(".trix-content")
+        expected to find css ".trix-content" but there were no matches
+      # ./spec/features/aurelius_press/admin/document/blog_post/content_block_management_spec.rb:35:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  49) Admin can manage ContentBlocks on a BlogPost DELETE - Admin can delete an existing content block
+      Failure/Error: expect(page).not_to have_css(".rich-text-block")
+        expected not to find visible css ".rich-text-block", found 1 match: "Autem iure quam. Et sit reprehenderit. Illum non ratione. Quis amet rem. Corrupti necessitatibus maxime. Error itaque ab."
+      # ./spec/features/aurelius_press/admin/document/blog_post/content_block_management_spec.rb:124:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  50) Admin can manage a BlogPost (CRUD) CREATE - Admin can create a new blog post
+      Failure/Error: select categories.first.name, from: "Category"
+
+      Capybara::ElementNotFound:
+        Unable to find select box "Category" that is not disabled and Unable to find input box with datalist completion "Category" that is not disabled
+      # ./spec/features/aurelius_press/admin/document/blog_post/crud_management_spec.rb:25:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Capybara::ElementNotFound:
+      #   Unable to find select box "Category" that is not disabled
+      #   ./spec/features/aurelius_press/admin/document/blog_post/crud_management_spec.rb:25:in `block (2 levels) in <main>'
+
+  51) Admin can manage a BlogPost (CRUD) DELETE - Admin can delete a Blog Post
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete", href: aurelius_press_admin_document_blog_post_path(blog_post_one)
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/document/blog_post/crud_management_spec.rb:85:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/document/blog_post/crud_management_spec.rb:85:in `block (2 levels) in <main>'
+
+  52) Admin can manage access to Pages As a power user: [Moderator, Admin, Superuser] can access the delete route/path - i.e. delete a page.
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/document/page/access_spec.rb:118:in `block (4 levels) in <main>'
+      # ./spec/features/aurelius_press/admin/document/page/access_spec.rb:114:in `each'
+      # ./spec/features/aurelius_press/admin/document/page/access_spec.rb:114:in `each_with_index'
+      # ./spec/features/aurelius_press/admin/document/page/access_spec.rb:114:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/document/page/access_spec.rb:118:in `block (4 levels) in <main>'
+
+  53) Admin can manage ContentBlocks CREATE - Admin can create and add a content block to a page
+      Failure/Error: expect(page).to have_css(".trix-content")
+        expected to find css ".trix-content" but there were no matches
+      # ./spec/features/aurelius_press/admin/document/page/content_block_management_spec.rb:35:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  54) Admin can manage ContentBlocks DELETE - Admin can delete an existing content block
+      Failure/Error: expect(page).not_to have_css(".rich-text-block")
+        expected not to find visible css ".rich-text-block", found 1 match: "Nihil aliquid fugit. Laboriosam adipisci minus. Voluptatem sit quod. Ipsa molestiae tenetur. Ut aspernatur ut. Distinctio omnis ducimus."
+      # ./spec/features/aurelius_press/admin/document/page/content_block_management_spec.rb:124:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  55) Admin can manage a Page (CRUD) DELETE - Admin can delete a Page
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete", href: aurelius_press_admin_document_page_path(page_one)
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/document/page/crud_management_spec.rb:78:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/document/page/crud_management_spec.rb:78:in `block (2 levels) in <main>'
+
+  56) Admin can manage a Comment (CRUD) READ - Power Users can view a comment for moderation
+      Failure/Error:
+        DatabaseCleaner.cleaning do
+          example.run # Runs the test example within DatabaseCleaner's context
+        end
+
+      ActiveRecord::Deadlocked:
+        PG::TRDeadlockDetected: ERROR:  deadlock detected
+        DETAIL:  Process 47477 waits for AccessExclusiveLock on relation 20136 of database 20057; blocked by process 41065.
+        Process 41065 waits for AccessShareLock on relation 20092 of database 20057; blocked by process 47477.
+        HINT:  See server log for query details.
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # PG::TRDeadlockDetected:
+      #   ERROR:  deadlock detected
+      #   DETAIL:  Process 47477 waits for AccessExclusiveLock on relation 20136 of database 20057; blocked by process 41065.
+      #   Process 41065 waits for AccessShareLock on relation 20092 of database 20057; blocked by process 47477.
+      #   HINT:  See server log for query details.
+      #   ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  57) Admin can manage a Comment (CRUD) DELETE - Power Users can delete a comment
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete", href: aurelius_press_admin_fragment_comment_path(comment_one)
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/fragment/comment/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+      # ./spec/features/aurelius_press/admin/fragment/comment/crud_management_spec.rb:53:in `each'
+      # ./spec/features/aurelius_press/admin/fragment/comment/crud_management_spec.rb:53:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/fragment/comment/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+
+  58) Admins can moderate Notes (CRUD) READ - Power Users can view a list of all notes
+      Failure/Error:
+        DatabaseCleaner.cleaning do
+          example.run # Runs the test example within DatabaseCleaner's context
+        end
+
+      ActiveRecord::Deadlocked:
+        PG::TRDeadlockDetected: ERROR:  deadlock detected
+        DETAIL:  Process 47477 waits for AccessExclusiveLock on relation 20457 of database 20057; blocked by process 41065.
+        Process 41065 waits for AccessShareLock on relation 20092 of database 20057; blocked by process 47477.
+        HINT:  See server log for query details.
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # PG::TRDeadlockDetected:
+      #   ERROR:  deadlock detected
+      #   DETAIL:  Process 47477 waits for AccessExclusiveLock on relation 20457 of database 20057; blocked by process 41065.
+      #   Process 41065 waits for AccessShareLock on relation 20092 of database 20057; blocked by process 47477.
+      #   HINT:  See server log for query details.
+      #   ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  59) Admins can moderate Notes (CRUD) DELETE - Power Users can delete a note
+      Got 0 failures and 2 other errors:
+
+      59.1) Failure/Error:
+              accept_confirm do
+                click_link "Delete", href: aurelius_press_admin_fragment_note_path(note_one)
+              end
+
+            Capybara::ModalNotFound:
+              Unable to find modal dialog
+            # ./spec/features/aurelius_press/admin/fragment/note/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+            # ./spec/features/aurelius_press/admin/fragment/note/crud_management_spec.rb:53:in `each'
+            # ./spec/features/aurelius_press/admin/fragment/note/crud_management_spec.rb:53:in `block (2 levels) in <main>'
+            # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+            # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+            # ------------------
+            # --- Caused by: ---
+            # Selenium::WebDriver::Error::TimeoutError:
+            #   timed out after 2 seconds ()
+            #   ./spec/features/aurelius_press/admin/fragment/note/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+
+      59.2) Failure/Error:
+              DatabaseCleaner.cleaning do
+                example.run # Runs the test example within DatabaseCleaner's context
+              end
+
+            ActiveRecord::Deadlocked:
+              PG::TRDeadlockDetected: ERROR:  deadlock detected
+              DETAIL:  Process 47477 waits for AccessExclusiveLock on relation 20092 of database 20057; blocked by process 41065.
+              Process 41065 waits for AccessShareLock on relation 20075 of database 20057; blocked by process 47477.
+              HINT:  See server log for query details.
+            # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+            # ------------------
+            # --- Caused by: ---
+            # PG::TRDeadlockDetected:
+            #   ERROR:  deadlock detected
+            #   DETAIL:  Process 47477 waits for AccessExclusiveLock on relation 20092 of database 20057; blocked by process 41065.
+            #   Process 41065 waits for AccessShareLock on relation 20075 of database 20057; blocked by process 47477.
+            #   HINT:  See server log for query details.
+            #   ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  60) Admin User Management Access as a reader, user or moderator with insufficient permissions cannot edit an existing user
+      Failure/Error:
+        accept_confirm do
+          click_link "Logout"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/user/access_spec.rb:45:in `block (4 levels) in <main>'
+      # ./spec/features/aurelius_press/admin/user/access_spec.rb:40:in `each'
+      # ./spec/features/aurelius_press/admin/user/access_spec.rb:40:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/user/access_spec.rb:45:in `block (4 levels) in <main>'
+
+  61) Admin User Management Access as a superuser can destroy a regular user
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/user/access_spec.rb:158:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/user/access_spec.rb:158:in `block (3 levels) in <main>'
+
+  62) Admin User Management Access as a superuser can destroy an admin user
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/user/access_spec.rb:174:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/user/access_spec.rb:174:in `block (3 levels) in <main>'
+
+  63) Admin can manage users (CRUD) DELETE - Admin can delete a user
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete", href: aurelius_press_admin_user_path(user)
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/admin/user/crud_management_spec.rb:141:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/admin/user/crud_management_spec.rb:141:in `block (2 levels) in <main>'
+
+  64) Readers and Users can view Authors (Index, Show) READ - Standard Users can view a an author
+      Failure/Error: expect(page).to have_content("Viewing Author")
+        expected to find text "Viewing Author" in "Jerry Bogisich\nLogout\nHome\nMenu\nAdmin\nAureliusPress::Catalogue::Author#show\nFind me in app/views/aurelius_press/catalogue/authors/show.html.erb\nAuthor Plato 70\nName: Plato 70\nBio: Know how to listen, and you will profit even from those who talk badly. Exercitationem quo laudantium. Quis nesciunt aut. Ullam architecto modi.\nCreated At: March 28, 2026 16:26\nUpdated At: March 28, 2026 16:26\nAll rights reserved © 2025 Aurelius Press.\nDesigned and developed by le Rogue Digital."
+      # ./spec/features/aurelius_press/public/catalogue/author/crud_management_spec.rb:40:in `block (3 levels) in <main>'
+      # ./spec/features/aurelius_press/public/catalogue/author/crud_management_spec.rb:31:in `each'
+      # ./spec/features/aurelius_press/public/catalogue/author/crud_management_spec.rb:31:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+
+  65) Admins can moderate Notes (CRUD) DELETE - Power Users can delete a note
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete", href: aurelius_press_admin_fragment_note_path(note_one)
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/public/catalogue/quote/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+      # ./spec/features/aurelius_press/public/catalogue/quote/crud_management_spec.rb:53:in `each'
+      # ./spec/features/aurelius_press/public/catalogue/quote/crud_management_spec.rb:53:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/public/catalogue/quote/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+
+  66) Admins can moderate Notes (CRUD) DELETE - Power Users can delete a note
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete", href: aurelius_press_admin_fragment_note_path(note_one)
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/public/catalogue/source/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+      # ./spec/features/aurelius_press/public/catalogue/source/crud_management_spec.rb:53:in `each'
+      # ./spec/features/aurelius_press/public/catalogue/source/crud_management_spec.rb:53:in `block (2 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/public/catalogue/source/crud_management_spec.rb:76:in `block (3 levels) in <main>'
+
+  67) User can access the Atomic Blog Posts section. As a user with role [:reader] cannot access the #delete action
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:57:in `block (4 levels) in <main>'
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:53:in `each'
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:53:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:57:in `block (4 levels) in <main>'
+
+  68) User can access the Atomic Blog Posts section. As a user with role [:user] can delete an existing page
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:115:in `block (4 levels) in <main>'
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:111:in `each'
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:111:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:115:in `block (4 levels) in <main>'
+
+  69) User can access the Atomic Blog Posts section. As a user with role [:user] cannot delete another user's page
+      Failure/Error:
+        accept_confirm do
+          click_link "Delete"
+        end
+
+      Capybara::ModalNotFound:
+        Unable to find modal dialog
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:148:in `block (4 levels) in <main>'
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:143:in `each'
+      # ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:143:in `block (3 levels) in <main>'
+      # ./spec/rails_helper.rb:126:in `block (3 levels) in <top (required)>'
+      # ./spec/rails_helper.rb:125:in `block (2 levels) in <top (required)>'
+      # ------------------
+      # --- Caused by: ---
+      # Selenium::WebDriver::Error::TimeoutError:
+      #   timed out after 2 seconds ()
+      #   ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:148:in `block (4 levels) in <main>'
+
+Finished in 2 minutes 37.6 seconds (files took 1.23 seconds to load)
+292 examples, 69 failures, 12 pending
+
+Failed examples:
+
+rspec ./spec/controllers/aurelius_press/admin/catalogue/authors_controller_spec.rb:165 # AureliusPress::Admin::Catalogue::AuthorsController private methods sets the author for show, edit, update, and destroy actions
+rspec ./spec/controllers/aurelius_press/admin/catalogue/quotes_controller_spec.rb:64 # AureliusPress::Admin::Catalogue::QuotesController POST #create with valid parameters creates a new Quote
+rspec ./spec/controllers/aurelius_press/admin/catalogue/quotes_controller_spec.rb:70 # AureliusPress::Admin::Catalogue::QuotesController POST #create with valid parameters redirects to the created quote
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:59 # AureliusPress::Admin::Community::GroupsController GET #show returns a successful response and assigns @group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:77 # AureliusPress::Admin::Community::GroupsController POST #create with valid parameters creates a new Group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:83 # AureliusPress::Admin::Community::GroupsController POST #create with valid parameters redirects to the created group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:90 # AureliusPress::Admin::Community::GroupsController POST #create with invalid parameters does not create a new Group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:96 # AureliusPress::Admin::Community::GroupsController POST #create with invalid parameters renders a response with 422 status (unprocessable_entity)
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:105 # AureliusPress::Admin::Community::GroupsController GET #edit returns a successful response and assigns @group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:118 # AureliusPress::Admin::Community::GroupsController PATCH #update with valid parameters updates the requested group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:124 # AureliusPress::Admin::Community::GroupsController PATCH #update with valid parameters redirects to the group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:133 # AureliusPress::Admin::Community::GroupsController PATCH #update with invalid parameters renders a response with 422 status (unprocessable_entity)
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:139 # AureliusPress::Admin::Community::GroupsController PATCH #update with invalid parameters does not update the group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:149 # AureliusPress::Admin::Community::GroupsController DELETE #destroy destroys the requested group
+rspec ./spec/controllers/aurelius_press/admin/community/groups_controller_spec.rb:156 # AureliusPress::Admin::Community::GroupsController DELETE #destroy redirects to the groups list
+rspec ./spec/controllers/aurelius_press/admin/community/likes_controller_spec.rb:30 # AureliusPress::Admin::Community::LikesController POST #create with valid params creates a new Like
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:58 # AureliusPress::Admin::Community::ReactionsController GET #show returns a successful response and assigns @reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:76 # AureliusPress::Admin::Community::ReactionsController POST #create with valid parameters creates a new Reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:82 # AureliusPress::Admin::Community::ReactionsController POST #create with valid parameters redirects to the created reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:104 # AureliusPress::Admin::Community::ReactionsController GET #edit returns a successful response and assigns @reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:117 # AureliusPress::Admin::Community::ReactionsController PATCH #update with valid parameters updates the requested reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:123 # AureliusPress::Admin::Community::ReactionsController PATCH #update with valid parameters redirects to the reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:132 # AureliusPress::Admin::Community::ReactionsController PATCH #update with invalid parameters renders a response with 422 status (unprocessable_entity)
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:138 # AureliusPress::Admin::Community::ReactionsController PATCH #update with invalid parameters does not update the reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:148 # AureliusPress::Admin::Community::ReactionsController DELETE #destroy destroys the requested reaction
+rspec ./spec/controllers/aurelius_press/admin/community/reactions_controller_spec.rb:155 # AureliusPress::Admin::Community::ReactionsController DELETE #destroy redirects to the reactions list
+rspec ./spec/controllers/aurelius_press/admin/document/pages_controller_spec.rb:76 # AureliusPress::Admin::Document::PagesController POST #create with valid parameters creates a new Page
+rspec ./spec/controllers/aurelius_press/admin/document/pages_controller_spec.rb:82 # AureliusPress::Admin::Document::PagesController POST #create with valid parameters redirects to the created page
+rspec ./spec/controllers/aurelius_press/admin/fragment/comments_controller_spec.rb:51 # AureliusPress::Admin::Fragment::CommentsController GET #show returns a successful response and assigns @comment
+rspec ./spec/controllers/aurelius_press/admin/fragment/comments_controller_spec.rb:60 # AureliusPress::Admin::Fragment::CommentsController DELETE #destroy destroys the requested comment
+rspec ./spec/controllers/aurelius_press/admin/fragment/comments_controller_spec.rb:67 # AureliusPress::Admin::Fragment::CommentsController DELETE #destroy redirects to the comments list
+rspec ./spec/controllers/aurelius_press/admin/fragment/notes_controller_spec.rb:59 # AureliusPress::Admin::Fragment::NotesController GET #show returns a successful response and assigns @note
+rspec ./spec/controllers/aurelius_press/admin/fragment/notes_controller_spec.rb:68 # AureliusPress::Admin::Fragment::NotesController DELETE #destroy destroys the requested note
+rspec ./spec/controllers/aurelius_press/admin/fragment/notes_controller_spec.rb:75 # AureliusPress::Admin::Fragment::NotesController DELETE #destroy redirects to the notes list
+rspec ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:128 # AureliusPress::Admin::UsersController PATCH #update with valid parameters updates the requested user
+rspec ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:137 # AureliusPress::Admin::UsersController PATCH #update with valid parameters redirects to the user
+rspec ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:147 # AureliusPress::Admin::UsersController PATCH #update with invalid parameters renders a response with 422 status (unprocessable_entity)
+rspec ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:153 # AureliusPress::Admin::UsersController PATCH #update with invalid parameters does not update the user
+rspec ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:165 # AureliusPress::Admin::UsersController DELETE #destroy destroys the requested user
+rspec ./spec/controllers/aurelius_press/admin/users_controller_spec.rb:173 # AureliusPress::Admin::UsersController DELETE #destroy redirects to the users list
+rspec ./spec/controllers/aurelius_press/likes_controller_spec.rb:19 # AureliusPress::LikesController POST #create creates a new Like
+rspec ./spec/controllers/aurelius_press/likes_controller_spec.rb:25 # AureliusPress::LikesController POST #create updates an existing Like
+rspec ./spec/controllers/aurelius_press/likes_controller_spec.rb:37 # AureliusPress::LikesController DELETE #destroy destroys the requested like
+rspec ./spec/features/aurelius_press/admin/document/atomic_blog_post/access_spec.rb:112 # Admin can manage access to Atomic Blog Posts As a power user: [Moderator, Admin, Superuser] can access the delete route/path - i.e. delete a post.
+rspec ./spec/features/aurelius_press/admin/document/atomic_blog_post/crud_management_spec.rb:9 # Admin can manage an AtomicBlogPost (CRUD) CREATE - Admin can create a new Atomic Blog Post
+rspec ./spec/features/aurelius_press/admin/document/atomic_blog_post/crud_management_spec.rb:71 # Admin can manage an AtomicBlogPost (CRUD) DELETE - Admin can delete a Atomic Blog Post
+rspec ./spec/features/aurelius_press/admin/document/blog_post/access_spec.rb:111 # Admin can manage access to Blog Posts As a power user: [Moderator, Admin, Superuser] can access the delete route/path - i.e. delete a post.
+rspec ./spec/features/aurelius_press/admin/document/blog_post/content_block_management_spec.rb:20 # Admin can manage ContentBlocks on a BlogPost CREATE - Admin can create and add a content block to a blog post
+rspec ./spec/features/aurelius_press/admin/document/blog_post/content_block_management_spec.rb:106 # Admin can manage ContentBlocks on a BlogPost DELETE - Admin can delete an existing content block
+rspec ./spec/features/aurelius_press/admin/document/blog_post/crud_management_spec.rb:9 # Admin can manage a BlogPost (CRUD) CREATE - Admin can create a new blog post
+rspec ./spec/features/aurelius_press/admin/document/blog_post/crud_management_spec.rb:73 # Admin can manage a BlogPost (CRUD) DELETE - Admin can delete a Blog Post
+rspec ./spec/features/aurelius_press/admin/document/page/access_spec.rb:113 # Admin can manage access to Pages As a power user: [Moderator, Admin, Superuser] can access the delete route/path - i.e. delete a page.
+rspec ./spec/features/aurelius_press/admin/document/page/content_block_management_spec.rb:20 # Admin can manage ContentBlocks CREATE - Admin can create and add a content block to a page
+rspec ./spec/features/aurelius_press/admin/document/page/content_block_management_spec.rb:106 # Admin can manage ContentBlocks DELETE - Admin can delete an existing content block
+rspec ./spec/features/aurelius_press/admin/document/page/crud_management_spec.rb:66 # Admin can manage a Page (CRUD) DELETE - Admin can delete a Page
+rspec ./spec/features/aurelius_press/admin/fragment/comment/crud_management_spec.rb:33 # Admin can manage a Comment (CRUD) READ - Power Users can view a comment for moderation
+rspec ./spec/features/aurelius_press/admin/fragment/comment/crud_management_spec.rb:52 # Admin can manage a Comment (CRUD) DELETE - Power Users can delete a comment
+rspec ./spec/features/aurelius_press/admin/fragment/note/crud_management_spec.rb:17 # Admins can moderate Notes (CRUD) READ - Power Users can view a list of all notes
+rspec ./spec/features/aurelius_press/admin/fragment/note/crud_management_spec.rb:52 # Admins can moderate Notes (CRUD) DELETE - Power Users can delete a note
+rspec ./spec/features/aurelius_press/admin/user/access_spec.rb:39 # Admin User Management Access as a reader, user or moderator with insufficient permissions cannot edit an existing user
+rspec ./spec/features/aurelius_press/admin/user/access_spec.rb:156 # Admin User Management Access as a superuser can destroy a regular user
+rspec ./spec/features/aurelius_press/admin/user/access_spec.rb:172 # Admin User Management Access as a superuser can destroy an admin user
+rspec ./spec/features/aurelius_press/admin/user/crud_management_spec.rb:132 # Admin can manage users (CRUD) DELETE - Admin can delete a user
+rspec ./spec/features/aurelius_press/public/catalogue/author/crud_management_spec.rb:30 # Readers and Users can view Authors (Index, Show) READ - Standard Users can view a an author
+rspec ./spec/features/aurelius_press/public/catalogue/quote/crud_management_spec.rb:52 # Admins can moderate Notes (CRUD) DELETE - Power Users can delete a note
+rspec ./spec/features/aurelius_press/public/catalogue/source/crud_management_spec.rb:52 # Admins can moderate Notes (CRUD) DELETE - Power Users can delete a note
+rspec ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:52 # User can access the Atomic Blog Posts section. As a user with role [:reader] cannot access the #delete action
+rspec ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:110 # User can access the Atomic Blog Posts section. As a user with role [:user] can delete an existing page
+rspec ./spec/features/aurelius_press/public/document/atomic_blog_post/access_spec.rb:142 # User can access the Atomic Blog Posts section. As a user with role [:user] cannot delete another user's page
+

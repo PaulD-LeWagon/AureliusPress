@@ -19,7 +19,7 @@ RSpec.describe AureliusPress::Community::Reaction, type: :model do
   let(:document) { create(:aurelius_press_document_blog_post) }
   # Subject for basic valid state
   # Default emoji is thumbs_up but set it explicitly for clarity
-  subject { create(:aurelius_press_community_reaction, user: user, reactable: document, emoji: :thumbs_up) }
+  subject { create(:aurelius_press_community_reaction, user: user, reactable: document, emoji: :no_reaction) }
 
   describe "associations" do
     it { should belong_to(:user) }
@@ -36,22 +36,23 @@ RSpec.describe AureliusPress::Community::Reaction, type: :model do
     # Enum validation
     it {
       should define_enum_for(:emoji)
-               .with_values([
-                 :thumbs_up, # Default if none specified
-                 :heart,
-                 :rolling_on_the_floor_laughing,
-                 :clapping_hands,
-                 :thinking_face,
-                 :shocked_face,
-                 :sad_face,
-                 :angry_face,
-                 :fire,
-                 :eyes,
-                 :party_popper,
-                 :raised_hands,
-                 :star_struck,
-               ])
-               .with_default(:thumbs_up)
+               .with_values({
+                 no_reaction: 0,
+                 thumbs_up: 1,
+                 heart: 2,
+                 rolling_on_the_floor_laughing: 3,
+                 clapping_hands: 4,
+                 thinking_face: 5,
+                 shocked_face: 6,
+                 sad_face: 7,
+                 angry_face: 8,
+                 fire: 9,
+                 eyes: 10,
+                 party_popper: 11,
+                 raised_hands: 12,
+                 star_struck: 13
+               })
+               .with_default(:no_reaction)
                .backed_by_column_of_type(:integer)
     }
   end

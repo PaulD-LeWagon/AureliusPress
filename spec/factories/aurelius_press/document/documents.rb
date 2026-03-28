@@ -175,13 +175,12 @@ FactoryBot.define do
       end
 
       after(:create) do |document, evaluator|
-        if evaluator.category
-          create(
-            :aurelius_press_taxonomy_categorization,
-            categorizable: document,
-            category: evaluator.category,
-          )
-        end
+        category = evaluator.category || create(:aurelius_press_taxonomy_category)
+        create(
+          :aurelius_press_taxonomy_categorization,
+          categorizable: document,
+          category: category,
+        )
       end
     end
 

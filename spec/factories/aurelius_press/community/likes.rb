@@ -3,7 +3,7 @@ FactoryBot.define do
     association :user, factory: :aurelius_press_user
     association :likeable, factory: :aurelius_press_catalogue_quote
 
-    state { :neutral }
+    state { :no_reaction }
 
     trait :like_state do
       state { :like }
@@ -13,8 +13,8 @@ FactoryBot.define do
       state { :dislike }
     end
 
-    trait :neutral_state do
-      state { :neutral }
+    trait :no_reaction_state do
+      state { :no_reaction }
     end
   end
 end

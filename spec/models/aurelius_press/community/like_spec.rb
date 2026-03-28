@@ -6,7 +6,7 @@
 #  user_id       :bigint           not null
 #  likeable_type :string           not null
 #  likeable_id   :bigint           not null
-#  state         :integer          default("neutral"), not null
+#  state         :integer          default("no_reaction"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
@@ -37,13 +37,13 @@ RSpec.describe AureliusPress::Community::Like, type: :model do
   end
 
   describe "enums" do
-    it { should define_enum_for(:state).with_values(neutral: 0, like: 1, dislike: 2) }
+    it { should define_enum_for(:state).with_values(no_reaction: 0, like: 1, dislike: 2) }
   end
 
   describe "scopes" do
     let!(:like) { create(:aurelius_press_community_like, :like_state, user: create(:aurelius_press_user), likeable: document) }
     let!(:dislike) { create(:aurelius_press_community_like, :dislike_state, user: create(:aurelius_press_user), likeable: document) }
-    let!(:neutral) { create(:aurelius_press_community_like, :neutral_state, user: create(:aurelius_press_user), likeable: document) }
+    let!(:neutral) { create(:aurelius_press_community_like, :no_reaction_state, user: create(:aurelius_press_user), likeable: document) }
 
     it "filtes by likes" do
       expect(described_class.likes).to include(like)

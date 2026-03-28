@@ -63,26 +63,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
   end
 
   def atomic_blog_post_params
-    # Create a mutable copy of the parameters hash
-    raw_params = params.require(:aurelius_press_document_atomic_blog_post).dup
-    # Safely access categorization_attributes
-    categorization_attrs = raw_params[:categorization_attributes]
-    if categorization_attrs.present?
-      # Scenario 1: User is attempting to create a new category
-      if categorization_attrs[:category_attributes]&.dig(:name).present?
-        # Ensure both category_id (from dropdown) and id within category_attributes are removed.
-        # This forces the creation of a *new* Category.
-        categorization_attrs.delete(:category_id)
-        categorization_attrs[:category_attributes].delete(:id) if categorization_attrs[:category_attributes][:id].present?
-      elsif categorization_attrs[:category_id].present?
-        # Scenario 2: User has selected an existing category from the dropdown
-        # If an existing category_id is selected, discard any nested category_attributes.
-        # This prevents conflicting attempts to create/update a nested category.
-        categorization_attrs.delete(:category_attributes)
-      end
-    end
-    # Now, permit the filtered parameters
-    raw_params.permit(
+    params.require(:aurelius_press_document_atomic_blog_post).permit(
       :id, # integer, primary key
       :user_id, # references, the user who created the document
       :type, # string, used for Single Table Inheritance (STI)
@@ -96,17 +77,7 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
       :comments_enabled, # boolean, whether comments are enabled for the document (default: true)
       :content, # Action Text rich text content
       :image_file, # Active Storage attachment for images
-      :comments_enabled,
-      categorization_attributes: [
-        :id,
-        :category_id,
-        :_destroy,
-        category_attributes: [
-          :id,
-          :name,
-          :slug,
-        ],
-      ],
+      category_ids: []
       # :tags
     )
   end

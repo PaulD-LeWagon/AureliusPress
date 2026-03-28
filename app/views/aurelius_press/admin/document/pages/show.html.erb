@@ -49,13 +49,13 @@
     <%= @page.tags.join(", ") %>
   </p>
 
-  <% if @page.category %>
+  <% if @page.categories.any? %>
     <p>
-      <strong>Category:</strong>
-      <%= link_to @page.category.name, aurelius_press_admin_taxonomy_category_path(@page.category) %>
+      <strong>Categories:</strong>
+      <%= @page.categories.map { |category| link_to(category.name, aurelius_press_admin_taxonomy_category_path(category)) }.join(", ").html_safe %>
       <br>
-      <strong>Category Slug:</strong>
-      <%= @page.category.slug %>
+      <strong>Category Slugs:</strong>
+      <%= @page.categories.map(&:slug).join(", ") %>
     </p>
   <% end %>
 

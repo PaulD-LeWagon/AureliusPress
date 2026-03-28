@@ -52,8 +52,8 @@
       </p>
 
       <p>
-        <strong>Category:</strong>
-        <%= @atomic_blog_post.category.name if @atomic_blog_post.category %>
+        <strong>Categories:</strong>
+        <%= @atomic_blog_post.categories.map(&:name).join(", ") if @atomic_blog_post.categories.any? %>
       </p>
 
       <p>

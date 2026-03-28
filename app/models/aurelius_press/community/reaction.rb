@@ -17,21 +17,22 @@ class AureliusPress::Community::Reaction < ApplicationRecord
   belongs_to :reactable, polymorphic: true, touch: true
 
   # Enums for the emoji reactions
-  enum :emoji, [
-    :thumbs_up, # Default if none specified
-    :heart,
-    :rolling_on_the_floor_laughing,
-    :clapping_hands,
-    :thinking_face,
-    :shocked_face,
-    :sad_face,
-    :angry_face,
-    :fire,
-    :eyes,
-    :party_popper,
-    :raised_hands,
-    :star_struck,
-  ], default: :thumbs_up
+  enum :emoji, {
+    no_reaction: 0,
+    thumbs_up: 1,
+    heart: 2,
+    rolling_on_the_floor_laughing: 3,
+    clapping_hands: 4,
+    thinking_face: 5,
+    shocked_face: 6,
+    sad_face: 7,
+    angry_face: 8,
+    fire: 9,
+    eyes: 10,
+    party_popper: 11,
+    raised_hands: 12,
+    star_struck: 13
+  }, default: :no_reaction
 
   # Validations
   validates :reactable_id, presence: true
@@ -42,7 +43,7 @@ class AureliusPress::Community::Reaction < ApplicationRecord
   validates :user_id,
             presence: true,
             uniqueness: {
-              scope: [:reactable_type, :reactable_id],
-              message: "You have already reacted to this item.",
+              scope: [ :reactable_type, :reactable_id ],
+              message: "You have already reacted to this item."
             }
 end

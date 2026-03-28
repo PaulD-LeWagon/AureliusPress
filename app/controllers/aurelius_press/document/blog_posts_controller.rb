@@ -76,7 +76,7 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
     params.require(:aurelius_press_document_blog_post).permit(
       :id,
       :user_id,
-      :category_id,
+      category_ids: [],
       :type,
       :title,
       :slug,

@@ -73,7 +73,7 @@ class AureliusPress::Document::AtomicBlogPostsController < AureliusPress::Applic
     params.require(:aurelius_press_document_atomic_blog_post).permit(
       :id,
       :user_id,
-      :category_id,
+      category_ids: [],
       :slug,
       :title,
       :subtitle,

@@ -51,13 +51,13 @@
     <%= @blog_post.tags.join(", ") %>
   </p>
 
-  <% if @blog_post.category %>
+  <% if @blog_post.categories.any? %>
     <p>
-      <strong>Category:</strong>
-      <%= link_to @blog_post.category.name, aurelius_press_admin_taxonomy_category_path(@blog_post.category) %>
+      <strong>Categories:</strong>
+      <%= @blog_post.categories.map { |category| link_to(category.name, aurelius_press_admin_taxonomy_category_path(category)) }.join(", ").html_safe %>
       <br>
-      <strong>Category Slug:</strong>
-      <%= @blog_post.category.slug %>
+      <strong>Category Slugs:</strong>
+      <%= @blog_post.categories.map(&:slug).join(", ") %>
     </p>
   <% end %>
 

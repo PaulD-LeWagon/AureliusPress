@@ -44,8 +44,8 @@
   </p>
 
   <p>
-    <strong>Category:</strong>
-    <%= @page.category.name if @page.category %>
+    <strong>Categories:</strong>
+    <%= @page.categories.map(&:name).join(", ") if @page.categories.any? %>
   </p>
 
   <div class="content-blocks">

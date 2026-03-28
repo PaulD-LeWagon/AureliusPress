@@ -86,7 +86,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   #   params.require(:aurelius_press_document_page).permit(
   #     :id,
   #     :user_id,
-  #     :category_id,
+  #     category_ids: [],
   #     :type,
   #     :title,
   #     :slug,
@@ -95,7 +95,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   #     :status,
   #     :visibility,
   #     :published_at,
-  #     categorization_attributes: [:id, :category_id, :_destroy],
+  #     categorization_attributes: [:id, category_ids: [], :_destroy],
   #     content_blocks_attributes: [
   #       :id,
   #       :_destroy,
@@ -129,29 +129,9 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   # end
 
   def page_params
-    # Create a mutable copy of the parameters hash
-    raw_params = params.require(:aurelius_press_document_page).dup
-    # Safely access categorization_attributes
-    categorization_attrs = raw_params[:categorization_attributes]
-    if categorization_attrs.present?
-      # Scenario 1: User is attempting to create a new category
-      if categorization_attrs[:category_attributes]&.dig(:name).present?
-        # Ensure both category_id (from dropdown) and id within category_attributes are removed.
-        # This forces the creation of a *new* Category.
-        categorization_attrs.delete(:category_id)
-        categorization_attrs[:category_attributes].delete(:id) if categorization_attrs[:category_attributes][:id].present?
-      elsif categorization_attrs[:category_id].present?
-        # Scenario 2: User has selected an existing category from the dropdown
-        # If an existing category_id is selected, discard any nested category_attributes.
-        # This prevents conflicting attempts to create/update a nested category.
-        categorization_attrs.delete(:category_attributes)
-      end
-    end
-    # Now, permit the filtered parameters
-    raw_params.permit(
+    params.require(:aurelius_press_document_page).permit(
       :id,
       :user_id,
-      :category_id,
       :type,
       :title,
       :slug,
@@ -161,16 +141,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
       :visibility,
       :published_at,
       :comments_enabled,
-      categorization_attributes: [
-        :id,
-        :category_id,
-        :_destroy,
-        category_attributes: [
-          :id,
-          :name,
-          :slug,
-        ],
-      ],
+      category_ids: [],
       # :tags
       content_blocks_attributes: [
         :id,

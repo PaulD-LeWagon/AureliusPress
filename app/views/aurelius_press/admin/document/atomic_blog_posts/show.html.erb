@@ -50,13 +50,13 @@
     <%= @atomic_blog_post.tags.join(", ") %>
   </p>
 
-  <% if @atomic_blog_post.category %>
+  <% if @atomic_blog_post.categories.any? %>
     <p>
-      <strong>Category:</strong>
-      <%= link_to @atomic_blog_post.category.name, aurelius_press_admin_taxonomy_category_path(@atomic_blog_post.category) %>
+      <strong>Categories:</strong>
+      <%= @atomic_blog_post.categories.map { |category| link_to(category.name, aurelius_press_admin_taxonomy_category_path(category)) }.join(", ").html_safe %>
       <br>
-      <strong>Category Slug:</strong>
-      <%= @atomic_blog_post.category.slug %>
+      <strong>Category Slugs:</strong>
+      <%= @atomic_blog_post.categories.map(&:slug).join(", ") %>
     </p>
   <% end %>
 

@@ -44,8 +44,8 @@
   </p>
 
   <p>
-    <strong>Category:</strong>
-    <%= @blog_post.category.name if @blog_post.category %>
+    <strong>Categories:</strong>
+    <%= @blog_post.categories.map(&:name).join(", ") if @blog_post.categories.any? %>
   </p>
 
   <div class="content-blocks">

@@ -66,29 +66,10 @@
 
       <div class="column grid row" data-controller="categories">
 
-        <%= form.fields_for :categorization, @blog_post.categorization || @blog_post.build_categorization do |categorization_fields| %>
-
-          <%= categorization_fields.hidden_field :id %>
-
-          <div data-categories-target="categorySelectGroup" id="category_select_group" class="column">
-            <%= categorization_fields.label :category_id, "Select a category" %>
-            <%= categorization_fields.select :category_id, options_from_collection_for_select(AureliusPress::Taxonomy::Category.all, :id, :name, @blog_post.category&.id), { include_blank: "Choose a category" }, { data: { categories_target: "categorySelect" } } %>
-          </div>
-
-          <div data-categories-target="newCategoryGroup" id="new_category_group" class="column" style="display: none;">
-            <%= categorization_fields.fields_for :category do |category_fields| %>
-              <%= category_fields.label :name, "Add a New Category" %>
-              <%= category_fields.text_field :name, data: { categories_target: "newCategoryInput" }, disabled: true %>
-            <% end %>
-          </div>
-
-        <% end %>
-
-        <div class="button-group">
-          <label>&nbsp;</label>
-          <button data-categories-target="addNewCategoryButton" data-action="click->categories#addNewCategory" class="button">Add a New Category</button>
-          <button data-categories-target="removeNewCategoryButton" data-action="click->categories#removeNewCategory" class="button" style="display: none;">Select an Existing Category</button>
+        <div data-categories-target="categorySelectGroup" id="category_select_group" class="column">
+          <%= form.association :categories, as: :check_boxes, collection: AureliusPress::Taxonomy::Category.all, label: "Select Categories", item_wrapper_class: 'inline' %>
         </div>
+
       </div>
 
       <div class="column hide">
