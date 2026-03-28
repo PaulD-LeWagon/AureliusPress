@@ -116,10 +116,12 @@ Rails.application.routes.draw do
         end
       end
     end
-    # Flattened Likes for ALL likeable objects
-    resources :reactions, only: [ :create, :destroy, :update ]
-    # Genuine Likes (Votes)
-    resources :likes, only: [ :create, :destroy, :update ]
+    namespace :community do
+      # Flattened Likes for ALL likeable objects
+      resources :reactions, only: [ :create, :destroy, :update ]
+      # Genuine Likes (Votes)
+      resources :likes, only: [ :create, :destroy, :update ]
+    end
     # Define routes for users
     resources :users, only: [ :show, :edit, :update ]
     ## Concrete Document Routes

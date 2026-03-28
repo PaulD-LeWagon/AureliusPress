@@ -1,14 +1,10 @@
-class ReactionsController < ApplicationController
+class AureliusPress::Community::ReactionsController < ApplicationController
   # Application logic in controllers/views:
   # First reaction: Create a new AureliusPress::Community::Reaction record with the chosen emoji.
   # Change reaction: Find the existing AureliusPress::Community::Reaction record and update its emoji attribute.
   # Remove reaction: Find the existing AureliusPress::Community::Reaction record and destroy it.
   # before_action :authenticate_user!
 
-  def index
-    @reactions = AureliusPress::Community::Reaction.all
-    render json: @reactions
-  end
 
   def create
     @reaction = AureliusPress::Community::Reaction.new(reaction_params)
