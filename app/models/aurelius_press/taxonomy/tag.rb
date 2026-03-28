@@ -17,6 +17,7 @@ class AureliusPress::Taxonomy::Tag < ApplicationRecord
 
   has_many :taggings, dependent: :destroy, class_name: "AureliusPress::Taxonomy::Tagging"
   has_many :taggables, through: :taggings, source: :taggable
+  has_many :documents, through: :taggings, source: :taggable, source_type: "AureliusPress::Document::Document"
   # Specific document type associations
   has_many :atomic_blog_posts, through: :taggings, source: :taggable, source_type: "AureliusPress::Document::AtomicBlogPost"
   has_many :blog_posts, through: :taggings, source: :taggable, source_type: "AureliusPress::Document::BlogPost"

@@ -24,7 +24,8 @@ class AureliusPress::Taxonomy::Category < ApplicationRecord
   # Associations
   has_many :categorizations, class_name: "AureliusPress::Taxonomy::Categorization", dependent: :destroy, inverse_of: :category
   has_many :categorizables, through: :categorizations, source: :categorizable
-  # has_many :documents, dependent: :destroy, class_name: "AureliusPress::Document::Document", inverse_of: :cate# Specific document type associations
+  has_many :documents, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Document::Document"
+  # Specific document type associations
   has_many :blog_posts, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Document::BlogPost"
   has_many :atomic_blog_posts, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Document::AtomicBlogPost"
   has_many :pages, through: :categorizations, source: :categorizable, source_type: "AureliusPress::Document::Page"

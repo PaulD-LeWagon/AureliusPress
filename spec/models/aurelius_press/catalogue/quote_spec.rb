@@ -82,6 +82,7 @@ RSpec.describe AureliusPress::Catalogue::Quote, type: :model do
     let!(:authorship_two) { create(:aurelius_press_catalogue_authorship, author: author_two, source: source_with_authors) }
 
     it "delegates authors to its source" do
+      source_with_authors.authors.where.not(id: [author_one.id, author_two.id]).destroy_all
       quote = create(:aurelius_press_catalogue_quote, source: source_with_authors, text: "Delegated text.")
       expect(quote.source_authors).to include(author_one, author_two)
       expect(quote.source_authors.count).to eq(2)

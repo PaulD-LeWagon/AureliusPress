@@ -74,8 +74,8 @@ RSpec.describe AureliusPress::Document::Document, type: :model do
   describe "associations" do
     # A Document belongs to a User
     it { should belong_to(:user) }
-    # A Document can optionally belong to a Category
-    it { should belong_to(:category).optional }
+    # A Document can optionally belong to many Categories
+    it { should have_many(:categories).through(:categorizations) }
     # A Document has many ContentBlocks (and they should be destroyed if the document is deleted)
     it { should have_many(:content_blocks).dependent(:destroy) }
     # A Document has many Tags through Taggings (many-to-many relationship)

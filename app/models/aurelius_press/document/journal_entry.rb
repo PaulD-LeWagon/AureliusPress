@@ -18,6 +18,8 @@
 #  comments_enabled :boolean          default(FALSE), not null
 #
 class AureliusPress::Document::JournalEntry < AureliusPress::Document::Document
+  include ::ContentBlockContainer
+
   # Callbacks
   after_initialize :set_defaults, if: :new_record?
 

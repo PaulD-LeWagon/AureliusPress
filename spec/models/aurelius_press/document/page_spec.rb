@@ -77,9 +77,10 @@ RSpec.describe AureliusPress::Document::Page, type: :model do
       expect(subject.user).to be_a(AureliusPress::User)
     end
 
-    it "has a valid category" do
-      expect(subject.category).to be_present
-      expect(subject.category).to be_a(AureliusPress::Taxonomy::Category)
+    it "has valid categories" do
+      subject.categories << create(:aurelius_press_taxonomy_category) if subject.categories.empty?
+      expect(subject.categories).to be_present
+      expect(subject.categories.first).to be_a(AureliusPress::Taxonomy::Category)
     end
 
     it "has valid tags" do

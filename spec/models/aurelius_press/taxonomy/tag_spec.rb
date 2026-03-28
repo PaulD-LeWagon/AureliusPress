@@ -12,9 +12,17 @@ require "rails_helper"
 
 RSpec.describe AureliusPress::Taxonomy::Tag, type: :model do
   describe "validations" do
+    subject { create(:aurelius_press_taxonomy_tag) }
+
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:name) }
-    it { should validate_uniqueness_of(:slug) }
+
+    it "validates uniqueness of slug by auto-incrementing if a conflict exists" do
+      create(:aurelius_press_taxonomy_tag, name: "First Tag", slug: "slug-conflict")
+      tag2 = build(:aurelius_press_taxonomy_tag, name: "Second Tag", slug: "slug-conflict")
+      expect(tag2).to be_valid
+      expect(tag2.slug).to eq("slug-conflict-1")
+    end
   end
 
   describe "associations" do
