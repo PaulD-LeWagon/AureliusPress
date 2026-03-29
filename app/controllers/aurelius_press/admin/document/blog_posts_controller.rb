@@ -61,6 +61,7 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
       :published_at,
       :comments_enabled,
       category_ids: [],
+      tag_ids: [],
       tagging_attributes: [
         :id,
         :tag_id,

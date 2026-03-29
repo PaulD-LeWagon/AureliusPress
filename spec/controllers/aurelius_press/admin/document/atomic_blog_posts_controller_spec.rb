@@ -18,7 +18,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
   let!(:atomic_blog_post_record) do
     create(:aurelius_press_document_atomic_blog_post,
            user: user,
-           category: create(:aurelius_press_taxonomy_category),
+           categories: [create(:aurelius_press_taxonomy_category)],
            title: "My Atomic Blog Post",
            slug: "my-atomic-blog-post",
            subtitle: "A short, focused post.",
@@ -32,7 +32,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
   let(:param_attributes) do
     {
       user_id: create(:aurelius_press_user).id,
-      category_id: create(:aurelius_press_taxonomy_category).id,
+      category_ids: [create(:aurelius_press_taxonomy_category).id],
       title: "New Atomic Post Title #{SecureRandom.hex(4)}",
       slug: "new-atomic-post-title-#{SecureRandom.hex(4)}",
       subtitle: "A subtitle for a new atomic blog post.",
@@ -116,6 +116,16 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
         expect(response).to render_template(:new)
       end
     end
+    context "with tags" do
+      let(:tag) { create(:aurelius_press_taxonomy_tag) }
+      let(:params_with_tags) { param_attributes.merge(tag_ids: [tag.id]) }
+
+      it "assigns tags to the newly created atomic blog post" do
+        post :create, params: { aurelius_press_document_atomic_blog_post: params_with_tags }
+        new_post = AureliusPress::Document::AtomicBlogPost.last
+        expect(new_post.tags).to include(tag)
+      end
+    end
   end
 
   describe "GET #edit" do
@@ -179,14 +189,14 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
 
   describe "DELETE #destroy" do
     it "destroys the requested atomic blog post" do
-      atomic_post_to_destroy = create(:aurelius_press_document_atomic_blog_post, user: create(:aurelius_press_user), category: create(:aurelius_press_taxonomy_category))
+      atomic_post_to_destroy = create(:aurelius_press_document_atomic_blog_post, user: create(:aurelius_press_user), categories: [create(:aurelius_press_taxonomy_category)])
       expect {
         delete :destroy, params: { id: atomic_post_to_destroy.slug }
       }.to change(AureliusPress::Document::AtomicBlogPost, :count).by(-1)
     end
 
     it "redirects to the atomic blog posts list" do
-      atomic_post_to_destroy = create(:aurelius_press_document_atomic_blog_post, user: create(:aurelius_press_user), category: create(:aurelius_press_taxonomy_category))
+      atomic_post_to_destroy = create(:aurelius_press_document_atomic_blog_post, user: create(:aurelius_press_user), categories: [create(:aurelius_press_taxonomy_category)])
       delete :destroy, params: { id: atomic_post_to_destroy.slug }
       expect(response).to redirect_to(aurelius_press_admin_document_atomic_blog_posts_url)
     end

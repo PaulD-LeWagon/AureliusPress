@@ -10,7 +10,7 @@ RSpec.describe AureliusPress::Admin::Document::PagesController, type: :controlle
     @category = create(:aurelius_press_taxonomy_category)
     @page_record = create(:aurelius_press_document_page,
                           user: @user,
-                          category: @category,
+                          categories: [@category],
                           title: "My Sample Page Title",
                           slug: "my-sample-page-title",
                           subtitle: "A concise subtitle for the page",

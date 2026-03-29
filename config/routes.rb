@@ -83,7 +83,11 @@ Rails.application.routes.draw do
         end
       end
       namespace :taxonomy do
-        resources :tags
+        resources :tags do
+          collection do
+            get :search
+          end
+        end
         resources :categories
       end
       namespace :community do

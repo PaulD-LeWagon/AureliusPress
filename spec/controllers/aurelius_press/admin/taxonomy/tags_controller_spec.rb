@@ -25,7 +25,23 @@ RSpec.describe AureliusPress::Admin::Taxonomy::TagsController, type: :controller
       expect(assigns(:tags)).to be_an(ActiveRecord::Relation)
     end
   end
+ 
+  describe "GET #search" do
+    it "returns a successful response with turbo_stream format" do
+      get :search, params: { query: "test" }, format: :turbo_stream
+      expect(response).to be_successful
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+    end
 
+    it "assigns @tags based on the search query" do
+      tag1 = create(:aurelius_press_taxonomy_tag, name: "Relevant Tag")
+      tag2 = create(:aurelius_press_taxonomy_tag, name: "Nonsense")
+      get :search, params: { query: "relevant" }, format: :turbo_stream
+      expect(assigns(:tags)).to include(tag1)
+      expect(assigns(:tags)).to_not include(tag2)
+    end
+  end
+ 
   describe "GET #show" do
     it "returns a successful response and assigns @tag" do
       tag = create(:aurelius_press_taxonomy_tag, name: "Test Tag 2")

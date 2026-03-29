@@ -55,8 +55,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
   end
 
   def set_tags_and_categories
-    # AureliusPress::Taxonomy::Tag.all
-    @tags = "not, yet, implemented"
+    @tags = AureliusPress::Taxonomy::Tag.all
     @categories = AureliusPress::Taxonomy::Category.all
   end
 
@@ -142,6 +141,7 @@ class AureliusPress::Admin::Document::PagesController < AureliusPress::Admin::Ap
       :published_at,
       :comments_enabled,
       category_ids: [],
+      tag_ids: [],
       # :tags
       content_blocks_attributes: [
         :id,

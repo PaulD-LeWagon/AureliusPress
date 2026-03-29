@@ -17,7 +17,7 @@ RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :contr
   let!(:blog_post) do
     create(:aurelius_press_document_blog_post,
            user: user,
-           category: create(:aurelius_press_taxonomy_category),
+           categories: [create(:aurelius_press_taxonomy_category)],
            type: "AureliusPress::Document::BlogPost",
            title: "#1. My Exceptional Blog Post Title",
            slug: "1-my-exceptional-blog-post-title",
@@ -29,7 +29,7 @@ RSpec.describe AureliusPress::Admin::Document::BlogPostsController, type: :contr
   let(:param_attributes) do
     {
       user_id: blog_post.user.id,
-      category_id: blog_post.category.id,
+      category_ids: [blog_post.categories.first.id],
       type: blog_post.type,
       title: blog_post.title,
       slug: blog_post.slug,

@@ -77,8 +77,8 @@ class AureliusPress::Admin::Document::AtomicBlogPostsController < AureliusPress:
       :comments_enabled, # boolean, whether comments are enabled for the document (default: true)
       :content, # Action Text rich text content
       :image_file, # Active Storage attachment for images
-      category_ids: []
-      # :tags
+      category_ids: [],
+      tag_ids: []
     )
   end
 end

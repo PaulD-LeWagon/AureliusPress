@@ -27,7 +27,12 @@ RSpec.describe AureliusPress::Taxonomy::Tag, type: :model do
 
   describe "associations" do
     it { should have_many(:taggings).dependent(:destroy) }
-    it { should have_many(:documents).through(:taggings) }
+    it { should have_many(:documents).through(:taggings).source(:taggable) }
+    it { should have_many(:atomic_blog_posts).through(:taggings).source(:taggable) }
+    it { should have_many(:blog_posts).through(:taggings).source(:taggable) }
+    it { should have_many(:pages).through(:taggings).source(:taggable) }
+    it { should have_many(:quotes).through(:taggings).source(:taggable) }
+    it { should have_many(:sources).through(:taggings).source(:taggable) }
   end
 
   describe "callbacks" do
