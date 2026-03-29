@@ -10,18 +10,34 @@ module TurboHelper
     sleep 2
   end
 
-  # Use this when accept_turbo_confirm still doesn't work.
-  # Directly submits a DELETE fetch request via JS and navigates to the result.
+  # Sends a DELETE request via JS fetch and then navigates to the final URL.
+  # This is the reliable alternative to clicking data-turbo-method="delete" links
+  # in headless Firefox, which can fail to fire the Turbo form submission.
+  # After the DELETE, flash messages are stored in session and rendered on redirect.
+  # We navigate to the redirect target using Turbo.visit so Turbo can render the flash.
   def click_turbo_delete_link(href, redirect_to: nil)
-    page.execute_script(<<~JS)
-      (async function() {
-        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const response = await fetch('#{href}', {
-          method: 'DELETE',
-          headers: { 'X-CSRF-Token': token, 'Accept': 'text/html' }
-        });
-        window.location.href = response.url || '#{redirect_to || "/"}';
-      })();
+    fallback = redirect_to || "/"
+    page.execute_script(<<~JS, href, fallback)
+      (async function(href, fallback) {
+        try {
+          const meta = document.querySelector('meta[name="csrf-token"]');
+          const token = meta ? meta.getAttribute('content') : '';
+          const resp = await fetch(href, {
+            method: 'DELETE',
+            headers: {
+              'X-CSRF-Token': token,
+              'Accept': 'text/html, application/xhtml+xml',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            redirect: 'follow'
+          });
+          // Navigate to the final URL (after redirect), or to the fallback
+          const dest = resp.url && resp.url !== href ? resp.url : fallback;
+          Turbo.visit(dest);
+        } catch(e) {
+          window.location.href = fallback;
+        }
+      })(arguments[0], arguments[1]);
     JS
     sleep 2
   end

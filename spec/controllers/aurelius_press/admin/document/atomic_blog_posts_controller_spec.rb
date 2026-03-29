@@ -39,7 +39,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
       status: :draft,
       visibility: :private_to_owner,
       content: "Content for the new atomic blog post.",
-      image_file: fixture_file_upload("test_image.png", "image/png"),
+      image_file: fixture_file_upload("test_image.png", "image/png")
     }
   end
 
@@ -51,7 +51,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
       content: "",
       image_file: nil,
       status: :published,
-      visibility: :public_to_www,
+      visibility: :public_to_www
     }
   end
 
@@ -135,7 +135,7 @@ RSpec.describe AureliusPress::Admin::Document::AtomicBlogPostsController, type: 
         {
           title: "Updated Atomic Post Title #{SecureRandom.hex(4)}",
           content: "This is the updated rich text content.",
-          image_file: fixture_file_upload("another_image.png", "image/png"), # Provide a different image for update
+          image_file: fixture_file_upload("another_image.png", "image/png") # Provide a different image for update
         }
       end
 

@@ -8,7 +8,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
 
   context "As a user with role [:reader]" do
     scenario "can access the Atomic Blog Posts index page" do
-      [reader].each do |the_agent|
+      [ reader ].each do |the_agent|
         sign_in the_agent
         visit aurelius_press_atomic_blog_posts_path
         # Assert that the page is the index path
@@ -19,7 +19,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "can access the #show page" do
-      [reader].each do |the_agent|
+      [ reader ].each do |the_agent|
         sign_in the_agent
         path = aurelius_press_atomic_blog_post_path(posts.first)
         visit path
@@ -30,7 +30,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "cannot access the #edit page" do
-      [reader].each do |the_agent|
+      [ reader ].each do |the_agent|
         sign_in the_agent
         visit edit_aurelius_press_atomic_blog_post_path(posts.first)
         expect(page).to have_content("You are not authorized to perform this action.")
@@ -40,7 +40,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "cannot access the #new page" do
-      [reader].each do |the_agent|
+      [ reader ].each do |the_agent|
         sign_in the_agent
         visit new_aurelius_press_atomic_blog_post_path
         expect(page).to have_content("You are not authorized to perform this action.")
@@ -50,7 +50,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "cannot access the #delete action" do
-      [reader].each do |the_agent|
+      [ reader ].each do |the_agent|
         sign_in the_agent
         visit aurelius_press_atomic_blog_post_path(someone_elses_posts.first)
         expect(page).to have_content(someone_elses_posts.first.title)
@@ -65,7 +65,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
 
     scenario "cannot access the #bulk_edit page" do
       skip "Bulk actions are not permitted for readers."
-      [reader].each do |the_agent|
+      [ reader ].each do |the_agent|
         sign_in the_agent
 
         sign_out the_agent
@@ -75,7 +75,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
 
   context "As a user with role [:user]" do
     scenario "can access the Atomic Blog Posts index page" do
-      [user].each do |the_agent|
+      [ user ].each do |the_agent|
         sign_in the_agent
         visit aurelius_press_atomic_blog_posts_path
         # Assert that the page is the index path
@@ -88,7 +88,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "can access the #create page" do
-      [user].each do |the_actor|
+      [ user ].each do |the_actor|
         sign_in the_actor
         visit new_aurelius_press_atomic_blog_post_path
         expect(page).to have_content("New Atomic Post")
@@ -98,7 +98,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "can access the #edit page" do
-      [user].each do |the_actor|
+      [ user ].each do |the_actor|
         sign_in the_actor
         visit edit_aurelius_press_atomic_blog_post_path(posts.second)
         expect(page).to have_content("Edit Atomic Post")
@@ -108,7 +108,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "can delete an existing page" do
-      [user].each do |the_actor|
+      [ user ].each do |the_actor|
         sign_in the_actor
         visit aurelius_press_atomic_blog_post_path(posts.last)
         expect(page).to have_content(posts.last.title)
@@ -122,7 +122,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
 
     scenario "can access and perform bulk actions" do
       skip "Bulk actions blog posts not yet implemented."
-      [user].each do |the_actor|
+      [ user ].each do |the_actor|
         sign_in the_actor
 
         sign_out the_actor
@@ -130,7 +130,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "cannot edit another user's page" do
-      [user].each do |the_actor|
+      [ user ].each do |the_actor|
         sign_in the_actor
         visit edit_aurelius_press_atomic_blog_post_path(someone_elses_posts.first)
         expect(page).to have_content("You are not authorized to perform this action.")
@@ -140,7 +140,7 @@ RSpec.feature "User can access the Atomic Blog Posts section.", type: :feature, 
     end
 
     scenario "cannot delete another user's page" do
-      [user].each do |the_actor|
+      [ user ].each do |the_actor|
         sign_in the_actor
         visit aurelius_press_atomic_blog_post_path(someone_elses_posts.first)
         expect(page).to have_content(someone_elses_posts.first.title)

@@ -54,9 +54,7 @@ RSpec.feature "User can access Pages Section", type: :feature, js: true do
         sign_in the_agent
         visit aurelius_press_page_path(someone_elses_pages.first)
         expect(page).to have_content(someone_elses_pages.first.title)
-        accept_turbo_confirm do
-          click_link "Delete"
-        end
+        click_turbo_delete_link(aurelius_press_page_path(someone_elses_pages.first))
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
         sign_out the_agent
@@ -112,9 +110,7 @@ RSpec.feature "User can access Pages Section", type: :feature, js: true do
         sign_in the_actor
         visit aurelius_press_page_path(pages.last)
         expect(page).to have_content(pages.last.title)
-        accept_turbo_confirm do
-          click_link "Delete"
-        end
+        click_turbo_delete_link(aurelius_press_page_path(pages.last), redirect_to: aurelius_press_pages_path)
         expect(page).to have_content("Page deleted successfully.")
         sign_out the_actor
       end
@@ -145,9 +141,7 @@ RSpec.feature "User can access Pages Section", type: :feature, js: true do
         visit aurelius_press_page_path(someone_elses_pages.first)
         expect(page).to have_content(someone_elses_pages.first.title)
         expect(page).to have_content(someone_elses_pages.first.user.full_name)
-        accept_turbo_confirm do
-          click_link "Delete"
-        end
+        click_turbo_delete_link(aurelius_press_page_path(someone_elses_pages.first))
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
         sign_out the_actor
