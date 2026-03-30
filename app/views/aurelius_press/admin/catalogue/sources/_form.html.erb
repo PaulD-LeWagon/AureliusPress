@@ -30,7 +30,7 @@
     </div>
     <div class="grid row">
       <div class="column">
-        <%= form.input :title, required: true, autofocus: true, input_html: { data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
+        <%= form.input :title, required: true, autofocus: true, input_html: { data: { auto_slugify_target: "source", action: "input->auto-slugify#slugify" } } %>
       </div>
       <div class="column">
         <%= form.input :slug, required: false, hint: "Can be a custom slug, if desired!", input_html: { data: { auto_slugify_target: "slug" } } %>

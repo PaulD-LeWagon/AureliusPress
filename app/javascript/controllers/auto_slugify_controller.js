@@ -7,10 +7,14 @@ export default class extends Controller {
     console.log("Auto Slugify Controller Connected")
   }
 
-  onKeyUp(event) {
-    this.slugTarget.value = this.sourceTarget.value
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/[^\w-]+/g, "")
+  slugify() {
+    if (this.hasSourceTarget && this.hasSlugTarget) {
+      this.slugTarget.value = this.sourceTarget.value
+        .toLowerCase()
+        .trim()
+        .replace(/ /g, "-")
+        .replace(/[^\w-]+/g, "")
+        .replace(/-{2,}/g, "-") // Remove double dashes
+    }
   }
 }

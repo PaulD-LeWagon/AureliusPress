@@ -78,7 +78,7 @@
     <div class="grid row">
 
       <div class="column">
-        <%= f.input :title, required: true, autofocus: true, input_html: { class: "form-control", data: { auto_slugify_target: "source", action: "keyup->auto-slugify#onKeyUp" } } %>
+        <%= f.input :title, required: true, autofocus: true, input_html: { class: "form-control", data: { auto_slugify_target: "source", action: "input->auto-slugify#slugify" } } %>
       </div>
 
       <div class="column">

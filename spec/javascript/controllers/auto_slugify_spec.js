@@ -8,7 +8,7 @@ describe('AutoSlugifyController', () => {
   const html = `
     <div data-controller="auto-slugify">
       <input type="text" data-auto-slugify-target="source" 
-             data-action="keyup->auto-slugify#onKeyUp" id="source">
+             data-action="input->auto-slugify#slugify" id="source">
       <input type="text" data-auto-slugify-target="slug" id="slug">
     </div>
   `
@@ -22,7 +22,7 @@ describe('AutoSlugifyController', () => {
     const slug = document.getElementById('slug')
 
     source.value = 'Hello World'
-    source.dispatchEvent(new Event('keyup'))
+    source.dispatchEvent(new Event('input'))
 
     expect(slug.value).toBe('hello-world')
   })
@@ -32,7 +32,7 @@ describe('AutoSlugifyController', () => {
     const slug = document.getElementById('slug')
 
     source.value = 'My Awesome Post! (2024)'
-    source.dispatchEvent(new Event('keyup'))
+    source.dispatchEvent(new Event('input'))
 
     expect(slug.value).toBe('my-awesome-post-2024')
   })
