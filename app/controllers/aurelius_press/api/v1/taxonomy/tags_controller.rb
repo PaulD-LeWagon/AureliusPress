@@ -1,4 +1,7 @@
 class AureliusPress::Api::V1::Taxonomy::TagsController < AureliusPress::Api::V1::BaseController
+  # Allow all authenticated users to search and create tags (needed for AtomicBlogPost)
+  skip_before_action :authorize_admin_access, only: [:index, :create]
+
   def index
     if params[:q].present?
       @tags = AureliusPress::Taxonomy::Tag.where("name ILIKE ?", "%#{params[:q]}%")

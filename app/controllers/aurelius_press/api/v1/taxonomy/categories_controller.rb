@@ -1,4 +1,7 @@
 class AureliusPress::Api::V1::Taxonomy::CategoriesController < AureliusPress::Api::V1::BaseController
+  # Allow all authenticated users to search for categories (needed for AtomicBlogPost)
+  skip_before_action :authorize_admin_access, only: [:index]
+
   def index
     puts "DEBUG: API SEARCH PARAMS: #{params.inspect}"
     if params[:q].present?

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Admin User Management Access" do
+RSpec.feature "Admin User Management Access", type: :feature, js: true do
   before do
     @admin = create(:aurelius_press_admin_user)
     @reader = create(:aurelius_press_reader_user)
@@ -24,36 +24,37 @@ RSpec.feature "Admin User Management Access" do
         visit aurelius_press_admin_users_path
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
+        logout
       end
     end
 
     scenario "cannot create a new user" do
       [@reader, @user, @moderator].each do |the_actor|
-        sign_in the_actor
+        login_as the_actor
         visit new_aurelius_press_admin_user_path
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
+        logout
       end
     end
 
     scenario "cannot edit an existing user" do
       [@reader, @user, @moderator].each do |the_actor|
-        sign_in the_actor
+        login_as the_actor
         visit edit_aurelius_press_admin_user_path(create(:aurelius_press_user))
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
-        accept_turbo_confirm do
-          click_link "Logout"
-        end
+        logout
       end
     end
 
     scenario "cannot destroy an existing user" do
       [@reader, @user, @moderator].each do |the_actor|
-        sign_in the_actor
+        login_as the_actor
         visit aurelius_press_admin_user_path(create(:aurelius_press_user))
         expect(page).to have_content("You are not authorized to perform this action.")
         expect(current_path).to eq(root_path)
+        logout
       end
     end
   end

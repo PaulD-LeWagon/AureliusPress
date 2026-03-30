@@ -37,7 +37,13 @@ RSpec.feature "user can manage an AtomicBlogPost (CRUD)", :js do
     fill_in "Description", with: description
     select "Published", from: "Status"
     select "Public To Www", from: "Visibility"
-    check categories.first.name
+    
+    # Use SearchSelect for categories
+    category_name = categories.first.name
+    find("#category-search-input").set(category_name[0..4])
+    expect(page).to have_content(category_name)
+    find(".search-result-item", text: category_name).click
+    
     fill_in_rich_text_area "trix-content", with: content
     attach_file "Featured Image", img_url
     # 4. Submit the form

@@ -22,7 +22,13 @@ RSpec.feature "Admin can manage a BlogPost (CRUD)", :js do
 
     select "Published", from: "Status"
     select "Public To Www", from: "Visibility"
-    check categories.first.name
+    
+    # Use SearchSelect for categories
+    category_name = categories.first.name
+    find("#category-search-input").set(category_name[0..4])
+    expect(page).to have_content(category_name)
+    find(".search-result-item", text: category_name).click
+    
 
     # 4. Submit the form
     click_button "Create"

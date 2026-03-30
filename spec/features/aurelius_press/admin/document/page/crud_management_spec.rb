@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.feature "Admin can manage a Page (CRUD)", :js do
   let!(:admin) { create(:aurelius_press_admin_user) }
+  let!(:categories) { create_list(:aurelius_press_taxonomy_category, 3) }
   let!(:page_one) { create(:aurelius_press_document_page, title: "First Page", description: "Content of the first page.") }
   let!(:page_two) { create(:aurelius_press_document_page, title: "Second Page", description: "Content of the second page.") }
 
@@ -17,6 +18,13 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
     fill_in "Description", with: description
     select "Published", from: "Status"
     select "Public To Www", from: "Visibility"
+    
+    # Use SearchSelect for categories
+    category_name = categories.first.name
+    find("#category-search-input").set(category_name[0..4])
+    expect(page).to have_content(category_name)
+    find(".search-result-item", text: category_name).click
+    
     # 4. Submit the form
     click_button "Create"
     # save_and_open_page
