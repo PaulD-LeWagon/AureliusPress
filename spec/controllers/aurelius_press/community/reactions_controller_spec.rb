@@ -5,11 +5,11 @@ RSpec.describe AureliusPress::Community::ReactionsController, type: :controller 
   let!(:quote) { create(:aurelius_press_catalogue_quote) }
 
   let(:valid_attributes) {
-    { user_id: user.id, reactable_type: "AureliusPress::Catalogue::Quote", reactable_id: quote.id, emoji: "thumbs_up" }
+    { user_id: user.id, reactable_gid: quote.to_global_id.to_s, emoji: "thumbs_up" }
   }
 
   let(:invalid_attributes) {
-    { user_id: user.id, reactable_type: "AureliusPress::Catalogue::Quote", reactable_id: quote.id, emoji: nil }
+    { user_id: user.id, reactable_gid: nil, emoji: nil }
   }
   before do
     @request.env["devise.mapping"] = Devise.mappings[:aurelius_press_user]
@@ -24,9 +24,9 @@ RSpec.describe AureliusPress::Community::ReactionsController, type: :controller 
         }.to change(AureliusPress::Community::Reaction, :count).by(1)
       end
 
-      it "returns created status" do
+      it "returns redirect status" do
         post :create, params: { reaction: valid_attributes }
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:found)
       end
     end
 

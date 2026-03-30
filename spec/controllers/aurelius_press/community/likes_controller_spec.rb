@@ -10,7 +10,7 @@ RSpec.describe AureliusPress::Community::LikesController, type: :controller do
   # but in a real app it would be enabled.
 
   let(:valid_attributes) {
-    { user_id: user.id, likeable_type: "AureliusPress::Catalogue::Quote", likeable_id: quote.id, state: "like" }
+    { user_id: user.id, likeable_gid: quote.to_global_id.to_s, state: "like" }
   }
 
   before { sign_in user }

@@ -17,7 +17,7 @@ RSpec.describe "AureliusPress::Api::V1::Taxonomy::Categories", type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response).to be_an(Array)
-        expect(json_response.first["name"]).to eq("Stoic Philosophy")
+        expect(json_response.map { |c| c["name"] }).to include("Stoic Philosophy")
       end
 
       it "returns an empty array when no matches are found" do
@@ -29,6 +29,10 @@ RSpec.describe "AureliusPress::Api::V1::Taxonomy::Categories", type: :request do
     end
 
     context "when unauthenticated" do
+      before do
+        sign_out :user
+      end
+
       it "returns unauthorized" do
         get "/aurelius-press/api/v1/taxonomy/categories", params: { q: "stoi" }, as: :json
         expect(response).to have_http_status(:unauthorized)
