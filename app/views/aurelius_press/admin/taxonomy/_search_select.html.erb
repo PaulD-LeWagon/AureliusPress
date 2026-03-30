@@ -1,0 +1,66 @@
+<%# Reusable Taxonomy Search Partial %>
+<div class="taxonomy-search-container" 
+     data-controller="taxonomy-search" 
+     data-taxonomy-search-url-value="<%= url %>"
+     data-taxonomy-search-create-url-value="<%= create_url %>">
+  
+  <label for="<%= id %>"><%= label %></label>
+  <div class="search-input-group" style="display: flex; gap: 4px;">
+    <input type="text" 
+           id="<%= id %>" 
+           class="tag-search-input"
+           style="flex-grow: 1;"
+           placeholder="Type to search or hit Enter to create..."
+           data-taxonomy-search-target="input"
+           data-action="input->taxonomy-search#search keydown->taxonomy-search#create">
+    
+    <button type="button" 
+            class="button secondary outline"
+            style="padding: 0 12px; margin-bottom: var(--pico-spacing);"
+            data-action="click->taxonomy-search#create">
+      Add
+    </button>
+  </div>
+  
+  <div class="taxonomy-search-results hidden" data-taxonomy-search-target="results">
+    <%# Populated by Stimulus %>
+  </div>
+
+  <div class="taxonomy-selection-list" data-taxonomy-search-target="selection">
+    <% selected_items.each do |item| %>
+      <div class="selection-item" data-id="<%= item.id %>">
+        <%= item.name %>
+        <input type="hidden" name="<%= attribute_name %>" value="<%= item.id %>">
+        <span class="remove" data-action="click->taxonomy-search#remove">&times;</span>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .taxonomy-search-container { position: relative; }
+  .taxonomy-search-results {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .search-result-item { padding: 8px; cursor: pointer; }
+  .search-result-item:hover { background: #f0f0f0; }
+  .taxonomy-selection-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .selection-item {
+    background: #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .selection-item .remove { cursor: pointer; color: #888; font-weight: bold; }
+  .selection-item .remove:hover { color: #f00; }
+  .hidden { display: none; }
+</style>

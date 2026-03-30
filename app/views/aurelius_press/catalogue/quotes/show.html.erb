@@ -8,7 +8,9 @@
 
   <h1>Quote <%= @quote.id %></h1>
 
-  <p><strong>Content:</strong> <%= @quote.text %></p>
+  <p class="quote-text"><strong>Content:</strong> <%= @quote.text %></p>
+
+  <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: @quote } %>
 
   <p><strong>Author:</strong> <%= @quote.source_authors.map(&:name).join(", ") if @quote.source_authors.any? %></p>
 

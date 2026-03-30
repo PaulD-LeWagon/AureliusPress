@@ -29,6 +29,7 @@ module TurboHelper
               'Accept': 'text/html, application/xhtml+xml',
               'X-Requested-With': 'XMLHttpRequest'
             },
+            credentials: 'include',
             redirect: 'follow'
           });
           // Navigate to the final URL (after redirect), or to the fallback

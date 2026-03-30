@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
   let!(:categories) { create_list(:aurelius_press_taxonomy_category, 3) }
   let!(:admin) { create(:aurelius_press_admin_user) }
-  let!(:atomic_blog_post_one) { create(:aurelius_press_document_atomic_blog_post, title: "First Atomic Blog Post", description: "Content of the first atomic blog post.") }
-  let!(:atomic_blog_post_two) { create(:aurelius_press_document_atomic_blog_post, title: "Second Atomic Blog Post", description: "Content of the second atomic blog post.") }
+  let!(:atomic_blog_post_one) { create(:aurelius_press_document_atomic_blog_post, title: "First Atomic Blog Post", description: "Content of the first atomic blog post.", user: admin) }
+  let!(:atomic_blog_post_two) { create(:aurelius_press_document_atomic_blog_post, title: "Second Atomic Blog Post", description: "Content of the second atomic blog post.", user: admin) }
 
   scenario "CREATE - Admin can create a new Atomic Blog Post" do
     # 1. Log in as an admin
@@ -19,7 +19,18 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     fill_in "Description", with: description
     select "Published", from: "Status"
     select "Public To Www", from: "Visibility"
-    check categories.first.name
+    # 3. Add a category via the search UI
+    category = categories.first
+    category.update!(name: "TestCategoryUnique")
+    fill_in "category-search-input", with: "TestCategory"
+    
+    # Wait for the search result from stimulus fetch
+    expect(page).to have_css(".search-result-item", text: "TestCategoryUnique", wait: 5)
+    find(".search-result-item", text: "TestCategoryUnique").click
+    
+    # Verify the category selection is visible
+    expect(page).to have_selector(".selection-item", text: "TestCategoryUnique")
+    # check categories.first.name
     fill_in_rich_text_area "trix-content", with: content
     attach_file "Featured Image", Rails.root.join("spec/fixtures/files/test_image.png")
     # save_and_open_page
@@ -79,10 +90,14 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     expect(page).to have_content atomic_blog_post_two.title
     expect(page).to have_content atomic_blog_post_two.description
     expect(AureliusPress::Document::AtomicBlogPost.count).to eq(2)
+    # Ensure session is active by checking for admin-only content
+    expect(page).to have_link "Logout"
     # 4. Click the delete link for the first atomic blog post and confirm
-    accept_turbo_confirm do
-      click_link "Delete", href: aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post_one)
+    # Standard Rails/Turbo deletion
+    accept_confirm do
+      find("a[data-turbo-method='delete'][href='#{aurelius_press_admin_document_atomic_blog_post_path(atomic_blog_post_one)}']").click
     end
+    
     # 5. Verify the atomic blog post was deleted successfully
     expect(page).to have_content "Atomic blog post deleted successfully."
     expect(page).to have_current_path(aurelius_press_admin_document_atomic_blog_posts_path)

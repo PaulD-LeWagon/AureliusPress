@@ -1,17 +1,27 @@
 class AureliusPress::Community::ReactionsController < ApplicationController
-  # Application logic in controllers/views:
-  # First reaction: Create a new AureliusPress::Community::Reaction record with the chosen emoji.
-  # Change reaction: Find the existing AureliusPress::Community::Reaction record and update its emoji attribute.
-  # Remove reaction: Find the existing AureliusPress::Community::Reaction record and destroy it.
-  # before_action :authenticate_user!
-
+  before_action :authenticate_user!
 
   def create
-    @reaction = AureliusPress::Community::Reaction.new(reaction_params)
-    if @reaction.save
-      render json: @reaction, status: :created
+    @reactable = GlobalID::Locator.locate(params[:reaction][:reactable_gid])
+    @reaction = AureliusPress::Community::Reaction.find_or_initialize_by(
+      user: current_user,
+      reactable: @reactable
+    )
+
+    # Toggle if same emoji, otherwise update
+    if @reaction.emoji == params[:reaction][:emoji]
+      @reaction.emoji = :no_reaction
     else
-      render json: @reaction.errors, status: :unprocessable_entity
+      @reaction.emoji = params[:reaction][:emoji]
+    end
+
+    if @reaction.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: root_path }
+      end
+    else
+      head :unprocessable_entity
     end
   end
 

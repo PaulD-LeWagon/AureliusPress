@@ -71,7 +71,9 @@ class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::
       :context,
       :source_id,
       :original_quote_id,
-      :comments_enabled
+      :comments_enabled,
+      category_ids: [],
+      tag_ids: []
     )
   end
 end

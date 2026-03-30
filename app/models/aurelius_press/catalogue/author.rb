@@ -15,6 +15,8 @@
 class AureliusPress::Catalogue::Author < ApplicationRecord
   self.table_name = "aurelius_press_authors"
 
+  include Categorizable
+  include Taggable
   include Sluggable
 
   # Associations

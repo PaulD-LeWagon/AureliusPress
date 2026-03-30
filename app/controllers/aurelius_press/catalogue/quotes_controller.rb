@@ -1,4 +1,5 @@
 class AureliusPress::Catalogue::QuotesController < AureliusPress::ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
   def index
     @quotes = AureliusPress::Catalogue::Quote.all
   end

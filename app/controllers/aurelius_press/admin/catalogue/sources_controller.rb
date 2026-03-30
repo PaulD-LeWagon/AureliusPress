@@ -68,6 +68,8 @@ class AureliusPress::Admin::Catalogue::SourcesController < AureliusPress::Admin:
       :isbn,
       :cover_image,
       :comments_enabled,
+      category_ids: [],
+      tag_ids: [],
       authorships_attributes: [:id, :author_id, :role, :_destroy],
       affiliate_links_attributes: [:id, :url, :text, :description, :_destroy]
     )

@@ -7,15 +7,15 @@ class AureliusPress::DocumentPolicy < ::ApplicationPolicy
 
   def show?
     # 1. Superusers and Admins can see everything regardless of status or visibility
-    return true if user.superuser? || user.admin?
+    return true if user.present? && (user.superuser? || user.admin?)
     # 2. Deny access to trashed documents for everybody else.
     return false if record.trashed?
     # 3. Moderators can see everything except trashed documents
-    return true if user.moderator?
+    return true if user.present? && user.moderator?
     # 4. Deny access to documents in_review to everybody else lower than a mdoerator.
     return false if record.in_review?
     # 5. Owners can always see their own documents, regardless of visibility and status (excluding trashed and in_review)
-    return true if record.user == user
+    return true if user.present? && record.user == user
     # 6. Deny access to scheduled documents as only users and above should be able to view them.
     return false if record.scheduled?
     # 7. All other conditions must check for a published status
@@ -23,12 +23,12 @@ class AureliusPress::DocumentPolicy < ::ApplicationPolicy
     # 8. Public documents are visible to everyone
     return true if record.visibility == "public_to_www"
     # 9. Users can see documents with app-level visibility and group membership
-    if user.user?
+    if user.present? && user.user?
       return true if record.public_to_app_users?
       return true if record.private_to_group? && user.groups.include?(record.group)
     end
     # 10. Readers can see published documents for app users.
-    return true if user.reader? && record.public_to_app_users?
+    return true if user.present? && user.reader? && record.public_to_app_users?
     # 11. All other cases are false by default
     false
   end

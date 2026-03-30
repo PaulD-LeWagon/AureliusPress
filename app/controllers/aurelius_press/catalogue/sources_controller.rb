@@ -1,4 +1,5 @@
 class AureliusPress::Catalogue::SourcesController < AureliusPress::ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
   def index
     @sources = AureliusPress::Catalogue::Source.all
   end

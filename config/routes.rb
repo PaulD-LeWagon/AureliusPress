@@ -128,6 +128,20 @@ Rails.application.routes.draw do
     end
     # Define routes for users
     resources :users, only: [ :show, :edit, :update ]
+
+    # --- API V1 Routes ---
+    namespace :api, defaults: { format: :json } do
+      namespace :v1 do
+        namespace :taxonomy do
+          resources :tags, only: [ :index, :create ]
+          resources :categories, only: [ :index ]
+        end
+        namespace :catalogue do
+          resources :quotes, only: [ :index, :show ]
+        end
+      end
+    end
+
     ## Concrete Document Routes
     # Define routes for Atomic Blog Posts
     resources :atomic_blog_posts, path: "atomic-blog-posts", module: "document" do

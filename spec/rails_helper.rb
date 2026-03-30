@@ -93,6 +93,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.before(:each, type: :feature) do
     Capybara.default_driver = :selenium_headless
+    Capybara.javascript_driver = :selenium_headless
   end
   config.before(:suite) do
     # Run the asset build commands before the test suite starts
@@ -113,7 +114,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation) # Cleans entire DB before the suite runs

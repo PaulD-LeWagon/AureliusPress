@@ -1,25 +1,27 @@
 class AureliusPress::Community::LikesController < ApplicationController
-  # Public controller for genuine Likes (Votes)
-  # before_action :authenticate_user! # Assuming there's authentication
+  before_action :authenticate_user!
 
-  # POST /likes
   def create
+    @likeable = GlobalID::Locator.locate(params[:like][:likeable_gid])
     @like = AureliusPress::Community::Like.find_or_initialize_by(
-      user_id: like_params[:user_id], # In real app, use current_user.id
-      likeable_type: like_params[:likeable_type],
-      likeable_id: like_params[:likeable_id]
+      user: current_user,
+      likeable: @likeable
     )
 
-    # Update the state (toggle or set)
-    # If the user sends the same state, maybe they want to toggle it off (to neutral)?
-    # Or strict setting. Let's assume strict setting from UI for now.
-
-    @like.state = like_params[:state]
+    # Toggle if same state, otherwise update
+    if @like.state == params[:like][:state]
+      @like.state = :no_reaction
+    else
+      @like.state = params[:like][:state]
+    end
 
     if @like.save
-      render json: @like, status: :created
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: root_path }
+      end
     else
-      render json: @like.errors, status: :unprocessable_entity
+      head :unprocessable_entity
     end
   end
 

@@ -85,7 +85,9 @@ class AureliusPress::Admin::Catalogue::AuthorsController < AureliusPress::Admin:
         :source_id,
         :role,
         :_destroy
-      ]
+      ],
+      category_ids: [],
+      tag_ids: []
     )
   end
 end

@@ -24,3 +24,9 @@ application.register("image-blocks", ImageBlocksController)
 
 import NestedFormsController from "./nested_forms_controller"
 application.register("nested-forms", NestedFormsController)
+
+import SocialEngagementController from "./social_engagement_controller"
+application.register("social-engagement", SocialEngagementController)
+
+import TaxonomySearchController from "./taxonomy_search_controller"
+application.register("taxonomy-search", TaxonomySearchController)

@@ -13,6 +13,8 @@
     <h3><%= @blog_post.subtitle %></h3>
   <% end %>
 
+  <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: @blog_post } %>
+
   <p>
     <strong>Author:</strong>
     <%= @blog_post.user.full_name %>

@@ -1,29 +1,56 @@
-# System Design - AureliusPress (Stage 1)
+# System Design: Taxonomy UX & API Architecture
 
-## Architecture Overview
-The system follows a standard Ruby on Rails MVC (Model-View-Controller) pattern, namespaced broadly under `AureliusPress` for isolated domain logic. 
+## 1. Overview
+This design specifies the architectural structure for the AureliusPress V1 API and the Hotwire-powered Taxonomy selection component.
 
-## Technical Manifest
-- **Stack**: 
-  - Ruby: RSpec for Testing.
-  - Framework: Ruby on Rails v7.2+
-  - Frontend: PicoCSS (Vanilla HTML) - Stimulus/Hotwire planned for Stage 2.
-- **Environment**: 
-  - Alma VPS targeting Apache + Phusion Passenger.
+## 2. API Architecture
+### 2.1 Namespace & Versioning
+- **Root**: `AureliusPress::Api::V1`
+- **Path**: `/aurelius-press/api/v1/`
+- **Base Controller**: Inherits from `AureliusPress::ApplicationController` and handles JSON rendering defaults.
 
-## Interfaces & Modules
-- **Entities**: 
-  - `AureliusPress::Document::BlogPost`
-  - `AureliusPress::Document::AtomicBlogPost`
-  - `AureliusPress::Document::ContentBlock`
-  - `AureliusPress::User` (Devise, Admin roles)
-- **Controllers**: MVC namespace routing divided into `admin/document/` and public-facing routes.
-  - **Routing Architecture Design Rule**: The overall application delegates purely internal objects (e.g. Roles, Users, Permissions, Reactions, Likes, Groups, Comments, Notes) to standard Rails `:id` lookups. However, models designated for public SEO via `Sluggable` (e.g. Documents, Authors, Categories) overwrite their `to_param` to `self.slug`. This native overwrite impacts all Rails path helpers, meaning the Admin interfaces must use `.find_by!(slug: params[:id])` for these specific Sluggable models. This prevents manually overwriting `(id: @object.id)` across the entire Admin codebase, maintaining DRY principles.
+### 2.2 Controllers
+- `AureliusPress::Api::V1::Taxonomy::TagsController < BaseController`
+    - Action: `index(params[:q])` - Returns JSON of tags.
+    - Action: `create(params[:name])` - Creates and returns a tag.
+- `AureliusPress::Api::V1::Taxonomy::CategoriesController < BaseController`
+    - Action: `index(params[:q])` - Returns JSON of categories.
+- `AureliusPress::Api::V1::Catalogue::QuotesController < BaseController`
+    - Action: `index` - Returns paginated list of quotes using `jbuilder`.
 
-## Storage
-- **File System**: ActiveStorage with local disk for testing, system `libvips` for image mutations.
-- **RDBMS**: PostgreSQL
+## 3. Hotwire UX Component
+### 3.1 Stimulus Controller: `taxonomy-search`
+- **Targets**: `input`, `results`, `selection_list`.
+- **Actions**:
+    - `search()`: Triggered by `input` event (debounced).
+    - `select(event)`: Triggered by clicking a result in the list.
+    - `create(event)`: Triggered by 'Enter' in the input if no result is highlighted.
+- **Data Attributes**: `url` (API endpoint), `param` (query parameter name).
 
-## Observability & State
-- SolidQueue integrated directly into PostgreSQL to eliminate the need for an external Redis key-value store instance for background jobs.
-- SolidCable for WebSockets.
+### 3.2 Turbo Integration
+- Use **Turbo Streams** to append newly created tags/categories to the UI without a full page reload if necessary, or simply update the hidden `tag_ids` array and shown selection list.
+
+## 4. Module Extensions (TRAITS/CONCERNS)
+### 4.1 `Sluggable` Enhancement [EXISTING]
+- Ensure reliable slug generation for newly created tags and categories.
+
+## 5. Persistence Layer (Data Flow)
+1. User types in search input.
+2. Stimulus controller sends fetch request to `Api::V1::Taxonomy::TagsController`.
+3. Controller queries `AureliusPress::Taxonomy::Tag.where("name ILIKE ?", "%#{params[:q]}%")`.
+4. JSON results returned to Stimulus.
+5. Stimulus renders results in a dropdown.
+6. User selects existing OR hits Enter (triggering a POST to `create`).
+7. Resulting Tag object is added to the document's `tag_ids` collection (hidden field).
+
+## 6. Testing Strategy (TDD)
+### 6.1 Unit Tests (Models)
+- Test missing scopes/methods in Catalogue models.
+- Test `Tag` and `Category` creation logic.
+
+### 6.2 Request Specs (API)
+- Test each V1 endpoint for correct JSON structure and response codes.
+- Test authentication/authorization.
+
+### 6.3 System Specs (System UI)
+- Test the full Hotwire flow from typing to selection to save.

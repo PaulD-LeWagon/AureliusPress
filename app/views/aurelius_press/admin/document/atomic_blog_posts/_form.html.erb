@@ -43,19 +43,31 @@
 
     </div>
 
-    <div class="grid row" style="grid-template-columns: 2fr 1fr;">
+    <div class="grid row" style="grid-template-columns: 1fr 1fr;">
 
-      <div class="column grid row" data-controller="categories">
-
-        <div data-categories-target="categorySelectGroup" id="category_select_group" class="column">
-          <%= f.association :categories, as: :check_boxes, collection: AureliusPress::Taxonomy::Category.all, label: "Select Categories", item_wrapper_class: 'inline' %>
-        </div>
-
+      <div class="column">
+        <%= render "aurelius_press/admin/taxonomy/search_select", 
+                   id: "category-search-input",
+                   label: "Categories",
+                   attribute_name: "atomic_blog_post[category_ids][]",
+                   url: aurelius_press_api_v1_taxonomy_categories_path,
+                   create_url: "#", 
+                   selected_items: @atomic_blog_post.categories %>
       </div>
 
-      <div class="column hide">
-        <% #= f.input :tags, as: :string, input_html: { value: @atomic_blog_post.tag_list.join(", "), data: { role: "tagsinput" } }, hint: "Separate tags with commas" %>
+      <div class="column">
+        <%= render "aurelius_press/admin/taxonomy/search_select", 
+                   id: "tag-search-input",
+                   label: "Tags",
+                   attribute_name: "atomic_blog_post[tag_ids][]",
+                   url: aurelius_press_api_v1_taxonomy_tags_path,
+                   create_url: aurelius_press_api_v1_taxonomy_tags_path,
+                   selected_items: @atomic_blog_post.tags %>
       </div>
+
+    </div>
+
+    <div class="grid row">
 
       <div class="column flex justify-start items-center">
         <%= f.input :comments_enabled, as: :boolean, label: "Enable Comments", input_html: { role: "switch" } %>
@@ -104,7 +116,7 @@
   <div class="row">
 
     <div class="column">
-      <%= f.rich_text_area :content, id: "trix-content" %>
+      <%= f.rich_text_area :content, id: "trix-content", class: "trix-content" %>
     </div>
 
   </div>

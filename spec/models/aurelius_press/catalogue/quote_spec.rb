@@ -67,6 +67,25 @@ RSpec.describe AureliusPress::Catalogue::Quote, type: :model do
     end
   end
 
+  describe "delegations" do
+    it { is_expected.to delegate_method(:authors).to(:source).with_prefix }
+  end
+
+  describe "slug generation" do
+    it "uses the first 30 characters of the text for the slug" do
+      long_text = "This is a very long quote that should be truncated for the slug generation process."
+      quote = create(:aurelius_press_catalogue_quote, text: long_text)
+      expect(quote.slug).to eq("this-is-a-very-long-quote-that")
+    end
+
+    it "generates a unique slug even if text is blank" do
+      source = create(:aurelius_press_catalogue_source)
+      quote = build(:aurelius_press_catalogue_quote, text: "", source: source)
+      quote.valid? # Trigger Sluggable's before_validation callbacks
+      expect(quote.slug).to start_with("quote-")
+    end
+  end
+
   describe "#to_param" do
     it "returns the slug" do
       quote = create(:aurelius_press_catalogue_quote, source: source_record, text: "Short quote.")

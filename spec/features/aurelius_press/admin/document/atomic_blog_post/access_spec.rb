@@ -114,9 +114,10 @@ RSpec.feature "Admin can manage access to Atomic Blog Posts", type: :feature, js
         sign_in the_agent
         visit aurelius_press_admin_document_atomic_blog_post_path(posts[index])
         expect(current_path).to eq(aurelius_press_admin_document_atomic_blog_post_path(posts[index]))
-        accept_turbo_confirm do
-          click_link "Delete"
-        end
+        # accept_turbo_confirm do
+        #   click_link "Delete"
+        # end
+        click_turbo_delete_link aurelius_press_admin_document_atomic_blog_post_path(posts[index])
         expect(page).to have_content("Atomic blog post deleted successfully.")
         sign_out the_agent
       end

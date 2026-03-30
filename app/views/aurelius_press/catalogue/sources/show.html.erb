@@ -8,6 +8,8 @@
 
   <h1>Source <%= @source.title %></h1>
 
+  <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: @source } %>
+
   <p><strong>Title:</strong> <%= @source.title %></p>
   
   <p><strong>Author:</strong> <%= @source.authors.map(&:name).join(", ") if @source.authors.any? %></p>

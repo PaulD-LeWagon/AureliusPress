@@ -87,6 +87,28 @@ RSpec.describe AureliusPress::Catalogue::Source, type: :model do
     end
   end
 
+  describe "scopes" do
+    let!(:source_a) { create(:aurelius_press_catalogue_source, title: "Zeno's Life", source_type: :book) }
+    let!(:source_b) { create(:aurelius_press_catalogue_source, title: "Aristo's Logic", source_type: :article) }
+
+    it ".ordered_by_title returns sources sorted by title" do
+      expect(described_class.ordered_by_title.pluck(:title)).to include("Aristo's Logic", "Zeno's Life")
+      # Testing relative order for isolation:
+      titles = described_class.ordered_by_title.pluck(:title)
+      expect(titles.index("Aristo's Logic")).to be < titles.index("Zeno's Life")
+    end
+
+    it ".ordered_by_type returns sources sorted by source_type" do
+      # book is 0, article is 6. So source_a (book) should be before source_b (article).
+      # Note: I'll use explicit types to be sure.
+      s1 = create(:aurelius_press_catalogue_source, title: "Book", source_type: :book)
+      s2 = create(:aurelius_press_catalogue_source, title: "Article", source_type: :article)
+      
+      ordered_ids = described_class.ordered_by_type.pluck(:id)
+      expect(ordered_ids.index(s1.id)).to be < ordered_ids.index(s2.id)
+    end
+  end
+
   describe "#to_param" do
     it "returns the slug" do
       source = create(:aurelius_press_catalogue_source, title: "Discourses")

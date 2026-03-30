@@ -84,6 +84,28 @@
         <%= form.input :comments_enabled, as: :boolean, input_html: { role: "switch" } %>
       </div>
     </div>
+
+    <div class="grid row" style="grid-template-columns: 1fr 1fr; margin-top: 1rem;">
+      <div class="column">
+        <%= render "aurelius_press/admin/taxonomy/search_select", 
+                   id: "category-search-input",
+                   label: "Categories",
+                   attribute_name: "source[category_ids][]",
+                   url: aurelius_press_api_v1_taxonomy_categories_path,
+                   create_url: "#", 
+                   selected_items: @source.categories %>
+      </div>
+
+      <div class="column">
+        <%= render "aurelius_press/admin/taxonomy/search_select", 
+                   id: "tag-search-input",
+                   label: "Tags",
+                   attribute_name: "source[tag_ids][]",
+                   url: aurelius_press_api_v1_taxonomy_tags_path,
+                   create_url: aurelius_press_api_v1_taxonomy_tags_path,
+                   selected_items: @source.tags %>
+      </div>
+    </div>
   </div>
 
   <div class="form-actions grid">

@@ -3,7 +3,16 @@ class AureliusPress::Admin::Taxonomy::CategoriesController < AureliusPress::Admi
 
   # GET /aurelius_press/admin/taxonomy/categories
   def index
-    @categories = AureliusPress::Taxonomy::Category.all.order(:name)
+    if params[:q].present?
+      @categories = AureliusPress::Taxonomy::Category.where("name ILIKE ?", "%#{params[:q]}%").order(:name)
+    else
+      @categories = AureliusPress::Taxonomy::Category.all.order(:name)
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @categories }
+    end
   end
 
   # GET /aurelius_press/admin/taxonomy/categories/1

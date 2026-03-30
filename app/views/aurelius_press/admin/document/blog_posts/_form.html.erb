@@ -62,18 +62,26 @@
 
     </div>
 
-    <div class="grid row" style="grid-template-columns: 2fr 1fr;">
+    <div class="grid row">
 
-      <div class="column grid row" data-controller="categories">
-
-        <div data-categories-target="categorySelectGroup" id="category_select_group" class="column">
-          <%= form.association :categories, as: :check_boxes, collection: AureliusPress::Taxonomy::Category.all, label: "Select Categories", item_wrapper_class: 'inline' %>
-        </div>
-
+      <div class="column">
+        <%= render "aurelius_press/admin/taxonomy/search_select", 
+                   id: "category-search-input",
+                   label: "Categories",
+                   url: aurelius_press_api_v1_taxonomy_categories_path,
+                   create_url: "#", # Categories typically don't allow on-the-fly creation by standard admins
+                   selected_items: @blog_post.categories,
+                   attribute_name: "aurelius_press_document_blog_post[category_ids][]" %>
       </div>
 
-      <div class="column hide">
-        <% #= form.input :tags, as: :string, input_html: { value: @blog_post.tags.join(", "), data: { role: "tagsinput" } }, hint: "Separate tags with commas" %>
+      <div class="column">
+        <%= render "aurelius_press/admin/taxonomy/search_select", 
+                   id: "tag-search-input",
+                   label: "Tags",
+                   url: aurelius_press_api_v1_taxonomy_tags_path,
+                   create_url: aurelius_press_api_v1_taxonomy_tags_path,
+                   selected_items: @blog_post.tags,
+                   attribute_name: "aurelius_press_document_blog_post[tag_ids][]" %>
       </div>
 
       <div class="column flex justify-start items-center">

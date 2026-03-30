@@ -1,0 +1,89 @@
+<%# Unified Social Engagement Bar %>
+<% 
+  dom_id = dom_id(interactable, :engagement)
+  user_like = user_like_state(interactable, current_user)
+  user_emoji = user_reaction_emoji(interactable, current_user)
+  likes_count = interactable.likes.likes.count
+  dislikes_count = interactable.likes.dislikes.count
+  reactions_grouped = interactable.reactions.where.not(emoji: :no_reaction).group(:emoji).count
+%>
+
+<%= turbo_frame_tag dom_id do %>
+  <div class="engagement-bar">
+    
+    <%# Likes / Votes %>
+    <div class="engagement-group">
+      <% if current_user %>
+        <%= button_to aurelius_press_community_likes_path, 
+                      params: { like: { likeable_gid: interactable.to_global_id, state: :like } },
+                      class: "engagement-item #{'active' if user_like == 'like'}", 
+                      form: { data: { turbo_frame: dom_id } } do %>
+          <span class="emoji-icon">👍</span>
+          <span class="counter"><%= likes_count %></span>
+        <% end %>
+
+        <%= button_to aurelius_press_community_likes_path, 
+                      params: { like: { likeable_gid: interactable.to_global_id, state: :dislike } },
+                      class: "engagement-item #{'active' if user_like == 'dislike'}",
+                      form: { data: { turbo_frame: dom_id } } do %>
+          <span class="emoji-icon">👎</span>
+          <span class="counter"><%= dislikes_count %></span>
+        <% end %>
+      <% else %>
+        <%= link_to new_user_session_path, class: "engagement-item", data: { turbo_frame: "_top" } do %>
+          <span class="emoji-icon">👍</span>
+          <span class="counter"><%= likes_count %></span>
+        <% end %>
+        <%= link_to new_user_session_path, class: "engagement-item", data: { turbo_frame: "_top" } do %>
+          <span class="emoji-icon">👎</span>
+          <span class="counter"><%= dislikes_count %></span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="engagement-divider">|</div>
+
+    <%# Emoji Reactions %>
+    <div class="reaction-picker-container" data-controller="social-engagement">
+      <% if current_user %>
+        <div class="engagement-item <%= 'active' if user_emoji != 'no_reaction' %>" 
+             data-engagement-trigger="picker"
+             data-action="click->social-engagement#togglePicker">
+          <span class="emoji-icon">
+            <%= user_emoji != 'no_reaction' ? render_engagement_emoji(user_emoji) : "➕" %>
+          </span>
+          <span class="counter"><%= interactable.reactions.where.not(emoji: :no_reaction).count %></span>
+        </div>
+
+        <div class="reaction-dropdown" data-social-engagement-target="picker">
+          <% engagement_emoji_map.each do |key, emoji| %>
+            <%= button_to aurelius_press_community_reactions_path,
+                          params: { reaction: { reactable_gid: interactable.to_global_id, emoji: key } },
+                          class: "reaction-option",
+                          data: { action: "click->social-engagement#submitReaction" },
+                          form: { data: { turbo_frame: dom_id } } do %>
+              <%= emoji %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <%= link_to new_user_session_path, class: "engagement-item", data: { turbo_frame: "_top" } do %>
+          <span class="emoji-icon">➕</span>
+          <span class="counter"><%= interactable.reactions.where.not(emoji: :no_reaction).count %></span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# Summary of top 3 reactions if any %>
+    <% if reactions_grouped.any? %>
+      <div class="engagement-summary">
+        <% reactions_grouped.sort_by { |_k, v| -v }.take(3).each do |emoji_key, count| %>
+          <span class="summary-emoji" title="<%= emoji_key.to_s.humanize %>: <%= count %>">
+            <%= render_engagement_emoji(emoji_key) %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+<% end %>

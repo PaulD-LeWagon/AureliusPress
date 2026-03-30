@@ -36,6 +36,7 @@
 // @use "view_components/card" as *;
 @use "view_components/navigation" as *;
 @use "view_components/hero-banner" as *;
+@use "aurelius_press/community/engagement" as *;
 
 :root {
   // #{$css-var-prefix}font-family-emoji
