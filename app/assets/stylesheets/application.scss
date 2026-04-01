@@ -37,6 +37,7 @@
 @use "view_components/navigation" as *;
 @use "view_components/hero-banner" as *;
 @use "aurelius_press/community/engagement" as *;
+@use "aurelius_press/themes/tyrian_purple_mockup" as *;
 
 :root {
   // #{$css-var-prefix}font-family-emoji

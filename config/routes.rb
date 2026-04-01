@@ -180,6 +180,9 @@ Rails.application.routes.draw do
   # Top-level application routes (outside of AureliusPress namespace)
   # These are for general application pages like homepage, auth, etc.
   # =====================================================================
+  # Mockups
+  get "mockups/tyrian_purple" => "aurelius_press/mockups#tyrian_purple", as: :tyrian_purple_mockup
+
   # Front Door
   get "home" => "home#index", as: :home
   root "home#index"
