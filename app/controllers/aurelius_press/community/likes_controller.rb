@@ -1,5 +1,5 @@
-class AureliusPress::Community::LikesController < ApplicationController
-  before_action :authenticate_user!
+class AureliusPress::Community::LikesController < AureliusPress::ApplicationController
+  before_action :set_like, only: [ :destroy ]
 
   def create
     @likeable = GlobalID::Locator.locate(params[:like][:likeable_gid])
@@ -7,8 +7,8 @@ class AureliusPress::Community::LikesController < ApplicationController
       user: current_user,
       likeable: @likeable
     )
+    authorize @like, :create?, policy_class: AureliusPress::Community::LikePolicy
 
-    # Toggle if same state, otherwise update
     if @like.state == params[:like][:state]
       @like.state = :no_reaction
     else
@@ -18,25 +18,36 @@ class AureliusPress::Community::LikesController < ApplicationController
     if @like.save
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_back fallback_location: root_path }
+        format.html { redirect_back fallback_location: root_path, notice: "Reaction updated." }
+        format.json { render json: @like, status: :ok }
       end
     else
-      head :unprocessable_entity
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("flash", partial: "shared/flash") }
+        format.html { redirect_back fallback_location: root_path, alert: @like.errors.full_messages.to_sentence }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  # DELETE /likes/:id
-  # Allows removing a vote completely (reset to neutral effectively, or delete record)
   def destroy
-    @like = AureliusPress::Community::Like.find(params[:id])
-    # Authorization check needed here
+    authorize @like, :destroy?, policy_class: AureliusPress::Community::LikePolicy
     @like.destroy
-    head :no_content
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: root_path, notice: "Reaction removed." }
+      format.json { head :no_content }
+    end
   end
 
   private
 
+  def set_like
+    @like = AureliusPress::Community::Like.find(params[:id])
+  end
+
   def like_params
-    params.require(:like).permit(:user_id, :likeable_type, :likeable_id, :state)
+    params.require(:like).permit(:likeable_gid, :state)
   end
 end

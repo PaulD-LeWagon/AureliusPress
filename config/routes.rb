@@ -125,9 +125,7 @@ Rails.application.routes.draw do
       resources :categories, only: [ :index, :show ], param: :slug
     end
     namespace :community do
-      # Flattened Likes for ALL likeable objects
       resources :reactions, only: [ :create, :destroy, :update ]
-      # Genuine Likes (Votes)
       resources :likes, only: [ :create, :destroy, :update ]
     end
     # Define routes for users

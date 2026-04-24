@@ -17,6 +17,7 @@ require "action_dispatch/testing/test_process"
 require "database_cleaner/active_record"
 
 require "support/action_text_helper"
+require "pundit/rspec"
 
 # Require the top-level module first to stop rspec from spazzing-out!
 require_relative "../app/modules/aurelius_press"
