@@ -85,6 +85,7 @@ RSpec.describe AureliusPress::Document::Document, type: :model do
     it { should have_many(:comments).dependent(:destroy) }
     # Document has many Likes (and they should be destroyed if the document is deleted)
     it { should have_many(:likes).dependent(:destroy) }
+    it { should have_many(:reactions).dependent(:destroy) }
   end
 
   # Test Callbacks / Custom Logic

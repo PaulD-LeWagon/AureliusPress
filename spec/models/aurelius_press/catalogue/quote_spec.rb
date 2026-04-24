@@ -27,6 +27,7 @@ RSpec.describe AureliusPress::Catalogue::Quote, type: :model do
     it { is_expected.to have_many(:variants).class_name("AureliusPress::Catalogue::Quote").with_foreign_key(:original_quote_id) }
     it { is_expected.to have_many(:comments).class_name("AureliusPress::Fragment::Comment").dependent(:destroy).inverse_of(:commentable) }
     it { is_expected.to have_many(:likes).class_name("AureliusPress::Community::Like").dependent(:destroy).inverse_of(:likeable) }
+    it { is_expected.to have_many(:reactions).class_name("AureliusPress::Community::Reaction").dependent(:destroy).inverse_of(:reactable) }
   end
 
   describe "validations" do

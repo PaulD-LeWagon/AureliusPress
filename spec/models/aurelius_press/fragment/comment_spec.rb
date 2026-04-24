@@ -42,6 +42,7 @@ RSpec.describe AureliusPress::Fragment::Comment, type: :model do
     it { should have_many(:replies).class_name("Comment").dependent(:destroy) }
     # Comment can have many likes
     it { should have_many(:likes).dependent(:destroy) }
+    it { should have_many(:reactions).dependent(:destroy) }
   end
 
   # Test Enums

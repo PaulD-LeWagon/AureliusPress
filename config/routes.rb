@@ -120,6 +120,10 @@ Rails.application.routes.draw do
         end
       end
     end
+    namespace :taxonomy do
+      resources :tags, only: [ :index, :show ], param: :slug
+      resources :categories, only: [ :index, :show ], param: :slug
+    end
     namespace :community do
       # Flattened Likes for ALL likeable objects
       resources :reactions, only: [ :create, :destroy, :update ]
@@ -134,7 +138,7 @@ Rails.application.routes.draw do
       namespace :v1 do
         namespace :taxonomy do
           resources :tags, only: [ :index, :create ]
-          resources :categories, only: [ :index ]
+          resources :categories, only: [ :index, :create ]
         end
         namespace :catalogue do
           resources :quotes, only: [ :index, :show ]

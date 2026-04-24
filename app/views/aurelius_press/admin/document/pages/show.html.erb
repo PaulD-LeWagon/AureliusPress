@@ -44,20 +44,9 @@
     <%= @page.published_at %>
   </p>
 
-  <p>
-    <strong>Tags:</strong>
-    <%= @page.tags.join(", ") %>
-  </p>
-
-  <% if @page.categories.any? %>
-    <p>
-      <strong>Categories:</strong>
-      <%= @page.categories.map { |category| link_to(category.name, aurelius_press_admin_taxonomy_category_path(category)) }.join(", ").html_safe %>
-      <br>
-      <strong>Category Slugs:</strong>
-      <%= @page.categories.map(&:slug).join(", ") %>
-    </p>
-  <% end %>
+  <div style="margin: 1rem 0;">
+    <%= render "aurelius_press/taxonomy/shared/labels", interactable: @page %>
+  </div>
 
   <p>
     <strong>Comments Enabled:</strong>

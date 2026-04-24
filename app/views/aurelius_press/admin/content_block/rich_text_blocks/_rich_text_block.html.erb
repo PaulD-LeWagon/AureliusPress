@@ -6,4 +6,8 @@
 <% attrs = [html_id, html_class, position, data_attributes].compact.join(" ") %>
 <div <%= raw attrs.strip %>>
   <%= rich_text_block.content.to_s %>
+
+  <div class="engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: rich_text_block.content_block } %>
+  </div>
 </div>

@@ -33,6 +33,9 @@ RSpec.describe AureliusPress::User, type: :model do
 
     # Test the enum for roles
     it { should define_enum_for(:role).with_values(["reader", "user", "moderator", "admin", "superuser"]) }
+
+    it { should have_many(:reactions).class_name("AureliusPress::Community::Reaction").dependent(:destroy).inverse_of(:user) }
+    it { should have_many(:likes).class_name("AureliusPress::Community::Like").dependent(:destroy).inverse_of(:user) }
   end
 
   # Test Active Storage attachment for avatar

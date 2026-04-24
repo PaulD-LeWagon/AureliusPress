@@ -1,0 +1,9 @@
+<%= render HeroComponent.new(title: "All Terms", subtitle: "Browse Terms", small: true) %>
+<div class="container">
+  <h1>Terms</h1>
+  <ul>
+    <% @tags.each do |tag| %>
+      <li><%= link_to tag.name, aurelius_press_taxonomy_tag_path(tag) %></li>
+    <% end %>
+  </ul>
+</div>

@@ -2,7 +2,9 @@
 <div class="taxonomy-search-container" 
      data-controller="taxonomy-search" 
      data-taxonomy-search-url-value="<%= url %>"
-     data-taxonomy-search-create-url-value="<%= create_url %>">
+     data-taxonomy-search-create-url-value="<%= create_url %>"
+     data-taxonomy-search-root-key-value="<%= local_assigns[:root_key] || 'tag' %>"
+     data-taxonomy-search-attribute-name-value="<%= attribute_name %>">
   
   <label for="<%= id %>"><%= label %></label>
   <div class="search-input-group" style="display: flex; gap: 4px;">

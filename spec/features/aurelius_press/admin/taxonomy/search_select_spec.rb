@@ -49,5 +49,32 @@ RSpec.describe "Admin Taxonomy Search-Select", type: :feature, js: true do
       
       expect(AureliusPress::Taxonomy::Tag.find_by(name: "Modern Stoicism")).to be_present
     end
+
+    it "allows creating a new category on the fly with a button" do
+      # Type the new category name
+      find("#category-search-input").send_keys("Philosophy")
+      
+      # Wait for search to trigger and show "No matches"
+      expect(page).to have_content("No matches found", wait: 5)
+      
+      # Click Add button to create
+      within find(".taxonomy-search-container", text: "Categories") do
+        click_on "Add"
+      end
+      
+      # Verify it's added to the selection
+      within find(".taxonomy-search-container", text: "Categories") do
+        expect(page).to have_content("Philosophy", wait: 5)
+      end
+      
+      expect(AureliusPress::Taxonomy::Category.find_by(name: "Philosophy")).to be_present
+
+      # Verify it associates correctly with the Blog Post explicitly on form submission
+      click_button "Update"
+      
+      # Now verify the blog post has the categories and tags
+      expect(page).to have_content("Show Blog Post") # Wait for page redirect to show page
+      expect(blog_post.reload.categories.pluck(:name)).to include("Philosophy")
+    end
   end
 end

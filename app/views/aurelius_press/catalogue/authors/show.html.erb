@@ -13,4 +13,12 @@
   <p><strong>Created At:</strong> <%= l(@author.created_at, format: :long) %></p>
   <p><strong>Updated At:</strong> <%= l(@author.updated_at, format: :long) %></p>
 
+  <div class="engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: @author } %>
+  </div>
+
+  <div style="margin: 1rem 0;">
+    <%= render "aurelius_press/taxonomy/shared/labels", interactable: @author %>
+  </div>
+
 </div>

@@ -43,6 +43,7 @@ RSpec.describe AureliusPress::Fragment::Note, type: :model do
     it { should have_rich_text(:content) }
     it { should have_many(:comments) }
     it { should have_many(:likes) }
+    it { should have_many(:reactions) }
   end
 
   describe "Validations" do

@@ -69,7 +69,8 @@
                    id: "category-search-input",
                    label: "Categories",
                    url: aurelius_press_api_v1_taxonomy_categories_path,
-                   create_url: "#", # Categories typically don't allow on-the-fly creation by standard admins
+                   create_url: aurelius_press_api_v1_taxonomy_categories_path,
+                   root_key: "category",
                    selected_items: @blog_post.categories,
                    attribute_name: "aurelius_press_document_blog_post[category_ids][]" %>
       </div>

@@ -32,6 +32,7 @@ RSpec.describe AureliusPress::Catalogue::Source, type: :model do
     it { is_expected.to have_many(:affiliate_links).class_name("AureliusPress::Catalogue::AffiliateLink").dependent(:destroy).inverse_of(:linkable) }
     it { is_expected.to have_many(:comments).class_name("AureliusPress::Fragment::Comment").dependent(:destroy).inverse_of(:commentable) }
     it { is_expected.to have_many(:likes).class_name("AureliusPress::Community::Like").dependent(:destroy).inverse_of(:likeable) }
+    it { is_expected.to have_many(:reactions).class_name("AureliusPress::Community::Reaction").dependent(:destroy).inverse_of(:reactable) }
   end
 
   describe "validations" do

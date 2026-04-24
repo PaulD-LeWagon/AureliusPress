@@ -16,4 +16,7 @@
   <% if video_embed_block.description.present? %>
     <figcaption><%= video_embed_block.description %></figcaption>
   <% end %>
+  <div class="engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: video_embed_block.content_block } %>
+  </div>
 </div>

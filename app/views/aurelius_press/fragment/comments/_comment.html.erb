@@ -1,0 +1,20 @@
+<div class="comment" id="<%= dom_id(comment) %>">
+  <div class="comment-header">
+    <strong><%= comment.user.full_name %></strong>
+    <span class="comment-date"><%= time_ago_in_words(comment.created_at) %> ago</span>
+  </div>
+
+  <article class="comment-content">
+    <%= comment.content %>
+  </article>
+
+  <div class="comment-engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: comment } %>
+  </div>
+
+  <% if comment.replies.any? %>
+    <div class="comment-replies">
+      <%= render comment.replies %>
+    </div>
+  <% end %>
+</div>

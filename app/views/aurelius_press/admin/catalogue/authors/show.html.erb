@@ -21,6 +21,10 @@
       <p><strong>Created At:</strong> <%= l(@author.created_at, format: :long) %></p>
       <p><strong>Updated At:</strong> <%= l(@author.updated_at, format: :long) %></p>
 
+      <div style="margin: 1rem 0;">
+        <%= render "aurelius_press/taxonomy/shared/labels", interactable: @author %>
+      </div>
+
       <h3>Works</h3>
       <% if @author.authorships.any? %>
         <ul>

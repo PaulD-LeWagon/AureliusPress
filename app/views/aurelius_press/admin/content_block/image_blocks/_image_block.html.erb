@@ -13,4 +13,7 @@
   <% if image_block.caption.present? %>
     <figcaption><%= image_block.caption %></figcaption>
   <% end %>
+  <div class="engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: image_block.content_block } %>
+  </div>
 </figure>

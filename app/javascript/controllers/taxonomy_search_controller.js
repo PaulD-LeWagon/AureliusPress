@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["input", "results", "selection"]
-  static values = { url: String, createUrl: String }
+  static values = { url: String, createUrl: String, rootKey: { type: String, default: "tag" }, attributeName: String }
 
   connect() {
     this.timeout = null
@@ -82,7 +82,7 @@ export default class extends Controller {
           "X-CSRF-Token": csrfToken
         },
         credentials: "include",
-        body: JSON.stringify({ tag: { name: name } })
+        body: JSON.stringify({ [this.rootKeyValue]: { name: name } })
       })
 
       if (response.ok) {
@@ -103,7 +103,7 @@ export default class extends Controller {
     // Avoid duplicates
     if (this.selectionTarget.querySelector(`[data-id="${id}"]`)) return
 
-    const attributeName = this.element.querySelector('input[type="hidden"]')?.name || "document[tag_ids][]"
+    const attributeName = this.attributeNameValue || this.element.querySelector('input[type="hidden"]')?.name || "document[tag_ids][]"
     const item = document.createElement("div")
     item.className = "selection-item"
     item.dataset.id = id

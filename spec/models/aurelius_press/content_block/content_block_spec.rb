@@ -22,6 +22,7 @@ RSpec.describe AureliusPress::ContentBlock::ContentBlock, type: :model do
   describe "associations" do
     it { should belong_to(:document) }
     it { should have_many(:likes).dependent(:destroy).inverse_of(:likeable) }
+    it { should have_many(:reactions).dependent(:destroy).inverse_of(:reactable) }
     it { should have_many(:notes).dependent(:destroy).inverse_of(:notable) }
   end
 

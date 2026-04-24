@@ -38,15 +38,9 @@
     <%= @page.published_at %>
   </p>
 
-  <p>
-    <strong>Tags:</strong>
-    <%= @page.tags.join(", ") %>
-  </p>
-
-  <p>
-    <strong>Categories:</strong>
-    <%= @page.categories.map(&:name).join(", ") if @page.categories.any? %>
-  </p>
+  <div style="margin: 1rem 0;">
+    <%= render "aurelius_press/taxonomy/shared/labels", interactable: @page %>
+  </div>
 
   <div class="content-blocks">
     <h3>Content Blocks</h3>
@@ -59,4 +53,7 @@
 
   </div>
 
+  <div class="engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: @page } %>
+  </div>
 </div>

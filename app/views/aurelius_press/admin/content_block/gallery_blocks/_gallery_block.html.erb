@@ -10,4 +10,7 @@
         <%= image_tag image if image.present? %>
     </figure>
   <% end %>
+  <div class="engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: gallery_block.content_block } %>
+  </div>
 </div>

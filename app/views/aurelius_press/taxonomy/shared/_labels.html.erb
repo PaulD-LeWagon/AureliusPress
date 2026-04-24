@@ -1,0 +1,29 @@
+<% if interactable.categories.any? || interactable.tags.any? %>
+  <div class="taxonomies">
+    <% if interactable.categories.any? %>
+      <div class="categories" style="margin-bottom: 0.5rem;">
+        <strong>Categories:</strong>
+        <% interactable.categories.each do |category| %>
+          <% if controller_path.start_with?("aurelius_press/admin") %>
+            <%= link_to category.name, aurelius_press_admin_taxonomy_category_path(category), class: "badge category" %>
+          <% else %>
+            <%= link_to category.name, aurelius_press_taxonomy_category_path(category), class: "badge category" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if interactable.tags.any? %>
+      <div class="tags" style="margin-bottom: 0.5rem;">
+        <strong>Tags:</strong>
+        <% interactable.tags.each do |tag| %>
+          <% if controller_path.start_with?("aurelius_press/admin") %>
+            <%= link_to "\##{tag.name}", aurelius_press_admin_taxonomy_tag_path(tag), class: "badge tag" %>
+          <% else %>
+            <%= link_to "\##{tag.name}", aurelius_press_taxonomy_tag_path(tag), class: "badge tag" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

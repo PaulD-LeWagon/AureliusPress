@@ -12,6 +12,10 @@
 
   <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: @quote } %>
 
+  <div style="margin: 1rem 0;">
+    <%= render "aurelius_press/taxonomy/shared/labels", interactable: @quote %>
+  </div>
+
   <p><strong>Author:</strong> <%= @quote.source_authors.map(&:name).join(", ") if @quote.source_authors.any? %></p>
 
   <p><strong>Source:</strong> <%= @quote.source.title if @quote.source %></p>

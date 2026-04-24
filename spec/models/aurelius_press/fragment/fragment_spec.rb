@@ -39,6 +39,8 @@ RSpec.describe AureliusPress::Fragment::Fragment, type: :model do
   it { should validate_presence_of(:user) }
   it { should validate_presence_of(:status) }
   it { should validate_presence_of(:visibility) }
+  it { should have_many(:likes).dependent(:destroy) }
+  it { should have_many(:reactions).dependent(:destroy) }
 
   it "is a Fragment" do
     expect(fragment).to be_a(AureliusPress::Fragment::Fragment)

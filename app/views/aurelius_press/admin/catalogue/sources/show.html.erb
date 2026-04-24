@@ -36,6 +36,10 @@
 
       <p><strong>Comments Enabled:</strong> <%= @source.comments_enabled ? "Yes" : "No" %></p>
 
+      <div style="margin: 1rem 0;">
+        <%= render "aurelius_press/taxonomy/shared/labels", interactable: @source %>
+      </div>
+
       <h3>Affiliate Links</h3>
       <% if @source.affiliate_links.any? %>
         <ul>

@@ -22,6 +22,10 @@
 
       <p><strong>Context:</strong> <%= @quote.context.present? ? @quote.context : "N/A" %></p>
 
+      <div style="margin: 1rem 0;">
+        <%= render "aurelius_press/taxonomy/shared/labels", interactable: @quote %>
+      </div>
+
       <p><strong>Comments Enabled:</strong> <%= @quote.comments_enabled ? "Yes" : "No" %></p>
 
       <p><strong>Created At:</strong> <%= l(@quote.created_at, format: :long) %></p>

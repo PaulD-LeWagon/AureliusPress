@@ -40,15 +40,9 @@
     <%= @blog_post.published_at %>
   </p>
 
-  <p>
-    <strong>Tags:</strong>
-    <%= @blog_post.tags.join(", ") %>
-  </p>
-
-  <p>
-    <strong>Categories:</strong>
-    <%= @blog_post.categories.map(&:name).join(", ") if @blog_post.categories.any? %>
-  </p>
+  <div style="margin: 1rem 0;">
+    <%= render "aurelius_press/taxonomy/shared/labels", interactable: @blog_post %>
+  </div>
 
   <div class="content-blocks">
     <h3>Content Blocks</h3>

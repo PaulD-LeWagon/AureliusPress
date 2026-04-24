@@ -1,0 +1,18 @@
+<div class="note" id="<%= dom_id(note) %>">
+  <% if note.title.present? %>
+    <h4 class="note-title"><%= note.title %></h4>
+  <% end %>
+
+  <div class="note-header">
+    <strong><%= note.user.full_name %></strong>
+    <span class="note-date"><%= time_ago_in_words(note.created_at) %> ago</span>
+  </div>
+
+  <article class="note-content">
+    <%= note.content %>
+  </article>
+
+  <div class="note-engagement">
+    <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: note } %>
+  </div>
+</div>
