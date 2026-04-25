@@ -1,10 +1,10 @@
-class AureliusPress::Fragment::CommentPolicy < ApplicationPolicy
+class AureliusPress::Fragment::NotePolicy < ApplicationPolicy
   def index?
-    authenticated_reader?
+    can_write?
   end
 
   def show?
-    authenticated_reader?
+    power_user? || record_owner?
   end
 
   def create?
@@ -23,16 +23,8 @@ class AureliusPress::Fragment::CommentPolicy < ApplicationPolicy
     def resolve
       if power_user?
         scope.all
-      elsif user.present?
-        accessible_doc_ids = AureliusPress::Document::Document
-          .where(visibility: %w[public_to_app_users public_to_www], status: :published)
-          .or(AureliusPress::Document::Document.where(user_id: user.id))
-          .pluck(:id)
-
-        scope.where(
-          commentable_type: AureliusPress::Document::Document::NAMESPACED_TYPES,
-          commentable_id: accessible_doc_ids
-        )
+      elsif user.present? && (user.user? || user.moderator? || user.admin? || user.superuser?)
+        scope.where(user: user)
       else
         scope.none
       end
@@ -46,10 +38,6 @@ class AureliusPress::Fragment::CommentPolicy < ApplicationPolicy
   end
 
   private
-
-  def authenticated_reader?
-    user.present?
-  end
 
   def can_write?
     user.present? && (user.user? || power_user?)
