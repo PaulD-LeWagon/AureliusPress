@@ -1,0 +1,42 @@
+<%= form_with model: journal_entry,
+              url: journal_entry.new_record? ? aurelius_press_journal_entries_path : aurelius_press_journal_entry_path(journal_entry),
+              method: journal_entry.new_record? ? :post : :patch do |f| %>
+  <% if journal_entry.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% journal_entry.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :subtitle %>
+    <%= f.text_field :subtitle %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description, rows: 10 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.select :status, AureliusPress::Document::Document.statuses.keys.map { |s| [s.humanize, s] } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comments_enabled %>
+    <%= f.check_box :comments_enabled %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
