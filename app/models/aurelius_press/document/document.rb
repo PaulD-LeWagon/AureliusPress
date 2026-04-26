@@ -62,7 +62,7 @@ class AureliusPress::Document::Document < ApplicationRecord
   # Namespaced types for polymorphic associations
   NAMESPACED_TYPES = TYPES.map { |type| "AureliusPress::Document::#{type}" }
   # Commentable types for polymorphic association
-  NAMESPACED_COMMENTABLE_TYPES = (TYPES - %w[Page]).map { |type| "AureliusPress::Document::#{type}" }
+  NAMESPACED_COMMENTABLE_TYPES = TYPES.map { |type| "AureliusPress::Document::#{type}" }
   # Enums
   enum :status, [ :draft, :published, :scheduled, :archived, :in_review, :trashed ]
   enum :visibility, [ :private_to_owner, :private_to_group, :private_to_app_users, :public_to_www ]

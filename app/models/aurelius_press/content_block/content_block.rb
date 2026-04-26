@@ -60,6 +60,7 @@ class AureliusPress::ContentBlock::ContentBlock < ApplicationRecord
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
   # Polymorphic association for notes, allowing users to add notes to content blocks
   has_many :notes, as: :notable, class_name: "AureliusPress::Fragment::Note", dependent: :destroy, inverse_of: :notable
+  has_many :comments, as: :commentable, class_name: "AureliusPress::Fragment::Comment", dependent: :destroy, inverse_of: :commentable
 
   ## Validations
   # Validate presence of document association
