@@ -28,6 +28,7 @@ class AureliusPress::Catalogue::Source < ApplicationRecord
   has_many :quotes, class_name: "AureliusPress::Catalogue::Quote", dependent: :destroy, inverse_of: :source
   has_many :affiliate_links, as: :linkable, dependent: :destroy, inverse_of: :linkable
   has_many :comments, as: :commentable, class_name: "AureliusPress::Fragment::Comment", dependent: :destroy, inverse_of: :commentable
+  has_many :notes, as: :notable, class_name: "AureliusPress::Fragment::Note", dependent: :destroy, inverse_of: :notable
   has_many :reactions, as: :reactable, class_name: "AureliusPress::Community::Reaction", dependent: :destroy, inverse_of: :reactable
   has_many :likes, as: :likeable, class_name: "AureliusPress::Community::Like", dependent: :destroy, inverse_of: :likeable
   # Active Storage association
