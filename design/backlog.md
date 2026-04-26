@@ -1,7 +1,7 @@
 # AureliusPress — Implementation Backlog
 
-> Generated: 2026-04-24  
-> Estimated overall completion at time of writing: ~60–65%
+> Generated: 2026-04-24 | Last updated: 2026-04-26  
+> Estimated overall completion: ~80–85% (Phases 1–4 complete)
 
 Items are ordered by dependency — foundational work first, user-facing features after, polish last.
 
@@ -72,31 +72,31 @@ Depends on Phase 1 policies. Implement public-facing interaction layer.
 
 ---
 
-## Phase 3 — JournalEntry Document Type
+## Phase 3 — JournalEntry Document Type ✅ DONE
 
-`JournalEntry` is defined as an STI type but has no controller, views, or tests.
+**Completed:** 2026-04-26 (Sprint 3)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 3.1 | `AureliusPress::Document::JournalEntriesController` | High | Full CRUD (private by default) |
-| 3.2 | Views: index, show, new, edit, _form partial | High | |
-| 3.3 | `JournalEntry`-specific validations & business rules | High | e.g. always private, no publishing |
-| 3.4 | Nested content blocks for JournalEntry (if applicable) | Medium | Reuse existing content block system |
-| 3.5 | Nested comments/notes for JournalEntry | Medium | Depends on Phase 2 |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 3.1 | `AureliusPress::Document::JournalEntriesController` | High | ✅ done | Full CRUD (private by default) |
+| 3.2 | Views: index, show, new, edit, _form partial | High | ✅ done | |
+| 3.3 | `JournalEntry`-specific validations & business rules | High | ✅ done | validation + controller enforce private_to_owner |
+| 3.4 | Nested content blocks for JournalEntry (if applicable) | Medium | ✅ done | content_blocks_attributes permitted |
+| 3.5 | Nested comments/notes for JournalEntry | Medium | todo | Sprint 4 |
 
 ---
 
-## Phase 4 — Group Memberships UI
+## Phase 4 — Group Memberships UI ✅ DONE
 
-Model and associations exist; routes are commented out.
+**Completed:** 2026-04-26 (Sprint 3)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 4.1 | Uncomment `resources :group_memberships` in routes.rb | High | |
-| 4.2 | `AureliusPress::Community::GroupMembershipsController` | High | `create`, `destroy` (join/leave) |
-| 4.3 | Views: group membership UI (join/leave buttons) | High | Turbo Stream for instant feedback |
-| 4.4 | Group show page: list members | Medium | |
-| 4.5 | Group index page: discoverable groups | Medium | |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 4.1 | Uncomment `resources :group_memberships` in routes.rb | High | ✅ done | Added to public community namespace |
+| 4.2 | `AureliusPress::Community::GroupMembershipsController` | High | ✅ done | create/destroy (join/leave) |
+| 4.3 | Views: group membership UI (join/leave buttons) | High | ✅ done | Turbo Stream toggle + _membership_button partial |
+| 4.4 | Group show page: list members | Medium | ✅ done | |
+| 4.5 | Group index page: discoverable groups | Medium | ✅ done | public_group scoped |
 
 ---
 
@@ -160,7 +160,7 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 | # | Item | Priority | Notes |
 |---|---|---|---|
 | 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | |
-| 9.2 | `JournalEntry` privacy enforcement (always private) | Medium | Policy + model validation |
+| 9.2 | `JournalEntry` privacy enforcement (always private) | Medium | ✅ done | Sprint 3 |
 | 9.3 | `README.md` — replace boilerplate with real project docs | Low | |
 | 9.4 | Reactions feature decision | Low | Routes commented out; decide keep/remove |
 | 9.5 | SimpleCov coverage target enforcement in CI | Low | |
