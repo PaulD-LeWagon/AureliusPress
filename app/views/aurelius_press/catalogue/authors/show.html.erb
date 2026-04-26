@@ -21,4 +21,9 @@
     <%= render "aurelius_press/taxonomy/shared/labels", interactable: @author %>
   </div>
 
+  <%= render partial: "aurelius_press/catalogue/shared/comments_and_notes",
+             locals: { resource: @author,
+                       comments_path: aurelius_press_catalogue_author_comments_path(@author),
+                       notes_path: aurelius_press_catalogue_author_notes_path(@author) } %>
+
 </div>

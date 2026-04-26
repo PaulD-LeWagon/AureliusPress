@@ -1,0 +1,19 @@
+<%# Locals: content_block (ContentBlock), comments_path (String — POST URL for new comments) %>
+<section class="content-block-comments" id="<%= dom_id(content_block, :comments) %>">
+  <h4>Comments (<%= content_block.comments.count %>)</h4>
+
+  <div class="comments-list">
+    <%= render partial: "aurelius_press/fragment/comments/comment",
+               collection: content_block.comments.includes(:user),
+               as: :comment %>
+  </div>
+
+  <% if user_signed_in? %>
+    <div class="comment-form">
+      <%= render partial: "aurelius_press/fragment/comments/form",
+                 locals: { comment: AureliusPress::Fragment::Comment.new,
+                           commentable: content_block,
+                           url: comments_path } %>
+    </div>
+  <% end %>
+</section>

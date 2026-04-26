@@ -22,4 +22,9 @@
 
   <p><strong>Updated At:</strong> <%= l(@source.updated_at, format: :long) %></p>
 
+  <%= render partial: "aurelius_press/catalogue/shared/comments_and_notes",
+             locals: { resource: @source,
+                       comments_path: aurelius_press_catalogue_source_comments_path(@source),
+                       notes_path: aurelius_press_catalogue_source_notes_path(@source) } %>
+
 </div>

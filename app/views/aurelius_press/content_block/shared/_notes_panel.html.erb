@@ -1,0 +1,19 @@
+<%# Locals: content_block (ContentBlock), notes_path (String — POST URL for new notes) %>
+<section class="content-block-notes" id="<%= dom_id(content_block, :notes) %>">
+  <h4>Notes (<%= content_block.notes.count %>)</h4>
+
+  <div class="notes-list">
+    <%= render partial: "aurelius_press/fragment/notes/note",
+               collection: content_block.notes.includes(:user),
+               as: :note %>
+  </div>
+
+  <% if user_signed_in? %>
+    <div class="note-form">
+      <%= render partial: "aurelius_press/fragment/notes/form",
+                 locals: { note: AureliusPress::Fragment::Note.new,
+                           notable: content_block,
+                           url: notes_path } %>
+    </div>
+  <% end %>
+</section>

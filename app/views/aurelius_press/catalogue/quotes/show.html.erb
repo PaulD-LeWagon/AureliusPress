@@ -23,4 +23,9 @@
   <p><strong>Created At:</strong> <%= l(@quote.created_at, format: :long) %></p>
   <p><strong>Updated At:</strong> <%= l(@quote.updated_at, format: :long) %></p>
 
+  <%= render partial: "aurelius_press/catalogue/shared/comments_and_notes",
+             locals: { resource: @quote,
+                       comments_path: aurelius_press_catalogue_quote_comments_path(@quote),
+                       notes_path: aurelius_press_catalogue_quote_notes_path(@quote) } %>
+
 </div>

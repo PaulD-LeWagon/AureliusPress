@@ -1,5 +1,5 @@
 class AureliusPress::Admin::Community::GroupsController < AureliusPress::Admin::ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @groups = AureliusPress::Community::Group.all
@@ -46,7 +46,7 @@ class AureliusPress::Admin::Community::GroupsController < AureliusPress::Admin::
   private
 
   def set_group
-    @group = AureliusPress::Community::Group.find(params[:id])
+    @group = AureliusPress::Community::Group.find_by!(slug: params[:id])
   end
 
   def group_params
