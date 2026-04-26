@@ -41,6 +41,10 @@ class AureliusPress::Community::Group < ApplicationRecord
          hidden_group
        ], default: :private_group
 
+  def to_param
+    slug
+  end
+
   # Validations
   validates :name, presence: true, uniqueness: { case_insensitive: true }, length: { maximum: 100 }
   validates :description, length: { maximum: 1000 }, allow_blank: true

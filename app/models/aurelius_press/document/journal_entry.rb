@@ -23,7 +23,11 @@ class AureliusPress::Document::JournalEntry < AureliusPress::Document::Document
   # Callbacks
   after_initialize :set_defaults, if: :new_record?
 
-  # Validations @see: Document
+  # Validations
+  validates :visibility, inclusion: {
+    in: %w[private_to_owner],
+    message: "Journal entries must always be private."
+  }
 
   private
 

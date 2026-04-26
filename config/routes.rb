@@ -127,6 +127,8 @@ Rails.application.routes.draw do
     namespace :community do
       resources :reactions, only: [ :create, :destroy, :update ]
       resources :likes, only: [ :create, :destroy, :update ]
+      resources :group_memberships, path: "group-memberships", only: [ :create, :destroy ]
+      resources :groups, only: [ :index, :show ], param: :slug
     end
     # Define routes for users
     resources :users, only: [ :show, :edit, :update ]
@@ -165,6 +167,8 @@ Rails.application.routes.draw do
         resources :comments, only: [ :create, :update, :destroy ]
       end
     end
+    # Define routes for Journal Entries (always private, owner-only)
+    resources :journal_entries, path: "journal-entries", module: "document"
     # Define routes for Pages
     resources :pages, module: "document" do
       resources :content_blocks, path: "cb", only: [ :create, :update, :destroy ] do

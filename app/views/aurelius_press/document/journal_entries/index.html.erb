@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>My Journal</h1>
+
+  <div class="page-links">
+    <%= link_to "New Entry", new_aurelius_press_journal_entry_path %>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @journal_entries.each do |entry| %>
+        <tr>
+          <td><%= entry.title %></td>
+          <td><%= entry.status %></td>
+          <td><%= entry.created_at.strftime("%Y-%m-%d") %></td>
+          <td>
+            <%= link_to "Show", aurelius_press_journal_entry_path(entry) %>
+            <%= link_to "Edit", edit_aurelius_press_journal_entry_path(entry) %>
+            <%= link_to "Delete", aurelius_press_journal_entry_path(entry), data: { turbo_method: :delete, turbo_confirm: "Delete this entry?" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

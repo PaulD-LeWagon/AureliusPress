@@ -20,7 +20,20 @@
 require "rails_helper"
 
 RSpec.describe AureliusPress::Document::JournalEntry, type: :model do
-  subject { create(:aurelius_press_document_journal_entry, :with_belt_and_braces) }
+  subject do
+    create(:aurelius_press_document_journal_entry,
+           :published_1_month_ago,
+           :with_content_blocks,
+           :with_category,
+           :with_tags,
+           :with_3x3x3_comments,
+           :with_notes,
+           :with_likes,
+           subtitle: Faker::Lorem.sentence(word_count: 5),
+           description: Faker::Lorem.paragraph(sentence_count: 3),
+           comments_enabled: true,
+           visibility: :private_to_owner)
+  end
 
   it "is a valid JournalEntry" do
     expect(subject).to be_valid
@@ -41,7 +54,7 @@ RSpec.describe AureliusPress::Document::JournalEntry, type: :model do
     expect(subject.subtitle).to be_present
     expect(subject.description).to be_present
     expect(subject.status).to eq("published")
-    expect(subject.visibility).to eq("public_to_www")
+    expect(subject.visibility).to eq("private_to_owner")
     expect(subject.published_at).to be_present
     expect(subject.published_at).to be < Time.current
     expect(subject.user).to be_present
