@@ -1,0 +1,12 @@
+<span id="<%= dom_id(group, :membership_button) %>">
+  <% if membership %>
+    <%= button_to "Leave Group",
+                  aurelius_press_community_group_membership_path(membership),
+                  method: :delete,
+                  data: { turbo_confirm: "Leave this group?" } %>
+  <% elsif user_signed_in? %>
+    <%= button_to "Join Group",
+                  aurelius_press_community_group_memberships_path,
+                  params: { group_membership: { group_id: group.id } } %>
+  <% end %>
+</span>

@@ -59,7 +59,35 @@ class AureliusPress::Document::JournalEntriesController < AureliusPress::Applica
       :description,
       :status,
       :comments_enabled,
-      category_ids: []
+      category_ids: [],
+      content_blocks_attributes: [
+        :id,
+        :_destroy,
+        :contentable_id,
+        :contentable_type,
+        :position,
+        :html_id,
+        :html_class,
+        :data_attributes,
+        contentable_attributes: [
+          :id,
+          :type,
+          :content,
+          :image,
+          :caption,
+          :alignment,
+          :link_text,
+          :link_title,
+          :link_class,
+          :link_target,
+          :link_url,
+          :embed_code,
+          :description,
+          :video_url,
+          :layout_type,
+          images: []
+        ]
+      ]
     )
   end
 end

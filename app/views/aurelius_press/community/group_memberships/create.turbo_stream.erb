@@ -1,0 +1,4 @@
+<%= turbo_stream.replace dom_id(@group, :membership_button) do %>
+  <%= render partial: "aurelius_press/community/groups/membership_button",
+             locals: { group: @group, membership: @membership } %>
+<% end %>

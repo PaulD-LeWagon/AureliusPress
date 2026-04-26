@@ -127,6 +127,8 @@ Rails.application.routes.draw do
     namespace :community do
       resources :reactions, only: [ :create, :destroy, :update ]
       resources :likes, only: [ :create, :destroy, :update ]
+      resources :group_memberships, path: "group-memberships", only: [ :create, :destroy ]
+      resources :groups, only: [ :index, :show ], param: :slug
     end
     # Define routes for users
     resources :users, only: [ :show, :edit, :update ]

@@ -1,0 +1,15 @@
+<div class="container">
+  <h1><%= @group.name %></h1>
+  <p><%= @group.description %></p>
+
+  <%= render "membership_button", group: @group, membership: @membership %>
+
+  <h2>Members (<%= @members.count %>)</h2>
+  <ul>
+    <% @members.each do |member| %>
+      <li><%= member.email %></li>
+    <% end %>
+  </ul>
+
+  <%= link_to "Back to Groups", aurelius_press_community_groups_path %>
+</div>
