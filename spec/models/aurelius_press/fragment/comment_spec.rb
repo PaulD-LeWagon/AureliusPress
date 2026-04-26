@@ -73,12 +73,10 @@ RSpec.describe AureliusPress::Fragment::Comment, type: :model do
       expect(comment.commentable).to be_a(AureliusPress::Document::AtomicBlogPost)
     end
 
-    it "can [NOT] create a comment on a Page" do
-      comment = build(:aurelius_press_fragment_comment, :on_page, title: "Can we add a comment to a Page!?")
-      expect(comment).not_to be_valid
-      expect(comment.commentable[:commentable_type]).to be_nil
-      expect(comment.errors[:commentable_type]).to be_present
-      expect(comment.errors[:commentable_type]).to include("[AureliusPress::Document::Page] is not a commentable document type.")
+    it "creates a comment on a Page" do
+      comment = create(:aurelius_press_fragment_comment, :on_page, title: "Comment on a Page")
+      expect(comment).to be_persisted
+      expect(comment.commentable).to be_a(AureliusPress::Document::Page)
     end
 
     it "creates a BlogPost with 3 comments on it" do

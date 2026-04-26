@@ -173,6 +173,7 @@ Rails.application.routes.draw do
           resources :comments, only: [ :create, :update, :destroy ]
         end
       end
+      resources :comments, only: [ :create, :update, :destroy ]
       resources :notes, only: [ :create, :update, :destroy ] do
         resources :comments, only: [ :create, :update, :destroy ]
       end

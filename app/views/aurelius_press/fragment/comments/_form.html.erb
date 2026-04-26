@@ -1,0 +1,9 @@
+<%= form_with model: comment, url: url, class: "comment-form" do |f| %>
+  <div class="comment-form-field">
+    <%= f.label :content, "Add a comment" %>
+    <%= f.rich_text_area :content, placeholder: "Write a comment…" %>
+  </div>
+  <div class="comment-form-actions">
+    <%= f.submit "Post comment", class: "btn btn-primary" %>
+  </div>
+<% end %>

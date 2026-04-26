@@ -1,0 +1,13 @@
+<%= form_with model: note, url: url, class: "note-form" do |f| %>
+  <div class="note-form-field">
+    <%= f.label :title, "Title (optional)" %>
+    <%= f.text_field :title, placeholder: "Note title…" %>
+  </div>
+  <div class="note-form-field">
+    <%= f.label :content, "Note" %>
+    <%= f.rich_text_area :content, placeholder: "Write a note…" %>
+  </div>
+  <div class="note-form-actions">
+    <%= f.submit "Save note", class: "btn btn-primary" %>
+  </div>
+<% end %>

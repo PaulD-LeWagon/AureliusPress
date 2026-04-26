@@ -1,0 +1,3 @@
+<%= turbo_stream.append dom_id(@commentable, :comments) do %>
+  <%= render partial: "aurelius_press/fragment/comments/comment", locals: { comment: @comment } %>
+<% end %>

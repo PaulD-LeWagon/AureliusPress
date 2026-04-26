@@ -36,7 +36,7 @@ class AureliusPress::Fragment::Comment < AureliusPress::Fragment::Fragment
 
   # Validations
   validate :commentable_type_is_allowed
-  validates :type, inclusion: { in: [self.name], message: ">>> must be a valid comment type." }
+  validates :type, inclusion: { in: [ self.name ], message: ">>> must be a valid comment type." }
 
   # # Scopes can be added here if needed, e.g., by user, by commentable type, etc.
   scope :by_user, ->(user_id) { where(user_id: user_id) if user_id.present? }
@@ -57,6 +57,7 @@ class AureliusPress::Fragment::Comment < AureliusPress::Fragment::Fragment
       "AureliusPress::Catalogue::Author",
       "AureliusPress::Catalogue::Source",
       "AureliusPress::Catalogue::Quote",
+      "AureliusPress::ContentBlock::ContentBlock"
     ].flatten
     unless commentable_types.include?(commentable_type)
       # Allowed types are: #{commentable_types.join(", ")}."
