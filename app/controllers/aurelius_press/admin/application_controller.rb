@@ -1,4 +1,6 @@
 class AureliusPress::Admin::ApplicationController < AureliusPress::ApplicationController
+  include Pagy::Method
+
   before_action :authorize_admin_access
   # =====================================================================
   # ARCHITECTURAL NOTE: :id vs :slug in Admin Controllers

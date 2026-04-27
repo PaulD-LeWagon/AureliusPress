@@ -13,6 +13,12 @@ RSpec.describe AureliusPress::User, type: :request do
       get aurelius_press_admin_users_path
       expect(response).to have_http_status(:success)
     end
+
+    it "assigns paginated @users" do
+      get aurelius_press_admin_users_path
+      expect(assigns(:users)).to be_present
+      expect(assigns(:pagy)).to be_a(Pagy)
+    end
   end
 
   #----------------------------------------------------------------------------------------------------------------------------------------------------------------

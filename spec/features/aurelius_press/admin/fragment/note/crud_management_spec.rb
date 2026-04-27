@@ -76,8 +76,8 @@ RSpec.feature "Admins can moderate Notes (CRUD)", :js do
       accept_turbo_confirm do
         click_link "Delete", href: aurelius_press_admin_fragment_note_path(note_one)
       end
-      # 7. Verify the note was deleted successfully
-      expect(page).to have_content "Note deleted successfully."
+      # 7. Verify the note was discarded successfully
+      expect(page).to have_content "Note discarded successfully."
       expect(page).to have_current_path(aurelius_press_admin_fragment_notes_path)
       expect(page.text.squish).not_to include(note_text.squish)
       expect(AureliusPress::Fragment::Note.count).to eq(1)

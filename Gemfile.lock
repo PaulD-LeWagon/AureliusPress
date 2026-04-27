@@ -251,6 +251,10 @@ GEM
     nokogiri (1.18.9-x86_64-linux-musl)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pagy (43.5.3)
+      json
+      uri
+      yaml
     parallel (1.27.0)
     parallel_tests (5.4.0)
       parallel
@@ -436,6 +440,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     view_component (4.0.2)
       activesupport (>= 7.1.0, < 8.1)
@@ -455,6 +460,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaml (0.4.0)
     zeitwerk (2.7.3)
 
 PLATFORMS
@@ -489,6 +495,7 @@ DEPENDENCIES
   image_processing (~> 1.14)
   importmap-rails
   jbuilder
+  pagy
   parallel_tests
   pg (~> 1.1)
   pry-byebug
