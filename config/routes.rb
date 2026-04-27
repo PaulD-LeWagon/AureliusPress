@@ -168,7 +168,9 @@ Rails.application.routes.draw do
       end
     end
     # Define routes for Journal Entries (always private, owner-only)
-    resources :journal_entries, path: "journal-entries", module: "document"
+    resources :journal_entries, path: "journal-entries", module: "document" do
+      resources :notes, only: [ :create, :update, :destroy ]
+    end
     # Define routes for Pages
     resources :pages, module: "document" do
       resources :content_blocks, path: "cb", only: [ :create, :update, :destroy ] do
