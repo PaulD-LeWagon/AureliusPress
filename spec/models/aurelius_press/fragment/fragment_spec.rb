@@ -72,4 +72,52 @@ RSpec.describe AureliusPress::Fragment::Fragment, type: :model do
   it "has rich text content" do
     expect(fragment.content.body.to_plain_text).to be_present
   end
+
+  describe "soft deletion (discard)" do
+    let!(:persisted_fragment) { create(:aurelius_press_fragment_comment, user: commenter) }
+
+    it "responds to discard" do
+      expect(persisted_fragment).to respond_to(:discard)
+    end
+
+    it "responds to undiscard" do
+      expect(persisted_fragment).to respond_to(:undiscard)
+    end
+
+    it "responds to discarded?" do
+      expect(persisted_fragment).to respond_to(:discarded?)
+    end
+
+    it "responds to kept?" do
+      expect(persisted_fragment).to respond_to(:kept?)
+    end
+
+    it "sets discarded_at when discarded" do
+      persisted_fragment.discard
+      expect(persisted_fragment.discarded_at).to be_present
+      expect(persisted_fragment.discarded?).to be true
+    end
+
+    it "clears discarded_at when undiscarded" do
+      persisted_fragment.discard
+      persisted_fragment.undiscard
+      expect(persisted_fragment.discarded_at).to be_nil
+      expect(persisted_fragment.kept?).to be true
+    end
+
+    it "is not destroyed when discarded (record still in DB)" do
+      persisted_fragment.discard
+      expect(AureliusPress::Fragment::Fragment.with_discarded.find(persisted_fragment.id)).to be_present
+    end
+
+    it "is excluded from default scope once discarded" do
+      persisted_fragment.discard
+      expect(AureliusPress::Fragment::Fragment.kept).not_to include(persisted_fragment)
+    end
+
+    it "appears in discarded scope once discarded" do
+      persisted_fragment.discard
+      expect(AureliusPress::Fragment::Fragment.with_discarded.discarded).to include(persisted_fragment)
+    end
+  end
 end

@@ -88,3 +88,4 @@ gem "view_component"
 # gem "vanilla_nested", github: "arielj/vanilla-nested", branch: :main
 gem "image_processing", "~> 1.14"
 gem "cssbundling-rails"
+gem "discard"

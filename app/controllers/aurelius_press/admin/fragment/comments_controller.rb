@@ -16,7 +16,7 @@ class AureliusPress::Admin::Fragment::CommentsController < AureliusPress::Admin:
 
   # GET /aurelius_press/admin/fragment/comments
   def index
-    @comments = AureliusPress::Fragment::Comment.all
+    @comments = AureliusPress::Fragment::Comment.with_discarded.all
     authorize @comments
   end
 
@@ -58,14 +58,14 @@ class AureliusPress::Admin::Fragment::CommentsController < AureliusPress::Admin:
   # DELETE /aurelius_press/admin/fragment/comments/1
   def destroy
     authorize @comment
-    @comment.destroy! # Use destroy! for immediate errors if deletion fails
-    redirect_to aurelius_press_admin_fragment_comments_url, notice: action_was_successfully(:deleted)
+    @comment.discard
+    redirect_to aurelius_press_admin_fragment_comments_url, notice: action_was_successfully(:discarded)
   end
 
   private
 
   def set_comment
-    @comment = AureliusPress::Fragment::Comment.find(params[:id])
+    @comment = AureliusPress::Fragment::Comment.with_discarded.find(params[:id])
   end
 
   def action_was_successfully(action)

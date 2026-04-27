@@ -51,6 +51,10 @@ class AureliusPress::Fragment::Fragment < ApplicationRecord
     NAMESPACED_COMMENTABLE_TYPES
   end
 
+  include Discard::Model
+  self.discard_column = :discarded_at
+  default_scope { kept }
+
   # STI (Single Table Inheritance) setup
   self.inheritance_column = :type
 
