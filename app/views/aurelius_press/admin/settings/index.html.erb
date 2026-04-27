@@ -1,0 +1,26 @@
+<div class="container">
+  <h1>Site Settings</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @settings.each do |setting| %>
+        <tr id="<%= dom_id(setting) %>">
+          <td><strong><%= setting.key %></strong></td>
+          <td><%= setting.value %></td>
+          <td><%= setting.value_type %></td>
+          <td><%= setting.description %></td>
+          <td><%= link_to "Edit", edit_aurelius_press_admin_setting_path(setting) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
