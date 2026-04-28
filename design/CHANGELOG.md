@@ -4,6 +4,30 @@ All notable changes are documented here by sprint.
 
 ---
 
+## [Sprint 4] — 2026-04-28
+
+### Added
+- `discard` gem + `discarded_at` migration on `aurelius_press_fragments` — soft deletion foundation (S4-01/02)
+- Soft delete on `AureliusPress::Admin::Fragment::CommentsController` and `NotesController` — hard destroy replaced with `discard` (S4-03)
+- Default scope on `Fragment` filtering soft-deleted records from all public queries (S4-04)
+- `JournalEntry` nested notes: routes, `JournalEntry::NotesController`, views (S4-05)
+- Admin Settings Panel: ADR, key-value settings store, `AureliusPress::Admin::SettingsController`, index + edit views (S4-06–09)
+- `pagy` gem + pagination on `Admin::UsersController#index` — `Pagy::Method` pattern, `@pagy.series_nav` in view (S4-10)
+- Request spec coverage for all new controllers
+
+### Changed
+- Admin fragment moderation flash notices: "deleted" → "discarded" (reflects soft-delete semantics)
+- Feature specs for comment/note CRUD updated to match new flash messages
+- `AureliusPress::Admin::ApplicationController` — `include Pagy::Method`
+- `ApplicationHelper` — no longer includes `Pagy::Frontend` (not needed in pagy v43)
+
+### Sprint Metrics
+- Planned: 16 pts (14 committed P0+P1; 2 pts P2 buffer)
+- Delivered: 14 pts (all P0 + P1; P2 deferred to Sprint 5)
+- Velocity: 14 (rolling avg: 16)
+
+---
+
 ## [Sprint 3] — 2026-04-26
 
 ### Added

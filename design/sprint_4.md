@@ -87,15 +87,15 @@ Admin moderation controllers have a `@todo` for soft delete. Currently `destroy`
 
 ## Definition of Done
 
-- [ ] Soft-deleted fragments hidden from public views, visible to admins
-- [ ] Admin can soft-delete comments/notes; hard delete is gone from admin moderation
-- [ ] JournalEntry notes CRUD functional
-- [ ] Settings store defined, seeded, readable and writable via admin UI
-- [ ] At least one admin index action paginated
-- [ ] All new controllers covered by request specs
-- [ ] All new specs green (`bundle exec rspec`)
-- [ ] No RuboCop offences
-- [ ] PR opened against `master`
+- [x] Soft-deleted fragments hidden from public views, visible to admins
+- [x] Admin can soft-delete comments/notes; hard delete is gone from admin moderation
+- [x] JournalEntry notes CRUD functional
+- [x] Settings store defined, seeded, readable and writable via admin UI
+- [x] At least one admin index action paginated
+- [x] All new controllers covered by request specs
+- [x] All new specs green (`bundle exec rspec`)
+- [x] No RuboCop offences
+- [x] PR opened against `master`
 
 ---
 
@@ -107,6 +107,33 @@ Admin moderation controllers have a `@todo` for soft delete. Currently `destroy`
 | Mid-sprint | Soft deletion + JournalEntry notes done; begin settings panel |
 | Code freeze | All P0 + P1 done |
 | Sprint end | PR review + ship |
+
+---
+
+## Sprint 4 Retrospective — 2026-04-28
+
+**What shipped?**
+All 10 stories (S4-01 through S4-10). Both P0 epics (Soft Deletion + JournalEntry Notes) and the full P1 epic (Admin Settings Panel + Pagination) delivered. P2 stretch items (README, Reactions decision) intentionally deferred to Sprint 5 — they were always the buffer.
+
+**Points delivered:** 14/14 committed (P0 + P1). P2 = 0/2 (deferred by design).
+
+**What slowed us down?**
+- `pagy` gem resolved to v43.5.3, which has a completely rewritten API (no `Pagy::Backend` / `Pagy::Frontend` modules). Required reading gem source to find the correct `Pagy::Method` + `@pagy.series_nav` pattern. ~1hr overage on S4-10.
+- Feature specs for comment/note soft-deletion were using "deleted successfully" flash; the discard gem changed the controller notice to "discarded successfully". Quick fix but required a targeted debug pass.
+
+**What changes next sprint?**
+- Before adding any gem, check its version's API against the installed version — don't assume the README matches what bundler resolves to.
+- When soft-delete changes a flash message, update the feature specs in the same commit as the controller change.
+
+**Velocity tracker:**
+
+| Sprint | Planned (committed) | Delivered | Velocity |
+|--------|-------------------|-----------|----------|
+| Sprint 1 | 16 pts | 16 pts | 16 |
+| Sprint 2 | 14 pts | 18 pts | 18 |
+| Sprint 3 | 16 pts | 16 pts | 16 |
+| Sprint 4 | 14 pts | 14 pts | 14 |
+| **Rolling avg** | — | — | **16** |
 
 ---
 
