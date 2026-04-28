@@ -1,5 +1,5 @@
 class AureliusPress::Community::LikesController < AureliusPress::ApplicationController
-  before_action :set_like, only: [ :destroy ]
+  before_action :set_like, only: [ :update, :destroy ]
 
   def create
     @likeable = GlobalID::Locator.locate(params[:like][:likeable_gid])
@@ -14,6 +14,28 @@ class AureliusPress::Community::LikesController < AureliusPress::ApplicationCont
     else
       @like.state = params[:like][:state]
     end
+
+    if @like.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: root_path, notice: "Reaction updated." }
+        format.json { render json: @like, status: :ok }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("flash", partial: "shared/flash") }
+        format.html { redirect_back fallback_location: root_path, alert: @like.errors.full_messages.to_sentence }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    @likeable = @like.likeable
+    authorize @like, :update?, policy_class: AureliusPress::Community::LikePolicy
+
+    new_state = params[:like][:state]
+    @like.state = (@like.state == new_state ? :no_reaction : new_state)
 
     if @like.save
       respond_to do |format|

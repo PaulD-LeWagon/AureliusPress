@@ -61,4 +61,30 @@ RSpec.feature "Social Engagement", type: :feature, js: true do
       expect(page).to have_current_path(new_user_session_path)
     end
   end
+
+  # ── Catalogue::Quote (polymorphic surface) ────────────────────────────────
+
+  describe "Likes on a Catalogue::Quote (polymorphic)" do
+    let!(:quote) { create(:aurelius_press_catalogue_quote) }
+
+    before do
+      login_as(admin, scope: :user)
+      visit aurelius_press_catalogue_quote_path(quote)
+    end
+
+    scenario "I can like and unlike a quote" do
+      # Two elements share this dom_id (engagement_bar + comments_and_notes partial).
+      # Re-find the engagement bar after each turbo_stream replacement to avoid stale refs.
+      bar_selector = "#engagement_aurelius_press_catalogue_quote_#{quote.id} .engagement-bar"
+
+      expect(first(bar_selector)).to have_content("0")
+
+      first(bar_selector).find('.engagement-item', text: '👍').click
+      expect(first(bar_selector)).to have_content("1")
+      expect(first(bar_selector)).to have_css('.engagement-item.active', text: '👍')
+
+      first(bar_selector).find('.engagement-item', text: '👍').click
+      expect(first(bar_selector)).to have_content("0")
+    end
+  end
 end
