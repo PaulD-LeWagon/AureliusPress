@@ -1,7 +1,7 @@
 # AureliusPress — Implementation Backlog
 
-> Generated: 2026-04-24 | Last updated: 2026-04-26  
-> Estimated overall completion: ~80–85% (Phases 1–4 complete)
+> Generated: 2026-04-24 | Last updated: 2026-04-28  
+> Estimated overall completion: ~85–90% (Phases 1–4, 6, 7 complete; Phase 9 partially complete)
 
 Items are ordered by dependency — foundational work first, user-facing features after, polish last.
 
@@ -82,7 +82,7 @@ Depends on Phase 1 policies. Implement public-facing interaction layer.
 | 3.2 | Views: index, show, new, edit, _form partial | High | ✅ done | |
 | 3.3 | `JournalEntry`-specific validations & business rules | High | ✅ done | validation + controller enforce private_to_owner |
 | 3.4 | Nested content blocks for JournalEntry (if applicable) | Medium | ✅ done | content_blocks_attributes permitted |
-| 3.5 | Nested comments/notes for JournalEntry | Medium | todo | Sprint 4 |
+| 3.5 | Nested comments/notes for JournalEntry | Medium | ✅ done | Sprint 4 |
 
 ---
 
@@ -110,29 +110,29 @@ Depends on Phase 1 policies. Implement public-facing interaction layer.
 
 ---
 
-## Phase 6 — Admin Settings Panel
+## Phase 6 — Admin Settings Panel ✅ DONE
 
-Currently fully commented out (`resources :settings` in routes).
+**Completed:** 2026-04-28 (Sprint 4)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 6.1 | Define settings scope: what is configurable? | High | Decide before implementing |
-| 6.2 | `AureliusPress::Admin::SettingsController` | Medium | |
-| 6.3 | Settings model / store (e.g. `RailsSettings` gem or custom) | Medium | |
-| 6.4 | Admin settings views | Medium | |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 6.1 | Define settings scope: what is configurable? | High | ✅ done | ADR written; ≤5 keys scoped |
+| 6.2 | `AureliusPress::Admin::SettingsController` | Medium | ✅ done | |
+| 6.3 | Settings model / store (e.g. `RailsSettings` gem or custom) | Medium | ✅ done | |
+| 6.4 | Admin settings views | Medium | ✅ done | |
 
 ---
 
-## Phase 7 — Soft Deletion
+## Phase 7 — Soft Deletion ✅ DONE
 
-Noted as a `@todo` in the admin Comments and Notes controllers.
+**Completed:** 2026-04-28 (Sprint 4)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 7.1 | Add `discarded_at` / `deleted_at` to `fragments` table | Medium | Migration required |
-| 7.2 | Integrate `discard` gem (or equivalent) on `Fragment` | Medium | |
-| 7.3 | Update admin moderation controllers to use soft delete | Medium | |
-| 7.4 | Filter soft-deleted fragments from public queries | Medium | |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 7.1 | Add `discarded_at` / `deleted_at` to `fragments` table | Medium | ✅ done | Migration applied |
+| 7.2 | Integrate `discard` gem (or equivalent) on `Fragment` | Medium | ✅ done | |
+| 7.3 | Update admin moderation controllers to use soft delete | Medium | ✅ done | |
+| 7.4 | Filter soft-deleted fragments from public queries | Medium | ✅ done | Default scope applied |
 
 ---
 
@@ -159,7 +159,7 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 
 | # | Item | Priority | Notes |
 |---|---|---|---|
-| 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | |
+| 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | ✅ done (users) | Sprint 4; remaining admin indexes in S6 |
 | 9.2 | `JournalEntry` privacy enforcement (always private) | Medium | ✅ done | Sprint 3 |
 | 9.3 | `README.md` — replace boilerplate with real project docs | Low | |
 | 9.4 | Reactions feature decision | Low | Routes commented out; decide keep/remove |
@@ -169,15 +169,15 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 
 ## Summary
 
-| Phase | Focus | Items | Est. Effort |
-|---|---|---|---|
-| 1 | Pundit Policies | 11 | ~2 days |
-| 2 | Public Comments & Notes | 19 | ~4–5 days |
-| 3 | JournalEntry | 5 | ~2 days |
-| 4 | Group Memberships UI | 5 | ~1.5 days |
-| 5 | Likes Completion | 3 | ~0.5 days |
-| 6 | Admin Settings | 4 | ~2 days |
-| 7 | Soft Deletion | 4 | ~1 day |
-| 8 | Test Coverage | 10 | ~3 days |
-| 9 | Polish | 5 | ~1 day |
-| **Total** | | **66** | **~17–18 days** |
+| Phase | Focus | Items | Est. Effort | Status |
+|---|---|---|---|---|
+| 1 | Pundit Policies | 11 | ~2 days | ✅ done |
+| 2 | Public Comments & Notes | 19 | ~4–5 days | ✅ done |
+| 3 | JournalEntry | 5 | ~2 days | ✅ done |
+| 4 | Group Memberships UI | 5 | ~1.5 days | ✅ done |
+| 5 | Likes Completion | 3 | ~0.5 days | Sprint 5 |
+| 6 | Admin Settings | 4 | ~2 days | ✅ done |
+| 7 | Soft Deletion | 4 | ~1 day | ✅ done |
+| 8 | Test Coverage | 10 | ~3 days | Sprint 5 (partial) |
+| 9 | Polish | 5 | ~1 day | Sprint 5 (partial) |
+| **Total** | | **66** | **~17–18 days** | **~85–90% complete** |
