@@ -80,17 +80,17 @@ Sprint 4 shipped soft deletion, JournalEntry notes, and the settings panel. Thes
 
 ## Definition of Done
 
-- [ ] `LikesController#update` implemented and request-spec covered
-- [ ] Turbo Stream like/unlike verified on at least documents and fragments
-- [ ] Like counts visible on public views
-- [ ] JournalEntry CRUD feature spec green
-- [ ] Group membership join/leave feature spec green
-- [ ] Likes feature spec green across resource types
-- [ ] Groups controller spec fixed (slug-aware params)
-- [ ] SimpleCov threshold enforced in CI
-- [ ] All new/fixed specs green (`bundle exec rspec`)
-- [ ] No RuboCop offences
-- [ ] PR opened against `master`
+- [x] `LikesController#update` implemented and request-spec covered
+- [x] Turbo Stream like/unlike verified on at least documents and fragments
+- [x] Like counts visible on public views (already in engagement bar)
+- [x] JournalEntry CRUD feature spec green
+- [x] Group membership join/leave feature spec green
+- [x] Likes feature spec green across resource types
+- [x] Groups controller spec fixed (slug-aware params)
+- [x] SimpleCov threshold enforced in CI
+- [x] All new/fixed specs green (`bundle exec rspec`)
+- [x] No RuboCop offences
+- [x] PR opened against `master`
 
 ---
 
@@ -102,6 +102,34 @@ Sprint 4 shipped soft deletion, JournalEntry notes, and the settings panel. Thes
 | Mid-sprint | Likes done; feature spec trio (S5-04/05/06) in progress |
 | Code freeze | All P0 + P1 done |
 | Sprint end | PR review + ship |
+
+---
+
+## Sprint 5 Retrospective — 2026-04-28
+
+**What shipped?**
+All 10 P0+P1 stories delivered. S5-11 (API v1 expansion, P2 buffer) deferred to Sprint 6 as planned.
+
+**Points delivered:** 13/14 committed (P0+P1). S5-03 was already done before the sprint started (like counts already in the engagement bar). S5-11 (P2) = 0/2 deferred.
+
+**What slowed us down?**
+- S5-06 (likes on Catalogue::Quote): Two separate issues hit back-to-back — Capybara `Ambiguous match` from a pre-existing duplicate DOM ID bug (`_comments_and_notes` and engagement bar both use `dom_id(resource, :engagement)`), then a `StaleElementReferenceError` after Turbo Stream replaced the DOM node mid-test. Required two targeted spec rewrites to work around. Spawned a separate bug-fix task for the underlying DOM ID collision.
+- CI was running Minitest (`bin/rails test`), not RSpec — the test suite had never run in CI. Fixed as part of S5-08.
+
+**What changes next sprint?**
+- Before writing any feature spec involving Turbo Stream, check whether multiple elements on the page share the same DOM ID. Fix the ID upstream; don't work around it in specs.
+- Check CI config early — confirm it actually runs the test suite before assuming CI coverage.
+
+**Velocity tracker:**
+
+| Sprint | Planned (committed) | Delivered | Velocity |
+|--------|-------------------|-----------|----------|
+| Sprint 1 | 16 pts | 16 pts | 16 |
+| Sprint 2 | 14 pts | 18 pts | 18 |
+| Sprint 3 | 16 pts | 16 pts | 16 |
+| Sprint 4 | 14 pts | 14 pts | 14 |
+| Sprint 5 | 14 pts | 13 pts | 13 |
+| **Rolling avg** | — | — | **15** |
 
 ---
 

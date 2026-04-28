@@ -1,7 +1,7 @@
 # AureliusPress — Implementation Backlog
 
 > Generated: 2026-04-24 | Last updated: 2026-04-28  
-> Estimated overall completion: ~85–90% (Phases 1–4, 6, 7 complete; Phase 9 partially complete)
+> Estimated overall completion: ~92–95% (Phases 1–4, 5, 6, 7 complete; Phase 8 mostly done; Phase 9 done)
 
 Items are ordered by dependency — foundational work first, user-facing features after, polish last.
 
@@ -145,12 +145,12 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 | 8.1 | Policy specs for all new Pundit policies (Phase 1) | Critical | Write alongside policies |
 | 8.2 | Feature specs: public comment create/destroy (Phase 2) | High | |
 | 8.3 | Feature specs: public note create/destroy (Phase 2) | High | |
-| 8.4 | Feature specs: JournalEntry CRUD (Phase 3) | High | |
-| 8.5 | Feature specs: group membership join/leave (Phase 4) | High | |
+| 8.4 | Feature specs: JournalEntry CRUD (Phase 3) | High | ✅ done Sprint 5 |
+| 8.5 | Feature specs: group membership join/leave (Phase 4) | High | ✅ done Sprint 5 |
 | 8.6 | Feature specs: public catalogue items (authors/sources/quotes) | Medium | Read-only but currently untested |
 | 8.7 | Controller specs: all new controllers from Phases 2–5 | Medium | |
 | 8.8 | Routing specs: newly uncommented routes (Phase 4) | Medium | |
-| 8.9 | Feature specs: likes on all resource types | Medium | |
+| 8.9 | Feature specs: likes on all resource types | Medium | ✅ done Sprint 5 |
 | 8.10 | Feature specs: admin settings (Phase 6) | Low | |
 
 ---
@@ -161,9 +161,9 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 |---|---|---|---|
 | 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | ✅ done (users) | Sprint 4; remaining admin indexes in S6 |
 | 9.2 | `JournalEntry` privacy enforcement (always private) | Medium | ✅ done | Sprint 3 |
-| 9.3 | `README.md` — replace boilerplate with real project docs | Low | |
-| 9.4 | Reactions feature decision | Low | Routes commented out; decide keep/remove |
-| 9.5 | SimpleCov coverage target enforcement in CI | Low | |
+| 9.3 | `README.md` — replace boilerplate with real project docs | Low | ✅ done Sprint 5 |
+| 9.4 | Reactions feature decision | Low | ✅ done Sprint 5 — keep (already active) |
+| 9.5 | SimpleCov coverage target enforcement in CI | Low | ✅ done Sprint 5 |
 
 ---
 
@@ -175,9 +175,9 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 | 2 | Public Comments & Notes | 19 | ~4–5 days | ✅ done |
 | 3 | JournalEntry | 5 | ~2 days | ✅ done |
 | 4 | Group Memberships UI | 5 | ~1.5 days | ✅ done |
-| 5 | Likes Completion | 3 | ~0.5 days | Sprint 5 |
+| 5 | Likes Completion | 3 | ~0.5 days | ✅ done |
 | 6 | Admin Settings | 4 | ~2 days | ✅ done |
 | 7 | Soft Deletion | 4 | ~1 day | ✅ done |
-| 8 | Test Coverage | 10 | ~3 days | Sprint 5 (partial) |
-| 9 | Polish | 5 | ~1 day | Sprint 5 (partial) |
-| **Total** | | **66** | **~17–18 days** | **~85–90% complete** |
+| 8 | Test Coverage | 10 | ~3 days | Mostly done (8.2/8.3/8.7/8.8/8.10 remain) |
+| 9 | Polish | 5 | ~1 day | ✅ done |
+| **Total** | | **66** | **~17–18 days** | **~92–95% complete** |

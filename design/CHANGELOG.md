@@ -4,6 +4,37 @@ All notable changes are documented here by sprint.
 
 ---
 
+## [Sprint 5] — 2026-04-28
+
+### Added
+- `LikesController#update` action — toggle state on an existing like (owner + power-user authorised)
+- `destroy.turbo_stream.erb` and `update.turbo_stream.erb` for `Community::Likes` — engagement bar now refreshes on all three like actions
+- Feature spec: JournalEntry CRUD (9 examples) including privacy enforcement assertion
+- Feature spec: Group membership join/leave with Turbo Stream toggle (4 examples)
+- Feature spec: Likes on `Catalogue::Quote` — confirms polymorphic engagement across resource types
+- `.simplecov` with 70% minimum coverage threshold
+- SimpleCov wired into `spec/spec_helper.rb` gated on `COVERAGE=true` env var
+- Real project `README.md` replacing Rails boilerplate
+
+### Changed
+- Groups controller spec: all `params: { id: group.id }` → `group.slug`; redirect assertion uses `.reload` to handle slug regeneration on name change
+- CI workflow (`ci.yml`): replaced `bin/rails test test:system` (Minitest) with `bundle exec rspec` + `COVERAGE=true` — CI was never actually running the test suite
+- Engagement spec: added quote polymorphic scenario; workaround for pre-existing duplicate DOM ID bug between `_engagement_bar` and `_comments_and_notes` partials
+
+### Decisions
+- Reactions feature: **KEEP** — controller and routes already active, engagement bar uses them
+
+### Known Issues
+- `tyrian_purple_mockup_spec` fails in the worktree environment (CSS asset compilation path issue — pre-existing, not sprint-related)
+- Duplicate DOM ID on resource show pages where both `_engagement_bar` and `_comments_and_notes` render `dom_id(resource, :engagement)` — bug-fix task spawned
+
+### Sprint Metrics
+- Planned: 14 pts committed (P0+P1); 2 pts P2 buffer
+- Delivered: 13 pts (S5-03 was already done; S5-11 P2 deferred)
+- Velocity: 13 (rolling avg: 15)
+
+---
+
 ## [Sprint 4] — 2026-04-28
 
 ### Added
