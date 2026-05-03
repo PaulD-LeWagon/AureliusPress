@@ -18,6 +18,15 @@ All notable changes are documented here by sprint.
 ### Fixed
 - `Admin::SettingsController#setting_params` was using `:site_setting` (wrong key); corrected to `:aurelius_press_site_setting` to match what `form_with model:` generates — settings edit form silently failed to save without this fix (S6-04)
 - Restored missing `@use "themes/tyrian-purple" as *` import in `application.scss` — deleted during a prior sprint, stripping the Tyrian Purple colour palette from all rendered pages
+- `pages/show.html.erb` never rendered the `_comments_and_notes` partial — pages had no comment or note forms at all; partial is now wired in (parity with blog posts)
+- `PagesController` was missing `skip_before_action :authenticate_user!, only: [:index, :show]` — public pages required a login to view, unlike blog posts; now consistent
+- `_comments_and_notes` partial ignored `comments_enabled` — forms appeared to all signed-in users even when comments were disabled on the post; partial now hides the entire comments section when `comments_enabled` is false
+- `_comments_and_notes` partial showed nothing to guests when comments were enabled — replaced the empty space with a "Sign in" prompt for better UX
+- `resource.comments.count` replaced with `resource.comments.kept.count` to exclude soft-deleted comments from the displayed total
+
+### Added (post-sprint)
+- Feature specs for public comment and note CRUD on `Page` (parity with blog post specs) — 9 new examples, all green
+- `design/git_workflow.md` — documents the sprint branching strategy: all work on `sprint/N` or Claude worktree branches, PR to `master` at sprint end; never commit sprint work directly to `master`
 
 ### Decisions
 - Tyrian Purple mockup **slated for removal** (backlog 10.1, low priority). The scaffold (route, `MockupsController`, view, `tyrian_purple_mockup_spec.rb`, and accompanying design docs) is a throwaway prototype with no production value. The failing spec is accepted as a known exclusion for Sprint 6 and will be cleaned up in a later sprint with available capacity.
