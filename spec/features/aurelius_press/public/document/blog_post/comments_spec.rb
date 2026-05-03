@@ -26,9 +26,16 @@ RSpec.feature "User can manage comments on a Blog Post", :js do
     end
   end
 
-  scenario "READ - guest does not see the comment form" do
+  scenario "READ - guest does not see the comment form but sees sign-in prompt" do
     visit aurelius_press_blog_post_path(blog_post)
     expect(page).not_to have_css(".comment-form")
+    expect(page).to have_link("Sign in")
+  end
+
+  scenario "READ - no comments section when comments_enabled is false" do
+    post_no_comments = create(:aurelius_press_document_blog_post, :visible_to_www, user: author, comments_enabled: false)
+    visit aurelius_press_blog_post_path(post_no_comments)
+    expect(page).not_to have_css(".comments-section")
   end
 
   # ── CREATE ────────────────────────────────────────────────────────────────

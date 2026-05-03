@@ -56,4 +56,9 @@
   <div class="engagement">
     <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: @page } %>
   </div>
+
+  <%= render partial: "aurelius_press/catalogue/shared/comments_and_notes",
+             locals: { resource: @page,
+                       comments_path: aurelius_press_page_comments_path(@page),
+                       notes_path: aurelius_press_page_notes_path(@page) } %>
 </div>
