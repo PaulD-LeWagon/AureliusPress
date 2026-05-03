@@ -1,7 +1,7 @@
 # AureliusPress — Implementation Backlog
 
-> Generated: 2026-04-24 | Last updated: 2026-04-28  
-> Estimated overall completion: ~92–95% (Phases 1–4, 5, 6, 7 complete; Phase 8 mostly done; Phase 9 done)
+> Generated: 2026-04-24 | Last updated: 2026-05-03  
+> Estimated overall completion: ~96–98% (Phases 1–7, 9 complete; Phase 8 nearly done — 8.6/8.7 remain; Phase 10 pending)
 
 Items are ordered by dependency — foundational work first, user-facing features after, polish last.
 
@@ -142,16 +142,16 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 
 | # | Item | Priority | Notes |
 |---|---|---|---|
-| 8.1 | Policy specs for all new Pundit policies (Phase 1) | Critical | Write alongside policies |
-| 8.2 | Feature specs: public comment create/destroy (Phase 2) | High | |
-| 8.3 | Feature specs: public note create/destroy (Phase 2) | High | |
+| 8.1 | Policy specs for all new Pundit policies (Phase 1) | Critical | ✅ done Sprint 1 |
+| 8.2 | Feature specs: public comment create/destroy (Phase 2) | High | ✅ done Sprint 6 |
+| 8.3 | Feature specs: public note create/destroy (Phase 2) | High | ✅ done Sprint 6 |
 | 8.4 | Feature specs: JournalEntry CRUD (Phase 3) | High | ✅ done Sprint 5 |
 | 8.5 | Feature specs: group membership join/leave (Phase 4) | High | ✅ done Sprint 5 |
-| 8.6 | Feature specs: public catalogue items (authors/sources/quotes) | Medium | Read-only but currently untested |
-| 8.7 | Controller specs: all new controllers from Phases 2–5 | Medium | |
-| 8.8 | Routing specs: newly uncommented routes (Phase 4) | Medium | |
+| 8.6 | Feature specs: public catalogue items (authors/sources/quotes) | Medium | Read-only but currently untested — Sprint 7 |
+| 8.7 | Controller specs: all new controllers from Phases 2–5 | Medium | 41 pre-existing failures outstanding — Sprint 7 P0 |
+| 8.8 | Routing specs: newly uncommented routes (Phase 4) | Medium | ✅ done Sprint 6 (group_memberships + journal_entries) |
 | 8.9 | Feature specs: likes on all resource types | Medium | ✅ done Sprint 5 |
-| 8.10 | Feature specs: admin settings (Phase 6) | Low | |
+| 8.10 | Feature specs: admin settings (Phase 6) | Low | ✅ done Sprint 6 |
 
 ---
 
@@ -159,7 +159,7 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 
 | # | Item | Priority | Notes |
 |---|---|---|---|
-| 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | ✅ done (users) | Sprint 4; remaining admin indexes in S6 |
+| 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | ✅ done Sprint 4 (users) + Sprint 6 (groups, blog posts, quotes) |
 | 9.2 | `JournalEntry` privacy enforcement (always private) | Medium | ✅ done | Sprint 3 |
 | 9.3 | `README.md` — replace boilerplate with real project docs | Low | ✅ done Sprint 5 |
 | 9.4 | Reactions feature decision | Low | ✅ done Sprint 5 — keep (already active) |
@@ -188,7 +188,7 @@ Low-priority housekeeping. Schedule in whichever sprint has capacity.
 | 5 | Likes Completion | 3 | ~0.5 days | ✅ done |
 | 6 | Admin Settings | 4 | ~2 days | ✅ done |
 | 7 | Soft Deletion | 4 | ~1 day | ✅ done |
-| 8 | Test Coverage | 10 | ~3 days | Mostly done (8.2/8.3/8.7/8.8/8.10 remain) |
+| 8 | Test Coverage | 10 | ~3 days | Mostly done (8.6/8.7 remain; 41 pre-existing failures to fix) |
 | 9 | Polish | 5 | ~1 day | ✅ done |
 | 10 | Cleanup & Removal | 1 | ~0.5 days | Pending |
 | **Total** | | **67** | **~17–18 days** | **~92–95% complete** |
