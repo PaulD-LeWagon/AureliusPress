@@ -62,26 +62,9 @@
     <% end %>
   </div>
 
-  <% if @blog_post.comments_enabled %>
-    <div class="comment-section">
-      <h3>Comments</h3>
-      <% @blog_post.comments.each do |comment| %>
-        <div class="comment">
-          <p><strong><%= comment.user&.full_name || 'Unknown User' %>:</strong> <%= comment.content.body %></p>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% if @blog_post.notes.any? %>
-    <div class="note-section">
-      <h3>Notes</h3>
-      <% @blog_post.notes.each do |note| %>
-        <div class="note">
-          <p><strong><%= note.user&.full_name || 'Unknown User' %>:</strong> <%= note.content.body %></p>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render partial: "aurelius_press/catalogue/shared/comments_and_notes",
+             locals: { resource: @blog_post,
+                       comments_path: aurelius_press_admin_document_blog_post_comments_path(@blog_post),
+                       notes_path: aurelius_press_admin_document_blog_post_notes_path(@blog_post) } %>
 
 </div>
