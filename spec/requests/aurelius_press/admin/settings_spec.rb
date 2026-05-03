@@ -49,12 +49,12 @@ RSpec.describe "AureliusPress::Admin::Settings", type: :request do
       before { sign_in admin }
 
       it "updates the setting value" do
-        patch aurelius_press_admin_setting_path(setting), params: { site_setting: { value: "My Site" } }
+        patch aurelius_press_admin_setting_path(setting), params: { aurelius_press_site_setting: { value: "My Site" } }
         expect(setting.reload.value).to eq("My Site")
       end
 
       it "redirects to the settings index" do
-        patch aurelius_press_admin_setting_path(setting), params: { site_setting: { value: "My Site" } }
+        patch aurelius_press_admin_setting_path(setting), params: { aurelius_press_site_setting: { value: "My Site" } }
         expect(response).to redirect_to(aurelius_press_admin_settings_path)
       end
     end
@@ -63,14 +63,14 @@ RSpec.describe "AureliusPress::Admin::Settings", type: :request do
       before { sign_in regular_user }
 
       it "is forbidden or redirected" do
-        patch aurelius_press_admin_setting_path(setting), params: { site_setting: { value: "Hack" } }
+        patch aurelius_press_admin_setting_path(setting), params: { aurelius_press_site_setting: { value: "Hack" } }
         expect(response).to have_http_status(:forbidden).or redirect_to(root_path)
       end
     end
 
     context "when unauthenticated" do
       it "redirects to sign in" do
-        patch aurelius_press_admin_setting_path(setting), params: { site_setting: { value: "Hack" } }
+        patch aurelius_press_admin_setting_path(setting), params: { aurelius_press_site_setting: { value: "Hack" } }
         expect(response).to redirect_to(new_user_session_path)
       end
     end

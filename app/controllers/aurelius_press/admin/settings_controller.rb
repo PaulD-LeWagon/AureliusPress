@@ -27,6 +27,6 @@ class AureliusPress::Admin::SettingsController < AureliusPress::Admin::Applicati
   end
 
   def setting_params
-    params.require(:site_setting).permit(:value)
+    params.require(:aurelius_press_site_setting).permit(:value)
   end
 end
