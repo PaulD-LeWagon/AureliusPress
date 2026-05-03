@@ -8,10 +8,10 @@ GIT
 
 GIT
   remote: https://github.com/faker-ruby/faker.git
-  revision: 8fbda8de78d6827cae94bc2dee7dfa4d9a91f261
+  revision: 6171010dad2abe54fdf410263adc6ff7770189df
   branch: main
   specs:
-    faker (3.5.2)
+    faker (3.8.0)
       i18n (>= 1.8.11, < 2)
 
 GIT
@@ -126,9 +126,6 @@ GEM
     capybara-screenshot (1.0.26)
       capybara (>= 1.0, < 4)
       launchy
-    capybara-webkit (1.15.1)
-      capybara (>= 2.3, < 4.0)
-      json
     cgi (0.5.1)
     childprocess (5.1.0)
       logger (~> 1.5)
