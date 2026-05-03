@@ -23,6 +23,8 @@
   $enable-responsive-spacings: true
 );
 
+@use "themes/tyrian-purple" as *;
+
 // @todo: remove the custom scss for new custom pico-scss
 @use "partials/variables" as *;
 // @use "partials/mixins" as *;

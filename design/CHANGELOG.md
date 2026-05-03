@@ -6,6 +6,9 @@ All notable changes are documented here by sprint.
 
 ## [Sprint 6] — in progress
 
+### Fixed
+- Restored missing `@use "themes/tyrian-purple" as *` import in `application.scss` — an agent deleted the theme import and disabled part of the PicoCSS theme during the sprint 5/6 development cycle, stripping the Tyrian Purple colour palette from all rendered pages.
+
 ### Decisions
 - Tyrian Purple mockup **slated for removal** (backlog 10.1, low priority). The scaffold (route, `MockupsController`, view, `tyrian_purple_mockup_spec.rb`, and accompanying design docs `prd_tyrian_purple_ui.md` / `system_design_tyrian_purple_ui.md` / `backlog_tyrian_purple_ui.md`) is a throwaway prototype with no production value. The failing spec is accepted as a known exclusion for Sprint 6 and will be cleaned up in a later sprint with available capacity.
 
