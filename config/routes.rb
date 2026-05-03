@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     # These routes are for managing the catalogue content by administrators.
     # They map to controllers like AureliusPress::Admin::Catalogue::AuthorsController
     namespace :admin do
-      # resources :settings # For site-wide configurations
+      resources :settings, only: [ :index, :edit, :update ]
       # All CRUD actions (index, show, new, create, edit, update, destroy)
       namespace :document do
         resources :atomic_blog_posts, path: "atomic-blog-posts" do
@@ -168,7 +168,9 @@ Rails.application.routes.draw do
       end
     end
     # Define routes for Journal Entries (always private, owner-only)
-    resources :journal_entries, path: "journal-entries", module: "document"
+    resources :journal_entries, path: "journal-entries", module: "document" do
+      resources :notes, only: [ :create, :update, :destroy ]
+    end
     # Define routes for Pages
     resources :pages, module: "document" do
       resources :content_blocks, path: "cb", only: [ :create, :update, :destroy ] do

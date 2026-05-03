@@ -57,16 +57,21 @@ RSpec.describe AureliusPress::Admin::Fragment::CommentsController, type: :contro
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested comment" do
+    it "soft-deletes the comment (record remains in DB)" do
       comment = create(:aurelius_press_fragment_comment, record_attributes)
       expect {
         delete :destroy, params: { id: comment.id }
-      }.to change(AureliusPress::Fragment::Comment, :count).by(-1)
+      }.not_to change(AureliusPress::Fragment::Comment.with_discarded, :count)
+    end
+
+    it "sets discarded_at on the comment" do
+      comment = create(:aurelius_press_fragment_comment, record_attributes)
+      delete :destroy, params: { id: comment.id }
+      expect(comment.reload.discarded_at).to be_present
     end
 
     it "redirects to the comments list" do
       comment = create(:aurelius_press_fragment_comment, record_attributes)
-
       delete :destroy, params: { id: comment.id }
       expect(response).to redirect_to(aurelius_press_admin_fragment_comments_url)
     end

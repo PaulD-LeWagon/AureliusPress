@@ -50,8 +50,14 @@
       <% @blog_post.content_blocks.order(:position).each do |content_block| %>
 
         <%= render content_block %>
-        
+
       <% end %>
 
   </div>
+
+  <%= render partial: "aurelius_press/catalogue/shared/comments_and_notes",
+             locals: { resource: @blog_post,
+                       comments_path: aurelius_press_blog_post_comments_path(@blog_post),
+                       notes_path: aurelius_press_blog_post_notes_path(@blog_post) } %>
+
 </div>

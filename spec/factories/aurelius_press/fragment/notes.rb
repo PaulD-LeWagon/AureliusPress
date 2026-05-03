@@ -25,7 +25,9 @@ FactoryBot.define do
     visibility { :private_to_owner }
     sequence(:position) { |n| n }
     after(:build) do |note|
-      note.content = ActionText::RichText.new(content: Faker::Lorem.paragraphs(number: 1)) if note.content.blank?
+      unless note.content&.body&.present?
+        note.content = Faker::Lorem.paragraphs(number: 1).join("\n\n")
+      end
     end
   end
 end

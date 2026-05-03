@@ -1,25 +1,35 @@
-<%# Locals: resource (Author/Source/Quote), comments_path:, notes_path: %>
-<div class="catalogue-engagement" id="<%= dom_id(resource, :engagement) %>">
+<%# Locals: resource (Document::BlogPost/Page, Catalogue::Author/Source/Quote), comments_path:, notes_path: %>
+<%# Respects comments_enabled if the resource supports it (Document types); always shows for Catalogue resources. %>
+
+<% comments_allowed = !resource.respond_to?(:comments_enabled) || resource.comments_enabled %>
+
+<div class="catalogue-engagement" id="<%= dom_id(resource, :comments_and_notes) %>">
 
   <%# Comments %>
-  <section id="<%= dom_id(resource, :comments) %>" class="comments-section">
-    <h3>Comments (<%= resource.comments.count %>)</h3>
+  <% if comments_allowed %>
+    <section id="<%= dom_id(resource, :comments) %>" class="comments-section">
+      <h3>Comments (<%= resource.comments.kept.count %>)</h3>
 
-    <div class="comments-list">
-      <%= render partial: "aurelius_press/fragment/comments/comment",
-                 collection: resource.comments.includes(:user),
-                 as: :comment %>
-    </div>
+      <div class="comments-list">
+        <%= render partial: "aurelius_press/fragment/comments/comment",
+                   collection: resource.comments.kept.includes(:user, :commentable),
+                   as: :comment %>
+      </div>
 
-    <% if user_signed_in? %>
-      <%= render partial: "aurelius_press/fragment/comments/form",
-                 locals: { comment: AureliusPress::Fragment::Comment.new,
-                           commentable: resource,
-                           url: comments_path } %>
-    <% end %>
-  </section>
+      <% if user_signed_in? %>
+        <%= render partial: "aurelius_press/fragment/comments/form",
+                   locals: { comment: AureliusPress::Fragment::Comment.new,
+                             commentable: resource,
+                             url: comments_path } %>
+      <% else %>
+        <p class="sign-in-prompt">
+          <%= link_to "Sign in", new_user_session_path %> to leave a comment.
+        </p>
+      <% end %>
+    </section>
+  <% end %>
 
-  <%# Notes (owner-only) %>
+  <%# Notes (owner-only, always available to signed-in users) %>
   <% if user_signed_in? %>
     <section id="<%= dom_id(resource, :notes) %>" class="notes-section">
       <h3>My Notes (<%= resource.notes.where(user: current_user).count %>)</h3>

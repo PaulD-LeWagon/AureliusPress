@@ -4,7 +4,7 @@ class AureliusPress::Admin::UsersController < AureliusPress::Admin::ApplicationC
   def index
     # The policy scope will filter the users based on the current user's role.
     authorize AureliusPress::User, :index?, policy_class: AureliusPress::Admin::UserPolicy
-    @users = policy_scope(AureliusPress::User, policy_scope_class: AureliusPress::Admin::UserPolicy::Scope).order(role: :desc, last_name: :asc, first_name: :asc)
+    @pagy, @users = pagy(:offset, policy_scope(AureliusPress::User, policy_scope_class: AureliusPress::Admin::UserPolicy::Scope).order(role: :desc, last_name: :asc, first_name: :asc))
   end
 
   def show

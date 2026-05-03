@@ -2,7 +2,7 @@ class AureliusPress::Admin::Community::GroupsController < AureliusPress::Admin::
   before_action :set_group, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @groups = AureliusPress::Community::Group.all
+    @pagy, @groups = pagy(:offset, AureliusPress::Community::Group.all)
   end
 
   def show

@@ -65,11 +65,17 @@ RSpec.describe AureliusPress::Admin::Fragment::NotesController, type: :controlle
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested note" do
+    it "soft-deletes the note (record remains in DB)" do
       note = create(:aurelius_press_fragment_note, record_attributes)
       expect {
         delete :destroy, params: { id: note.id }
-      }.to change(AureliusPress::Fragment::Note, :count).by(-1)
+      }.not_to change(AureliusPress::Fragment::Note.with_discarded, :count)
+    end
+
+    it "sets discarded_at on the note" do
+      note = create(:aurelius_press_fragment_note, record_attributes)
+      delete :destroy, params: { id: note.id }
+      expect(note.reload.discarded_at).to be_present
     end
 
     it "redirects to the notes list" do

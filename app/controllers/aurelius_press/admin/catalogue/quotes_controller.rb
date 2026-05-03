@@ -4,7 +4,7 @@ class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::
 
   # GET /aurelius-press/admin/catalogue/quotes
   def index
-    @quotes = AureliusPress::Catalogue::Quote.all
+    @pagy, @quotes = pagy(:offset, AureliusPress::Catalogue::Quote.all)
   end
 
   # GET /aurelius-press/admin/catalogue/quotes/:id

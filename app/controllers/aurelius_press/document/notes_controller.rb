@@ -1,5 +1,6 @@
 class AureliusPress::Document::NotesController < AureliusPress::ApplicationController
   before_action :set_notable
+  before_action :authorize_notable
   before_action :set_note, only: %i[update destroy]
 
   def create
@@ -47,6 +48,11 @@ class AureliusPress::Document::NotesController < AureliusPress::ApplicationContr
 
   private
 
+  def authorize_notable
+    return unless @notable.is_a?(AureliusPress::Document::Document)
+    authorize @notable, :show?, policy_class: AureliusPress::DocumentPolicy
+  end
+
   def set_notable
     @notable = if params[:content_block_id]
       AureliusPress::ContentBlock::ContentBlock.find(params[:content_block_id])
@@ -56,6 +62,8 @@ class AureliusPress::Document::NotesController < AureliusPress::ApplicationContr
       AureliusPress::Document::AtomicBlogPost.find_by!(slug: params[:atomic_blog_post_id])
     elsif params[:page_id]
       AureliusPress::Document::Page.find_by!(slug: params[:page_id])
+    elsif params[:journal_entry_id]
+      AureliusPress::Document::JournalEntry.find_by!(slug: params[:journal_entry_id])
     end
   end
 
@@ -64,6 +72,6 @@ class AureliusPress::Document::NotesController < AureliusPress::ApplicationContr
   end
 
   def note_params
-    params.require(:note).permit(:title, :content)
+    params.require(:aurelius_press_fragment_note).permit(:title, :content)
   end
 end

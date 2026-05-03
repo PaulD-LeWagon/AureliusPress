@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Edit Setting: <strong><%= @setting.key %></strong></h1>
+  <% if @setting.description.present? %>
+    <p><%= @setting.description %></p>
+  <% end %>
+
+  <%= form_with model: @setting, url: aurelius_press_admin_setting_path(@setting), method: :patch do |f| %>
+    <div class="field">
+      <% if @setting.value_type == "boolean" %>
+        <%= f.label :value, "Enabled" %>
+        <%= f.select :value, [["Yes", "true"], ["No", "false"]], {}, { selected: @setting.value } %>
+      <% else %>
+        <%= f.label :value, "Value" %>
+        <%= f.text_field :value %>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Update" %>
+      <%= link_to "Cancel", aurelius_press_admin_settings_path %>
+    </div>
+  <% end %>
+</div>

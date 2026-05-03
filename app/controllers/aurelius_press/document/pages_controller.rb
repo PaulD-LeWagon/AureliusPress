@@ -1,4 +1,5 @@
 class AureliusPress::Document::PagesController < AureliusPress::ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_page, only: [:show, :edit, :update, :destroy]
   before_action :set_tags_and_categories, only: [:new, :edit]
 

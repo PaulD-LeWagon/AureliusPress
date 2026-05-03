@@ -1,6 +1,6 @@
 class AureliusPress::Admin::Fragment::NotesController < AureliusPress::Admin::ApplicationController
   # before_action :authenticate_user!
-  before_action :set_note, only: [:show, :destroy] # :edit, :update
+  before_action :set_note, only: [ :show, :destroy ] # :edit, :update
 
   ## Admin interface for managing notes
   # This section contains actions for managing notes in the admin interface.
@@ -16,7 +16,7 @@ class AureliusPress::Admin::Fragment::NotesController < AureliusPress::Admin::Ap
   # @todo Add pagination to index action if notes volume is high.
 
   def index
-    @notes = AureliusPress::Fragment::Note.all
+    @notes = AureliusPress::Fragment::Note.with_discarded.all
   end
 
   def show
@@ -49,17 +49,14 @@ class AureliusPress::Admin::Fragment::NotesController < AureliusPress::Admin::Ap
   # end
 
   def destroy
-    @note.destroy
-    redirect_to aurelius_press_admin_fragment_notes_path, notice: action_was_successfully(:deleted)
+    @note.discard
+    redirect_to aurelius_press_admin_fragment_notes_path, notice: action_was_successfully(:discarded)
   end
 
   private
 
   def set_note
-    @note = AureliusPress::Fragment::Note.find(params[:id])
-    if @note.nil?
-      redirect_to aurelius_press_admin_fragment_notes_path, alert: "Note not found."
-    end
+    @note = AureliusPress::Fragment::Note.with_discarded.find(params[:id])
   end
 
   def action_was_successfully(action)

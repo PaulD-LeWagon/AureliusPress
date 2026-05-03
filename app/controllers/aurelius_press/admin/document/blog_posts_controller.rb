@@ -4,7 +4,7 @@ class AureliusPress::Admin::Document::BlogPostsController < AureliusPress::Admin
 
   def index
     authorize AureliusPress::Document::BlogPost, :index?, policy_class: AureliusPress::DocumentPolicy
-    @blog_posts = policy_scope(AureliusPress::Document::BlogPost, policy_scope_class: AureliusPress::DocumentPolicy::Scope)
+    @pagy, @blog_posts = pagy(:offset, policy_scope(AureliusPress::Document::BlogPost, policy_scope_class: AureliusPress::DocumentPolicy::Scope))
   end
 
   def show

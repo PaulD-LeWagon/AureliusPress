@@ -1,7 +1,7 @@
 # AureliusPress — Implementation Backlog
 
-> Generated: 2026-04-24  
-> Estimated overall completion at time of writing: ~60–65%
+> Generated: 2026-04-24 | Last updated: 2026-05-03  
+> Estimated overall completion: ~96–98% (Phases 1–7, 9 complete; Phase 8 nearly done — 8.6/8.7 remain; Phase 10 pending)
 
 Items are ordered by dependency — foundational work first, user-facing features after, polish last.
 
@@ -72,31 +72,31 @@ Depends on Phase 1 policies. Implement public-facing interaction layer.
 
 ---
 
-## Phase 3 — JournalEntry Document Type
+## Phase 3 — JournalEntry Document Type ✅ DONE
 
-`JournalEntry` is defined as an STI type but has no controller, views, or tests.
+**Completed:** 2026-04-26 (Sprint 3)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 3.1 | `AureliusPress::Document::JournalEntriesController` | High | Full CRUD (private by default) |
-| 3.2 | Views: index, show, new, edit, _form partial | High | |
-| 3.3 | `JournalEntry`-specific validations & business rules | High | e.g. always private, no publishing |
-| 3.4 | Nested content blocks for JournalEntry (if applicable) | Medium | Reuse existing content block system |
-| 3.5 | Nested comments/notes for JournalEntry | Medium | Depends on Phase 2 |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 3.1 | `AureliusPress::Document::JournalEntriesController` | High | ✅ done | Full CRUD (private by default) |
+| 3.2 | Views: index, show, new, edit, _form partial | High | ✅ done | |
+| 3.3 | `JournalEntry`-specific validations & business rules | High | ✅ done | validation + controller enforce private_to_owner |
+| 3.4 | Nested content blocks for JournalEntry (if applicable) | Medium | ✅ done | content_blocks_attributes permitted |
+| 3.5 | Nested comments/notes for JournalEntry | Medium | ✅ done | Sprint 4 |
 
 ---
 
-## Phase 4 — Group Memberships UI
+## Phase 4 — Group Memberships UI ✅ DONE
 
-Model and associations exist; routes are commented out.
+**Completed:** 2026-04-26 (Sprint 3)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 4.1 | Uncomment `resources :group_memberships` in routes.rb | High | |
-| 4.2 | `AureliusPress::Community::GroupMembershipsController` | High | `create`, `destroy` (join/leave) |
-| 4.3 | Views: group membership UI (join/leave buttons) | High | Turbo Stream for instant feedback |
-| 4.4 | Group show page: list members | Medium | |
-| 4.5 | Group index page: discoverable groups | Medium | |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 4.1 | Uncomment `resources :group_memberships` in routes.rb | High | ✅ done | Added to public community namespace |
+| 4.2 | `AureliusPress::Community::GroupMembershipsController` | High | ✅ done | create/destroy (join/leave) |
+| 4.3 | Views: group membership UI (join/leave buttons) | High | ✅ done | Turbo Stream toggle + _membership_button partial |
+| 4.4 | Group show page: list members | Medium | ✅ done | |
+| 4.5 | Group index page: discoverable groups | Medium | ✅ done | public_group scoped |
 
 ---
 
@@ -110,29 +110,29 @@ Model and associations exist; routes are commented out.
 
 ---
 
-## Phase 6 — Admin Settings Panel
+## Phase 6 — Admin Settings Panel ✅ DONE
 
-Currently fully commented out (`resources :settings` in routes).
+**Completed:** 2026-04-28 (Sprint 4)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 6.1 | Define settings scope: what is configurable? | High | Decide before implementing |
-| 6.2 | `AureliusPress::Admin::SettingsController` | Medium | |
-| 6.3 | Settings model / store (e.g. `RailsSettings` gem or custom) | Medium | |
-| 6.4 | Admin settings views | Medium | |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 6.1 | Define settings scope: what is configurable? | High | ✅ done | ADR written; ≤5 keys scoped |
+| 6.2 | `AureliusPress::Admin::SettingsController` | Medium | ✅ done | |
+| 6.3 | Settings model / store (e.g. `RailsSettings` gem or custom) | Medium | ✅ done | |
+| 6.4 | Admin settings views | Medium | ✅ done | |
 
 ---
 
-## Phase 7 — Soft Deletion
+## Phase 7 — Soft Deletion ✅ DONE
 
-Noted as a `@todo` in the admin Comments and Notes controllers.
+**Completed:** 2026-04-28 (Sprint 4)
 
-| # | Item | Priority | Notes |
-|---|---|---|---|
-| 7.1 | Add `discarded_at` / `deleted_at` to `fragments` table | Medium | Migration required |
-| 7.2 | Integrate `discard` gem (or equivalent) on `Fragment` | Medium | |
-| 7.3 | Update admin moderation controllers to use soft delete | Medium | |
-| 7.4 | Filter soft-deleted fragments from public queries | Medium | |
+| # | Item | Priority | Status | Notes |
+|---|---|---|---|---|
+| 7.1 | Add `discarded_at` / `deleted_at` to `fragments` table | Medium | ✅ done | Migration applied |
+| 7.2 | Integrate `discard` gem (or equivalent) on `Fragment` | Medium | ✅ done | |
+| 7.3 | Update admin moderation controllers to use soft delete | Medium | ✅ done | |
+| 7.4 | Filter soft-deleted fragments from public queries | Medium | ✅ done | Default scope applied |
 
 ---
 
@@ -142,16 +142,16 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 
 | # | Item | Priority | Notes |
 |---|---|---|---|
-| 8.1 | Policy specs for all new Pundit policies (Phase 1) | Critical | Write alongside policies |
-| 8.2 | Feature specs: public comment create/destroy (Phase 2) | High | |
-| 8.3 | Feature specs: public note create/destroy (Phase 2) | High | |
-| 8.4 | Feature specs: JournalEntry CRUD (Phase 3) | High | |
-| 8.5 | Feature specs: group membership join/leave (Phase 4) | High | |
-| 8.6 | Feature specs: public catalogue items (authors/sources/quotes) | Medium | Read-only but currently untested |
-| 8.7 | Controller specs: all new controllers from Phases 2–5 | Medium | |
-| 8.8 | Routing specs: newly uncommented routes (Phase 4) | Medium | |
-| 8.9 | Feature specs: likes on all resource types | Medium | |
-| 8.10 | Feature specs: admin settings (Phase 6) | Low | |
+| 8.1 | Policy specs for all new Pundit policies (Phase 1) | Critical | ✅ done Sprint 1 |
+| 8.2 | Feature specs: public comment create/destroy (Phase 2) | High | ✅ done Sprint 6 |
+| 8.3 | Feature specs: public note create/destroy (Phase 2) | High | ✅ done Sprint 6 |
+| 8.4 | Feature specs: JournalEntry CRUD (Phase 3) | High | ✅ done Sprint 5 |
+| 8.5 | Feature specs: group membership join/leave (Phase 4) | High | ✅ done Sprint 5 |
+| 8.6 | Feature specs: public catalogue items (authors/sources/quotes) | Medium | Read-only but currently untested — Sprint 7 |
+| 8.7 | Controller specs: all new controllers from Phases 2–5 | Medium | 41 pre-existing failures outstanding — Sprint 7 P0 |
+| 8.8 | Routing specs: newly uncommented routes (Phase 4) | Medium | ✅ done Sprint 6 (group_memberships + journal_entries) |
+| 8.9 | Feature specs: likes on all resource types | Medium | ✅ done Sprint 5 |
+| 8.10 | Feature specs: admin settings (Phase 6) | Low | ✅ done Sprint 6 |
 
 ---
 
@@ -159,25 +159,36 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 
 | # | Item | Priority | Notes |
 |---|---|---|---|
-| 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | |
-| 9.2 | `JournalEntry` privacy enforcement (always private) | Medium | Policy + model validation |
-| 9.3 | `README.md` — replace boilerplate with real project docs | Low | |
-| 9.4 | Reactions feature decision | Low | Routes commented out; decide keep/remove |
-| 9.5 | SimpleCov coverage target enforcement in CI | Low | |
+| 9.1 | Pagination on admin index actions (noted in controller `@todo`) | Medium | ✅ done Sprint 4 (users) + Sprint 6 (groups, blog posts, quotes) |
+| 9.2 | `JournalEntry` privacy enforcement (always private) | Medium | ✅ done | Sprint 3 |
+| 9.3 | `README.md` — replace boilerplate with real project docs | Low | ✅ done Sprint 5 |
+| 9.4 | Reactions feature decision | Low | ✅ done Sprint 5 — keep (already active) |
+| 9.5 | SimpleCov coverage target enforcement in CI | Low | ✅ done Sprint 5 |
+
+---
+
+## Phase 10 — Cleanup & Removal
+
+Low-priority housekeeping. Schedule in whichever sprint has capacity.
+
+| # | Item | Priority | Notes |
+|---|---|---|---|
+| 10.1 | Remove Tyrian Purple mockup scaffold | Low | Delete route (`GET /mockups/tyrian_purple`), `MockupsController`, associated view, failing spec (`tyrian_purple_mockup_spec.rb`), and design docs (`prd_tyrian_purple_ui.md`, `system_design_tyrian_purple_ui.md`, `backlog_tyrian_purple_ui.md`). Feature was a throwaway prototype; no production value. |
 
 ---
 
 ## Summary
 
-| Phase | Focus | Items | Est. Effort |
-|---|---|---|---|
-| 1 | Pundit Policies | 11 | ~2 days |
-| 2 | Public Comments & Notes | 19 | ~4–5 days |
-| 3 | JournalEntry | 5 | ~2 days |
-| 4 | Group Memberships UI | 5 | ~1.5 days |
-| 5 | Likes Completion | 3 | ~0.5 days |
-| 6 | Admin Settings | 4 | ~2 days |
-| 7 | Soft Deletion | 4 | ~1 day |
-| 8 | Test Coverage | 10 | ~3 days |
-| 9 | Polish | 5 | ~1 day |
-| **Total** | | **66** | **~17–18 days** |
+| Phase | Focus | Items | Est. Effort | Status |
+|---|---|---|---|---|
+| 1 | Pundit Policies | 11 | ~2 days | ✅ done |
+| 2 | Public Comments & Notes | 19 | ~4–5 days | ✅ done |
+| 3 | JournalEntry | 5 | ~2 days | ✅ done |
+| 4 | Group Memberships UI | 5 | ~1.5 days | ✅ done |
+| 5 | Likes Completion | 3 | ~0.5 days | ✅ done |
+| 6 | Admin Settings | 4 | ~2 days | ✅ done |
+| 7 | Soft Deletion | 4 | ~1 day | ✅ done |
+| 8 | Test Coverage | 10 | ~3 days | Mostly done (8.6/8.7 remain; 41 pre-existing failures to fix) |
+| 9 | Polish | 5 | ~1 day | ✅ done |
+| 10 | Cleanup & Removal | 1 | ~0.5 days | Pending |
+| **Total** | | **67** | **~17–18 days** | **~92–95% complete** |

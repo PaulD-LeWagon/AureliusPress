@@ -1,50 +1,115 @@
-# README
+# AureliusPress
 
-## Project Overview
+A minimalist, Stoic-inspired content management system and digital publishing platform built with Ruby on Rails 7.2.
 
-This project is a Ruby on Rails application named "AureliusPress". Based on the file structure, dependencies, and database schema, it appears to be a content management system (CMS) or a digital publishing platform.
+---
 
-**Key Technologies:**
+## Overview
 
-- **Backend:** Ruby on Rails
-- **Database:** PostgreSQL
-- **Frontend:** Hotwire (Turbo & Stimulus), Sass for styling.
-- **Authentication:** Devise
-- **Authorization:** Pundit
-- **Testing:** RSpec, Selenium
+AureliusPress is a full-featured CMS for publishing written content — blog posts, journal entries, and a quote catalogue — with a community engagement layer (likes, reactions, comments, notes, groups).
 
-**Architecture:**
+The platform is designed around a single author/publisher workflow with admin-managed content, a public-facing reader interface, and a private journaling feature.
 
-The application follows a standard Rails MVC architecture. The core functionality is organized within the `aurelius_press` namespace. The database schema includes tables for managing users, documents, authors, quotes, categories, tags, and other related content.
+---
 
-## Building and Running
+## Stack
 
-**1. Setup:**
+| Layer | Technology |
+|---|---|
+| Framework | Ruby on Rails 7.2 |
+| Ruby | 3.3.x |
+| Database | PostgreSQL |
+| Frontend | Hotwire (Turbo + Stimulus), PicoCSS + Tyrian Purple theme |
+| Auth | Devise |
+| Authorization | Pundit |
+| Testing | RSpec, FactoryBot, Capybara (Firefox headless), DatabaseCleaner |
+| Background jobs | SolidQueue (PostgreSQL-backed) |
+| Image processing | libvips + ActiveStorage |
+| Deployment | Alma Linux VPS, Apache + Phusion Passenger |
 
-- Install Ruby dependencies: `bundle install`
-- Install JavaScript dependencies: `yarn install`
-- Create the database: `rails db:create`
-- Run database migrations: `rails db:migrate`
-- Seed the database (if applicable): `rails db:seed`
+---
 
-**2. Running the application:**
+## Features
 
-The `Procfile.dev` file indicates that the following commands are used to run the application in a development environment:
+- **Documents** — Blog posts, atomic blog posts, pages, and private journal entries (full CRUD + content blocks)
+- **Catalogue** — Quotes, authors, and sources with taxonomy (tags, categories)
+- **Community** — Likes, emoji reactions, comments, notes, group memberships
+- **Admin panel** — Content moderation (soft deletion), user management, site settings, pagination
+- **API v1** — JSON endpoints for quotes and taxonomy
+- **Authorization** — Role ladder: Guest → Reader → User → Moderator → Admin → Superuser
 
-- **Web server:** `bin/rails server -p 3000`
-- **CSS watcher:** `yarn build:css --watch`
+---
 
-You can run these commands in separate terminals or use a tool like `foreman` to run them concurrently.
+## Getting Started
 
-**3. Running tests:**
+```bash
+# Install dependencies
+bundle install
+yarn install
 
-The project uses RSpec for testing. To run the test suite, use the following command:
+# Database setup
+bin/rails db:create db:migrate db:seed
 
-`bundle exec rspec`
+# Start the server
+bin/rails server
+```
 
-## Development Conventions
+The app is mounted under the `/aurelius-press` namespace. Visit `http://localhost:3000/aurelius-press`.
 
-- **Code Style:** The project uses RuboCop for maintaining a consistent code style.
-- **Testing:** Tests are written using RSpec. The `spec` directory contains tests for models, controllers, features, etc. FactoryBot is used for creating test data.
-- **Namespacing:** The core application logic is namespaced under `AureliusPress`. This helps to keep the code organized and avoid naming conflicts.
-- **Database Schema:** The database tables are prefixed with `aurelius_press_`, which is a good practice for namespacing tables in a larger application.
+---
+
+## Testing
+
+```bash
+# Full test suite
+bundle exec rspec
+
+# With coverage report
+COVERAGE=true bundle exec rspec
+
+# Fast (no browser)
+bundle exec rspec spec/models spec/policies spec/requests --format progress
+
+# Feature specs only (browser required)
+bundle exec rspec spec/features --format progress
+```
+
+Coverage is enforced at **70% minimum** in CI (via SimpleCov).
+
+---
+
+## Architecture
+
+```
+app/
+  controllers/aurelius_press/
+    admin/          # Admin namespace (moderation, settings, user management)
+    api/v1/         # JSON API
+    community/      # Likes, reactions, groups, memberships
+    catalogue/      # Quotes, authors, sources
+    document/       # Blog posts, journal entries, pages
+  models/aurelius_press/
+  policies/aurelius_press/   # Pundit policies (role-based)
+  views/aurelius_press/
+design/                      # Sprint plans, backlog, ADRs, testing strategy
+```
+
+All models, controllers, policies, and views live under the `AureliusPress::` module namespace.
+
+---
+
+## Deployment
+
+```bash
+git pull origin master
+bundle install
+bin/rails db:migrate
+bin/rails assets:precompile
+passenger-config restart-app .
+```
+
+---
+
+## License
+
+Private — all rights reserved.

@@ -1,2 +1,32 @@
-<h1>AureliusPress::Admin::Community::Groups#index</h1>
-<p>Find me in app/views/aurelius_press/admin/community/groups/index.html.erb</p>
+<div class="container">
+  <h1>Groups</h1>
+
+  <%= link_to "New Group", new_aurelius_press_admin_community_group_path, class: "button btn-sm success", role: "button" %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Privacy</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @groups.each do |group| %>
+        <tr id="<%= dom_id(group) %>">
+          <td><%= group.name %></td>
+          <td><%= group.privacy_setting %></td>
+          <td><%= group.status %></td>
+          <td>
+            <%= link_to "Show", aurelius_press_admin_community_group_path(group), class: "button btn-sm primary", role: "button" %>
+            <%= link_to "Edit", edit_aurelius_press_admin_community_group_path(group), class: "button btn-sm warning", role: "button" %>
+            <%= link_to "Delete", aurelius_press_admin_community_group_path(group), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "button btn-sm danger", role: "button" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%== @pagy.series_nav if @pagy.pages > 1 %>
+</div>

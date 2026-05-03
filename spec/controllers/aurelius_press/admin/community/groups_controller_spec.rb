@@ -58,7 +58,7 @@ RSpec.describe AureliusPress::Admin::Community::GroupsController, type: :control
   describe "GET #show" do
     it "returns a successful response and assigns @group" do
       group = AureliusPress::Community::Group.create!(record_attributes)
-      get :show, params: { id: group.id }
+      get :show, params: { id: group.slug }
       expect(response).to be_successful
       expect(assigns(:group)).to eq(group)
     end
@@ -104,7 +104,7 @@ RSpec.describe AureliusPress::Admin::Community::GroupsController, type: :control
   describe "GET #edit" do
     it "returns a successful response and assigns @group" do
       group = AureliusPress::Community::Group.create!(record_attributes)
-      get :edit, params: { id: group.id }
+      get :edit, params: { id: group.slug }
       expect(response).to be_successful
       expect(assigns(:group)).to eq(group)
     end
@@ -116,14 +116,14 @@ RSpec.describe AureliusPress::Admin::Community::GroupsController, type: :control
       let(:new_valid_param_attributes) { { name: "Updated Group Name" } }
 
       it "updates the requested group" do
-        patch :update, params: { id: group_to_update.id, aurelius_press_community_group: new_valid_param_attributes }
+        patch :update, params: { id: group_to_update.slug, aurelius_press_community_group: new_valid_param_attributes }
         group_to_update.reload
         expect(group_to_update.name).to eq(new_valid_param_attributes[:name])
       end
 
       it "redirects to the group" do
-        patch :update, params: { id: group_to_update.id, aurelius_press_community_group: new_valid_param_attributes }
-        expect(response).to redirect_to(aurelius_press_admin_community_group_path(group_to_update))
+        patch :update, params: { id: group_to_update.slug, aurelius_press_community_group: new_valid_param_attributes }
+        expect(response).to redirect_to(aurelius_press_admin_community_group_path(group_to_update.reload))
       end
     end
 
@@ -131,14 +131,14 @@ RSpec.describe AureliusPress::Admin::Community::GroupsController, type: :control
       let!(:group_to_update) { AureliusPress::Community::Group.create!(record_attributes) }
 
       it "renders a response with 422 status (unprocessable_entity)" do
-        patch :update, params: { id: group_to_update.id, aurelius_press_community_group: invalid_param_attributes }
+        patch :update, params: { id: group_to_update.slug, aurelius_press_community_group: invalid_param_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
       end
 
       it "does not update the group" do
         original_name = group_to_update.name
-        patch :update, params: { id: group_to_update.id, aurelius_press_community_group: invalid_param_attributes }
+        patch :update, params: { id: group_to_update.slug, aurelius_press_community_group: invalid_param_attributes }
         group_to_update.reload
         expect(group_to_update.name).to eq(original_name)
       end
@@ -149,13 +149,13 @@ RSpec.describe AureliusPress::Admin::Community::GroupsController, type: :control
     it "destroys the requested group" do
       group = AureliusPress::Community::Group.create!(record_attributes)
       expect {
-        delete :destroy, params: { id: group.id }
+        delete :destroy, params: { id: group.slug }
       }.to change(AureliusPress::Community::Group, :count).by(-1)
     end
 
     it "redirects to the groups list" do
       group = AureliusPress::Community::Group.create!(record_attributes)
-      delete :destroy, params: { id: group.id }
+      delete :destroy, params: { id: group.slug }
       expect(response).to redirect_to(aurelius_press_admin_community_groups_url)
     end
   end

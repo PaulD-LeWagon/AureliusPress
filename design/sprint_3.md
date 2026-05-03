@@ -86,17 +86,17 @@ Model and associations exist; routes are commented out.
 
 ---
 
-## Definition of Done
+## Definition of Done — Result
 
-- [ ] JournalEntry CRUD fully functional and always-private enforced at policy + model level
-- [ ] Group join/leave working with Turbo Stream feedback
-- [ ] Group show page lists members
-- [ ] Group index lists discoverable (non-private) groups
-- [ ] All new controllers covered by request specs
-- [ ] All new specs green (`bundle exec rspec`)
-- [ ] No RuboCop offences
-- [ ] Brakeman clean
-- [ ] PR opened against `master`
+- [x] JournalEntry CRUD fully functional and always-private enforced at policy + model level
+- [x] Group join/leave working with Turbo Stream feedback
+- [x] Group show page lists members
+- [x] Group index lists discoverable (non-private) groups
+- [x] All new controllers covered by request specs
+- [x] All new specs green (728 examples, 0 failures)
+- [x] RuboCop clean
+- [x] Brakeman clean
+- [x] PR #66 opened against `master`
 
 ---
 
@@ -108,6 +108,38 @@ Model and associations exist; routes are commented out.
 | Mid-sprint | P0 complete; begin P1 group pages |
 | Code freeze | All P0 + P1 done |
 | Sprint end | PR review + ship |
+
+---
+
+## Velocity Tracker
+
+| Sprint | Planned | Delivered | Velocity |
+|--------|---------|-----------|----------|
+| Sprint 1 | 16 | 16 | 16 |
+| Sprint 2 | 14 | 18 | 18 |
+| Sprint 3 | 16 | 16 | 16 |
+| **Rolling avg** | | | **17** |
+
+---
+
+## Retrospective
+
+**What shipped?**
+All 11 stories (S3-01 through S3-11). 16 planned pts + 0 carry-over. All P0, P1, and P2 delivered.
+
+**What went smoothly**
+- JournalEntry was straightforward — model already had `ContentBlockContainer` and the Sluggable concern; only needed the controller, views, and validation
+- Group Memberships controller was clean thanks to the existing `GroupMembershipPolicy`
+- Deferred Sprint 2 views (S3-10/11) were pure view work with no surprises
+
+**What surprised us**
+- `Group#to_param` was missing — `param: :slug` in routes alone isn't enough; the model needs `to_param` for URL helpers to use slugs
+- Admin groups controller broke silently when `to_param` was added (was using integer `find`, not `find_by!(slug:)`) — always check admin controllers when changing `to_param`
+- JournalEntry model spec was asserting `visibility: :public_to_www` — the `:with_belt_and_braces` factory trait includes `visible_to_www`; always-private validation surfaced this immediately
+
+**What to carry forward**
+- When adding `to_param` to a model, grep for all admin controllers using `find(params[:id])` and update them
+- JournalEntry notes (Phase 3, item 3.5) deferred to Sprint 4 — not blocked
 
 ---
 

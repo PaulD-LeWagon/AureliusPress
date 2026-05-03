@@ -1,4 +1,6 @@
 class AureliusPress::Api::V1::BaseController < AureliusPress::ApplicationController
+  include Pagy::Method
+
   # Ensure all API requests are authenticated and authorized
   before_action :authenticate_user!
   before_action :authorize_admin_access

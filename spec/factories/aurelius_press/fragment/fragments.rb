@@ -31,9 +31,11 @@ FactoryBot.define do
     status { :draft }
     visibility { :private_to_owner }
 
-    # Callbacks: Ensure content is always present for ActionText fields
+    # Callbacks: Ensure content is present unless the caller explicitly set it
     after(:build) do |fragment|
-      fragment.content = ActionText::RichText.new(body: Faker::Lorem.paragraphs(number: 3).join("\n\n"))
+      unless fragment.content&.body&.present?
+        fragment.content = Faker::Lorem.paragraphs(number: 3).join("\n\n")
+      end
     end
   end
 end

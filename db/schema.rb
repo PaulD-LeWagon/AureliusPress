@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_10_202045) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_27_051654) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -159,7 +159,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_10_202045) do
     t.datetime "updated_at", null: false
     t.string "notable_type"
     t.bigint "notable_id"
+    t.datetime "discarded_at"
     t.index ["commentable_type", "commentable_id"], name: "index_fragments_on_commentable"
+    t.index ["discarded_at"], name: "index_aurelius_press_fragments_on_discarded_at"
     t.index ["notable_type", "notable_id"], name: "index_fragments_on_notable"
     t.index ["user_id"], name: "index_aurelius_press_fragments_on_user_id"
   end
@@ -253,6 +255,16 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_10_202045) do
   create_table "aurelius_press_rich_text_blocks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "aurelius_press_site_settings", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "value"
+    t.string "value_type", default: "string", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_aurelius_press_site_settings_on_key", unique: true
   end
 
   create_table "aurelius_press_sources", force: :cascade do |t|

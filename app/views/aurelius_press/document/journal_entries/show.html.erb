@@ -11,4 +11,24 @@
     <%= link_to "Delete", aurelius_press_journal_entry_path(@journal_entry), data: { turbo_method: :delete, turbo_confirm: "Delete this entry?" } %>
     <%= link_to "Back to Journal", aurelius_press_journal_entries_path %>
   </div>
+
+  <section class="notes">
+    <h3>Notes</h3>
+
+    <div id="<%= dom_id(@journal_entry, :notes) %>">
+      <%= render @journal_entry.notes %>
+    </div>
+
+    <%= form_with url: aurelius_press_journal_entry_notes_path(@journal_entry), data: { turbo: true } do |f| %>
+      <div class="field">
+        <%= f.label :title, "Title (optional)" %>
+        <%= f.text_field :title, name: "note[title]" %>
+      </div>
+      <div class="field">
+        <%= f.label :content, "Note" %>
+        <%= f.text_area :content, name: "note[content]", rows: 4 %>
+      </div>
+      <%= f.submit "Add Note" %>
+    <% end %>
+  </section>
 </div>

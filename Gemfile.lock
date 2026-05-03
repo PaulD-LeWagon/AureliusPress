@@ -138,6 +138,9 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
+    cuprite (0.17)
+      capybara (~> 3.0)
+      ferrum (~> 0.17.0)
     database_cleaner-active_record (2.2.2)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
@@ -153,6 +156,8 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
+    discard (1.4.0)
+      activerecord (>= 4.2, < 9.0)
     docile (1.4.1)
     dotenv (3.1.8)
     dotenv-rails (3.1.8)
@@ -167,6 +172,12 @@ GEM
     factory_bot_rails (6.5.1)
       factory_bot (~> 6.5)
       railties (>= 6.1.0)
+    ferrum (0.17.2)
+      addressable (~> 2.5)
+      base64 (~> 0.2)
+      concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
+      websocket-driver (~> 0.7)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -255,6 +266,10 @@ GEM
     nokogiri (1.19.2-x86_64-linux-musl)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pagy (43.5.3)
+      json
+      uri
+      yaml
     parallel (1.27.0)
     parallel_tests (5.4.0)
       parallel
@@ -444,6 +459,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     view_component (4.1.0)
       activesupport (>= 7.1.0, < 8.2)
@@ -463,6 +479,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaml (0.4.0)
     zeitwerk (2.7.5)
 
 PLATFORMS
@@ -483,11 +500,12 @@ DEPENDENCIES
   brakeman
   capybara
   capybara-screenshot
-  capybara-webkit
   cssbundling-rails
+  cuprite
   database_cleaner-active_record
   debug
   devise
+  discard
   dotenv-rails
   factory_bot_rails
   faker!
@@ -496,6 +514,7 @@ DEPENDENCIES
   image_processing (~> 1.14)
   importmap-rails
   jbuilder
+  pagy
   parallel_tests
   pg (~> 1.1)
   pry-byebug

@@ -20,11 +20,10 @@
   $modules: ("themes/default": false),
   $css-var-prefix: "--ap-",
   // $enable-semantic-container: true,
-  $enable-responsive-spacings: true,
-  $theme-color: "tyrian-purple"
+  $enable-responsive-spacings: true
 );
-// Load the custom theme styles
-@use "themes/tyrian-purple";
+
+@use "themes/tyrian-purple" as *;
 
 // @todo: remove the custom scss for new custom pico-scss
 @use "partials/variables" as *;

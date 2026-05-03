@@ -84,4 +84,48 @@ RSpec.describe "AureliusPress::Community::Likes", type: :request do
       end
     end
   end
+
+  # ── PATCH /aurelius-press/community/likes/:id ─────────────────────────────
+
+  describe "PATCH /aurelius-press/community/likes/:id" do
+    context "when authenticated as the like owner" do
+      before { sign_in owner }
+
+      it "updates the like state" do
+        patch aurelius_press_community_like_path(like),
+              params: { like: { state: "dislike" } }
+        expect(like.reload.state).to eq("dislike")
+      end
+
+      it "toggles back to no_reaction when posting the same state" do
+        patch aurelius_press_community_like_path(like),
+              params: { like: { state: "like" } }
+        expect(like.reload.state).to eq("no_reaction")
+      end
+
+      it "responds with success or redirect" do
+        patch aurelius_press_community_like_path(like),
+              params: { like: { state: "dislike" } }
+        expect(response).to have_http_status(:success).or have_http_status(:redirect)
+      end
+    end
+
+    context "when authenticated as a different user" do
+      before { sign_in other_user }
+
+      it "is forbidden" do
+        patch aurelius_press_community_like_path(like),
+              params: { like: { state: "dislike" } }
+        expect(response).to have_http_status(:forbidden).or have_http_status(:redirect)
+      end
+    end
+
+    context "when unauthenticated" do
+      it "redirects to sign in" do
+        patch aurelius_press_community_like_path(like),
+              params: { like: { state: "dislike" } }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
 end
