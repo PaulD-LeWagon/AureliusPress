@@ -12,6 +12,18 @@
     <%= render partial: "aurelius_press/community/shared/engagement_bar", locals: { interactable: comment } %>
   </div>
 
+  <% if user_signed_in? && current_user == comment.user %>
+    <%
+      commentable_key = comment.commentable.class.name.demodulize.underscore
+      delete_path = send(:"aurelius_press_#{commentable_key}_comment_path", comment.commentable, comment)
+    %>
+    <div class="comment-actions">
+      <%= link_to "Delete", delete_path,
+          data: { turbo_method: :delete, turbo_confirm: "Delete this comment?" },
+          class: "comment-delete" %>
+    </div>
+  <% end %>
+
   <% if comment.replies.any? %>
     <div class="comment-replies">
       <%= render comment.replies %>

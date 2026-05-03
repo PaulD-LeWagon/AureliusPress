@@ -37,7 +37,7 @@ class AureliusPress::Document::CommentsController < AureliusPress::ApplicationCo
 
   def destroy
     authorize @comment, :destroy?, policy_class: AureliusPress::Fragment::CommentPolicy
-    @comment.destroy
+    @comment.discard
 
     respond_to do |format|
       format.turbo_stream
@@ -66,6 +66,6 @@ class AureliusPress::Document::CommentsController < AureliusPress::ApplicationCo
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:aurelius_press_fragment_comment).permit(:content)
   end
 end

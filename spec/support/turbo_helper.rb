@@ -1,13 +1,11 @@
 module TurboHelper
-  # Turbo uses window.confirm() for data-turbo-confirm attributes.
-  # In headless Firefox + Turbo 8, data-turbo-method links sometimes don't
-  # fire reliably. This helper overrides window.confirm to return true, then
-  # clicks the link. The sleep gives Turbo time to create and submit its
-  # hidden form and for the server response to arrive.
+  # Accepts a Turbo data-turbo-confirm dialog via Capybara's CDP-level modal
+  # handler. This works with Cuprite/Chrome because it intercepts the native
+  # browser dialog before Cuprite auto-dismisses it (which would return false
+  # and abort the Turbo request). The execute_script window.confirm override
+  # is unreliable with Cuprite.
   def accept_turbo_confirm(&block)
-    page.execute_script("window.confirm = () => true")
-    yield
-    sleep 2
+    accept_confirm { yield }
   end
 
   # Sends a DELETE request via JS fetch and then navigates to the final URL.

@@ -1,5 +1,5 @@
 <%# Locals: resource (Author/Source/Quote), comments_path:, notes_path: %>
-<div class="catalogue-engagement" id="<%= dom_id(resource, :engagement) %>">
+<div class="catalogue-engagement" id="<%= dom_id(resource, :comments_and_notes) %>">
 
   <%# Comments %>
   <section id="<%= dom_id(resource, :comments) %>" class="comments-section">
@@ -7,7 +7,7 @@
 
     <div class="comments-list">
       <%= render partial: "aurelius_press/fragment/comments/comment",
-                 collection: resource.comments.includes(:user),
+                 collection: resource.comments.includes(:user, :commentable),
                  as: :comment %>
     </div>
 

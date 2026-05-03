@@ -53,8 +53,9 @@ FactoryBot.define do
     end
 
     after(:build) do |comment|
-      # Action Text: Assign a string directly to the content attribute
-      comment.content = Faker::Lorem.paragraphs(number: 3).join("\n\n")
+      unless comment.content&.body&.present?
+        comment.content = Faker::Lorem.paragraphs(number: 3).join("\n\n")
+      end
     end
   end
 end

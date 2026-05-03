@@ -167,6 +167,16 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 
 ---
 
+## Phase 10 — Cleanup & Removal
+
+Low-priority housekeeping. Schedule in whichever sprint has capacity.
+
+| # | Item | Priority | Notes |
+|---|---|---|---|
+| 10.1 | Remove Tyrian Purple mockup scaffold | Low | Delete route (`GET /mockups/tyrian_purple`), `MockupsController`, associated view, failing spec (`tyrian_purple_mockup_spec.rb`), and design docs (`prd_tyrian_purple_ui.md`, `system_design_tyrian_purple_ui.md`, `backlog_tyrian_purple_ui.md`). Feature was a throwaway prototype; no production value. |
+
+---
+
 ## Summary
 
 | Phase | Focus | Items | Est. Effort | Status |
@@ -180,4 +190,5 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 | 7 | Soft Deletion | 4 | ~1 day | ✅ done |
 | 8 | Test Coverage | 10 | ~3 days | Mostly done (8.2/8.3/8.7/8.8/8.10 remain) |
 | 9 | Polish | 5 | ~1 day | ✅ done |
-| **Total** | | **66** | **~17–18 days** | **~92–95% complete** |
+| 10 | Cleanup & Removal | 1 | ~0.5 days | Pending |
+| **Total** | | **67** | **~17–18 days** | **~92–95% complete** |

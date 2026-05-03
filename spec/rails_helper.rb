@@ -78,14 +78,21 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-Capybara.register_driver :selenium_headless do |app|
-  options = Selenium::WebDriver::Firefox::Options.new
-  options.add_argument("-headless")
-  Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+require "capybara/cuprite"
+
+Capybara.register_driver(:cuprite) do |app|
+  Capybara::Cuprite::Driver.new(app,
+    window_size: [1200, 800],
+    browser_options: { "no-sandbox": nil },
+    headless: true,
+    js_errors: false,
+    timeout: 15
+  )
 end
 
 RSpec.configure do |config|
   config.include ActionTextHelper
+  config.include ActionView::RecordIdentifier, type: :feature
   config.include DebugHelper, type: :feature
   config.include TurboHelper, type: :feature
   config.include Capybara::DSL, type: :feature
@@ -93,8 +100,8 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.before(:each, type: :feature) do
-    Capybara.default_driver = :selenium_headless
-    Capybara.javascript_driver = :selenium_headless
+    Capybara.default_driver = :cuprite
+    Capybara.javascript_driver = :cuprite
   end
   config.before(:suite) do
     # Run the asset build commands before the test suite starts

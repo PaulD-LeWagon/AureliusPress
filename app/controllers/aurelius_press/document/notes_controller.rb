@@ -72,6 +72,6 @@ class AureliusPress::Document::NotesController < AureliusPress::ApplicationContr
   end
 
   def note_params
-    params.require(:note).permit(:title, :content)
+    params.require(:aurelius_press_fragment_note).permit(:title, :content)
   end
 end

@@ -4,6 +4,13 @@ All notable changes are documented here by sprint.
 
 ---
 
+## [Sprint 6] — in progress
+
+### Decisions
+- Tyrian Purple mockup **slated for removal** (backlog 10.1, low priority). The scaffold (route, `MockupsController`, view, `tyrian_purple_mockup_spec.rb`, and accompanying design docs `prd_tyrian_purple_ui.md` / `system_design_tyrian_purple_ui.md` / `backlog_tyrian_purple_ui.md`) is a throwaway prototype with no production value. The failing spec is accepted as a known exclusion for Sprint 6 and will be cleaned up in a later sprint with available capacity.
+
+---
+
 ## [Sprint 5] — 2026-04-28
 
 ### Added
