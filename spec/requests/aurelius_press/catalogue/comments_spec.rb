@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "AureliusPress::Catalogue::Comments", type: :request do
   let(:owner)      { create(:aurelius_press_user) }
   let(:other_user) { create(:aurelius_press_user) }
-  let(:valid_params) { { comment: { content: "A thoughtful comment." } } }
+  let(:valid_params) { { aurelius_press_fragment_comment: { content: "A thoughtful comment." } } }
 
   # ── Author parent ──────────────────────────────────────────────────────────
 

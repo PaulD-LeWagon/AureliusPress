@@ -8,7 +8,7 @@ RSpec.describe "AureliusPress::Document::ContentBlock Notes", type: :request do
     create(:aurelius_press_content_block_rich_text_block, :attached_to_a, document_obj: blog_post)
   end
   let(:content_block) { rich_text_block.content_block }
-  let(:valid_params)  { { note: { title: "My note", content: "Note body." } } }
+  let(:valid_params)  { { aurelius_press_fragment_note: { title: "My note", content: "Note body." } } }
 
   # ── POST /aurelius-press/blog-posts/:blog_post_id/cb/:content_block_id/notes ──
 

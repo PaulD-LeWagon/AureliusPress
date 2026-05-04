@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "AureliusPress::Document::Notes", type: :request do
   let(:owner)      { create(:aurelius_press_user) }
   let(:other_user) { create(:aurelius_press_user) }
-  let(:valid_params) { { note: { title: "My note", content: "Note body." } } }
+  let(:valid_params) { { aurelius_press_fragment_note: { title: "My note", content: "Note body." } } }
 
   # ── BlogPost parent ────────────────────────────────────────────────────────
 

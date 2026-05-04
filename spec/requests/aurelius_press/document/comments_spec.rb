@@ -8,7 +8,7 @@ RSpec.describe "AureliusPress::Document::Comments", type: :request do
 
   describe "POST /aurelius-press/blog-posts/:blog_post_id/comments" do
     let(:blog_post) { create(:aurelius_press_document_blog_post, :visible_to_www) }
-    let(:valid_params) { { comment: { content: "A thoughtful comment." } } }
+    let(:valid_params) { { aurelius_press_fragment_comment: { content: "A thoughtful comment." } } }
 
     context "when authenticated" do
       before { sign_in owner }
@@ -84,7 +84,7 @@ RSpec.describe "AureliusPress::Document::Comments", type: :request do
 
   describe "POST /aurelius-press/atomic-blog-posts/:atomic_blog_post_id/comments" do
     let(:atomic_blog_post) { create(:aurelius_press_document_atomic_blog_post, :visible_to_www) }
-    let(:valid_params) { { comment: { content: "A thoughtful comment." } } }
+    let(:valid_params) { { aurelius_press_fragment_comment: { content: "A thoughtful comment." } } }
 
     context "when authenticated" do
       before { sign_in owner }
@@ -135,7 +135,7 @@ RSpec.describe "AureliusPress::Document::Comments", type: :request do
 
   describe "POST /aurelius-press/pages/:page_id/comments" do
     let(:page) { create(:aurelius_press_document_page, :visible_to_www) }
-    let(:valid_params) { { comment: { content: "A thoughtful comment." } } }
+    let(:valid_params) { { aurelius_press_fragment_comment: { content: "A thoughtful comment." } } }
 
     context "when authenticated" do
       before { sign_in owner }
@@ -200,7 +200,7 @@ RSpec.describe "AureliusPress::Document::Comments", type: :request do
       create(:aurelius_press_content_block_rich_text_block, :attached_to_a, document_obj: blog_post)
     end
     let(:content_block) { rich_text_block.content_block }
-    let(:valid_params)  { { comment: { content: "A comment on a content block." } } }
+    let(:valid_params)  { { aurelius_press_fragment_comment: { content: "A comment on a content block." } } }
 
     context "when authenticated" do
       before { sign_in owner }
