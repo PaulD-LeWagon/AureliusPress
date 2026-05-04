@@ -66,15 +66,42 @@
 
 ## Definition of Done
 
-- [ ] All document comments/notes request specs green
-- [ ] All admin content block feature specs green
-- [ ] All admin user CRUD feature specs green
-- [ ] Duplicate DOM ID resolved; engagement bar + comments/notes Turbo Streams both target correct IDs
-- [ ] Tyrian Purple scaffold fully removed; no remaining references in routes, code, or design docs
-- [ ] Feature specs for public catalogue items (authors, sources, quotes) green
-- [ ] Full suite green (0 failures, `tyrian_purple_mockup_spec` deleted not excluded)
-- [ ] No RuboCop offences on introduced/modified files
-- [ ] PR opened against `master`
+- [x] All document comments/notes request specs green
+- [x] All admin content block feature specs green
+- [x] All admin user CRUD feature specs green
+- [x] Duplicate DOM ID resolved; engagement bar + comments/notes Turbo Streams both target correct IDs
+- [x] Tyrian Purple scaffold fully removed; no remaining references in routes, code, or design docs
+- [x] Feature specs for public catalogue items (authors, sources, quotes) green
+- [x] Full suite green (0 failures, `tyrian_purple_mockup_spec` deleted not excluded)
+- [x] No RuboCop offences on introduced/modified files
+- [x] PR opened against `master`
+
+---
+
+## Sprint 7 Retrospective — 2026-05-04
+
+**Result: COMPLETE ✅ — Sprint goal achieved**
+
+| ID | Story | Pts | Status |
+|----|-------|-----|--------|
+| S7-01 | Fix document/catalogue comments & notes request spec param keys | 3 | ✅ Done |
+| S7-02 | Fix admin content block feature specs (Trix label + JS API) | 2 | ✅ Done |
+| S7-03 | Fix admin user CRUD feature specs (Bio rich text label) | 2 | ✅ Done |
+| S7-04 | Fix duplicate DOM ID bug in engagement spec | 2 | ✅ Done |
+| S7-05 | Remove Tyrian Purple mockup scaffold | 1 | ✅ Done |
+| S7-06 | Feature specs for public catalogue items | 2 | ✅ Done |
+
+**Delivered: 12 / 12 pts** | PR: [#90](https://github.com/PaulD-LeWagon/AureliusPress/pull/90) merged
+
+**Test suite: 1277 examples, 0 failures** — fully green for the first time.
+
+**What slowed us down:**
+- The `fill_in_rich_text_area` helper required three iterations: label navigation was correct, but `editor.click` raised `MouseEventFailed` under Cuprite due to overlapping nested form wrapper divs. `trigger(:click)` is unsupported; `execute_script focus` didn't help because `set()` also triggers a click. Final fix: bypass Capybara entirely, drive Trix via its JS API (`focus + setSelectedRange + insertString`).
+- Worktree `node_modules` was missing `@picocss` — CSS completely broken until main repo `node_modules` was bulk-copied in. Now memorialized.
+
+**What changes next sprint:**
+- No Sprint 8 plan exists yet — the full backlog is 100% complete.
+- Next session: define new feature scope or fix GitHub Actions CI configuration.
 
 ---
 
