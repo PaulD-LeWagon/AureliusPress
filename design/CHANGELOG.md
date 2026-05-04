@@ -4,6 +4,28 @@ All notable changes are documented here by sprint.
 
 ---
 
+## [Sprint 7] — 2026-05-04
+
+### Fixed
+- Corrected param key mismatch in 6 request spec files — specs sent `{ comment: }` / `{ note: }` but controllers require `params.require(:aurelius_press_fragment_comment)` / `params.require(:aurelius_press_fragment_note)` (the namespaced key that `form_with model:` generates) (S7-01)
+- Corrected `AureliusPress::Catalogue::CommentsController` and `NotesController` to use the namespaced param key (was `:comment` / `:note`), consistent with the document controllers (S7-01)
+- Added `fill_in_rich_text_area` label targets to three form views that had Trix editors with no associated `<label>` (`_rich_text_block_fields`, `atomic_blog_posts/_form`, `users/_form`); added explicit `for:` attribute to the user Bio label to match the custom trix-editor id (S7-02/03)
+- Updated `fill_in_rich_text_area` test helper to use the Trix JS API (`focus + setSelectedRange + insertString`) rather than Capybara `click + set` — avoids Cuprite mouse-event overlap errors when the editor is inside a nested form wrapper (S7-02)
+- Updated all Trix-related feature specs to pass the visible label text to `fill_in_rich_text_area` rather than the trix-editor CSS id (S7-02/03)
+- Removed incorrect text-absence assertion from admin comment/note DELETE feature specs — admin moderation index uses `.with_discarded.all` by design, so discarded records remain visible; count assertion is sufficient (S7-03)
+- Removed stale `first()` workaround from engagement spec — `_comments_and_notes` partial already uses `dom_id(resource, :comments_and_notes)` not `:engagement`, so there is no duplicate id with the engagement bar (S7-04)
+
+### Removed
+- Tyrian Purple mockup scaffold: route (`GET /mockups/tyrian_purple`), `MockupsController`, view, `_tyrian_purple_mockup.scss`, `tyrian_purple_mockup_spec.rb`, and three design docs (`prd_tyrian_purple_ui.md`, `system_design_tyrian_purple_ui.md`, `backlog_tyrian_purple_ui.md`) — throwaway prototype with no production value; also removed the `@use` import from `application.scss` that was causing a SASS compilation error on every test run (S7-05)
+
+### Sprint Metrics
+- Planned: 12 pts (P0+P1); 4 pts buffer
+- Delivered: 12 pts (all P0+P1)
+- Velocity: 12 (rolling avg last 3 sprints: 12)
+- Suite: 1277 examples, 0 failures — fully green for the first time
+
+---
+
 ## [Sprint 6] — 2026-05-03
 
 ### Added
