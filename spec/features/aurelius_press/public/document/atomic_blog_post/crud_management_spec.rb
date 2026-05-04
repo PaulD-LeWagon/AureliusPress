@@ -44,7 +44,7 @@ RSpec.feature "user can manage an AtomicBlogPost (CRUD)", :js do
     expect(page).to have_content(category_name)
     find(".search-result-item", text: category_name).click
     
-    fill_in_rich_text_area "trix-content", with: content
+    fill_in_rich_text_area "Content", with: content
     attach_file "Featured Image", img_url
     # 4. Submit the form
     click_button "Create"

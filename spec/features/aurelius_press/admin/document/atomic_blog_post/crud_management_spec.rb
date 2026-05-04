@@ -31,7 +31,7 @@ RSpec.feature "Admin can manage an AtomicBlogPost (CRUD)", :js do
     # Verify the category selection is visible
     expect(page).to have_selector(".selection-item", text: "TestCategoryUnique")
     # check categories.first.name
-    fill_in_rich_text_area "trix-content", with: content
+    fill_in_rich_text_area "Content", with: content
     attach_file "Featured Image", Rails.root.join("spec/fixtures/files/test_image.png")
     # save_and_open_page
     # 4. Submit the form

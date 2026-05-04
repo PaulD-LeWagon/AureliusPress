@@ -34,7 +34,7 @@ RSpec.feature "User can manage ContentBlocks on their own BlogPosts", :js, type:
     # expect the Trix editor to be present
     expect(page).to have_css(".trix-content")
     # 5. fill in the rich text content
-    fill_in_rich_text_area "trix-content", with: rtc
+    fill_in_rich_text_area "Content", with: rtc
     # 6. Submit the form
     click_button "Create"
     # 7. Verify the success message and that the new page is visible
@@ -90,7 +90,7 @@ RSpec.feature "User can manage ContentBlocks on their own BlogPosts", :js, type:
       fill_in "HTML ID", with: html_id
       fill_in "HTML Class", with: html_class
       fill_in "Data Attributes", with: data_attributes
-      fill_in_rich_text_area "trix-content", with: rich_text_content
+      fill_in_rich_text_area "Content", with: rich_text_content
     end
     # 6. Submit the form
     click_button "Update"
