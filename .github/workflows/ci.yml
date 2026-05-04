@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   scan_ruby:
@@ -88,7 +88,8 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/aurelius_press_test
+          SECRET_KEY_BASE: "a_ci_only_placeholder_secret_key_base_not_used_in_production"
           COVERAGE: "true"
           # REDIS_URL: redis://localhost:6379/0
         run: |
