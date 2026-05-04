@@ -77,9 +77,9 @@ RSpec.feature "Admin can manage a Comment (CRUD)", :js do
         click_link "Delete", href: aurelius_press_admin_fragment_comment_path(comment_one)
       end
       # 7. Verify the comment was discarded successfully
+      # Admin moderation index shows all records including discarded — check count not absence.
       expect(page).to have_content "Comment discarded successfully."
       expect(page).to have_current_path(aurelius_press_admin_fragment_comments_path)
-      expect(page.text.squish).not_to include(comment_text.squish)
       expect(AureliusPress::Fragment::Comment.count).to eq(1)
       # 8. Sign out the user
       sign_out the_actor

@@ -4,7 +4,7 @@ RSpec.describe "AureliusPress::Document::JournalEntry Notes", type: :request do
   let(:owner)      { create(:aurelius_press_user) }
   let(:other_user) { create(:aurelius_press_user) }
   let(:journal_entry) { create(:aurelius_press_document_journal_entry, user: owner) }
-  let(:valid_params) { { note: { title: "A private thought", content: "Note body." } } }
+  let(:valid_params) { { aurelius_press_fragment_note: { title: "A private thought", content: "Note body." } } }
 
   describe "POST /aurelius-press/journal-entries/:journal_entry_id/notes" do
     context "when authenticated as the journal entry owner" do
@@ -94,7 +94,7 @@ RSpec.describe "AureliusPress::Document::JournalEntry Notes", type: :request do
 
       it "updates the note" do
         patch aurelius_press_journal_entry_note_path(journal_entry, note),
-              params: { note: { content: "Updated content." } }
+              params: { aurelius_press_fragment_note: { content: "Updated content." } }
         expect(note.reload.content.to_plain_text).to eq("Updated content.")
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe "AureliusPress::Document::JournalEntry Notes", type: :request do
     context "when unauthenticated" do
       it "redirects to sign in" do
         patch aurelius_press_journal_entry_note_path(journal_entry, note),
-              params: { note: { content: "Attempt." } }
+              params: { aurelius_press_fragment_note: { content: "Attempt." } }
         expect(response).to redirect_to(new_user_session_path)
       end
     end

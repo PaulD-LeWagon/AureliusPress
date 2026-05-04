@@ -30,7 +30,7 @@ RSpec.feature "Admin can manage users (CRUD)", :js do
       fill_in "Password confirmation", with: "devanney"
       select "Moderator", from: "Role"
       select "active", from: "Status" # aurelius_press_user_bio_trix_input_aurelius_press_user
-      fill_in_rich_text_area "trix_bio_id", with: "This is Yvonne's bio."
+      fill_in_rich_text_area "Bio", with: "This is Yvonne's bio."
       attach_file "Avatar", Rails.root.join(
         "spec",
         "fixtures",
@@ -95,7 +95,7 @@ RSpec.feature "Admin can manage users (CRUD)", :js do
     fill_in "Email", with: new_email
     select new_role, from: "Role"
     # aurelius_press_user_bio_trix_input_aurelius_press_user_2
-    fill_in_rich_text_area "trix_bio_id", with: new_bio
+    fill_in_rich_text_area "Bio", with: new_bio
     attach_file "Avatar", Rails.root.join(
       "spec",
       "fixtures",

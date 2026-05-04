@@ -15,13 +15,11 @@
 @use "sass:meta";
 @use "actiontext.css" as *;
 
-@use "@picocss/pico/scss/pico" as * with (
-  // Custom pico configuration
+@use "@picocss/pico/scss/pico" as * with ( // Custom pico configuration
   $modules: ("themes/default": false),
   $css-var-prefix: "--ap-",
   // $enable-semantic-container: true,
-  $enable-responsive-spacings: true
-);
+  $enable-responsive-spacings: true);
 
 @use "themes/tyrian-purple" as *;
 
@@ -36,7 +34,6 @@
 @use "view_components/navigation" as *;
 @use "view_components/hero-banner" as *;
 @use "aurelius_press/community/engagement" as *;
-@use "aurelius_press/themes/tyrian_purple_mockup" as *;
 
 :root {
   // #{$css-var-prefix}font-family-emoji
@@ -64,6 +61,7 @@
 
 .trix-content {
   color: white !important;
+
   p {
     margin-bottom: 1rem;
   }
@@ -72,6 +70,7 @@
 .form-actions {
   margin-top: $spacing-base;
 }
+
 // @Todo: move to _content-block.scss or similar
 .content-block {
   &::before {
@@ -83,6 +82,7 @@
     background-color: var(--primary-color);
     padding: 1rem;
   }
+
   border: 3px solid white;
   border-radius: var(--border-radius-base);
   padding: 1rem;
@@ -104,6 +104,7 @@
 
 .page-links {
   margin: 1rem 0;
+
   a {
     padding: 0;
     margin-left: 0;
@@ -128,6 +129,7 @@ span.hint {
   h4 {
     margin-bottom: 0;
   }
+
   span.hint {
     margin-top: 0;
     margin-bottom: $spacing-base;
@@ -143,9 +145,11 @@ footer.main {
   margin-top: $spacing-base * 4;
   min-height: $spacing-base * 12;
   width: 100% !important;
+
   p {
     margin: 0.325rem 0;
     font-weight: 400;
+
     em {
       font-style: oblique;
     }

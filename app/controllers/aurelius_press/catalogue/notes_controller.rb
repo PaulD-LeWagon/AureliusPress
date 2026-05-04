@@ -62,6 +62,6 @@ class AureliusPress::Catalogue::NotesController < AureliusPress::ApplicationCont
   end
 
   def note_params
-    params.require(:note).permit(:title, :content)
+    params.require(:aurelius_press_fragment_note).permit(:title, :content)
   end
 end

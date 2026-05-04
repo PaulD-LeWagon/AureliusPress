@@ -1,7 +1,7 @@
 # AureliusPress — Implementation Backlog
 
-> Generated: 2026-04-24 | Last updated: 2026-05-03  
-> Estimated overall completion: ~96–98% (Phases 1–7, 9 complete; Phase 8 nearly done — 8.6/8.7 remain; Phase 10 pending)
+> Generated: 2026-04-24 | Last updated: 2026-05-04  
+> Estimated overall completion: 100% (all phases complete)
 
 Items are ordered by dependency — foundational work first, user-facing features after, polish last.
 
@@ -147,8 +147,8 @@ Fill gaps in parallel with feature work above (each phase should ship with tests
 | 8.3 | Feature specs: public note create/destroy (Phase 2) | High | ✅ done Sprint 6 |
 | 8.4 | Feature specs: JournalEntry CRUD (Phase 3) | High | ✅ done Sprint 5 |
 | 8.5 | Feature specs: group membership join/leave (Phase 4) | High | ✅ done Sprint 5 |
-| 8.6 | Feature specs: public catalogue items (authors/sources/quotes) | Medium | Read-only but currently untested — Sprint 7 |
-| 8.7 | Controller specs: all new controllers from Phases 2–5 | Medium | 41 pre-existing failures outstanding — Sprint 7 P0 |
+| 8.6 | Feature specs: public catalogue items (authors/sources/quotes) | Medium | ✅ done Sprint 7 |
+| 8.7 | Controller specs: all new controllers from Phases 2–5 | Medium | ✅ done Sprint 7 — fixed param key bugs in 6 request specs + catalogue controllers |
 | 8.8 | Routing specs: newly uncommented routes (Phase 4) | Medium | ✅ done Sprint 6 (group_memberships + journal_entries) |
 | 8.9 | Feature specs: likes on all resource types | Medium | ✅ done Sprint 5 |
 | 8.10 | Feature specs: admin settings (Phase 6) | Low | ✅ done Sprint 6 |
@@ -173,7 +173,7 @@ Low-priority housekeeping. Schedule in whichever sprint has capacity.
 
 | # | Item | Priority | Notes |
 |---|---|---|---|
-| 10.1 | Remove Tyrian Purple mockup scaffold | Low | Delete route (`GET /mockups/tyrian_purple`), `MockupsController`, associated view, failing spec (`tyrian_purple_mockup_spec.rb`), and design docs (`prd_tyrian_purple_ui.md`, `system_design_tyrian_purple_ui.md`, `backlog_tyrian_purple_ui.md`). Feature was a throwaway prototype; no production value. |
+| 10.1 | Remove Tyrian Purple mockup scaffold | Low | ✅ done Sprint 7 |
 
 ---
 
@@ -188,7 +188,7 @@ Low-priority housekeeping. Schedule in whichever sprint has capacity.
 | 5 | Likes Completion | 3 | ~0.5 days | ✅ done |
 | 6 | Admin Settings | 4 | ~2 days | ✅ done |
 | 7 | Soft Deletion | 4 | ~1 day | ✅ done |
-| 8 | Test Coverage | 10 | ~3 days | Mostly done (8.6/8.7 remain; 41 pre-existing failures to fix) |
+| 8 | Test Coverage | 10 | ~3 days | ✅ done Sprint 7 |
 | 9 | Polish | 5 | ~1 day | ✅ done |
-| 10 | Cleanup & Removal | 1 | ~0.5 days | Pending |
-| **Total** | | **67** | **~17–18 days** | **~92–95% complete** |
+| 10 | Cleanup & Removal | 1 | ~0.5 days | ✅ done Sprint 7 |
+| **Total** | | **67** | **~17–18 days** | **100% complete** |

@@ -64,6 +64,6 @@ class AureliusPress::Catalogue::CommentsController < AureliusPress::ApplicationC
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:aurelius_press_fragment_comment).permit(:content)
   end
 end
