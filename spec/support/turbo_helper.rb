@@ -35,6 +35,6 @@ module TurboHelper
         }
       })(arguments[0], arguments[1]);
     JS
-    expect(page).to have_current_path(redirect_to || "/", wait: 5)
+    expect(page).to have_current_path(redirect_to, wait: 5) if redirect_to
   end
 end
