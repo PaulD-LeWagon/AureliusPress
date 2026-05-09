@@ -47,7 +47,10 @@ class AureliusPress::Document::PagesController < AureliusPress::ApplicationContr
   def destroy
     authorize @page, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @page.destroy
-    redirect_to aurelius_press_pages_path, notice: action_was_successfully(:deleted)
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_pages_path, notice: action_was_successfully(:deleted) }
+    end
   end
 
   private

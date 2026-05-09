@@ -159,7 +159,7 @@ RSpec.feature "Admin User Management Access", type: :feature, js: true do
       accept_turbo_confirm do
         click_link "Delete"
       end
-      expect(page).to have_content("User was successfully destroyed.")
+      expect(AureliusPress::User.exists?(@user.id)).to be false
     end
 
     scenario "can also edit an admin user" do
@@ -175,7 +175,7 @@ RSpec.feature "Admin User Management Access", type: :feature, js: true do
       accept_turbo_confirm do
         click_link "Delete"
       end
-      expect(page).to have_content("User was successfully destroyed.")
+      expect(AureliusPress::User.exists?(@admin.id)).to be false
     end
 
     scenario "can change a user's role to any role" do

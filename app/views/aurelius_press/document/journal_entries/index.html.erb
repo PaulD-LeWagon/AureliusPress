@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <% @journal_entries.each do |entry| %>
-        <tr>
+        <tr id="<%= dom_id(entry) %>">
           <td><%= entry.title %></td>
           <td><%= entry.status %></td>
           <td><%= entry.created_at.strftime("%Y-%m-%d") %></td>

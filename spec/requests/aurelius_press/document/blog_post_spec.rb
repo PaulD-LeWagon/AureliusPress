@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe AureliusPress::Document::BlogPost, type: :request do
   let!(:aurelius_press_blog_post) { create(:aurelius_press_document_blog_post) }
+  let(:turbo_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
   before do
     sign_in create(:aurelius_press_admin_user)
@@ -92,6 +93,24 @@ RSpec.describe AureliusPress::Document::BlogPost, type: :request do
     it "redirects to the blog posts list" do
       delete aurelius_press_blog_post_path(aurelius_press_blog_post)
       expect(response).to redirect_to(aurelius_press_blog_posts_path)
+    end
+
+    context "with Turbo Stream format" do
+      it "responds with turbo_stream media type" do
+        delete aurelius_press_blog_post_path(aurelius_press_blog_post), headers: turbo_headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      end
+
+      it "returns http success" do
+        delete aurelius_press_blog_post_path(aurelius_press_blog_post), headers: turbo_headers
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "destroys the blog post" do
+        expect {
+          delete aurelius_press_blog_post_path(aurelius_press_blog_post), headers: turbo_headers
+        }.to change(AureliusPress::Document::BlogPost, :count).by(-1)
+      end
     end
   end
 end

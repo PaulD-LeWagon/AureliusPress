@@ -141,10 +141,9 @@ RSpec.feature "Admin can manage users (CRUD)", :js do
     accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_admin_user_path(user)
     end
-    # 5. Verify the user was deleted successfully
-    expect(page).to have_content "User was successfully destroyed."
+    # 5. Verify the user row was removed inline via Turbo Stream
+    expect(page).not_to have_content user.email, wait: 5
     expect(page).to have_current_path(aurelius_press_admin_users_path)
-    expect(page).not_to have_content user.email
     expect(AureliusPress::User.count).to eq(3)
   end
 

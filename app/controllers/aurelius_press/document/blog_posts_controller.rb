@@ -47,7 +47,10 @@ class AureliusPress::Document::BlogPostsController < AureliusPress::ApplicationC
   def destroy
     authorize @blog_post, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @blog_post.destroy
-    redirect_to aurelius_press_blog_posts_path, notice: action_was_successfully(:deleted)
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_blog_posts_path, notice: action_was_successfully(:deleted) }
+    end
   end
 
   private

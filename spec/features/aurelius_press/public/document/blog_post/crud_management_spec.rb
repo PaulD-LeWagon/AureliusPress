@@ -89,11 +89,10 @@ RSpec.feature "user can manage a Blog Post (CRUD)", :js do
     accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_blog_post_path(post_one)
     end
-    # 5. Verify the blog post was deleted successfully
+    # 5. Verify the blog post row was removed inline via Turbo Stream
+    expect(page).not_to have_content post_one.title, wait: 5
     expect(page).to have_current_path(aurelius_press_blog_posts_path)
-    expect(page).not_to have_content post_one.title
     expect(AureliusPress::Document::BlogPost.count).to eq(1)
-    expect(page).to have_content "Blog post deleted successfully."
   end
 
   scenario "BULK Operations - An user can perform bulk actions on Blog posts" do

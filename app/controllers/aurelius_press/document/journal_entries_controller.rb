@@ -43,7 +43,10 @@ class AureliusPress::Document::JournalEntriesController < AureliusPress::Applica
   def destroy
     authorize @journal_entry, :destroy?, policy_class: AureliusPress::DocumentPolicy
     @journal_entry.destroy
-    redirect_to aurelius_press_journal_entries_path, notice: "Journal entry deleted."
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_journal_entries_path, notice: "Journal entry deleted." }
+    end
   end
 
   private

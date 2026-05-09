@@ -21,7 +21,7 @@
     </thead>
     <tbody>
       <% @blog_posts.each do |blog_post| %>
-        <tr>
+        <tr id="<%= dom_id(blog_post) %>">
           <td><%= blog_post.id %></td>
           <td>
             <%= blog_post.title %><br>
