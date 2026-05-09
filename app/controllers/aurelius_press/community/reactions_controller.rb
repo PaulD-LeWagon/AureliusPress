@@ -7,8 +7,8 @@ class AureliusPress::Community::ReactionsController < ApplicationController
       user: current_user,
       reactable: @reactable
     )
+    authorize @reaction, :create?, policy_class: AureliusPress::Community::ReactionPolicy
 
-    # Toggle if same emoji, otherwise update
     if @reaction.emoji == params[:reaction][:emoji]
       @reaction.emoji = :no_reaction
     else
@@ -27,6 +27,7 @@ class AureliusPress::Community::ReactionsController < ApplicationController
 
   def destroy
     @reaction = AureliusPress::Community::Reaction.find(params[:id])
+    authorize @reaction, :destroy?, policy_class: AureliusPress::Community::ReactionPolicy
     @reaction.destroy
     head :no_content
   end
