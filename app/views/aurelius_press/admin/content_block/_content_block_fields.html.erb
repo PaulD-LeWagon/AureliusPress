@@ -1,5 +1,5 @@
 <% block_name = form.object.contentable_type.underscore.split("/").last.humanize.titleize %>
-<div class="nested-form-wrapper content-block-fields content-block-<%= block_name.parameterize %>-fields" data-nested-forms-target="contentBlock">
+<div class="nested-form-wrapper content-block-fields content-block-<%= block_name.parameterize %>-fields" data-nested-forms-target="contentBlock"<%= " id=\"#{dom_id(form.object)}\"" if form.object.persisted? %>>
   <h3><%= block_name %></h3>
   <%= form.hidden_field :id %>
   <%= form.hidden_field :contentable_type %>
