@@ -21,7 +21,7 @@
     </thead>
     <tbody>
       <% @pages.each do |page| %>
-        <tr>
+        <tr id="<%= dom_id(page) %>">
           <td><%= page.id %></td>
           <td>
             <%= page.title %>

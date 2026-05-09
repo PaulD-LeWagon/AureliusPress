@@ -52,8 +52,11 @@ class AureliusPress::Admin::Taxonomy::CategoriesController < AureliusPress::Admi
 
   # DELETE /aurelius_press/admin/taxonomy/categories/1
   def destroy
-    @category.destroy! # Use destroy! for immediate errors if deletion fails
-    redirect_to aurelius_press_admin_taxonomy_categories_url, notice: "Category was successfully destroyed."
+    @category.destroy!
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_taxonomy_categories_url, notice: "Category was successfully destroyed." }
+    end
   end
 
   private

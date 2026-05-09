@@ -22,7 +22,7 @@
 
     <tbody>
       <% @quotes.each do |quote| %>
-        <tr>
+        <tr id="<%= dom_id(quote) %>">
           <td><%= quote.id %></td>
           <td><%= quote.text.truncate(30) %></td>
           <td><%= quote.context.truncate(30) %></td>

@@ -28,8 +28,12 @@ class AureliusPress::Community::ReactionsController < ApplicationController
   def destroy
     @reaction = AureliusPress::Community::Reaction.find(params[:id])
     authorize @reaction, :destroy?, policy_class: AureliusPress::Community::ReactionPolicy
+    @reactable = @reaction.reactable
     @reaction.destroy
-    head :no_content
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_back fallback_location: root_path }
+    end
   end
 
   private

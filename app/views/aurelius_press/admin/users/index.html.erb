@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <% @users.each do |user| %>
-          <tr>
+          <tr id="<%= dom_id(user) %>">
             <td><%= user.id %></td>
             <td><%= user.status %></td>
             <td><%= user.role %></td>

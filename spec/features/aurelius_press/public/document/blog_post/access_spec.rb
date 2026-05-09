@@ -115,7 +115,8 @@ RSpec.feature "User can access the Blog Posts section.", type: :feature, js: tru
         accept_turbo_confirm do
           click_link "Delete"
         end
-        expect(page).to have_content("Blog post deleted successfully.")
+        # Turbo Stream fires remove from show page; verify DB deletion
+        expect(AureliusPress::Document::BlogPost.exists?(posts.last.id)).to be false
         sign_out the_actor
       end
     end

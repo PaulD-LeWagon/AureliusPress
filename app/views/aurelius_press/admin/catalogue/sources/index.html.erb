@@ -23,7 +23,7 @@
 
     <tbody>
       <% @sources.each do |source| %>
-        <tr>
+        <tr id="<%= dom_id(source) %>">
           <td><%= source.id %></td>
           <td><%= source.source_type.humanize %></td>
           <td><%= source.title %></td>

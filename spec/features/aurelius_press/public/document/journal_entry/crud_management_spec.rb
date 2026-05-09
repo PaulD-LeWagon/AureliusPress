@@ -95,8 +95,9 @@ RSpec.feature "User can manage their Journal Entries (CRUD)", :js do
       click_link "Delete"
     end
 
-    expect(page).to have_content("Journal entry deleted.")
-    expect(page).to have_current_path(aurelius_press_journal_entries_path)
+    # Turbo Stream fires remove from show page; verify DB deletion and absence on index
+    expect(AureliusPress::Document::JournalEntry.exists?(entry_one.id)).to be false
+    visit aurelius_press_journal_entries_path
     expect(page).not_to have_content(entry_one.title)
   end
 

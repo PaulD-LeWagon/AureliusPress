@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <% @categories.each do |category| %>
-          <tr>
+          <tr id="<%= dom_id(category) %>">
             <td><%= category.slug %></td>
             <td><%= link_to category.name, aurelius_press_admin_taxonomy_category_path(category) %></td>
             <td><%= l(category.created_at, format: :short) %></td>

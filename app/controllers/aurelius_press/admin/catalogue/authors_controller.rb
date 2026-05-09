@@ -52,7 +52,10 @@ class AureliusPress::Admin::Catalogue::AuthorsController < AureliusPress::Admin:
   def destroy
     authorize @author, :destroy?, policy_class: AureliusPress::Admin::Catalogue::AuthorPolicy
     @author.destroy!
-    redirect_to aurelius_press_admin_catalogue_authors_url, notice: action_was_successfully(:deleted), status: :see_other
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_catalogue_authors_url, notice: action_was_successfully(:deleted), status: :see_other }
+    end
   end
 
   private

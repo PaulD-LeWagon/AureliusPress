@@ -105,31 +105,19 @@ RSpec.feature "User can manage ContentBlocks on their own BlogPosts", :js, type:
   end
 
   scenario "DELETE - User can delete an existing content block" do
-    # 1. Create a blog post with one of each content block type
-    blog_post_title = "Removing the Rich Text Content Block"
     blog_post_to_update = create(
       :aurelius_press_document_blog_post,
       :with_one_of_each_content_block,
-      title: blog_post_title,
+      title: "Removing the Rich Text Content Block",
       user: @user
     )
-    # 2. Visit the edit page for the existing content block
+    rich_text_cb = blog_post_to_update.content_blocks.find_by(
+      contentable_type: "AureliusPress::ContentBlock::RichTextBlock"
+    )
     visit edit_aurelius_press_blog_post_path(blog_post_to_update)
-    # 3. Remove the rich text content block.
-    # NOTE: Stimulus nested-forms#remove does not connect reliably in Cuprite.
-    # We simulate its behaviour directly until the Turbo Audit resolves this
-    # (see BACKLOG.md — "Turbo Audit & ContentBlock Delete Refactor").
-    # Prime Trix first to avoid content="" on submit (see admin blog_post spec).
-    fill_in_rich_text_area "Content", with: " "
-    page.execute_script(<<~JS)
-      const wrapper = document.querySelector('.content-block-rich-text-block-fields');
-      wrapper.style.display = 'none';
-      wrapper.querySelector("input[name*='_destroy']").value = '1';
-    JS
-    # 4. Submit the form
-    click_button "Update"
-    # 5. Verify the success message and that the updated blog post is visible
-    expect(page).to have_content("Blog post updated successfully.")
-    expect(page).not_to have_css(".rich-text-block")
+    click_turbo_delete_link(
+      aurelius_press_blog_post_content_block_path(blog_post_to_update, rich_text_cb)
+    )
+    expect(page).not_to have_css(".content-block-rich-text-block-fields", wait: 5)
   end
 end

@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.describe AureliusPress::User, type: :request do
-  # A user is created here for the show, edit, and destroy tests.
   let!(:aurelius_press_user) { create(:aurelius_press_user) }
-  # The admin user is signed in once for all tests in this file.
+  let(:turbo_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+
   before do
     sign_in create(:aurelius_press_admin_user)
   end
@@ -92,12 +92,30 @@ RSpec.describe AureliusPress::User, type: :request do
     it "destroys the requested user and redirects to the users list" do
       expect(aurelius_press_user).to be_persisted
       expect(AureliusPress::User.exists?(aurelius_press_user.id)).to be true
-      
+
       expect {
         delete aurelius_press_admin_user_path(aurelius_press_user)
       }.to change(AureliusPress::User, :count).by(-1)
 
       expect(response).to redirect_to(aurelius_press_admin_users_path)
+    end
+
+    context "with Turbo Stream format" do
+      it "responds with turbo_stream media type" do
+        delete aurelius_press_admin_user_path(aurelius_press_user), headers: turbo_headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      end
+
+      it "returns http success" do
+        delete aurelius_press_admin_user_path(aurelius_press_user), headers: turbo_headers
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "destroys the user" do
+        expect {
+          delete aurelius_press_admin_user_path(aurelius_press_user), headers: turbo_headers
+        }.to change(AureliusPress::User, :count).by(-1)
+      end
     end
   end
 end

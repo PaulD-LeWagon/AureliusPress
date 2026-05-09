@@ -75,10 +75,9 @@ RSpec.feature "Admin can manage an Author (CRUD)", :js do
     accept_turbo_confirm do
       click_link "Delete", href: aurelius_press_admin_catalogue_author_path(author_one)
     end
-    # 5. Verify the author was deleted successfully
-    expect(page).to have_content "Author deleted successfully."
+    # 5. Verify the author row was removed inline via Turbo Stream
+    expect(page).not_to have_content author_one.name, wait: 5
     expect(page).to have_current_path(aurelius_press_admin_catalogue_authors_path)
-    expect(page).not_to have_content author_one.name
     expect(AureliusPress::Catalogue::Author.count).to eq(1)
   end
 

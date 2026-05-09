@@ -43,7 +43,10 @@ class AureliusPress::Admin::Catalogue::QuotesController < AureliusPress::Admin::
   # DELETE /aurelius-press/admin/catalogue/quotes/:id
   def destroy
     @quote.destroy!
-    redirect_to aurelius_press_admin_catalogue_quotes_url, notice: action_was_successfully(:deleted), status: :see_other
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_catalogue_quotes_url, notice: action_was_successfully(:deleted), status: :see_other }
+    end
   end
 
   private

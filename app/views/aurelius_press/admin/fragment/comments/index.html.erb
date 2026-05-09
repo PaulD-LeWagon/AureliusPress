@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         <% @comments.each do |comment| %>
-          <tr>
+          <tr id="<%= dom_id(comment) %>">
             <td><%= comment.id %></td>
             <td class="no-wrap"><%= comment.content.body.to_plain_text.truncate(30) %></td>
             <td>#<%= comment.commentable_id %> <%= comment.commentable_type %><br /><%= comment.commentable if comment.commentable %></td>

@@ -22,7 +22,7 @@
 
     <tbody>
       <% @authors.each do |author| %>
-        <tr>
+        <tr id="<%= dom_id(author) %>">
           <td><%= author.id %></td>
           <td><%= author.name %></td>
           <td><%= author.bio.truncate(30) %></td>

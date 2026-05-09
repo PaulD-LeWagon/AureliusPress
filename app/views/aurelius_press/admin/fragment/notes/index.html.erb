@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         <% @notes.each do |note| %>
-          <tr>
+          <tr id="<%= dom_id(note) %>">
             <td><%= note.id %></td>
             <td class="no-wrap"><%= note.content.body.to_plain_text.truncate(30) %></td>
             <td>#<%= note.notable_id %> <%= note.notable_type %><br /><%= note.notable if note.notable %></td>
