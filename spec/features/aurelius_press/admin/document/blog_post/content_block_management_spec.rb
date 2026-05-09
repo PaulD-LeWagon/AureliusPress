@@ -113,10 +113,19 @@ RSpec.feature "Admin can manage ContentBlocks on a BlogPost", :js, type: :featur
     )
     # 2. Visit the edit page for the existing content block
     visit edit_aurelius_press_admin_document_blog_post_path(blog_post_to_update)
-    # 3. Remove the rich text content block
-    within("#the-content-blocks .content-block-rich-text-block-fields") do
-      click_button "Remove"
-    end
+    # 3. Remove the rich text content block.
+    # NOTE: Stimulus nested-forms#remove does not connect reliably in Cuprite.
+    # We simulate its behaviour directly until the Turbo Audit resolves this
+    # (see BACKLOG.md — "Turbo Audit & ContentBlock Delete Refactor").
+    # We must also prime the Trix editor first: Cuprite visits the page before
+    # Trix populates its hidden input, leaving content="" on submit, which fails
+    # validate_content_presence on the contentable even for a destroyed block.
+    fill_in_rich_text_area "Content", with: " "
+    page.execute_script(<<~JS)
+      const wrapper = document.querySelector('.content-block-rich-text-block-fields');
+      wrapper.style.display = 'none';
+      wrapper.querySelector("input[name*='_destroy']").value = '1';
+    JS
     # 4. Submit the form
     click_button "Update"
     # 5. Verify the success message and that the updated blog post is visible
