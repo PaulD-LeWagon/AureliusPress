@@ -59,7 +59,10 @@ class AureliusPress::Admin::Fragment::CommentsController < AureliusPress::Admin:
   def destroy
     authorize @comment
     @comment.discard
-    redirect_to aurelius_press_admin_fragment_comments_url, notice: action_was_successfully(:discarded)
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_fragment_comments_url, notice: action_was_successfully(:discarded) }
+    end
   end
 
   private

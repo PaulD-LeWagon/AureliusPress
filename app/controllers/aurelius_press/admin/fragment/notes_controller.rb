@@ -49,8 +49,12 @@ class AureliusPress::Admin::Fragment::NotesController < AureliusPress::Admin::Ap
   # end
 
   def destroy
+    authorize @note
     @note.discard
-    redirect_to aurelius_press_admin_fragment_notes_path, notice: action_was_successfully(:discarded)
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_fragment_notes_path, notice: action_was_successfully(:discarded) }
+    end
   end
 
   private
