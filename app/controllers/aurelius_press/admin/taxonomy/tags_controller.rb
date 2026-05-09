@@ -53,8 +53,11 @@ class AureliusPress::Admin::Taxonomy::TagsController < AureliusPress::Admin::App
 
   # DELETE /aurelius_press/admin/taxonomy/tags/1
   def destroy
-    @tag.destroy! # Use destroy! for immediate errors if deletion fails
-    redirect_to aurelius_press_admin_taxonomy_tags_url, notice: "Tag was successfully destroyed."
+    @tag.destroy!
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_taxonomy_tags_url, notice: "Tag was successfully destroyed." }
+    end
   end
 
   private

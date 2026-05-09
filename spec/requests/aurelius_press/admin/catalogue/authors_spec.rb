@@ -5,6 +5,7 @@ RSpec.describe "AureliusPress::Admin::Catalogue::Authors", type: :request do
   let(:author) { create(:aurelius_press_catalogue_author) }
   let(:category) { create(:aurelius_press_taxonomy_category) }
   let(:tag) { create(:aurelius_press_taxonomy_tag) }
+  let(:turbo_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
   before do
     sign_in admin
@@ -78,6 +79,25 @@ RSpec.describe "AureliusPress::Admin::Catalogue::Authors", type: :request do
         delete "/aurelius-press/admin/catalogue/authors/#{author_to_delete.slug}"
       }.to change(AureliusPress::Catalogue::Author, :count).by(-1)
       expect(response).to redirect_to(aurelius_press_admin_catalogue_authors_path)
+    end
+
+    context "with Turbo Stream format" do
+      it "responds with turbo_stream media type" do
+        delete aurelius_press_admin_catalogue_author_path(author), headers: turbo_headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      end
+
+      it "returns http success" do
+        delete aurelius_press_admin_catalogue_author_path(author), headers: turbo_headers
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "destroys the author" do
+        author
+        expect {
+          delete aurelius_press_admin_catalogue_author_path(author), headers: turbo_headers
+        }.to change(AureliusPress::Catalogue::Author, :count).by(-1)
+      end
     end
   end
 end

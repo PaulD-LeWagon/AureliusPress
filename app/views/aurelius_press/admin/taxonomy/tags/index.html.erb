@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <% @tags.each do |tag| %>
-          <tr>
+          <tr id="<%= dom_id(tag) %>">
             <td><%= tag.slug %></td>
             <td><%= link_to tag.name, aurelius_press_admin_taxonomy_tag_path(tag) %></td>
             <td><%= l(tag.created_at, format: :short) %></td>

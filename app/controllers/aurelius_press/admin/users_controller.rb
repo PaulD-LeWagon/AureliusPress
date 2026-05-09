@@ -49,10 +49,12 @@ class AureliusPress::Admin::UsersController < AureliusPress::Admin::ApplicationC
   end
 
   def destroy
-    # The @user is already set by the before_action
     authorize @user, :destroy?, policy_class: AureliusPress::Admin::UserPolicy
     @user.destroy!
-    redirect_to aurelius_press_admin_users_path, notice: "User was successfully destroyed."
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_users_path, notice: "User was successfully destroyed." }
+    end
   end
 
   private

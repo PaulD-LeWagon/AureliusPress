@@ -43,7 +43,10 @@ class AureliusPress::Admin::Catalogue::SourcesController < AureliusPress::Admin:
   # DELETE /aurelius-press/admin/catalogue/sources/:id
   def destroy
     @source.destroy!
-    redirect_to aurelius_press_admin_catalogue_sources_url, notice: "Source was successfully destroyed.", status: :see_other
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to aurelius_press_admin_catalogue_sources_url, notice: "Source was successfully destroyed.", status: :see_other }
+    end
   end
 
   private
