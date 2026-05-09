@@ -43,6 +43,6 @@
 AGENTS.md
 CLAUDE.md
 GEMINI.md
-.agents
-/.claude/
+.agents/
+.claude/
 coverage/

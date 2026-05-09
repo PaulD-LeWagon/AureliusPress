@@ -82,13 +82,15 @@ require "capybara/cuprite"
 
 Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(app,
-    window_size: [1200, 800],
+    window_size: [ 1200, 800 ],
     browser_options: { "no-sandbox": nil },
     headless: true,
     js_errors: false,
     timeout: 15
   )
 end
+
+Capybara.javascript_driver = :cuprite
 
 RSpec.configure do |config|
   config.include ActionTextHelper
@@ -99,10 +101,6 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include Devise::Test::IntegrationHelpers, type: :request
-  config.before(:each, type: :feature) do
-    Capybara.default_driver = :cuprite
-    Capybara.javascript_driver = :cuprite
-  end
   config.before(:suite) do
     # Run the asset build commands before the test suite starts
     system("yarn build:css")
@@ -116,7 +114,7 @@ RSpec.configure do |config|
   config.filter_run_when_matching :focus
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
-    Rails.root.join("spec/fixtures"),
+    Rails.root.join("spec/fixtures")
   ]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your

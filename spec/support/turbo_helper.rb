@@ -9,10 +9,8 @@ module TurboHelper
   end
 
   # Sends a DELETE request via JS fetch and then navigates to the final URL.
-  # This is the reliable alternative to clicking data-turbo-method="delete" links
-  # in headless Firefox, which can fail to fire the Turbo form submission.
-  # After the DELETE, flash messages are stored in session and rendered on redirect.
-  # We navigate to the redirect target using Turbo.visit so Turbo can render the flash.
+  # Cuprite can misfire data-turbo-method="delete" link clicks, so we bypass
+  # Turbo's link interception entirely and issue the fetch directly.
   def click_turbo_delete_link(href, redirect_to: nil)
     fallback = redirect_to || "/"
     page.execute_script(<<~JS, href, fallback)
@@ -30,7 +28,6 @@ module TurboHelper
             credentials: 'include',
             redirect: 'follow'
           });
-          // Navigate to the final URL (after redirect), or to the fallback
           const dest = resp.url && resp.url !== href ? resp.url : fallback;
           Turbo.visit(dest);
         } catch(e) {
@@ -38,6 +35,6 @@ module TurboHelper
         }
       })(arguments[0], arguments[1]);
     JS
-    sleep 2
+    expect(page).to have_current_path(redirect_to, wait: 5) if redirect_to
   end
 end

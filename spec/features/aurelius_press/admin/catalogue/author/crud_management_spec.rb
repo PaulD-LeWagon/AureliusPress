@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Admin can manage a Page (CRUD)", :js do
+RSpec.feature "Admin can manage an Author (CRUD)", :js do
   let!(:admin) { create(:aurelius_press_admin_user) }
   let!(:author_one) { create(:aurelius_press_catalogue_author, name: "First Author", bio: "Bio of the first author.") }
   let!(:author_two) { create(:aurelius_press_catalogue_author, name: "Second Author", bio: "Bio of the second author.") }
@@ -14,7 +14,7 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
     name = "James RR Tolkien"
     bio = "British writer, poet, philologist, and academic, best known for his high-fantasy works."
     fill_in "Name", with: name
-    fill_in_rich_text_area "Bio", with: bio
+    fill_in "Bio", with: bio
     # 4. Submit the form
     click_button "Create"
     # save_and_open_page
@@ -50,8 +50,8 @@ RSpec.feature "Admin can manage a Page (CRUD)", :js do
     new_name = "Updated Author Name"
     new_bio = "Updated bio."
     # Fill out the form with the new data
-    fill_in "Name", with: new_title
-    fill_in_rich_text_area "Bio", with: new_description
+    fill_in "Name", with: new_name
+    fill_in "Bio", with: new_bio
     # Submit the form
     click_button "Update"
     # Verify the success message and that the changes are visible on the show page
