@@ -86,7 +86,7 @@ gem "font-awesome-sass"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "view_component"
 # gem "vanilla_nested", github: "arielj/vanilla-nested", branch: :main
-gem "image_processing", "~> 1.14"
+gem "image_processing", "~> 2.0"
 gem "cssbundling-rails"
 gem "discard"
 gem "pagy"
